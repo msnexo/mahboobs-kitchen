@@ -62,7 +62,9 @@
     <p class="tag" style="margin-bottom:40px;">Buffet schon ab ca. 20 € pro Person</p>
   </div>
   <div class="container">
-    <form class="lead-form" id="leadForm">
+    <form class="lead-form" id="leadForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="Neue Catering-Anfrage von der Website">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
       <div class="progress"><span class="active"></span><span></span><span></span><span></span></div>
 
       <div class="form-step is-active">
@@ -103,10 +105,11 @@
       <div class="form-step">
         <h3>Fast geschafft – so senden Sie Ihre Anfrage</h3>
         <div class="form-summary"></div>
-        <p class="muted">Wählen Sie, wie Sie uns Ihre Anfrage senden möchten. Ihre Angaben werden automatisch übernommen.</p>
+        <p class="muted">Senden Sie Ihre Anfrage direkt ab oder schreiben Sie uns parallel per WhatsApp.</p>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
         <div class="btn-row">
+          <button type="submit" id="sendRequestBtn" class="btn btn--primary">Anfrage jetzt senden</button>
           <a href="#" id="waSendLink" target="_blank" rel="noopener" class="btn btn--whatsapp">Per WhatsApp senden</a>
-          <a href="#" id="mailSendLink" class="btn btn--dark">Per E-Mail senden</a>
         </div>
         <div class="form-nav"><button type="button" class="btn btn--dark" data-back>Zurück</button><span></span></div>
       </div>

@@ -119,10 +119,39 @@
         "Nachricht: " + (data.nachricht || "-");
       var encoded = encodeURIComponent(message);
       var waLink = form.querySelector("#waSendLink");
-      var mailLink = form.querySelector("#mailSendLink");
       if (waLink) waLink.href = "https://wa.me/4917720198 89".replace(" ", "") + "?text=" + encoded;
-      if (mailLink) mailLink.href = "mailto:info@mahboobs-kitchen.com?subject=Catering%20Anfrage&body=" + encoded;
     }
+
+    var statusEl = form.querySelector("#formStatus");
+    var sendBtn = form.querySelector("#sendRequestBtn");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      collectStep(current);
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Wird gesendet …";
+      statusEl.textContent = "";
+      statusEl.className = "form-status";
+      fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      })
+        .then(function (response) {
+          if (response.ok) {
+            statusEl.textContent = "Danke! Ihre Anfrage wurde gesendet. Wir melden uns in Kürze.";
+            statusEl.className = "form-status form-status--ok";
+            sendBtn.textContent = "Gesendet ✓";
+          } else {
+            throw new Error("send failed");
+          }
+        })
+        .catch(function () {
+          statusEl.textContent = "Senden hat leider nicht geklappt. Bitte nutzen Sie alternativ den WhatsApp-Button oder rufen Sie uns an.";
+          statusEl.className = "form-status form-status--error";
+          sendBtn.disabled = false;
+          sendBtn.textContent = "Anfrage jetzt senden";
+        });
+    });
 
     showStep(0);
   }
