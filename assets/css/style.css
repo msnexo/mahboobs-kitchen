@@ -368,6 +368,8 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .footer-grid h4 { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
 .footer-grid a { display: block; color: #cfcfcf; padding: 5px 0; font-size: 0.93rem; }
 .footer-grid a:hover { color: #fff; }
+.social-link { display: inline-flex !important; align-items: center; gap: 8px; }
+.social-link svg { flex-shrink: 0; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; color: #9c9c9c; }
 
 
