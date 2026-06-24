@@ -26,7 +26,16 @@
 <link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Nahe", "Hasloh", "Ellerau", "Tangstedt", "Alveslohe", "Bad Bramstedt", "Wakendorf II"], "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
-<body>
+<body data-ga-id="G-E06KML0D74">
+<div class="cookie-banner" id="cookieBanner" hidden>
+  <div class="cookie-banner__text">
+    <p>Wir nutzen Google Analytics, um zu verstehen, wie unsere Website genutzt wird. Das ist freiwillig – ihr entscheidet, ob ihr zustimmt.</p>
+  </div>
+  <div class="cookie-banner__actions">
+    <button type="button" class="btn btn--ghost" id="cookieDecline">Ablehnen</button>
+    <button type="button" class="btn btn--primary" id="cookieAccept">Akzeptieren</button>
+  </div>
+</div>
 <header class="site-header" id="siteHeader">
   <a href="/" class="logo"><img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65"></a>
   <nav class="main-nav" id="mainNav">
@@ -67,8 +76,8 @@
     <h2>2. Hosting</h2>
     <p>Diese Website wird über GitHub Pages, einen Dienst der GitHub Inc., gehostet. Beim Aufruf der Seite verarbeitet GitHub automatisch technische Zugriffsdaten (u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite), um die Website auszuliefern und ihre Stabilität sicherzustellen. Rechtsgrundlage ist unser berechtigtes Interesse an einer zuverlässigen Bereitstellung der Website (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
 
-    <h2>3. Cookies</h2>
-    <p>Diese Website verwendet keine Cookies und keine vergleichbaren Technologien zu Analyse-, Marketing- oder Tracking-Zwecken. Es findet aktuell keine Erfassung des Nutzerverhaltens statt. Sollte sich das ändern, passen wir diese Erklärung entsprechend an.</p>
+    <h2>3. Cookies & Google Analytics</h2>
+    <p>Diese Website setzt Google Analytics (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) zur Analyse der Websitenutzung ein – aber erst, wenn Sie dem aktiv zugestimmt haben. Beim ersten Besuch erscheint ein Cookie-Banner, über das Sie der Nutzung zustimmen oder sie ablehnen können (Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO i. V. m. § 25 Abs. 1 TTDSG). Ohne Ihre Zustimmung wird kein Analyse-Cookie gesetzt und keine Verbindung zu Google Analytics aufgebaut. Dabei werden pseudonyme Nutzungsdaten wie aufgerufene Seiten, Verweildauer und grobe Geräte-/Standortinformationen verarbeitet. Ihre Einwilligung können Sie jederzeit über den Link „Cookie-Einstellungen" im Footer widerrufen. Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
 
     <h2>4. Schriftarten (Google Fonts)</h2>
     <p>Zur einheitlichen Darstellung von Schriftarten nutzen wir den Dienst „Google Fonts" der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Beim Aufruf einer Seite lädt Ihr Browser die benötigten Schriftarten von den Servern Googles, wobei Ihre IP-Adresse an Google übermittelt wird. Rechtsgrundlage ist unser berechtigtes Interesse an einer technisch zuverlässigen und einheitlichen Darstellung der Website (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
@@ -126,6 +135,7 @@
         </address>
         <a href="/impressum/">Impressum</a>
         <a href="/datenschutz/">Datenschutz</a>
+        <button type="button" id="cookieSettingsBtn" class="link-reset">Cookie-Einstellungen</button>
       </div>
     </div>
     <div class="footer-bottom">
