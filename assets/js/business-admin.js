@@ -196,6 +196,10 @@
           '<div class="btn-row" style="margin-top:12px;">' +
           '<button type="button" class="btn btn--dark" data-toggle-offer="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">' + (o.active ? "Deaktivieren" : "Aktivieren") + "</button>" +
           '<button type="button" class="btn btn--dark" data-delete-offer="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">Löschen</button>' +
+          "</div>" +
+          '<div class="btn-row" style="margin-top:8px;">' +
+          '<button type="button" class="btn btn--dark" data-copy-offer="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>' +
+          '<button type="button" class="btn btn--whatsapp" data-prep-whatsapp="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">Für WhatsApp vorbereiten</button>' +
           "</div></div>"
         );
       }).join("");
@@ -210,6 +214,27 @@
         btn.addEventListener("click", function () {
           if (!window.confirm("Dieses Angebot wirklich löschen?")) return;
           client.from("offers").delete().eq("id", btn.getAttribute("data-delete-offer")).then(function () { loadOffers(); });
+        });
+      });
+      Array.prototype.forEach.call(offersList.querySelectorAll("[data-copy-offer]"), function (btn) {
+        btn.addEventListener("click", function () {
+          var link = window.location.origin + "/business/dashboard/?offer=" + btn.getAttribute("data-copy-offer");
+          navigator.clipboard.writeText(link).then(function () {
+            btn.textContent = "Kopiert ✓";
+            setTimeout(function () { btn.textContent = "Link kopieren"; }, 2000);
+          }).catch(function () {
+            btn.textContent = "Kopieren fehlgeschlagen";
+          });
+        });
+      });
+      Array.prototype.forEach.call(offersList.querySelectorAll("[data-prep-whatsapp]"), function (btn) {
+        btn.addEventListener("click", function () {
+          var offer = allOffers.filter(function (o) { return o.id === btn.getAttribute("data-prep-whatsapp"); })[0];
+          if (!offer) return;
+          var link = window.location.origin + "/business/dashboard/?offer=" + offer.id;
+          whatsappTemplate.value = 'Hallo {{ansprechpartner}}, schauen Sie sich unser neues Angebot an: "' + offer.title + '" – ' + link;
+          whatsappTemplate.scrollIntoView({ behavior: "smooth", block: "center" });
+          whatsappTemplate.focus();
         });
       });
     }

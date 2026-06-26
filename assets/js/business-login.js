@@ -28,9 +28,10 @@
     }).then(function (profile) {
       if (profile && profile.role === "admin") {
         window.location.href = "/business/admin/";
-      } else {
-        window.location.href = "/business/dashboard/";
+        return;
       }
+      var redirect = new URLSearchParams(window.location.search).get("redirect");
+      window.location.href = redirect && redirect.indexOf("/business/") === 0 ? redirect : "/business/dashboard/";
     }).catch(function (err) {
       setStatus("Anmeldung fehlgeschlagen: E-Mail oder Passwort ist falsch.", false);
       submitBtn.disabled = false;

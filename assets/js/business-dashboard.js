@@ -118,7 +118,13 @@
       document.getElementById("cardPoints").textContent = company.points_balance;
 
       client.from("offers").select("*").eq("active", true).order("created_at", { ascending: false }).then(function (offerRes) {
-        renderOffers(document.getElementById("offersSection"), offerRes.data || [], company, client);
+        var offers = offerRes.data || [];
+        renderOffers(document.getElementById("offersSection"), offers, company, client);
+        var openOfferId = new URLSearchParams(window.location.search).get("offer");
+        if (openOfferId) {
+          var targetOffer = offers.filter(function (o) { return o.id === openOfferId; })[0];
+          if (targetOffer) openOfferModal(targetOffer, company, client);
+        }
       });
 
       return client.from("points_transactions").select("*").eq("company_id", company.id).order("created_at", { ascending: false }).then(function (txRes) {

@@ -13,7 +13,8 @@
     client.auth.getSession().then(function (res) {
       var session = res.data && res.data.session;
       if (!session) {
-        window.location.replace("/business/login/");
+        var redirect = encodeURIComponent(window.location.pathname + window.location.search);
+        window.location.replace("/business/login/?redirect=" + redirect);
         return;
       }
       onReady(session, client);
