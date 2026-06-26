@@ -160,7 +160,7 @@
           (rows
             ? '<table class="data-table"><thead><tr><th>Datum</th><th>Punkte</th><th>Grund</th></tr></thead><tbody>' + rows + "</tbody></table>"
             : '<p class="muted">Noch keine Punkte-Buchungen.</p>') +
-          '<div class="btn-row" style="margin-top:20px;"><button type="button" class="btn btn--dark" id="deleteCompanyBtn">Kunde löschen</button></div>';
+          '<div class="btn-row" style="margin-top:20px;"><button type="button" class="btn" id="deleteCompanyBtn" style="background:#b32a2a;color:#fff;">Kunde löschen</button></div>';
 
         document.getElementById("deleteCompanyBtn").addEventListener("click", function () {
           if (!window.confirm("Diese Firma inklusive Punkte-Historie wirklich unwiderruflich löschen?")) return;
