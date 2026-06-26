@@ -159,7 +159,21 @@
           "<p><strong>Punktestand:</strong> " + company.points_balance + "</p>" +
           (rows
             ? '<table class="data-table"><thead><tr><th>Datum</th><th>Punkte</th><th>Grund</th></tr></thead><tbody>' + rows + "</tbody></table>"
-            : '<p class="muted">Noch keine Punkte-Buchungen.</p>');
+            : '<p class="muted">Noch keine Punkte-Buchungen.</p>') +
+          '<div class="btn-row" style="margin-top:20px;"><button type="button" class="btn btn--dark" id="deleteCompanyBtn">Kunde löschen</button></div>';
+
+        document.getElementById("deleteCompanyBtn").addEventListener("click", function () {
+          if (!window.confirm("Diese Firma inklusive Punkte-Historie wirklich unwiderruflich löschen?")) return;
+          client.from("companies").delete().eq("id", companyId).then(function (delRes) {
+            if (delRes.error) throw delRes.error;
+            historyPanel.hidden = true;
+            historyPanel.innerHTML = "";
+            selectedCompanyId = null;
+            loadCompanies();
+          }).catch(function () {
+            window.alert("Löschen fehlgeschlagen. Bitte erneut versuchen.");
+          });
+        });
       });
     }
 
