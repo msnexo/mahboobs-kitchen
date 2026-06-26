@@ -8,6 +8,12 @@
   var submitBtn = document.getElementById("activateBtn");
   var client = window.mkBusiness.client;
 
+  var prefillCode = new URLSearchParams(window.location.search).get("code");
+  if (prefillCode) {
+    form.cardCode.value = prefillCode;
+    document.getElementById("codePrefillNote").hidden = false;
+  }
+
   function setStatus(message, ok) {
     statusEl.textContent = message;
     statusEl.className = "form-status " + (ok ? "form-status--ok" : "form-status--error");

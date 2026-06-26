@@ -89,6 +89,14 @@
           <p class="form-status" id="addCompanyStatus" role="status" aria-live="polite"></p>
           <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Kunde anlegen</button></div>
         </form>
+        <div id="newCompanyLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
+          <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="newCompanyName"></strong>:</p>
+          <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="newCompanyLink"></p>
+          <div class="btn-row">
+            <button type="button" class="btn btn--dark" id="copyLinkBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
+            <button type="button" class="btn btn--whatsapp" id="sendLinkWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
+          </div>
+        </div>
       </div>
       <div class="card">
         <h3>Punkte gutschreiben</h3>

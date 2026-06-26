@@ -303,12 +303,40 @@
         addCompanyStatus.textContent = "Angelegt. Karten-Code: " + company.card_code;
         addCompanyStatus.className = "form-status form-status--ok";
         addCompanyForm.reset();
+        showNewCompanyLink(company);
         return loadCompanies();
       }).catch(function () {
         addCompanyStatus.textContent = "Anlegen fehlgeschlagen. Bitte erneut versuchen.";
         addCompanyStatus.className = "form-status form-status--error";
       });
     });
+
+    function showNewCompanyLink(company) {
+      var link = window.location.origin + "/business/aktivieren/?code=" + encodeURIComponent(company.card_code);
+      document.getElementById("newCompanyName").textContent = company.company_name;
+      document.getElementById("newCompanyLink").textContent = link;
+
+      var copyBtn = document.getElementById("copyLinkBtn");
+      copyBtn.textContent = "Link kopieren";
+      copyBtn.onclick = function () {
+        navigator.clipboard.writeText(link).then(function () {
+          copyBtn.textContent = "Kopiert ✓";
+        }).catch(function () {
+          copyBtn.textContent = "Kopieren fehlgeschlagen";
+        });
+      };
+
+      var waBtn = document.getElementById("sendLinkWhatsAppBtn");
+      waBtn.style.display = company.phone ? "" : "none";
+      waBtn.onclick = function () {
+        var message =
+          "Willkommen bei der MK Business Karte! Klicken Sie einfach auf diesen Link, Ihr persönlicher Code ist schon eingetragen – " +
+          "Sie müssen nur noch eine E-Mail-Adresse und ein Passwort vergeben: " + link;
+        window.open(buildWhatsAppLink(company.phone, message), "_blank");
+      };
+
+      document.getElementById("newCompanyLinkBox").hidden = false;
+    }
 
     var addPointsForm = document.getElementById("addPointsForm");
     var addPointsStatus = document.getElementById("addPointsStatus");
