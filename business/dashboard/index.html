@@ -72,33 +72,33 @@
       <button type="button" id="logoutBtn" class="btn btn--dark">Logout</button>
     </div>
     <div id="dashboardApp">
-      <div class="mk-card" style="margin-bottom:40px;">
-        <div class="mk-card__top">
-          <img src="/assets/img/logo.webp" alt="" class="mk-card__logo">
-          <span class="mk-card__label">Business Karte</span>
+      <div class="grid grid--2" style="margin-bottom:40px;align-items:start;">
+        <div class="mk-card">
+          <div class="mk-card__top">
+            <img src="/assets/img/logo.webp" alt="" class="mk-card__logo">
+            <span class="mk-card__label">Business Karte</span>
+          </div>
+          <div class="mk-card__number" id="cardNumber">…</div>
+          <div class="mk-card__bottom">
+            <div>
+              <span class="mk-card__field-label">Inhaber</span>
+              <div class="mk-card__name" id="cardHolderName">…</div>
+            </div>
+            <div class="mk-card__points">
+              <span class="mk-card__field-label">Punkte</span>
+              <div class="mk-card__points-value" id="cardPoints">…</div>
+            </div>
+          </div>
         </div>
-        <div class="mk-card__number" id="cardNumber">…</div>
-        <div class="mk-card__bottom">
-          <div>
-            <span class="mk-card__field-label">Inhaber</span>
-            <div class="mk-card__name" id="cardHolderName">…</div>
-          </div>
-          <div class="mk-card__points">
-            <span class="mk-card__field-label">Punkte</span>
-            <div class="mk-card__points-value" id="cardPoints">…</div>
-          </div>
+        <div class="card">
+          <h3>Ihre Vorteile</h3>
+          <ul class="perk-list"><li><span class="icon-badge icon-badge--sm">🤝</span><span>Fester Ansprechpartner</span></li><li><span class="icon-badge icon-badge--sm">📋</span><span>Individuelle Menüs</span></li><li><span class="icon-badge icon-badge--sm">🏷️</span><span>Essen mit Firmenlogo</span></li><li><span class="icon-badge icon-badge--sm">🚚</span><span>Lieferung & Aufbau</span></li><li><span class="icon-badge icon-badge--sm">✅</span><span>Komplettservice</span></li><li><span class="icon-badge icon-badge--sm">📍</span><span>VIP Locations</span></li><li><span class="icon-badge icon-badge--sm">💰</span><span>Bis zu 20 % Rabatt pro Bestellung</span></li><li><span class="icon-badge icon-badge--sm">🔔</span><span>Neueste Updates</span></li><li><span class="icon-badge icon-badge--sm">👥</span><span>Persönliches Personal</span></li></ul>
         </div>
       </div>
       <div id="offersSection" class="grid grid--3" style="margin-bottom:40px;"></div>
-      <div class="grid grid--2">
-        <div class="card">
-          <h3>Ihre Vorteile</h3>
-          <ul class="check-list"><li>Fester Ansprechpartner</li><li>Individuelle Menüs</li><li>Essen mit Firmenlogo</li><li>Lieferung & Aufbau</li><li>Komplettservice</li><li>VIP Locations</li><li>Bis zu 20 % Rabatt pro Bestellung</li><li>Neueste Updates</li><li>Persönliches Personal</li></ul>
-        </div>
-        <div class="card">
-          <h3>Punkte-Historie</h3>
-          <div id="transactionHistory"><p class="muted">Wird geladen …</p></div>
-        </div>
+      <div class="card">
+        <h3>Punkte-Historie</h3>
+        <div id="transactionHistory"><p class="muted">Wird geladen …</p></div>
       </div>
     </div>
   </div>

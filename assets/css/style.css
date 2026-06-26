@@ -461,3 +461,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-card__points { text-align: right; }
 .mk-card__points-value { font-family: var(--ff-head); font-size: 1.6rem; font-weight: 700; color: var(--color-primary); line-height: 1; }
 @media (max-width: 480px) { .mk-card { max-width: 100%; } }
+
+.perk-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.perk-list li { display: flex; align-items: center; gap: 14px; font-weight: 500; }
+.icon-badge--sm { width: 38px; height: 38px; border-radius: 11px; font-size: 1.05rem; margin-bottom: 0; flex-shrink: 0; }
