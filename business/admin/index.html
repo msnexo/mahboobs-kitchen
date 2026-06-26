@@ -111,6 +111,28 @@
       <textarea id="whatsappTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
     </div>
 
+    <div class="grid grid--2" style="margin-bottom:40px;">
+      <div class="card">
+        <h3>Angebote verwalten</h3>
+        <form class="lead-form" id="addOfferForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
+          <label class="field-label" for="offerTitle">Titel</label>
+          <input type="text" id="offerTitle" name="offerTitle" required>
+          <label class="field-label" for="offerDescription">Beschreibung</label>
+          <textarea id="offerDescription" name="offerDescription" rows="3"></textarea>
+          <label class="field-label" for="image">Bild (optional)</label>
+          <input type="file" id="image" name="image" accept="image/*">
+          <p class="form-status" id="addOfferStatus" role="status" aria-live="polite"></p>
+          <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Angebot veröffentlichen</button></div>
+        </form>
+        <div id="offersList" style="margin-top:24px;"><p class="muted">Wird geladen …</p></div>
+      </div>
+      <div class="card">
+        <h3>Angebot-Anfragen</h3>
+        <p class="muted">Wer hat zuletzt Interesse an einem Angebot gezeigt.</p>
+        <div id="offerRequestsList"><p class="muted">Wird geladen …</p></div>
+      </div>
+    </div>
+
     <h3>Firmenkunden</h3>
     <input type="text" id="searchInput" class="search-input" placeholder="Suche nach Firma, Ansprechpartner, E-Mail oder Karten-Code …">
     <div id="companiesTable"><p class="muted">Wird geladen …</p></div>

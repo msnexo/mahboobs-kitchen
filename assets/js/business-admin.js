@@ -60,6 +60,9 @@
     var companySelect = document.getElementById("companySelect");
     var historyPanel = document.getElementById("companyHistoryPanel");
     var whatsappTemplate = document.getElementById("whatsappTemplate");
+    var offersList = document.getElementById("offersList");
+    var offerRequestsList = document.getElementById("offerRequestsList");
+    var allOffers = [];
 
     function statusPill(status) {
       var label = { active: "Aktiv", pending: "Ausstehend", inactive: "Inaktiv" }[status] || status;
@@ -160,6 +163,111 @@
       });
     }
 
+    function renderOffers(offers) {
+      if (!offers.length) {
+        offersList.innerHTML = '<p class="muted">Noch keine Angebote vorhanden.</p>';
+        return;
+      }
+      offersList.innerHTML = offers.map(function (o) {
+        var img = o.image_url
+          ? '<img src="' + o.image_url + '" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:var(--radius);margin-bottom:12px;">'
+          : "";
+        var pill = '<span class="status-pill status-pill--' + (o.active ? "active" : "inactive") + '">' + (o.active ? "Aktiv" : "Inaktiv") + "</span>";
+        return (
+          '<div class="card" style="margin-bottom:16px;">' +
+          img +
+          '<h4 style="margin:0 0 6px;">' + escapeHtml(o.title) + "</h4>" +
+          '<p class="muted" style="margin:0 0 10px;">' + escapeHtml(o.description || "") + "</p>" +
+          pill +
+          '<div class="btn-row" style="margin-top:12px;">' +
+          '<button type="button" class="btn btn--dark" data-toggle-offer="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">' + (o.active ? "Deaktivieren" : "Aktivieren") + "</button>" +
+          '<button type="button" class="btn btn--dark" data-delete-offer="' + o.id + '" style="padding:8px 16px;font-size:0.85rem;">Löschen</button>' +
+          "</div></div>"
+        );
+      }).join("");
+      Array.prototype.forEach.call(offersList.querySelectorAll("[data-toggle-offer]"), function (btn) {
+        btn.addEventListener("click", function () {
+          var offer = allOffers.filter(function (o) { return o.id === btn.getAttribute("data-toggle-offer"); })[0];
+          if (!offer) return;
+          client.from("offers").update({ active: !offer.active }).eq("id", offer.id).then(function () { loadOffers(); });
+        });
+      });
+      Array.prototype.forEach.call(offersList.querySelectorAll("[data-delete-offer]"), function (btn) {
+        btn.addEventListener("click", function () {
+          if (!window.confirm("Dieses Angebot wirklich löschen?")) return;
+          client.from("offers").delete().eq("id", btn.getAttribute("data-delete-offer")).then(function () { loadOffers(); });
+        });
+      });
+    }
+
+    function loadOffers() {
+      return client.from("offers").select("*").order("created_at", { ascending: false }).then(function (res) {
+        allOffers = res.data || [];
+        renderOffers(allOffers);
+      });
+    }
+
+    function loadOfferRequests() {
+      return client.from("offer_requests")
+        .select("*, company:companies(company_name), offer:offers(title)")
+        .order("created_at", { ascending: false })
+        .limit(50)
+        .then(function (res) {
+          var requests = res.data || [];
+          if (!requests.length) {
+            offerRequestsList.innerHTML = '<p class="muted">Noch keine Anfragen.</p>';
+            return;
+          }
+          var rows = requests.map(function (r) {
+            return (
+              "<tr><td>" + escapeHtml(r.company ? r.company.company_name : "-") + "</td>" +
+              "<td>" + escapeHtml(r.offer ? r.offer.title : "-") + "</td>" +
+              "<td>" + formatDate(r.created_at) + "</td></tr>"
+            );
+          }).join("");
+          offerRequestsList.innerHTML =
+            '<table class="data-table"><thead><tr><th>Firma</th><th>Angebot</th><th>Datum</th></tr></thead><tbody>' + rows + "</tbody></table>";
+        });
+    }
+
+    var addOfferForm = document.getElementById("addOfferForm");
+    var addOfferStatus = document.getElementById("addOfferStatus");
+    addOfferForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var file = addOfferForm.image.files[0];
+      var title = addOfferForm.offerTitle.value.trim();
+      var description = addOfferForm.offerDescription.value.trim();
+      if (file && file.size > 5 * 1024 * 1024) {
+        addOfferStatus.textContent = "Bild ist zu groß (max. 5 MB).";
+        addOfferStatus.className = "form-status form-status--error";
+        return;
+      }
+      addOfferStatus.textContent = "Wird veröffentlicht …";
+      addOfferStatus.className = "form-status";
+
+      var uploadStep = file
+        ? client.storage.from("offer-images")
+            .upload(Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.\-]/g, "_"), file)
+            .then(function (res) {
+              if (res.error) throw res.error;
+              return client.storage.from("offer-images").getPublicUrl(res.data.path).data.publicUrl;
+            })
+        : Promise.resolve(null);
+
+      uploadStep.then(function (imageUrl) {
+        return client.from("offers").insert({ title: title, description: description, image_url: imageUrl });
+      }).then(function (res) {
+        if (res.error) throw res.error;
+        addOfferStatus.textContent = "Angebot veröffentlicht.";
+        addOfferStatus.className = "form-status form-status--ok";
+        addOfferForm.reset();
+        loadOffers();
+      }).catch(function () {
+        addOfferStatus.textContent = "Veröffentlichen fehlgeschlagen. Bitte erneut versuchen.";
+        addOfferStatus.className = "form-status form-status--error";
+      });
+    });
+
     searchInput.addEventListener("input", applyFilter);
 
     var addCompanyForm = document.getElementById("addCompanyForm");
@@ -221,5 +329,7 @@
     });
 
     loadCompanies();
+    loadOffers();
+    loadOfferRequests();
   });
 })();
