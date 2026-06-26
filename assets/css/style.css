@@ -346,7 +346,11 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   margin-top: 18px;
 }
 .lead-form label.field-label { font-weight: 700; display: block; margin-top: 10px; }
-.form-nav { display: flex; justify-content: space-between; margin-top: 28px; gap: 12px; }
+.form-nav { display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 28px; gap: 12px; }
+@media (max-width: 480px) {
+  .form-nav { flex-direction: column; align-items: stretch; }
+  .form-nav .btn { width: 100%; text-align: center; }
+}
 .form-summary { background: var(--color-bg-soft); border-radius: 10px; padding: 18px; margin-bottom: 20px; font-size: 0.95rem; }
 .form-summary strong { color: var(--color-text); }
 .form-status { font-size: 0.92rem; font-weight: 600; min-height: 1.2em; }
@@ -431,7 +435,8 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 
 /* Business-Kunden-Portal */
 .search-input { width: 100%; padding: 14px 16px; border: 2px solid var(--color-border); border-radius: 10px; font-size: 1rem; font-family: var(--ff-body); margin-bottom: 20px; }
-.data-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+#companiesTable, #offerRequestsList, #companyHistoryPanel, #transactionHistory { overflow-x: auto; }
+.data-table { width: 100%; min-width: 560px; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .data-table th, .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--color-border); text-align: left; font-size: 0.92rem; }
 .data-table th { background: var(--color-bg-soft); font-family: var(--ff-head); font-weight: 600; }
 .data-table tbody tr:hover { background: var(--color-bg-soft); cursor: pointer; }
