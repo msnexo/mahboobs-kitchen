@@ -73,7 +73,7 @@
       }
       var rows = companies.map(function (c) {
         var action = c.phone
-          ? '<button type="button" class="btn btn--primary" data-wa-id="' + c.id + '" style="padding:8px 16px;font-size:0.85rem;">✉ WhatsApp</button>'
+          ? '<button type="button" class="btn btn--whatsapp" data-wa-id="' + c.id + '" style="padding:8px 16px;font-size:0.85rem;">✉ WhatsApp</button>'
           : '<span class="muted">Keine Telefonnummer</span>';
         return (
           '<tr data-id="' + c.id + '">' +
