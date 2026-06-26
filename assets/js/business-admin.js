@@ -23,6 +23,18 @@
     return "MK-" + code;
   }
 
+  function personalize(template, company) {
+    return template
+      .split("{{ansprechpartner}}").join(company.contact_person || company.company_name)
+      .split("{{firma}}").join(company.company_name);
+  }
+
+  function buildWhatsAppLink(phone, message) {
+    var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
+    if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
+    return "https://wa.me/" + digits + "?text=" + encodeURIComponent(message);
+  }
+
   function insertCompanyWithRetry(client, payload, attemptsLeft) {
     var row = Object.assign({}, payload, { card_code: generateCardCode() });
     return client.from("companies").insert(row).select().single().then(function (res) {
@@ -47,6 +59,7 @@
     var searchInput = document.getElementById("searchInput");
     var companySelect = document.getElementById("companySelect");
     var historyPanel = document.getElementById("companyHistoryPanel");
+    var whatsappTemplate = document.getElementById("whatsappTemplate");
 
     function statusPill(status) {
       var label = { active: "Aktiv", pending: "Ausstehend", inactive: "Inaktiv" }[status] || status;
@@ -59,6 +72,9 @@
         return;
       }
       var rows = companies.map(function (c) {
+        var action = c.phone
+          ? '<button type="button" class="btn btn--primary" data-wa-id="' + c.id + '" style="padding:8px 16px;font-size:0.85rem;">✉ WhatsApp</button>'
+          : '<span class="muted">Keine Telefonnummer</span>';
         return (
           '<tr data-id="' + c.id + '">' +
           "<td>" + escapeHtml(c.company_name) + "</td>" +
@@ -66,16 +82,26 @@
           "<td>" + escapeHtml(c.card_code) + "</td>" +
           "<td>" + c.points_balance + "</td>" +
           "<td>" + statusPill(c.status) + "</td>" +
+          "<td>" + action + "</td>" +
           "</tr>"
         );
       }).join("");
       tableContainer.innerHTML =
-        '<table class="data-table"><thead><tr><th>Firma</th><th>Ansprechpartner</th><th>Karten-Code</th><th>Punkte</th><th>Status</th></tr></thead><tbody>' +
+        '<table class="data-table"><thead><tr><th>Firma</th><th>Ansprechpartner</th><th>Karten-Code</th><th>Punkte</th><th>Status</th><th>Aktion</th></tr></thead><tbody>' +
         rows +
         "</tbody></table>";
       Array.prototype.forEach.call(tableContainer.querySelectorAll("tbody tr"), function (tr) {
         tr.addEventListener("click", function () {
           showHistory(tr.getAttribute("data-id"));
+        });
+      });
+      Array.prototype.forEach.call(tableContainer.querySelectorAll("[data-wa-id]"), function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var company = allCompanies.filter(function (c) { return c.id === btn.getAttribute("data-wa-id"); })[0];
+          if (!company) return;
+          var message = personalize(whatsappTemplate.value.trim(), company);
+          window.open(buildWhatsAppLink(company.phone, message), "_blank");
         });
       });
     }
