@@ -19,31 +19,74 @@
     }
     container.innerHTML = offers.map(function (o) {
       var img = o.image_url
-        ? '<img src="' + o.image_url + '" alt="" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius);margin-bottom:14px;">'
-        : "";
+        ? '<img src="' + o.image_url + '" alt="" style="width:100%;height:220px;object-fit:cover;display:block;">'
+        : '<div style="width:100%;height:220px;background:var(--color-bg-soft);"></div>';
       return (
-        '<div class="card">' +
+        '<div class="card offer-tile" data-offer-tile="' + o.id + '" style="cursor:pointer;padding:0;overflow:hidden;">' +
         img +
-        "<h3>" + escapeHtml(o.title) + "</h3>" +
-        "<p>" + escapeHtml(o.description || "") + "</p>" +
-        '<button type="button" class="btn btn--primary" data-offer-id="' + o.id + '">Jetzt anfragen</button>' +
+        '<div style="padding:18px;"><h3 style="margin:0;">' + escapeHtml(o.title) + "</h3></div>" +
         "</div>"
       );
     }).join("");
-    Array.prototype.forEach.call(container.querySelectorAll("[data-offer-id]"), function (btn) {
-      btn.addEventListener("click", function () {
-        var offerId = btn.getAttribute("data-offer-id");
-        btn.disabled = true;
-        client.from("offer_requests").insert({ offer_id: offerId, company_id: company.id }).then(function (res) {
-          if (res.error && res.error.code !== "23505") throw res.error;
-          btn.textContent = res.error ? "Bereits angefragt" : "Anfrage gesendet ✓";
-        }).catch(function () {
-          btn.textContent = "Fehler – bitte erneut versuchen";
-          btn.disabled = false;
-        });
+    Array.prototype.forEach.call(container.querySelectorAll("[data-offer-tile]"), function (tile) {
+      tile.addEventListener("click", function () {
+        var offer = offers.filter(function (o) { return o.id === tile.getAttribute("data-offer-tile"); })[0];
+        if (offer) openOfferModal(offer, company, client);
       });
     });
   }
+
+  function openOfferModal(offer, company, client) {
+    var overlay = document.getElementById("offerModalOverlay");
+    var img = document.getElementById("offerModalImage");
+    if (offer.image_url) {
+      img.src = offer.image_url;
+      img.hidden = false;
+    } else {
+      img.hidden = true;
+    }
+    document.getElementById("offerModalTitle").textContent = offer.title;
+    document.getElementById("offerModalDescription").textContent = offer.description || "";
+    var statusEl = document.getElementById("offerModalStatus");
+    statusEl.textContent = "";
+    statusEl.className = "form-status";
+
+    var requestBtn = document.getElementById("offerModalRequestBtn");
+    var callbackBtn = document.getElementById("offerModalCallbackBtn");
+    requestBtn.disabled = false;
+    requestBtn.textContent = "Unverbindlich anfragen";
+    callbackBtn.disabled = false;
+    callbackBtn.textContent = "Um Rückruf bitten";
+
+    function sendRequest(type, btn, idleLabel, successLabel) {
+      btn.disabled = true;
+      client.from("offer_requests").insert({ offer_id: offer.id, company_id: company.id, type: type }).then(function (res) {
+        if (res.error && res.error.code !== "23505") throw res.error;
+        btn.textContent = res.error ? "Bereits gesendet" : successLabel;
+      }).catch(function () {
+        btn.textContent = idleLabel;
+        btn.disabled = false;
+        statusEl.textContent = "Fehler – bitte erneut versuchen.";
+        statusEl.className = "form-status form-status--error";
+      });
+    }
+
+    requestBtn.onclick = function () { sendRequest("interest", requestBtn, "Unverbindlich anfragen", "Anfrage gesendet ✓"); };
+    callbackBtn.onclick = function () { sendRequest("callback", callbackBtn, "Um Rückruf bitten", "Rückruf-Wunsch gesendet ✓"); };
+
+    overlay.hidden = false;
+  }
+
+  (function wireModalClose() {
+    var overlay = document.getElementById("offerModalOverlay");
+    if (!overlay) return;
+    document.getElementById("offerModalClose").addEventListener("click", function () {
+      overlay.hidden = true;
+    });
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) overlay.hidden = true;
+    });
+  })();
 
   function renderHistory(container, transactions) {
     if (!transactions.length) {

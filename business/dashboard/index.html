@@ -89,6 +89,20 @@
     </div>
   </div>
 </section>
+
+<div class="modal-overlay" id="offerModalOverlay" hidden>
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="offerModalClose" aria-label="Schließen">&times;</button>
+    <img id="offerModalImage" src="" alt="" hidden>
+    <h3 id="offerModalTitle"></h3>
+    <p id="offerModalDescription"></p>
+    <div class="btn-row">
+      <button type="button" class="btn btn--primary" id="offerModalRequestBtn">Unverbindlich anfragen</button>
+      <button type="button" class="btn btn--dark" id="offerModalCallbackBtn">Um Rückruf bitten</button>
+    </div>
+    <p class="form-status" id="offerModalStatus" role="status" aria-live="polite"></p>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">

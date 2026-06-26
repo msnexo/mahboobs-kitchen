@@ -232,15 +232,17 @@
             offerRequestsList.innerHTML = '<p class="muted">Noch keine Anfragen.</p>';
             return;
           }
+          var typeLabels = { interest: "Anfrage", callback: "Rückruf-Wunsch" };
           var rows = requests.map(function (r) {
             return (
               "<tr><td>" + escapeHtml(r.company ? r.company.company_name : "-") + "</td>" +
               "<td>" + escapeHtml(r.offer ? r.offer.title : "-") + "</td>" +
+              "<td>" + escapeHtml(typeLabels[r.type] || r.type) + "</td>" +
               "<td>" + formatDate(r.created_at) + "</td></tr>"
             );
           }).join("");
           offerRequestsList.innerHTML =
-            '<table class="data-table"><thead><tr><th>Firma</th><th>Angebot</th><th>Datum</th></tr></thead><tbody>' + rows + "</tbody></table>";
+            '<table class="data-table"><thead><tr><th>Firma</th><th>Angebot</th><th>Typ</th><th>Datum</th></tr></thead><tbody>' + rows + "</tbody></table>";
         });
     }
 
