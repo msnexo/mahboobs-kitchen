@@ -113,9 +113,9 @@
       }
       var company = res.data;
       document.getElementById("companyName").textContent = company.company_name;
-      document.getElementById("pointsBalance").textContent = company.points_balance;
       document.getElementById("cardNumber").textContent = company.card_code;
       document.getElementById("cardHolderName").textContent = company.company_name;
+      document.getElementById("cardPoints").textContent = company.points_balance;
 
       client.from("offers").select("*").eq("active", true).order("created_at", { ascending: false }).then(function (offerRes) {
         renderOffers(document.getElementById("offersSection"), offerRes.data || [], company, client);

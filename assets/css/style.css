@@ -455,5 +455,9 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-card__logo { height: 30px; width: auto; }
 .mk-card__label { font-family: var(--ff-head); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-primary); font-weight: 700; }
 .mk-card__number { font-family: var(--ff-head); font-size: 1.4rem; letter-spacing: 0.12em; margin-top: 18px; }
-.mk-card__name { font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.85; margin-top: 6px; }
+.mk-card__bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 18px; }
+.mk-card__field-label { display: block; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
+.mk-card__name { font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+.mk-card__points { text-align: right; }
+.mk-card__points-value { font-family: var(--ff-head); font-size: 1.6rem; font-weight: 700; color: var(--color-primary); line-height: 1; }
 @media (max-width: 480px) { .mk-card { max-width: 100%; } }
