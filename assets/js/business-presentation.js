@@ -7,8 +7,9 @@
   if (!presenterParam && !viewerParam) return;
 
   var client = window.mkBusiness.client;
+  var CHANNEL_NAME = "presentation-live";
 
-  function randomCode() {
+  function randomId() {
     var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     var bytes = new Uint8Array(8);
     window.crypto.getRandomValues(bytes);
@@ -40,20 +41,11 @@
   }
 
   function startPresenting() {
-    var code = presenterParam === "new" ? randomCode() : presenterParam;
-    if (presenterParam === "new") {
-      var url = new URL(window.location.href);
-      url.searchParams.set("presenter", code);
-      window.history.replaceState({}, "", url.toString());
-    }
-    var instanceId = randomCode();
-
-    var viewerUrl = window.location.origin + "/business/?viewer=" + code;
+    var instanceId = randomId();
     var bar = document.getElementById("presenterBar");
-    document.getElementById("presenterLink").textContent = viewerUrl;
     bar.hidden = false;
 
-    var channel = client.channel("presentation-" + code);
+    var channel = client.channel(CHANNEL_NAME);
 
     function sendPosition() {
       channel.send({ type: "broadcast", event: "scroll", payload: { percent: currentPercent(), instanceId: instanceId } });
@@ -75,21 +67,6 @@
 
     var heartbeat = setInterval(sendPosition, 2000);
 
-    document.getElementById("presenterCopyBtn").addEventListener("click", function () {
-      var btn = this;
-      navigator.clipboard.writeText(viewerUrl).then(function () {
-        btn.textContent = "Kopiert ✓";
-        setTimeout(function () { btn.textContent = "Link kopieren"; }, 2000);
-      }).catch(function () {
-        btn.textContent = "Kopieren fehlgeschlagen";
-      });
-    });
-
-    document.getElementById("presenterWhatsAppBtn").addEventListener("click", function () {
-      var message = "Schauen Sie sich live mit mir die MK Business Karte an: " + viewerUrl;
-      window.open("https://wa.me/?text=" + encodeURIComponent(message), "_blank");
-    });
-
     document.getElementById("presenterEndBtn").addEventListener("click", function () {
       channel.send({ type: "broadcast", event: "end", payload: { instanceId: instanceId } });
       clearInterval(heartbeat);
@@ -100,13 +77,21 @@
 
   if (viewerParam) {
     var banner = document.getElementById("viewerBanner");
+    var bannerText = document.getElementById("viewerBannerText");
     banner.hidden = false;
 
     var lockedInstanceId = null;
+    var waitingTimeout = setTimeout(function () {
+      if (!lockedInstanceId) banner.hidden = true;
+    }, 12000);
 
-    var viewChannel = client.channel("presentation-" + viewerParam);
+    var viewChannel = client.channel(CHANNEL_NAME);
     viewChannel.on("broadcast", { event: "scroll" }, function (msg) {
-      if (!lockedInstanceId) lockedInstanceId = msg.payload.instanceId;
+      if (!lockedInstanceId) {
+        lockedInstanceId = msg.payload.instanceId;
+        clearTimeout(waitingTimeout);
+        bannerText.textContent = "🔴 Live-Präsentation aktiv – wird gerade von Mahboobs Kitchen geführt";
+      }
       if (msg.payload.instanceId !== lockedInstanceId) return;
       var max = document.documentElement.scrollHeight - window.innerHeight;
       window.scrollTo(0, (msg.payload.percent || 0) * max);
@@ -114,6 +99,7 @@
     viewChannel.on("broadcast", { event: "end" }, function (msg) {
       if (lockedInstanceId && msg.payload.instanceId !== lockedInstanceId) return;
       banner.hidden = true;
+      lockedInstanceId = null;
       viewChannel.unsubscribe();
     });
     viewChannel.subscribe();

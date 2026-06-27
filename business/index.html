@@ -58,6 +58,7 @@
 <a href="/ablauf/">Ablauf</a>
 <a href="/faq/">FAQ</a>
     <a href="/business/">Business Karte</a>
+    <a href="/business/?viewer=live">Live-Präsentation ansehen</a>
     <a href="/kontakt/" class="btn btn--primary" style="margin-top:6px;">Catering Anfragen</a>
   </nav>
   <div class="header-actions">
@@ -257,17 +258,15 @@
 </section>
 
 <div id="viewerBanner" class="presentation-banner" hidden>
-  🔴 Live-Präsentation aktiv – wird gerade von Mahboobs Kitchen geführt
+  <span id="viewerBannerText">Verbinde mit Live-Präsentation …</span>
 </div>
 
 <div id="presenterBar" class="presentation-bar" hidden>
   <div class="presentation-bar__info">
-    <strong>Live-Präsentation läuft</strong>
-    <span id="presenterLink" class="presentation-bar__link"></span>
+    <strong>🔴 Live-Präsentation läuft</strong>
+    <span class="presentation-bar__link">Kunden sehen jetzt automatisch, wohin Sie scrollen.</span>
   </div>
   <div class="presentation-bar__actions">
-    <button type="button" id="presenterCopyBtn" class="btn btn--dark">Link kopieren</button>
-    <button type="button" id="presenterWhatsAppBtn" class="btn btn--whatsapp">Per WhatsApp senden</button>
     <button type="button" id="presenterEndBtn" class="btn btn--primary">Präsentation beenden</button>
   </div>
 </div>
