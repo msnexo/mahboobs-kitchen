@@ -58,6 +58,7 @@
 <a href="/ablauf/">Ablauf</a>
 <a href="/faq/">FAQ</a>
     <a href="/business/">Business Karte</a>
+    <a href="/business/?presenter=new">Live-Präsentation</a>
     <a href="/kontakt/" class="btn btn--primary" style="margin-top:6px;">Catering Anfragen</a>
   </nav>
   <div class="header-actions">
@@ -255,6 +256,22 @@
     </div>
   </div>
 </section>
+
+<div id="viewerBanner" class="presentation-banner" hidden>
+  🔴 Live-Präsentation aktiv – wird gerade von Mahboobs Kitchen geführt
+</div>
+
+<div id="presenterBar" class="presentation-bar" hidden>
+  <div class="presentation-bar__info">
+    <strong>Live-Präsentation läuft</strong>
+    <span id="presenterLink" class="presentation-bar__link"></span>
+  </div>
+  <div class="presentation-bar__actions">
+    <button type="button" id="presenterCopyBtn" class="btn btn--dark">Link kopieren</button>
+    <button type="button" id="presenterWhatsAppBtn" class="btn btn--whatsapp">Per WhatsApp senden</button>
+    <button type="button" id="presenterEndBtn" class="btn btn--primary">Präsentation beenden</button>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -302,6 +319,10 @@
   <a class="btn btn--primary" href="/kontakt/">Catering Anfragen</a>
 </div>
 <script src="/assets/js/main.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script>window.SUPABASE_URL="https://rodfrlvzoiwvwpjbvrhw.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvZGZybHZ6b2l3dndwamJ2cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODUxODksImV4cCI6MjA5Nzk2MTE4OX0.nQZ_VvILG2t7pKiDDQXTqZ3XTX_2q_jYKzb5OnpfEqg";</script>
+<script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-landing.js" defer></script>
+<script src="/assets/js/business-presentation.js" defer></script>
 </body>
 </html>
