@@ -300,10 +300,13 @@
             offerRequestsList.innerHTML = '<p class="muted">Noch keine Anfragen.</p>';
             return;
           }
-          var typeLabels = { interest: "Anfrage", callback: "Rückruf-Wunsch" };
+          var typeLabels = { interest: "Anfrage", callback: "Rückruf-Wunsch", call: "Anruf" };
           var rows = requests.map(function (r) {
+            var name = (r.company && r.company.company_name) || r.company_name;
+            var label = name ? escapeHtml(name) : '<span class="muted">Unbekannt (kein Login)</span>';
+            if (name && r.card_code) label += '<br><span class="muted">' + escapeHtml(r.card_code) + "</span>";
             return (
-              "<tr><td>" + escapeHtml(r.company ? r.company.company_name : "-") + "</td>" +
+              "<tr><td>" + label + "</td>" +
               "<td>" + escapeHtml(r.offer ? r.offer.title : "-") + "</td>" +
               "<td>" + escapeHtml(typeLabels[r.type] || r.type) + "</td>" +
               "<td>" + formatDate(r.created_at) + "</td></tr>"

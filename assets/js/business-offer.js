@@ -15,6 +15,18 @@
   var imgEl = document.getElementById("offerImage");
   var welcomeEl = document.getElementById("offerWelcome");
   var waBtn = document.getElementById("offerWhatsAppBtn");
+  var callBtn = document.getElementById("offerCallBtn");
+  var client = window.mkBusiness.client;
+
+  function logInterest(type) {
+    client.from("offer_requests").insert({
+      offer_id: offerId,
+      company_id: null,
+      card_code: ref || null,
+      company_name: firma || null,
+      type: type
+    }).then(function () {});
+  }
 
   function showNotFound() {
     bodyEl.hidden = true;
@@ -31,7 +43,6 @@
     return;
   }
 
-  var client = window.mkBusiness.client;
   client.from("offers").select("*").eq("id", offerId).eq("active", true).single().then(function (res) {
     if (res.error || !res.data) {
       showNotFound();
@@ -49,6 +60,9 @@
     var firmaNote = firma ? " Ich bin von " + firma + "." : "";
     var message = 'Hallo, ich interessiere mich für Ihr Angebot "' + offer.title + '".' + firmaNote + idNote;
     waBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+
+    callBtn.addEventListener("click", function () { logInterest("call"); });
+    waBtn.addEventListener("click", function () { logInterest("interest"); });
   }).catch(function () {
     showNotFound();
   });
