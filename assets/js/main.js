@@ -63,7 +63,7 @@
     var steps = Array.prototype.slice.call(form.querySelectorAll(".form-step"));
     var progressDots = Array.prototype.slice.call(form.querySelectorAll(".progress span"));
     var current = 0;
-    var data = { datum: "", personen: "", kueche: [], name: "", nachricht: "" };
+    var data = { datum: "", personen: "", kueche: [], name: "", email: "", nachricht: "" };
 
     function showStep(i) {
       steps.forEach(function (s, idx) { s.classList.toggle("is-active", idx === i); });
@@ -107,6 +107,7 @@
           "<strong>Termin:</strong> " + (data.datum || "-") + "<br>" +
           "<strong>Personen:</strong> " + (data.personen || "-") + "<br>" +
           "<strong>Wunschküche:</strong> " + (kueche || "-") + "<br>" +
+          "<strong>E-Mail:</strong> " + (data.email || "-") + "<br>" +
           "<strong>Telefon:</strong> " + (data.telefon || "-");
       }
       var message =
@@ -115,6 +116,7 @@
         "Personen: " + (data.personen || "-") + "\n" +
         "Wunschküche: " + (kueche || "-") + "\n" +
         "Name: " + (data.name || "-") + "\n" +
+        "E-Mail: " + (data.email || "-") + "\n" +
         "Telefon: " + (data.telefon || "-") + "\n" +
         "Nachricht: " + (data.nachricht || "-");
       var encoded = encodeURIComponent(message);
