@@ -1,19 +1,6 @@
 (function () {
   "use strict";
 
-  var showcase = document.getElementById("mkShowcase");
-  if (showcase) {
-    var showcaseSlides = showcase.querySelectorAll(".mk-showcase__slide");
-    var showcaseIndex = 0;
-    if (showcaseSlides.length > 1) {
-      setInterval(function () {
-        showcaseSlides[showcaseIndex].classList.remove("is-active");
-        showcaseIndex = (showcaseIndex + 1) % showcaseSlides.length;
-        showcaseSlides[showcaseIndex].classList.add("is-active");
-      }, 3500);
-    }
-  }
-
   var els = document.querySelectorAll(".reveal");
   if (!els.length) return;
 
