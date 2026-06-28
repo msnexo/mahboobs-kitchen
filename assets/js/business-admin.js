@@ -23,10 +23,24 @@
     return "MK-" + code;
   }
 
+  var currentOfferId = null;
+
+  function buildOfferLink(offerId, company) {
+    var url = window.location.origin + "/business/angebot/?id=" + offerId;
+    if (company) {
+      url += "&ref=" + encodeURIComponent(company.card_code) + "&firma=" + encodeURIComponent(company.company_name);
+    }
+    return url;
+  }
+
   function personalize(template, company) {
-    return template
+    var result = template
       .split("{{ansprechpartner}}").join(company.contact_person || company.company_name)
       .split("{{firma}}").join(company.company_name);
+    if (currentOfferId) {
+      result = result.split("{{angebotslink}}").join(buildOfferLink(currentOfferId, company));
+    }
+    return result;
   }
 
   function buildWhatsAppLink(phone, message) {
@@ -236,7 +250,7 @@
       });
       Array.prototype.forEach.call(offersList.querySelectorAll("[data-copy-offer]"), function (btn) {
         btn.addEventListener("click", function () {
-          var link = window.location.origin + "/business/dashboard/?offer=" + btn.getAttribute("data-copy-offer");
+          var link = buildOfferLink(btn.getAttribute("data-copy-offer"));
           navigator.clipboard.writeText(link).then(function () {
             btn.textContent = "Kopiert ✓";
             setTimeout(function () { btn.textContent = "Link kopieren"; }, 2000);
@@ -249,8 +263,8 @@
         btn.addEventListener("click", function () {
           var offer = allOffers.filter(function (o) { return o.id === btn.getAttribute("data-prep-whatsapp"); })[0];
           if (!offer) return;
-          var link = window.location.origin + "/business/dashboard/?offer=" + offer.id;
-          whatsappTemplate.value = 'Hallo {{ansprechpartner}}, schauen Sie sich unser neues Angebot an: "' + offer.title + '" – ' + link;
+          currentOfferId = offer.id;
+          whatsappTemplate.value = 'Hallo {{ansprechpartner}}, schauen Sie sich unser neues Angebot an: "' + offer.title + '" – {{angebotslink}}';
           whatsappTemplate.scrollIntoView({ behavior: "smooth", block: "center" });
           whatsappTemplate.focus();
         });
@@ -259,9 +273,9 @@
         btn.addEventListener("click", function () {
           var offer = allOffers.filter(function (o) { return o.id === btn.getAttribute("data-prep-email"); })[0];
           if (!offer) return;
-          var link = window.location.origin + "/business/dashboard/?offer=" + offer.id;
+          currentOfferId = offer.id;
           emailSubjectTemplate.value = "Neues Angebot: " + offer.title;
-          emailTemplate.value = 'Hallo {{ansprechpartner}},\n\nschauen Sie sich unser neues Angebot an: "' + offer.title + '"\n' + link + "\n\nViele Grüße\nMahboobs Kitchen";
+          emailTemplate.value = 'Hallo {{ansprechpartner}},\n\nschauen Sie sich unser neues Angebot an: "' + offer.title + '"\n{{angebotslink}}\n\nViele Grüße\nMahboobs Kitchen';
           emailTemplate.scrollIntoView({ behavior: "smooth", block: "center" });
           emailTemplate.focus();
         });
