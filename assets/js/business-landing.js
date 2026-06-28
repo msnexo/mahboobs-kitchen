@@ -1,12 +1,17 @@
 (function () {
   "use strict";
 
-  var galleryTrack = document.getElementById("mkGalleryTrack");
-  var galleryPrev = document.getElementById("mkGalleryPrev");
-  var galleryNext = document.getElementById("mkGalleryNext");
-  if (galleryTrack && galleryPrev && galleryNext) {
-    galleryPrev.addEventListener("click", function () { galleryTrack.scrollBy({ left: -336, behavior: "smooth" }); });
-    galleryNext.addEventListener("click", function () { galleryTrack.scrollBy({ left: 336, behavior: "smooth" }); });
+  var showcase = document.getElementById("mkShowcase");
+  if (showcase) {
+    var showcaseSlides = showcase.querySelectorAll(".mk-showcase__slide");
+    var showcaseIndex = 0;
+    if (showcaseSlides.length > 1) {
+      setInterval(function () {
+        showcaseSlides[showcaseIndex].classList.remove("is-active");
+        showcaseIndex = (showcaseIndex + 1) % showcaseSlides.length;
+        showcaseSlides[showcaseIndex].classList.add("is-active");
+      }, 3500);
+    }
   }
 
   var els = document.querySelectorAll(".reveal");
