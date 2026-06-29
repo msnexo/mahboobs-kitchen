@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertrieb | MK Business Karte | Mahboobs Kitchen</title>
+  <meta name="description" content="Interne Vertriebs-Pipeline für die MK Business Karte.">
+  <link rel="canonical" href="https://mahboobs-kitchen.com/business/vertrieb/">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vertrieb | MK Business Karte | Mahboobs Kitchen">
+  <meta property="og:description" content="Interne Vertriebs-Pipeline für die MK Business Karte.">
+  <meta property="og:url" content="https://mahboobs-kitchen.com/business/vertrieb/">
+  <meta property="og:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
+  <meta property="og:site_name" content="Mahboobs Kitchen">
+  <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vertrieb | MK Business Karte | Mahboobs Kitchen">
+  <meta name="twitter:description" content="Interne Vertriebs-Pipeline für die MK Business Karte.">
+  <meta name="twitter:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
+</head>
+<body data-ga-id="G-E06KML0D74">
+<div class="cookie-banner" id="cookieBanner" hidden>
+  <div class="cookie-banner__text">
+    <p>Diese Website verwendet Cookies, um die Nutzung zu analysieren und stetig zu verbessern. Weitere Infos in unserer <a href="/datenschutz/" style="color:#fff;text-decoration:underline;">Datenschutzerklärung</a>.</p>
+  </div>
+  <div class="cookie-banner__actions">
+    <button type="button" class="btn btn--ghost" id="cookieDecline">Ablehnen</button>
+    <button type="button" class="btn btn--primary" id="cookieAccept">Akzeptieren</button>
+  </div>
+</div>
+<header class="site-header" id="siteHeader">
+  <a href="/" class="logo"><img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65"></a>
+  <nav class="main-nav" id="mainNav">
+    <a href="/">Start</a>
+    <div class="dropdown">
+      <a href="/catering/henstedt-ulzburg/" aria-haspopup="true">Standorte ▾</a>
+      <div class="dropdown-panel"><a href="/catering/henstedt-ulzburg/">Henstedt-Ulzburg</a>
+<a href="/catering/kaltenkirchen/">Kaltenkirchen</a>
+<a href="/catering/norderstedt/">Norderstedt</a>
+<a href="/catering/quickborn/">Quickborn</a></div>
+    </div>
+    <div class="dropdown">
+      <a href="/privates-catering/" aria-haspopup="true">Leistungen ▾</a>
+      <div class="dropdown-panel"><a href="/privates-catering/">Privates Catering</a>
+<a href="/firmen-catering/">Firmen-Catering</a>
+<a href="/speisen/">Speisen</a></div>
+    </div>
+    <a href="/ueber-uns/">Über uns</a>
+<a href="/ablauf/">Ablauf</a>
+<a href="/faq/">FAQ</a>
+    <a href="/business/?viewer=live">Business Karte</a>
+    <a href="/kontakt/" class="btn btn--primary" style="margin-top:6px;">Catering Anfragen</a>
+  </nav>
+  <div class="header-actions">
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+  </div>
+</header>
+<section class="section" style="padding-top:150px;">
+  <div class="container">
+    <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+      <div>
+        <span class="eyebrow">MK Business Karte</span>
+        <h1>Vertrieb</h1>
+      </div>
+      <div class="btn-row">
+        <button type="button" id="addProspectBtn" class="btn btn--primary">+ Neue Firma</button>
+        <a href="/business/admin/" class="btn btn--dark">Zum Admin-Bereich</a>
+      </div>
+    </div>
+    <p class="muted" id="dailyCounter" style="margin-bottom:32px;font-size:1.05rem;">Wird geladen …</p>
+
+    <div id="pipelineLeads" style="margin-bottom:32px;"></div>
+    <div id="pipelineToday" style="margin-bottom:32px;"></div>
+    <div id="pipelineTomorrow" style="margin-bottom:32px;"></div>
+    <div id="pipelineLater" style="margin-bottom:32px;"></div>
+
+    <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
+    <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="addProspectOverlay" hidden>
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="addProspectClose" aria-label="Schließen">&times;</button>
+    <h3>Neue Firma anlegen</h3>
+    <form id="addProspectForm" class="lead-form" style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
+      <label class="field-label" for="prospectName">Name</label>
+      <input type="text" id="prospectName" required>
+      <label class="field-label" for="prospectCategory">Kategorie</label>
+      <input type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
+      <datalist id="categoryOptions">
+        <option value="Firma"></option>
+        <option value="Schule"></option>
+        <option value="Verein"></option>
+      </datalist>
+      <label class="field-label" for="prospectPersonName">Ansprechpartner (optional)</label>
+      <input type="text" id="prospectPersonName">
+      <label class="field-label" for="prospectPersonPhone">Telefon (optional)</label>
+      <input type="tel" id="prospectPersonPhone">
+      <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
+      <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Anlegen</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="prospectDetailOverlay" hidden>
+  <div class="modal-box lead-form" style="max-width:680px;padding:36px;box-shadow:none;margin:0;">
+    <button type="button" class="modal-close" id="prospectDetailClose" aria-label="Schließen">&times;</button>
+    <span class="status-pill" id="prospectDetailStatus"></span>
+    <h3 id="prospectDetailName" style="margin-top:10px;"></h3>
+    <p class="muted" id="prospectDetailCategory"></p>
+
+    <label class="field-label" for="prospectDetailNotes">Notizen</label>
+    <textarea id="prospectDetailNotes" rows="3"></textarea>
+    <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Notizen speichern</button></div>
+
+    <h4 style="margin-top:24px;">Ansprechpartner</h4>
+    <div id="prospectDetailPeople"></div>
+    <div class="btn-row" style="margin-top:8px;flex-wrap:wrap;">
+      <input type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
+      <input type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
+      <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">+ Hinzufügen</button>
+    </div>
+
+    <h4 style="margin-top:24px;">Nächster Kontakt</h4>
+    <label class="field-label" for="nextContactDate">Termin</label>
+    <input type="date" id="nextContactDate">
+    <label class="field-label" for="nextContactNotes">Was wurde besprochen?</label>
+    <textarea id="nextContactNotes" rows="2"></textarea>
+    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Kontakt speichern</button></div>
+
+    <h4 style="margin-top:24px;">Historie</h4>
+    <div id="prospectDetailHistory"><p class="muted">Noch keine Einträge.</p></div>
+
+    <div class="btn-row" style="margin-top:24px;flex-wrap:wrap;">
+      <a href="/business/?presenter=live" target="_blank" rel="noopener" class="btn btn--whatsapp">Live-Präsentation starten</a>
+      <button type="button" id="markCustomerBtn" class="btn btn--primary">Als Kunde markieren</button>
+      <button type="button" id="markLostBtn" class="btn btn--dark">Kein Interesse</button>
+    </div>
+    <div id="conversionLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
+      <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="conversionCompanyName"></strong>:</p>
+      <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="conversionLink"></p>
+      <div class="btn-row">
+        <button type="button" class="btn btn--dark" id="conversionCopyBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
+        <button type="button" class="btn btn--whatsapp" id="conversionWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65">
+        <p>Catering für private Feiern, Firmenevents und Veranstaltungen in Henstedt-Ulzburg und Umgebung — Indisch, Italienisch &amp; Sushi aus einer Hand.</p>
+        <a href="https://www.instagram.com/mahboobs.kitchen/" target="_blank" rel="noopener" class="social-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg> Folge uns auf Instagram</a>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <a href="/privates-catering/">Privates Catering</a>
+        <a href="/firmen-catering/">Firmen-Catering</a>
+        <a href="/speisen/">Speisen</a>
+        <a href="/ablauf/">Ablauf</a>
+        <a href="/business/?viewer=live">Business Karte</a>
+        <a href="/business/login/">Kunden-Login</a>
+      </div>
+      <div>
+        <h4>Standorte</h4>
+        <a href="/catering/henstedt-ulzburg/">Henstedt-Ulzburg</a>
+<a href="/catering/kaltenkirchen/">Kaltenkirchen</a>
+<a href="/catering/norderstedt/">Norderstedt</a>
+<a href="/catering/quickborn/">Quickborn</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <address style="font-style:normal;">
+          <a href="tel:+491772019889">Tel: 0177 201 9889</a>
+          <a href="mailto:info@mahboobs-kitchen.com">info@mahboobs-kitchen.com</a>
+          <a href="/kontakt/">Henstedter Str. 4, 24558 Wakendorf II</a>
+        </address>
+        <a href="/impressum/">Impressum</a>
+        <a href="/datenschutz/">Datenschutz</a>
+        <button type="button" id="cookieSettingsBtn" class="link-reset">Cookie-Einstellungen</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Mahboobs Kitchen — Alle Rechte vorbehalten.</span>
+      <span>Henstedter Str. 4, 24558 Wakendorf II</span>
+    </div>
+  </div>
+</footer>
+<div class="sticky-cta">
+  <a class="btn btn--dark" href="tel:+491772019889">Anrufen</a>
+  <a class="btn btn--primary" href="/kontakt/">Catering Anfragen</a>
+</div>
+<script src="/assets/js/main.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script>window.SUPABASE_URL="https://rodfrlvzoiwvwpjbvrhw.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvZGZybHZ6b2l3dndwamJ2cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODUxODksImV4cCI6MjA5Nzk2MTE4OX0.nQZ_VvILG2t7pKiDDQXTqZ3XTX_2q_jYKzb5OnpfEqg";</script>
+<script src="/assets/js/business-auth.js" defer></script>
+<script src="/assets/js/business-pipeline.js" defer></script>
+</body>
+</html>
