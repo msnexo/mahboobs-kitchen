@@ -58,6 +58,23 @@
     return parts[2] + "." + parts[1] + "." + parts[0];
   }
 
+  function dateOnly(value) {
+    return value ? value.slice(0, 10) : null;
+  }
+
+  function formatDateTime(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    return d.toLocaleDateString("de-DE") + ", " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function toDatetimeLocalValue(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    var pad = function (n) { return String(n).padStart(2, "0"); };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
   var statusLabels = { lead: "Lead", contacted: "Kontaktiert", customer: "Kunde", lost: "Kein Interesse" };
 
   window.mkBusiness.requireAdminSession(function (session, client) {
@@ -84,6 +101,7 @@
     var detailOverlay = document.getElementById("prospectDetailOverlay");
     var detailClose = document.getElementById("prospectDetailClose");
     var detailStatus = document.getElementById("prospectDetailStatus");
+    var statusSelect = document.getElementById("prospectStatusSelect");
     var detailName = document.getElementById("prospectDetailName");
     var detailCategory = document.getElementById("prospectDetailCategory");
     var detailNotes = document.getElementById("prospectDetailNotes");
@@ -121,6 +139,7 @@
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span></div>" +
         "</div>" +
+        (p.next_contact_date ? '<p class="muted" style="margin:6px 0 0;font-size:0.8rem;">Termin: ' + formatDateTime(p.next_contact_date) + "</p>" : "") +
         (p.notes ? '<p class="muted" style="margin:8px 0 0;font-size:0.85rem;">' + escapeHtml(p.notes.slice(0, 120)) + "</p>" : "") +
         "</div>"
       );
@@ -168,9 +187,9 @@
       var archived = allProspects.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
 
       var leads = active.filter(function (p) { return !p.next_contact_date; });
-      var dueToday = active.filter(function (p) { return p.next_contact_date && p.next_contact_date <= today; });
-      var dueTomorrow = active.filter(function (p) { return p.next_contact_date === tomorrow; });
-      var later = active.filter(function (p) { return p.next_contact_date && p.next_contact_date > tomorrow; });
+      var dueToday = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) <= today; });
+      var dueTomorrow = active.filter(function (p) { return dateOnly(p.next_contact_date) === tomorrow; });
+      var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; });
 
       renderBucket(pipelineLeads, "Neue Leads", leads);
       renderBucket(pipelineToday, "Heute", dueToday);
@@ -215,7 +234,10 @@
         return;
       }
       historyEl.innerHTML = contacts.map(function (c) {
-        return '<p style="margin:0 0 10px;"><strong>' + formatSimpleDate(c.contact_date) + ":</strong> " + escapeHtml(c.notes || "-") + "</p>";
+        var nextLine = c.next_contact_date
+          ? '<br><span class="muted">Nächster Termin: ' + formatDateTime(c.next_contact_date) + "</span>"
+          : "";
+        return '<p style="margin:0 0 10px;"><strong>' + formatSimpleDate(c.contact_date) + ":</strong> " + escapeHtml(c.notes || "-") + nextLine + "</p>";
       }).join("");
     }
 
@@ -230,6 +252,7 @@
       if (!p) return;
       detailStatus.className = "status-pill status-pill--" + p.status;
       detailStatus.textContent = statusLabels[p.status];
+      statusSelect.value = p.status;
     }
 
     function openDetail(id) {
@@ -241,7 +264,8 @@
       detailName.textContent = p.name;
       detailCategory.textContent = p.category;
       detailNotes.value = p.notes || "";
-      nextContactDate.value = p.next_contact_date || "";
+      statusSelect.value = p.status;
+      nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
       nextContactNotes.value = "";
       conversionLinkBox.hidden = true;
       detailOverlay.hidden = false;
@@ -301,6 +325,14 @@
       });
     });
 
+    statusSelect.addEventListener("change", function () {
+      if (!selectedProspectId) return;
+      client.from("prospects").update({ status: statusSelect.value }).eq("id", selectedProspectId).then(function () {
+        refreshDetailStatus();
+        loadProspects();
+      });
+    });
+
     addPersonBtn.addEventListener("click", function () {
       var name = newPersonName.value.trim();
       if (!name || !selectedProspectId) return;
@@ -316,7 +348,7 @@
       var date = nextContactDate.value;
       var notes = nextContactNotes.value.trim();
       var prospectId = selectedProspectId;
-      client.from("prospect_contacts").insert({ prospect_id: prospectId, contact_date: todayISO(), notes: notes }).then(function () {
+      client.from("prospect_contacts").insert({ prospect_id: prospectId, contact_date: todayISO(), notes: notes, next_contact_date: date || null }).then(function () {
         var p = allProspects.filter(function (x) { return x.id === prospectId; })[0];
         var updates = { next_contact_date: date || null };
         if (p && p.status === "lead") updates.status = "contacted";

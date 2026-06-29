@@ -338,7 +338,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .choice-grid input:checked + span,
 .choice-grid label:has(input:checked) { color: var(--color-primary); }
 .choice-grid label:has(input:checked) { border-color: var(--color-primary); background: rgba(232,89,12,0.06); }
-.lead-form input[type="text"], .lead-form input[type="date"], .lead-form input[type="number"], .lead-form input[type="email"], .lead-form input[type="tel"], .lead-form input[type="password"], .lead-form select, .lead-form textarea {
+.lead-form input[type="text"], .lead-form input[type="date"], .lead-form input[type="datetime-local"], .lead-form input[type="number"], .lead-form input[type="email"], .lead-form input[type="tel"], .lead-form input[type="password"], .lead-form select, .lead-form textarea {
   width: 100%;
   padding: 14px 16px;
   border: 2px solid var(--color-border);

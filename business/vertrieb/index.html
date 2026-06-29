@@ -122,6 +122,14 @@
     <h3 id="prospectDetailName" style="margin-top:10px;"></h3>
     <p class="muted" id="prospectDetailCategory"></p>
 
+    <label class="field-label" for="prospectStatusSelect">Status ändern</label>
+    <select id="prospectStatusSelect">
+      <option value="lead">Lead</option>
+      <option value="contacted">Kontaktiert</option>
+      <option value="customer">Kunde</option>
+      <option value="lost">Kein Interesse</option>
+    </select>
+
     <label class="field-label" for="prospectDetailNotes">Notizen</label>
     <textarea id="prospectDetailNotes" rows="3"></textarea>
     <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Notizen speichern</button></div>
@@ -135,8 +143,8 @@
     </div>
 
     <h4 style="margin-top:24px;">Nächster Kontakt</h4>
-    <label class="field-label" for="nextContactDate">Termin</label>
-    <input type="date" id="nextContactDate">
+    <label class="field-label" for="nextContactDate">Termin (Datum + Uhrzeit)</label>
+    <input type="datetime-local" id="nextContactDate">
     <label class="field-label" for="nextContactNotes">Was wurde besprochen?</label>
     <textarea id="nextContactNotes" rows="2"></textarea>
     <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Kontakt speichern</button></div>
