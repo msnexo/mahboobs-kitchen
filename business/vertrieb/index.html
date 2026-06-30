@@ -137,7 +137,10 @@
     <h3 id="prospectDetailName" style="margin-top:10px;"></h3>
     <p class="muted" id="prospectDetailCategory"></p>
     <label class="field-label" for="prospectDetailWebsite">Webseite</label>
-    <input type="url" id="prospectDetailWebsite" placeholder="https://...">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="url" id="prospectDetailWebsite" placeholder="https://..." style="flex:1;">
+      <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="btn btn--dark" style="padding:8px 14px;font-size:0.85rem;white-space:nowrap;" hidden>↗ Öffnen</a>
+    </div>
     <label class="field-label" for="prospectDetailAddress">Adresse</label>
     <input type="text" id="prospectDetailAddress" placeholder="Straße, PLZ Ort">
 

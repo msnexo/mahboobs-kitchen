@@ -112,6 +112,7 @@
     var newPersonEmail = document.getElementById("newPersonEmail");
     var addPersonBtn = document.getElementById("addPersonBtn");
     var detailWebsite = document.getElementById("prospectDetailWebsite");
+    var detailWebsiteOpen = document.getElementById("prospectDetailWebsiteOpen");
     var detailAddress = document.getElementById("prospectDetailAddress");
     var nextContactDate = document.getElementById("nextContactDate");
     var nextContactNotes = document.getElementById("nextContactNotes");
@@ -281,6 +282,8 @@
       detailCategory.textContent = p.category;
       detailWebsite.value = p.website || "";
       detailAddress.value = p.address || "";
+      detailWebsiteOpen.href = p.website || "#";
+      detailWebsiteOpen.hidden = !p.website;
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
       nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
@@ -296,6 +299,11 @@
     detailClose.addEventListener("click", function () {
       detailOverlay.hidden = true;
       selectedProspectId = null;
+    });
+
+    detailWebsite.addEventListener("input", function () {
+      detailWebsiteOpen.href = detailWebsite.value || "#";
+      detailWebsiteOpen.hidden = !detailWebsite.value;
     });
 
     toggleArchiveBtn.addEventListener("click", function () {
