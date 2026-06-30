@@ -92,8 +92,8 @@
     <button type="button" class="modal-close" id="addProspectClose" aria-label="Schließen">&times;</button>
     <h3>Neue Firma anlegen</h3>
     <form id="addProspectForm" class="lead-form" style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
-      <label class="field-label" for="prospectName">Name</label>
-      <input type="text" id="prospectName" required>
+      <label class="field-label" for="prospectName">Firma</label>
+      <input type="text" id="prospectName" placeholder="Firmenname" required>
       <label class="field-label" for="prospectCategory">Kategorie</label>
       <input type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
       <datalist id="categoryOptions">
@@ -101,14 +101,22 @@
         <option value="Schule"></option>
         <option value="Verein"></option>
       </datalist>
+      <label class="field-label" for="prospectWebsite">Webseite (optional)</label>
+      <input type="url" id="prospectWebsite" placeholder="https://...">
+      <label class="field-label" for="prospectAddress">Adresse (optional)</label>
+      <input type="text" id="prospectAddress" placeholder="Straße, PLZ Ort">
       <label class="field-label" for="prospectPersonName">Ansprechpartner 1 (optional)</label>
       <input type="text" id="prospectPersonName">
       <label class="field-label" for="prospectPersonPhone">Telefon 1 (optional)</label>
       <input type="tel" id="prospectPersonPhone">
+      <label class="field-label" for="prospectPersonEmail">E-Mail 1 (optional)</label>
+      <input type="email" id="prospectPersonEmail">
       <label class="field-label" for="prospectPersonName2">Ansprechpartner 2 (optional)</label>
       <input type="text" id="prospectPersonName2">
       <label class="field-label" for="prospectPersonPhone2">Telefon 2 (optional)</label>
       <input type="tel" id="prospectPersonPhone2">
+      <label class="field-label" for="prospectPersonEmail2">E-Mail 2 (optional)</label>
+      <input type="email" id="prospectPersonEmail2">
       <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
       <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Anlegen</button></div>
     </form>
@@ -121,6 +129,10 @@
     <span class="status-pill" id="prospectDetailStatus"></span>
     <h3 id="prospectDetailName" style="margin-top:10px;"></h3>
     <p class="muted" id="prospectDetailCategory"></p>
+    <label class="field-label" for="prospectDetailWebsite">Webseite</label>
+    <input type="url" id="prospectDetailWebsite" placeholder="https://...">
+    <label class="field-label" for="prospectDetailAddress">Adresse</label>
+    <input type="text" id="prospectDetailAddress" placeholder="Straße, PLZ Ort">
 
     <label class="field-label" for="prospectStatusSelect">Status ändern</label>
     <select id="prospectStatusSelect">
@@ -132,14 +144,15 @@
 
     <label class="field-label" for="prospectDetailNotes">Notizen</label>
     <textarea id="prospectDetailNotes" rows="3"></textarea>
-    <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Notizen speichern</button></div>
+    <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Speichern</button></div>
 
     <h4 style="margin-top:24px;">Ansprechpartner</h4>
     <div id="prospectDetailPeople"></div>
-    <div class="btn-row" style="margin-top:8px;flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
       <input type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
       <input type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
-      <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">+ Hinzufügen</button>
+      <input type="email" id="newPersonEmail" placeholder="E-Mail" style="flex:1;min-width:160px;">
+      <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
     </div>
 
     <h4 style="margin-top:24px;">Nächster Kontakt</h4>

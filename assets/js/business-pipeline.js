@@ -109,7 +109,10 @@
     var peopleListEl = document.getElementById("prospectDetailPeople");
     var newPersonName = document.getElementById("newPersonName");
     var newPersonPhone = document.getElementById("newPersonPhone");
+    var newPersonEmail = document.getElementById("newPersonEmail");
     var addPersonBtn = document.getElementById("addPersonBtn");
+    var detailWebsite = document.getElementById("prospectDetailWebsite");
+    var detailAddress = document.getElementById("prospectDetailAddress");
     var nextContactDate = document.getElementById("nextContactDate");
     var nextContactNotes = document.getElementById("nextContactNotes");
     var logContactBtn = document.getElementById("logContactBtn");
@@ -213,10 +216,14 @@
       }
       peopleListEl.innerHTML = people.map(function (person) {
         var tel = person.phone ? buildTelLink(person.phone) : "";
+        var meta = [person.phone, person.email].filter(Boolean).map(escapeHtml).join(" · ");
         return (
-          '<div class="btn-row" style="justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--color-border);">' +
-          "<div>" + escapeHtml(person.name) + (person.phone ? ' <span class="muted">' + escapeHtml(person.phone) + "</span>" : "") + "</div>" +
+          '<div style="padding:8px 0;border-bottom:1px solid var(--color-border);">' +
+          '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
+          "<div><strong>" + escapeHtml(person.name) + "</strong>" + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + "</span>" : "") + "</div>" +
           (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : "") +
+          "</div>" +
+          (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + "</a>" : "") +
           "</div>"
         );
       }).join("");
@@ -263,6 +270,8 @@
       detailStatus.textContent = statusLabels[p.status];
       detailName.textContent = p.name;
       detailCategory.textContent = p.category;
+      detailWebsite.value = p.website || "";
+      detailAddress.value = p.address || "";
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
       nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
@@ -290,19 +299,21 @@
       e.preventDefault();
       var name = document.getElementById("prospectName").value.trim();
       var category = document.getElementById("prospectCategory").value.trim() || "Firma";
+      var website = document.getElementById("prospectWebsite").value.trim() || null;
+      var address = document.getElementById("prospectAddress").value.trim() || null;
       var people = [
-        { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim() },
-        { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim() }
+        { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
+        { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
       ].filter(function (person) { return person.name; });
       if (!name) return;
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
-      client.from("prospects").insert({ name: name, category: category }).select().single().then(function (res) {
+      client.from("prospects").insert({ name: name, category: category, website: website, address: address }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
         if (people.length) {
           return Promise.all(people.map(function (person) {
-            return client.from("prospect_people").insert({ prospect_id: prospect.id, name: person.name, phone: person.phone });
+            return client.from("prospect_people").insert({ prospect_id: prospect.id, name: person.name, phone: person.phone || null, email: person.email || null });
           })).then(function () { return prospect; });
         }
         return prospect;
@@ -320,7 +331,11 @@
 
     saveNotesBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
-      client.from("prospects").update({ notes: detailNotes.value.trim() }).eq("id", selectedProspectId).then(function () {
+      client.from("prospects").update({
+        notes: detailNotes.value.trim(),
+        website: detailWebsite.value.trim() || null,
+        address: detailAddress.value.trim() || null
+      }).eq("id", selectedProspectId).then(function () {
         loadProspects();
       });
     });
@@ -336,9 +351,15 @@
     addPersonBtn.addEventListener("click", function () {
       var name = newPersonName.value.trim();
       if (!name || !selectedProspectId) return;
-      client.from("prospect_people").insert({ prospect_id: selectedProspectId, name: name, phone: newPersonPhone.value.trim() }).then(function () {
+      client.from("prospect_people").insert({
+        prospect_id: selectedProspectId,
+        name: name,
+        phone: newPersonPhone.value.trim() || null,
+        email: newPersonEmail.value.trim() || null
+      }).then(function () {
         newPersonName.value = "";
         newPersonPhone.value = "";
+        newPersonEmail.value = "";
         loadPeople(selectedProspectId);
       });
     });
