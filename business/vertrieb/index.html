@@ -155,14 +155,14 @@
       <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
     </div>
 
-    <h4 style="margin-top:24px;">Nächster Kontakt</h4>
-    <label class="field-label" for="nextContactDate">Termin (Datum + Uhrzeit)</label>
+    <h4 style="margin-top:24px;">Logeintrag</h4>
+    <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
+    <textarea id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
+    <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
     <input type="datetime-local" id="nextContactDate">
-    <label class="field-label" for="nextContactNotes">Was wurde besprochen?</label>
-    <textarea id="nextContactNotes" rows="2"></textarea>
-    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Kontakt speichern</button></div>
+    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Eintrag speichern</button></div>
 
-    <h4 style="margin-top:24px;">Historie</h4>
+    <h4 style="margin-top:28px;">Logbuch</h4>
     <div id="prospectDetailHistory"><p class="muted">Noch keine Einträge.</p></div>
 
     <div class="btn-row" style="margin-top:24px;flex-wrap:wrap;">

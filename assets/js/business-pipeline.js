@@ -241,15 +241,22 @@
         return;
       }
       historyEl.innerHTML = contacts.map(function (c) {
-        var nextLine = c.next_contact_date
-          ? '<br><span class="muted">Nächster Termin: ' + formatDateTime(c.next_contact_date) + "</span>"
+        var when = formatDateTime(c.created_at || c.contact_date);
+        var nextBlock = c.next_contact_date
+          ? '<div style="margin-top:6px;padding:6px 10px;background:var(--color-bg-soft);border-left:3px solid var(--color-primary);border-radius:0 6px 6px 0;font-size:0.83rem;">📅 Nächster Kontakt: <strong>' + formatDateTime(c.next_contact_date) + "</strong></div>"
           : "";
-        return '<p style="margin:0 0 10px;"><strong>' + formatSimpleDate(c.contact_date) + ":</strong> " + escapeHtml(c.notes || "-") + nextLine + "</p>";
+        return (
+          '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--color-border);">' +
+          '<span class="muted" style="font-size:0.8rem;">' + when + "</span>" +
+          '<p style="margin:4px 0 0;">' + escapeHtml(c.notes || "—") + "</p>" +
+          nextBlock +
+          "</div>"
+        );
       }).join("");
     }
 
     function loadHistory(prospectId) {
-      return client.from("prospect_contacts").select("*").eq("prospect_id", prospectId).order("contact_date", { ascending: false }).then(function (res) {
+      return client.from("prospect_contacts").select("*").eq("prospect_id", prospectId).order("created_at", { ascending: false }).then(function (res) {
         renderHistory(res.data || []);
       });
     }
