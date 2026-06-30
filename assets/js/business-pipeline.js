@@ -307,6 +307,7 @@
       e.preventDefault();
       var name = document.getElementById("prospectName").value.trim();
       var category = document.getElementById("prospectCategory").value.trim() || "Firma";
+      var status = document.getElementById("prospectStatus").value;
       var website = document.getElementById("prospectWebsite").value.trim() || null;
       var address = document.getElementById("prospectAddress").value.trim() || null;
       var people = [
@@ -316,7 +317,7 @@
       if (!name) return;
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
-      client.from("prospects").insert({ name: name, category: category, website: website, address: address }).select().single().then(function (res) {
+      client.from("prospects").insert({ name: name, category: category, status: status, website: website, address: address }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
         if (people.length) {
