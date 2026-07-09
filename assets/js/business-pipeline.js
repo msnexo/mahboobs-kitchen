@@ -186,16 +186,19 @@
       });
     }
 
+    function byDate(a, b) { return new Date(a.next_contact_date) - new Date(b.next_contact_date); }
+    function byCreated(a, b) { return new Date(b.created_at) - new Date(a.created_at); }
+
     function renderPipeline() {
       var today = todayISO();
       var tomorrow = addDaysISO(1);
       var active = allProspects.filter(function (p) { return p.status === "lead" || p.status === "contacted"; });
       var archived = allProspects.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
 
-      var leads = active.filter(function (p) { return !p.next_contact_date; });
-      var dueToday = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) <= today; });
-      var dueTomorrow = active.filter(function (p) { return dateOnly(p.next_contact_date) === tomorrow; });
-      var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; });
+      var leads = active.filter(function (p) { return !p.next_contact_date; }).sort(byCreated);
+      var dueToday = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) <= today; }).sort(byDate);
+      var dueTomorrow = active.filter(function (p) { return dateOnly(p.next_contact_date) === tomorrow; }).sort(byDate);
+      var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; }).sort(byDate);
 
       renderBucket(pipelineLeads, "Neue Leads", leads);
       renderBucket(pipelineToday, "Heute", dueToday);
@@ -221,15 +224,51 @@
         var tel = person.phone ? buildTelLink(person.phone) : "";
         var meta = [person.phone, person.email].filter(Boolean).map(escapeHtml).join(" · ");
         return (
-          '<div style="padding:8px 0;border-bottom:1px solid var(--color-border);">' +
+          '<div style="padding:8px 0;border-bottom:1px solid var(--color-border);" data-person-row="' + person.id + '">' +
           '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
-          "<div><strong>" + escapeHtml(person.name) + "</strong>" + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + "</span>" : "") + "</div>" +
-          (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : "") +
-          "</div>" +
-          (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + "</a>" : "") +
-          "</div>"
+          '<div><strong>' + escapeHtml(person.name) + '</strong>' + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + '</span>' : '') + '</div>' +
+          '<div style="display:flex;gap:6px;">' +
+          (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : '') +
+          '<button type="button" data-edit-person="' + person.id + '" class="btn btn--dark" style="padding:6px 10px;font-size:0.8rem;">✏️</button>' +
+          '</div></div>' +
+          (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + '</a>' : '') +
+          '<div data-edit-form="' + person.id + '" style="display:none;flex-direction:column;gap:6px;margin-top:8px;">' +
+          '<input type="text" data-field="name" value="' + escapeHtml(person.name) + '" placeholder="Name" style="width:100%;">' +
+          '<input type="tel" data-field="phone" value="' + escapeHtml(person.phone || '') + '" placeholder="Telefon" style="width:100%;">' +
+          '<input type="email" data-field="email" value="' + escapeHtml(person.email || '') + '" placeholder="E-Mail" style="width:100%;">' +
+          '<div style="display:flex;gap:6px;">' +
+          '<button type="button" data-save-person="' + person.id + '" class="btn btn--primary" style="padding:6px 14px;font-size:0.8rem;">Speichern</button>' +
+          '<button type="button" data-cancel-person="' + person.id + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">Abbrechen</button>' +
+          '</div></div>' +
+          '</div>'
         );
-      }).join("");
+      }).join('');
+
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-edit-person]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var form = peopleListEl.querySelector('[data-edit-form="' + btn.getAttribute('data-edit-person') + '"]');
+          form.style.display = 'flex';
+        });
+      });
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-cancel-person]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var form = peopleListEl.querySelector('[data-edit-form="' + btn.getAttribute('data-cancel-person') + '"]');
+          form.style.display = 'none';
+        });
+      });
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-save-person]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-save-person');
+          var form = peopleListEl.querySelector('[data-edit-form="' + id + '"]');
+          var name = form.querySelector('[data-field="name"]').value.trim();
+          var phone = form.querySelector('[data-field="phone"]').value.trim();
+          var email = form.querySelector('[data-field="email"]').value.trim();
+          if (!name) return;
+          client.from('prospect_people').update({ name: name, phone: phone || null, email: email || null }).eq('id', id).then(function () {
+            loadPeople(selectedProspectId);
+          });
+        });
+      });
     }
 
     function loadPeople(prospectId) {
@@ -480,7 +519,28 @@
       });
     });
 
+    var notifiedThisSession = false;
+    function checkDueNotifications() {
+      if (notifiedThisSession) return;
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+      var today = todayISO();
+      var due = allProspects.filter(function (p) {
+        return p.next_contact_date && dateOnly(p.next_contact_date) <= today && (p.status === "lead" || p.status === "contacted");
+      });
+      if (due.length > 0) {
+        notifiedThisSession = true;
+        new Notification("MK Vertrieb – " + due.length + " fällig", {
+          body: due.slice(0, 3).map(function (p) { return p.name; }).join(", ") + (due.length > 3 ? " ..." : ""),
+          icon: "/assets/img/favicon.webp"
+        });
+      }
+    }
+
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+
     loadDailyCounter();
-    loadProspects();
+    loadProspects().then(function () { checkDueNotifications(); });
   });
 })();
