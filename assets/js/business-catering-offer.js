@@ -3,82 +3,101 @@
 
   var ENDPOINT = window.CATERING_FORMSPREE || "";
 
+  // [emoji, name]
   var ITEMS = {
     vorspeise: [
-      "Samosas mit Minz-Chutney",
-      "Bruschetta al Pomodoro",
-      "Hummus mit Fladenbrot & Oliven",
-      "Gemischte Antipasti",
-      "Miso-Suppe",
-      "Caprese-Salat"
+      ["🥟", "Samosas mit Minz-Chutney"],
+      ["🍅", "Bruschetta al Pomodoro"],
+      ["🫙", "Hummus mit Fladenbrot & Oliven"],
+      ["🫒", "Gemischte Antipasti"],
+      ["🍜", "Miso-Suppe"],
+      ["🥗", "Caprese-Salat"]
     ],
     hauptgericht: [
-      "Butter Chicken (Indisch)",
-      "Lamm Rogan Josh (Indisch)",
-      "Hähnchen Tikka Masala (Indisch)",
-      "Lasagne al Forno (Italienisch)",
-      "Pollo alla Parmigiana (Italienisch)",
-      "Teriyaki-Lachs (Asiatisch)",
-      "Sushi-Variation (Japanisch)",
-      "Vegetarisches Gemüse-Curry (Vegan)",
-      "Gegrillte Hähnchenbrust mit Kräuterbutter"
+      ["🍛", "Butter Chicken (Indisch)"],
+      ["🐑", "Lamm Rogan Josh (Indisch)"],
+      ["🍗", "Hähnchen Tikka Masala (Indisch)"],
+      ["🫕", "Lasagne al Forno (Italienisch)"],
+      ["🍝", "Pollo alla Parmigiana (Italienisch)"],
+      ["🐟", "Teriyaki-Lachs (Asiatisch)"],
+      ["🍣", "Sushi-Variation (Japanisch)"],
+      ["🥦", "Vegetarisches Gemüse-Curry (Vegan)"],
+      ["🍖", "Gegrillte Hähnchenbrust mit Kräuterbutter"]
     ],
     beilage: [
-      "Basmati-Reis",
-      "Knoblauch-Naan",
-      "Rosmarin-Kartoffeln",
-      "Gemüse vom Grill",
-      "Coleslaw hausgemacht",
-      "Taboulé",
-      "Focaccia mit Olivenöl",
-      "Edamame"
+      ["🍚", "Basmati-Reis"],
+      ["🫓", "Knoblauch-Naan"],
+      ["🥔", "Rosmarin-Kartoffeln"],
+      ["🥦", "Gemüse vom Grill"],
+      ["🥗", "Coleslaw hausgemacht"],
+      ["🌿", "Taboulé"],
+      ["🍞", "Focaccia mit Olivenöl"],
+      ["🫛", "Edamame"]
     ],
     nachtisch: [
-      "Gulab Jamun (Indisch)",
-      "Tiramisu (Italienisch)",
-      "Mochi-Eis (Japanisch)",
-      "Crème Brûlée",
-      "Baklava",
-      "Schokoladen-Mousse"
+      ["🍮", "Gulab Jamun (Indisch)"],
+      ["☕", "Tiramisu (Italienisch)"],
+      ["🍡", "Mochi-Eis (Japanisch)"],
+      ["🍯", "Crème Brûlée"],
+      ["🥐", "Baklava"],
+      ["🍫", "Schokoladen-Mousse"]
     ]
   };
 
-  var BASE_PRICE = 22;
-  var BASE_COUNT = { hauptgericht: 2, beilage: 2 };
-  var EXTRA = { vorspeise: 3, hauptgericht: 5, beilage: 2.5, nachtisch: 3.5 };
-  var REDUCTION = { hauptgericht: 4, beilage: 2 };
-  var SHOW_MULT = 1.36;
+  // Pricing: base 22 €/p for 1V+2H+2B+1N
+  // Each HG above/below 2: ±7 €/p
+  // Each BL above/below 2: ±2 €/p
+  // VS and NS fixed (radio, always exactly 1)
+  var BASE = 22;
+  var HG_UNIT = 7;
+  var BL_UNIT = 2;
+  var SHOW_MULT = 1.35;
 
-  var selections = { vorspeise: [], hauptgericht: [], beilage: [], nachtisch: [] };
+  var sel = { vorspeise: [], hauptgericht: [], beilage: [], nachtisch: [] };
+
+  // --- CSS ---
+  var css = document.createElement("style");
+  css.textContent = [
+    ".mki{display:flex;align-items:center;gap:12px;padding:13px 16px;border:2px solid var(--color-border,#ddd);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;background:var(--color-card-bg,#fff);}",
+    ".mki:hover{border-color:var(--color-primary,#e63030);box-shadow:0 2px 8px rgba(230,48,48,.12);}",
+    ".mki.on{border-color:var(--color-primary,#e63030);background:rgba(230,48,48,.07);}",
+    ".mki__em{font-size:1.5rem;width:28px;text-align:center;flex-shrink:0;}",
+    ".mki__nm{font-size:0.88rem;line-height:1.35;flex:1;}",
+    ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;}",
+    ".mki.on .mki__dot{background:var(--color-primary,#e63030);border-color:var(--color-primary,#e63030);color:#fff;}",
+    ".mki-cat{margin-bottom:32px;}",
+    ".mki-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}",
+    ".mki-hd h3{margin:0;font-size:1.05rem;}",
+    ".mki-cnt{font-size:0.78rem;padding:2px 10px;border-radius:100px;font-weight:600;}",
+    ".mki-cnt.ok{background:rgba(230,48,48,.12);color:var(--color-primary,#e63030);}",
+    ".mki-cnt.neutral{background:var(--color-bg-soft,#f4f4f4);color:var(--color-text-soft,#888);}",
+    ".mki-hint{font-size:0.8rem;color:var(--color-text-soft,#888);margin:0 0 10px;}",
+    ".mki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}",
+    "@media(max-width:480px){.mki-grid{grid-template-columns:1fr;}}"
+  ].join("");
+  document.head.appendChild(css);
 
   function formatEur(n) {
     return n.toFixed(2).replace(".", ",") + " €";
   }
 
   function getParams() {
-    var result = {};
-    var search = window.location.search.replace(/^\?/, "");
-    if (!search) return result;
-    search.split("&").forEach(function (pair) {
-      var parts = pair.split("=");
-      if (parts[0]) result[decodeURIComponent(parts[0])] = decodeURIComponent((parts[1] || "").replace(/\+/g, " "));
+    var r = {};
+    (window.location.search.replace(/^\?/, "") || "").split("&").forEach(function (p) {
+      var kv = p.split("=");
+      if (kv[0]) r[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || "").replace(/\+/g, " "));
     });
-    return result;
+    return r;
   }
 
   function getPrice() {
-    var price = BASE_PRICE;
-    var h = selections.hauptgericht.length;
-    if (h > BASE_COUNT.hauptgericht) price += (h - BASE_COUNT.hauptgericht) * EXTRA.hauptgericht;
-    else if (h < BASE_COUNT.hauptgericht && h > 0) price -= (BASE_COUNT.hauptgericht - h) * REDUCTION.hauptgericht;
-    var b = selections.beilage.length;
-    if (b > BASE_COUNT.beilage) price += (b - BASE_COUNT.beilage) * EXTRA.beilage;
-    else if (b < BASE_COUNT.beilage && b > 0) price -= (BASE_COUNT.beilage - b) * REDUCTION.beilage;
-    return Math.max(price, 10);
+    var h = sel.hauptgericht.length;
+    var b = sel.beilage.length;
+    return Math.max(BASE + (h - 2) * HG_UNIT + (b - 2) * BL_UNIT, 8);
   }
 
   function updatePrice() {
-    var guests = parseInt(document.getElementById("guestCount").value) || 20;
+    var guests = Math.max(1, parseInt(document.getElementById("guestCount").value) || 20);
     var mk = getPrice();
     var regular = mk * SHOW_MULT;
     var total = mk * guests;
@@ -88,34 +107,36 @@
     document.getElementById("priceGuests").textContent = guests;
   }
 
-  function styleLabel(label, selected) {
-    var check = label.querySelector(".mki-check");
-    if (selected) {
-      label.style.borderColor = "var(--color-primary, #e63030)";
-      label.style.background = "rgba(230,48,48,0.07)";
-      check.textContent = "✓";
-      check.style.borderColor = "var(--color-primary, #e63030)";
-      check.style.color = "var(--color-primary, #e63030)";
+  function updateCounter(key, isRadio) {
+    var el = document.getElementById("cnt-" + key);
+    if (!el) return;
+    var n = sel[key].length;
+    if (isRadio) {
+      el.className = "mki-cnt " + (n === 1 ? "ok" : "neutral");
+      el.textContent = n === 1 ? "1 gewählt" : "bitte wählen";
     } else {
-      label.style.borderColor = "";
-      label.style.background = "";
-      check.textContent = "";
-      check.style.borderColor = "";
-      check.style.color = "";
+      el.className = "mki-cnt " + (n > 0 ? "ok" : "neutral");
+      el.textContent = n + " gewählt";
     }
   }
 
-  function renderCategory(key, heading, note, isRadio) {
-    var html = '<div style="margin-bottom:28px;">' +
-      '<h3 style="margin-bottom:' + (note ? "6px" : "12px") + ';">' + heading + "</h3>" +
-      (note ? '<p class="muted" style="font-size:0.83rem;margin-bottom:12px;">' + note + "</p>" : "") +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;">';
-    ITEMS[key].forEach(function (item) {
+  function renderCategory(key, title, icon, isRadio, hint) {
+    var items = ITEMS[key];
+    var countBadge = isRadio ? "bitte wählen" : "0 gewählt";
+    var html =
+      '<div class="mki-cat">' +
+      '<div class="mki-hd"><h3>' + icon + " " + title + "</h3>" +
+      '<span class="mki-cnt neutral" id="cnt-' + key + '">' + countBadge + "</span></div>" +
+      (hint ? '<p class="mki-hint">' + hint + "</p>" : "") +
+      '<div class="mki-grid">';
+    items.forEach(function (item) {
+      var val = item[1];
       html +=
-        '<label class="mki-label" data-key="' + key + '" data-val="' + item.replace(/"/g, "&quot;") + '" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;">' +
-        '<input type="' + (isRadio ? "radio" : "checkbox") + '" style="display:none;" name="' + key + '" value="' + item.replace(/"/g, "&quot;") + '">' +
-        '<span class="mki-check" style="width:16px;height:16px;border:2px solid var(--color-border);border-radius:' + (isRadio ? "50%" : "4px") + ';flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:border-color .15s;"></span>' +
-        '<span style="font-size:0.88rem;line-height:1.3;">' + item + "</span></label>";
+        '<div class="mki" data-key="' + key + '" data-val="' + val.replace(/"/g, "&quot;") + '" data-radio="' + (isRadio ? "1" : "0") + '">' +
+        '<span class="mki__em">' + item[0] + "</span>" +
+        '<span class="mki__nm">' + val + "</span>" +
+        '<span class="mki__dot"></span>' +
+        "</div>";
     });
     html += "</div></div>";
     return html;
@@ -124,52 +145,52 @@
   function initMenu() {
     var section = document.getElementById("menuSection");
     section.innerHTML =
-      renderCategory("vorspeise", "🥗 Vorspeise <small style='font-size:0.78rem;font-weight:normal;color:var(--color-text-soft);'>(1 wählen)</small>", "", true) +
-      renderCategory("hauptgericht", "🍽️ Hauptgerichte", "Basis: 2 Gerichte – mehr wählen kostet etwas mehr, weniger etwas weniger.", false) +
-      renderCategory("beilage", "🥘 Beilagen", "Basis: 2 Beilagen – mehr wählen kostet etwas mehr, weniger etwas weniger.", false) +
-      renderCategory("nachtisch", "🍮 Nachtisch <small style='font-size:0.78rem;font-weight:normal;color:var(--color-text-soft);'>(1 wählen)</small>", "", true);
+      renderCategory("vorspeise", "Vorspeise", "🥗", true, "1 auswählen – im Basispaket enthalten") +
+      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "Basispaket: 2 Gerichte · jedes weitere +7 €/P · weniger = günstiger") +
+      renderCategory("beilage", "Beilagen", "🥘", false, "Basispaket: 2 Beilagen · jede weitere +2 €/P · weniger = günstiger") +
+      renderCategory("nachtisch", "Nachtisch", "🍮", true, "1 auswählen – im Basispaket enthalten");
 
-    Array.prototype.forEach.call(section.querySelectorAll(".mki-label"), function (label) {
-      label.addEventListener("click", function () {
-        var key = label.getAttribute("data-key");
-        var val = label.getAttribute("data-val");
-        var input = label.querySelector("input");
-        var isRadio = input.type === "radio";
+    Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
+      card.addEventListener("click", function () {
+        var key = card.getAttribute("data-key");
+        var val = card.getAttribute("data-val");
+        var isRadio = card.getAttribute("data-radio") === "1";
 
         if (isRadio) {
-          Array.prototype.forEach.call(section.querySelectorAll('.mki-label[data-key="' + key + '"]'), function (l) {
-            l.querySelector("input").checked = false;
-            styleLabel(l, false);
+          Array.prototype.forEach.call(section.querySelectorAll('.mki[data-key="' + key + '"]'), function (c) {
+            c.classList.remove("on");
+            c.querySelector(".mki__dot").textContent = "";
           });
-          selections[key] = [val];
-          input.checked = true;
-          styleLabel(label, true);
+          sel[key] = [val];
+          card.classList.add("on");
+          card.querySelector(".mki__dot").textContent = "✓";
         } else {
-          var idx = selections[key].indexOf(val);
+          var idx = sel[key].indexOf(val);
           if (idx === -1) {
-            selections[key].push(val);
-            input.checked = true;
-            styleLabel(label, true);
+            sel[key].push(val);
+            card.classList.add("on");
+            card.querySelector(".mki__dot").textContent = "✓";
           } else {
-            selections[key].splice(idx, 1);
-            input.checked = false;
-            styleLabel(label, false);
+            sel[key].splice(idx, 1);
+            card.classList.remove("on");
+            card.querySelector(".mki__dot").textContent = "";
           }
         }
+        updateCounter(key, isRadio);
         updatePrice();
       });
     });
 
-    function clickDefault(key, idx) {
-      var labels = section.querySelectorAll('.mki-label[data-key="' + key + '"]');
-      if (labels[idx]) labels[idx].click();
+    function pick(key, idx) {
+      var cards = section.querySelectorAll('.mki[data-key="' + key + '"]');
+      if (cards[idx]) cards[idx].click();
     }
-    clickDefault("vorspeise", 0);
-    clickDefault("hauptgericht", 0);
-    clickDefault("hauptgericht", 1);
-    clickDefault("beilage", 0);
-    clickDefault("beilage", 1);
-    clickDefault("nachtisch", 0);
+    pick("vorspeise", 0);
+    pick("hauptgericht", 0);
+    pick("hauptgericht", 1);
+    pick("beilage", 0);
+    pick("beilage", 1);
+    pick("nachtisch", 0);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -182,7 +203,7 @@
     document.getElementById("cateringCardFirma").textContent = firma.toUpperCase();
     document.getElementById("cateringCardCode").textContent = code;
     document.getElementById("cateringGreeting").textContent =
-      person ? "Speziell für " + firma + " · " + person : "Speziell für " + firma;
+      person ? "Exklusiv für " + firma + " · " + person : "Exklusiv für " + firma;
     if (msg) {
       document.getElementById("cateringMsg").textContent = msg;
       document.getElementById("cateringMsgCard").hidden = false;
@@ -201,13 +222,12 @@
       var phone = document.getElementById("contactPhone").value.trim();
       var statusEl = document.getElementById("cateringStatus");
 
-      if (!date) { statusEl.textContent = "Bitte wählen Sie ein Veranstaltungsdatum."; statusEl.className = "form-status form-status--error"; return; }
-      if (!name) { statusEl.textContent = "Bitte geben Sie Ihren Namen ein."; statusEl.className = "form-status form-status--error"; return; }
-      if (!selections.hauptgericht.length) { statusEl.textContent = "Bitte wählen Sie mindestens ein Hauptgericht."; statusEl.className = "form-status form-status--error"; return; }
+      if (!date) { statusEl.textContent = "Bitte ein Veranstaltungsdatum wählen."; statusEl.className = "form-status form-status--error"; return; }
+      if (!name) { statusEl.textContent = "Bitte Ihren Namen eingeben."; statusEl.className = "form-status form-status--error"; return; }
+      if (!sel.hauptgericht.length) { statusEl.textContent = "Bitte mindestens ein Hauptgericht wählen."; statusEl.className = "form-status form-status--error"; return; }
 
       var mk = getPrice();
       var total = mk * (parseInt(guests) || 20);
-
       statusEl.textContent = "Wird gesendet …";
       statusEl.className = "form-status";
       document.getElementById("cateringSubmitBtn").disabled = true;
@@ -219,16 +239,16 @@
           _subject: "Catering-Anfrage von " + firma,
           Firma: firma,
           Ansprechpartner: person,
-          "Kontaktname": name,
+          Kontaktname: name,
           Telefon: phone || "—",
           Datum: date,
           "Anzahl Gäste": guests,
           "MK Preis / Person": mk.toFixed(2) + " €",
           Gesamtpreis: total.toFixed(2) + " €",
-          Vorspeise: selections.vorspeise.join(", ") || "—",
-          Hauptgerichte: selections.hauptgericht.join(", ") || "—",
-          Beilagen: selections.beilage.join(", ") || "—",
-          Nachtisch: selections.nachtisch.join(", ") || "—"
+          Vorspeise: sel.vorspeise.join(", ") || "—",
+          Hauptgerichte: sel.hauptgericht.join(", ") || "—",
+          Beilagen: sel.beilage.join(", ") || "—",
+          Nachtisch: sel.nachtisch.join(", ") || "—"
         })
       }).then(function (res) {
         if (res.ok) {
