@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   "use strict";
 
   var ENDPOINT = window.CATERING_FORMSPREE || "";
@@ -45,12 +45,14 @@
   };
 
   // Pricing: base 22 €/p for 1V+2H+2B+1N
-  // Each HG above/below 2: ±7 €/p
-  // Each BL above/below 2: ±2 €/p
-  // VS and NS fixed (radio, always exactly 1)
+  // All categories variable (0 or more allowed)
+  // VS: ±3 €/p vs base of 1 | HG: ±7 €/p vs base of 2
+  // BL: ±2 €/p vs base of 2 | NS: ±3 €/p vs base of 1
   var BASE = 22;
+  var VS_UNIT = 3;
   var HG_UNIT = 7;
   var BL_UNIT = 2;
+  var NS_UNIT = 3;
   var SHOW_MULT = 1.35;
 
   var sel = { vorspeise: [], hauptgericht: [], beilage: [], nachtisch: [] };
@@ -91,9 +93,11 @@
   }
 
   function getPrice() {
+    var v = sel.vorspeise.length;
     var h = sel.hauptgericht.length;
     var b = sel.beilage.length;
-    return Math.max(BASE + (h - 2) * HG_UNIT + (b - 2) * BL_UNIT, 8);
+    var n = sel.nachtisch.length;
+    return Math.max(BASE + (v - 1) * VS_UNIT + (h - 2) * HG_UNIT + (b - 2) * BL_UNIT + (n - 1) * NS_UNIT, 8);
   }
 
   function updatePrice() {
@@ -145,10 +149,10 @@
   function initMenu() {
     var section = document.getElementById("menuSection");
     section.innerHTML =
-      renderCategory("vorspeise", "Vorspeise", "🥗", true, "1 auswählen – im Basispaket enthalten") +
+      renderCategory("vorspeise", "Vorspeise", "🥗", false, "Basispaket: 1 Vorspeise · jede weitere +3 €/P · keine Vorspeise −3 €/P") +
       renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "Basispaket: 2 Gerichte · jedes weitere +7 €/P · weniger = günstiger") +
       renderCategory("beilage", "Beilagen", "🥘", false, "Basispaket: 2 Beilagen · jede weitere +2 €/P · weniger = günstiger") +
-      renderCategory("nachtisch", "Nachtisch", "🍮", true, "1 auswählen – im Basispaket enthalten");
+      renderCategory("nachtisch", "Nachtisch", "🍮", false, "Basispaket: 1 Nachtisch · jeder weitere +3 €/P · kein Nachtisch −3 €/P");
 
     Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
       card.addEventListener("click", function () {
