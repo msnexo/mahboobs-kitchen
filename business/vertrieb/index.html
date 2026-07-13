@@ -78,9 +78,10 @@
     <p class="muted" id="dailyCounter" style="margin-bottom:32px;font-size:1.05rem;">Wird geladen …</p>
 
     <div id="pipelineLeads" style="margin-bottom:32px;"></div>
+    <div id="pipelineOverdue" style="margin-bottom:32px;"></div>
     <div id="pipelineToday" style="margin-bottom:32px;"></div>
     <div id="pipelineTomorrow" style="margin-bottom:32px;"></div>
-    <div id="pipelineLater" style="margin-bottom:32px;"></div>
+    <div id="pipelineDates" style="margin-bottom:32px;"></div>
 
     <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
     <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
@@ -133,9 +134,16 @@
 <div class="modal-overlay" id="prospectDetailOverlay" hidden>
   <div class="modal-box lead-form" style="max-width:680px;padding:36px;box-shadow:none;margin:0;">
     <button type="button" class="modal-close" id="prospectDetailClose" aria-label="Schließen">&times;</button>
-    <span class="status-pill" id="prospectDetailStatus"></span>
-    <h3 id="prospectDetailName" style="margin-top:10px;"></h3>
-    <p class="muted" id="prospectDetailCategory"></p>
+    <span class="status-pill" id="prospectDetailStatus" style="margin-bottom:10px;display:inline-block;"></span>
+    <label class="field-label" for="prospectDetailNameInput">Name / Firma</label>
+    <input type="text" id="prospectDetailNameInput" style="font-size:1.05rem;font-weight:600;">
+    <label class="field-label" for="prospectDetailCategoryInput">Kategorie</label>
+    <input type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
+    <datalist id="detailCategoryOptions">
+      <option value="Firma"></option>
+      <option value="Schule"></option>
+      <option value="Verein"></option>
+    </datalist>
     <label class="field-label" for="prospectDetailWebsite">Webseite</label>
     <div style="display:flex;gap:8px;align-items:center;">
       <input type="url" id="prospectDetailWebsite" placeholder="https://..." style="flex:1;">
@@ -169,7 +177,11 @@
     <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
     <textarea id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
     <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
-    <input type="datetime-local" id="nextContactDate">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="datetime-local" id="nextContactDate" style="flex:1;">
+      <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
+    </div>
+    <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
     <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Eintrag speichern</button></div>
     <p class="form-status" id="logStatus" role="status" aria-live="polite" style="min-height:1.2em;"></p>
 

@@ -183,15 +183,48 @@
         historyPanel.hidden = false;
         historyPanel.innerHTML =
           "<h3>" + escapeHtml(company.company_name) + " — Karten-Code: " + escapeHtml(company.card_code) + "</h3>" +
-          "<p><strong>Ansprechpartner:</strong> " + escapeHtml(company.contact_person || "-") + "<br>" +
-          "<strong>E-Mail:</strong> " + escapeHtml(company.email || "-") + "<br>" +
-          "<strong>Telefon:</strong> " + escapeHtml(company.phone || "-") + "<br>" +
-          "<strong>Notizen:</strong> " + escapeHtml(company.notes || "-") + "</p>" +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">' +
+          '<div><label class="field-label" style="margin-bottom:4px;">Firmenname</label><input type="text" id="editCompanyName" value="' + escapeHtml(company.company_name) + '" style="width:100%;"></div>' +
+          '<div><label class="field-label" style="margin-bottom:4px;">Ansprechpartner</label><input type="text" id="editContactPerson" value="' + escapeHtml(company.contact_person || "") + '" style="width:100%;"></div>' +
+          '<div><label class="field-label" style="margin-bottom:4px;">E-Mail</label><input type="email" id="editEmail" value="' + escapeHtml(company.email || "") + '" style="width:100%;"></div>' +
+          '<div><label class="field-label" style="margin-bottom:4px;">Telefon</label><input type="tel" id="editPhone" value="' + escapeHtml(company.phone || "") + '" style="width:100%;"></div>' +
+          "</div>" +
+          '<label class="field-label" style="margin-bottom:4px;">Notizen</label>' +
+          '<textarea id="editNotes" rows="2" style="width:100%;margin-bottom:8px;">' + escapeHtml(company.notes || "") + "</textarea>" +
+          '<p class="form-status" id="editCompanyStatus" style="min-height:1em;margin:0 0 8px;"></p>' +
+          '<div class="btn-row" style="margin-bottom:16px;"><button type="button" class="btn btn--primary" id="saveCompanyBtn" style="padding:8px 18px;font-size:0.9rem;">Speichern</button></div>' +
           "<p><strong>Punktestand:</strong> " + company.points_balance + "</p>" +
           (rows
             ? '<table class="data-table"><thead><tr><th>Datum</th><th>Punkte</th><th>Grund</th></tr></thead><tbody>' + rows + "</tbody></table>"
             : '<p class="muted">Noch keine Punkte-Buchungen.</p>') +
           '<div class="btn-row" style="margin-top:20px;"><button type="button" class="btn" id="deleteCompanyBtn" style="background:#b32a2a;color:#fff;">Kunde löschen</button></div>';
+
+        document.getElementById("saveCompanyBtn").addEventListener("click", function () {
+          var updates = {
+            company_name: document.getElementById("editCompanyName").value.trim(),
+            contact_person: document.getElementById("editContactPerson").value.trim(),
+            email: document.getElementById("editEmail").value.trim(),
+            phone: document.getElementById("editPhone").value.trim(),
+            notes: document.getElementById("editNotes").value.trim()
+          };
+          var statusEl = document.getElementById("editCompanyStatus");
+          if (!updates.company_name) {
+            statusEl.textContent = "Firmenname darf nicht leer sein.";
+            statusEl.className = "form-status form-status--error";
+            return;
+          }
+          statusEl.textContent = "Wird gespeichert …";
+          statusEl.className = "form-status";
+          client.from("companies").update(updates).eq("id", companyId).then(function (res) {
+            if (res.error) throw res.error;
+            statusEl.textContent = "Gespeichert ✓";
+            statusEl.className = "form-status form-status--ok";
+            loadCompanies();
+          }).catch(function () {
+            statusEl.textContent = "Speichern fehlgeschlagen.";
+            statusEl.className = "form-status form-status--error";
+          });
+        });
 
         document.getElementById("deleteCompanyBtn").addEventListener("click", function () {
           if (!window.confirm("Diese Firma inklusive Punkte-Historie wirklich unwiderruflich löschen?")) return;
@@ -309,11 +342,20 @@
               "<tr><td>" + label + "</td>" +
               "<td>" + escapeHtml(r.offer ? r.offer.title : "-") + "</td>" +
               "<td>" + escapeHtml(typeLabels[r.type] || r.type) + "</td>" +
-              "<td>" + formatDate(r.created_at) + "</td></tr>"
+              "<td>" + formatDate(r.created_at) + "</td>" +
+              '<td><button type="button" class="btn btn--dark" data-delete-request="' + r.id + '" style="padding:4px 10px;font-size:0.8rem;">✕</button></td></tr>'
             );
           }).join("");
           offerRequestsList.innerHTML =
-            '<table class="data-table"><thead><tr><th>Firma</th><th>Angebot</th><th>Typ</th><th>Datum</th></tr></thead><tbody>' + rows + "</tbody></table>";
+            '<table class="data-table"><thead><tr><th>Firma</th><th>Angebot</th><th>Typ</th><th>Datum</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>";
+          Array.prototype.forEach.call(offerRequestsList.querySelectorAll("[data-delete-request]"), function (btn) {
+            btn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              client.from("offer_requests").delete().eq("id", btn.getAttribute("data-delete-request")).then(function () {
+                loadOfferRequests();
+              });
+            });
+          });
         });
     }
 

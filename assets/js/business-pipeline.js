@@ -77,6 +77,40 @@
 
   var statusLabels = { lead: "Lead", contacted: "Kontaktiert", customer: "Kunde", lost: "Kein Interesse" };
 
+  function formatDayLabel(iso) {
+    var d = new Date(iso + "T12:00:00");
+    var dayNames = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+    return dayNames[d.getDay()] + " " + d.getDate() + "." + (d.getMonth() + 1) + ".";
+  }
+
+  function setReminder(id, name, at) {
+    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
+    reminders = reminders.filter(function (r) { return r.id !== id; });
+    if (at) reminders.push({ id: id, name: name, at: at });
+    localStorage.setItem("mk_reminders", JSON.stringify(reminders));
+  }
+
+  function hasReminder(id) {
+    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
+    return reminders.some(function (r) { return r.id === id; });
+  }
+
+  function checkReminders() {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
+    var now = Date.now();
+    var remaining = [];
+    reminders.forEach(function (r) {
+      var diff = new Date(r.at).getTime() - now;
+      if (diff >= -60000 && diff < 60000) {
+        new Notification("🔔 Erinnerung: " + r.name, { body: "Nächster Kontakt jetzt fällig", icon: "/assets/img/favicon.webp" });
+      } else {
+        remaining.push(r);
+      }
+    });
+    localStorage.setItem("mk_reminders", JSON.stringify(remaining));
+  }
+
   window.mkBusiness.requireAdminSession(function (session, client) {
     var allProspects = [];
     var currentPeople = [];
@@ -92,9 +126,10 @@
     var addProspectStatus = document.getElementById("addProspectStatus");
 
     var pipelineLeads = document.getElementById("pipelineLeads");
+    var pipelineOverdue = document.getElementById("pipelineOverdue");
     var pipelineToday = document.getElementById("pipelineToday");
     var pipelineTomorrow = document.getElementById("pipelineTomorrow");
-    var pipelineLater = document.getElementById("pipelineLater");
+    var pipelineDates = document.getElementById("pipelineDates");
     var pipelineArchive = document.getElementById("pipelineArchive");
     var toggleArchiveBtn = document.getElementById("toggleArchiveBtn");
 
@@ -102,8 +137,8 @@
     var detailClose = document.getElementById("prospectDetailClose");
     var detailStatus = document.getElementById("prospectDetailStatus");
     var statusSelect = document.getElementById("prospectStatusSelect");
-    var detailName = document.getElementById("prospectDetailName");
-    var detailCategory = document.getElementById("prospectDetailCategory");
+    var detailNameInput = document.getElementById("prospectDetailNameInput");
+    var detailCategoryInput = document.getElementById("prospectDetailCategoryInput");
     var detailNotes = document.getElementById("prospectDetailNotes");
     var saveNotesBtn = document.getElementById("prospectDetailSaveNotes");
     var peopleListEl = document.getElementById("prospectDetailPeople");
@@ -118,6 +153,8 @@
     var nextContactNotes = document.getElementById("nextContactNotes");
     var logContactBtn = document.getElementById("logContactBtn");
     var logStatus = document.getElementById("logStatus");
+    var reminderBellBtn = document.getElementById("reminderBellBtn");
+    var reminderStatus = document.getElementById("reminderStatus");
     var historyEl = document.getElementById("prospectDetailHistory");
     var markCustomerBtn = document.getElementById("markCustomerBtn");
     var markLostBtn = document.getElementById("markLostBtn");
@@ -189,6 +226,40 @@
     function byDate(a, b) { return new Date(a.next_contact_date) - new Date(b.next_contact_date); }
     function byCreated(a, b) { return new Date(b.created_at) - new Date(a.created_at); }
 
+    function renderLaterBuckets(container, prospects) {
+      if (!prospects.length) { container.innerHTML = ""; return; }
+      var grouped = {};
+      prospects.forEach(function (p) {
+        var d = dateOnly(p.next_contact_date);
+        if (!grouped[d]) grouped[d] = [];
+        grouped[d].push(p);
+      });
+      var dates = Object.keys(grouped).sort();
+      container.innerHTML = dates.map(function (d) {
+        var group = grouped[d];
+        return '<div style="margin-bottom:24px;"><h3 style="margin-bottom:12px;">' +
+          formatDayLabel(d) + " (" + group.length + ")</h3>" +
+          group.map(function (p, i) { return renderProspectCard(p, i, group.length); }).join("") +
+          "</div>";
+      }).join("");
+      Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
+        card.addEventListener("click", function (e) {
+          if (e.target.closest("[data-move]")) return;
+          openDetail(card.getAttribute("data-prospect-id"));
+        });
+      });
+      Array.prototype.forEach.call(container.querySelectorAll("[data-move]"), function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var card = btn.closest("[data-prospect-id]");
+          var pid = card.getAttribute("data-prospect-id");
+          var pr = prospects.filter(function (p) { return p.id === pid; })[0];
+          if (!pr) return;
+          moveProspect(grouped[dateOnly(pr.next_contact_date)], pid, btn.getAttribute("data-move"));
+        });
+      });
+    }
+
     function renderPipeline() {
       var today = todayISO();
       var tomorrow = addDaysISO(1);
@@ -196,14 +267,16 @@
       var archived = allProspects.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
 
       var leads = active.filter(function (p) { return !p.next_contact_date; }).sort(byCreated);
-      var dueToday = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) <= today; }).sort(byDate);
+      var overdue = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) < today; }).sort(byDate);
+      var dueToday = active.filter(function (p) { return dateOnly(p.next_contact_date) === today; }).sort(byDate);
       var dueTomorrow = active.filter(function (p) { return dateOnly(p.next_contact_date) === tomorrow; }).sort(byDate);
       var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; }).sort(byDate);
 
       renderBucket(pipelineLeads, "Neue Leads", leads);
+      renderBucket(pipelineOverdue, "Überfällig", overdue);
       renderBucket(pipelineToday, "Heute", dueToday);
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
-      renderBucket(pipelineLater, "Später", later);
+      renderLaterBuckets(pipelineDates, later);
       renderBucket(pipelineArchive, "Archiv", archived);
     }
 
@@ -317,8 +390,8 @@
       if (!p) return;
       detailStatus.className = "status-pill status-pill--" + p.status;
       detailStatus.textContent = statusLabels[p.status];
-      detailName.textContent = p.name;
-      detailCategory.textContent = p.category;
+      detailNameInput.value = p.name;
+      detailCategoryInput.value = p.category;
       detailWebsite.value = p.website || "";
       detailAddress.value = p.address || "";
       detailWebsiteOpen.href = p.website || "#";
@@ -327,6 +400,8 @@
       statusSelect.value = p.status;
       nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
       nextContactNotes.value = "";
+      reminderStatus.textContent = "";
+      reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
       conversionLinkBox.hidden = true;
       detailOverlay.hidden = false;
       loadPeople(id);
@@ -388,7 +463,11 @@
 
     saveNotesBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
+      var nameVal = detailNameInput.value.trim();
+      if (!nameVal) return;
       client.from("prospects").update({
+        name: nameVal,
+        category: detailCategoryInput.value.trim() || "Firma",
         notes: detailNotes.value.trim(),
         website: detailWebsite.value.trim() || null,
         address: detailAddress.value.trim() || null
@@ -403,6 +482,23 @@
         refreshDetailStatus();
         loadProspects();
       });
+    });
+
+    reminderBellBtn.addEventListener("click", function () {
+      if (!selectedProspectId) return;
+      var at = nextContactDate.value;
+      if (!at) { reminderStatus.textContent = "Bitte zuerst ein Datum eingeben."; return; }
+      var p = allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
+      var name = p ? p.name : "";
+      if (hasReminder(selectedProspectId)) {
+        setReminder(selectedProspectId, name, null);
+        reminderStatus.textContent = "Erinnerung entfernt.";
+        reminderBellBtn.style.opacity = "0.5";
+      } else {
+        setReminder(selectedProspectId, name, at);
+        reminderStatus.textContent = "Erinnerung gesetzt ✓ (" + new Date(at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + ")";
+        reminderBellBtn.style.opacity = "1";
+      }
     });
 
     addPersonBtn.addEventListener("click", function () {
@@ -539,6 +635,8 @@
     if ("Notification" in window && Notification.permission === "default") {
       Notification.requestPermission();
     }
+
+    setInterval(checkReminders, 60000);
 
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });
