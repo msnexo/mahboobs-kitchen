@@ -247,7 +247,10 @@
           btn.disabled = true;
           statusEl.textContent = "Wird gelöscht …";
           statusEl.className = "form-status";
-          client.from("points_transactions").delete().eq("company_id", companyId)
+          client.from("profiles").update({ company_id: null }).eq("company_id", companyId)
+            .then(function () {
+              return client.from("points_transactions").delete().eq("company_id", companyId);
+            })
             .then(function () {
               return client.from("offer_requests").delete().eq("company_id", companyId);
             })
