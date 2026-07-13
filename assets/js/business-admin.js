@@ -227,28 +227,51 @@
         });
 
         document.getElementById("deleteCompanyBtn").addEventListener("click", function () {
-          if (!window.confirm("Diese Firma inklusive Punkte-Historie wirklich unwiderruflich löschen?")) return;
+          var btn = document.getElementById("deleteCompanyBtn");
+          var statusEl = document.getElementById("editCompanyStatus");
+          if (btn.getAttribute("data-confirm") !== "yes") {
+            btn.setAttribute("data-confirm", "yes");
+            btn.textContent = "Wirklich löschen? Nochmal klicken!";
+            btn.style.background = "#7b1010";
+            setTimeout(function () {
+              if (btn.getAttribute("data-confirm") === "yes") {
+                btn.removeAttribute("data-confirm");
+                btn.textContent = "Kunde löschen";
+                btn.style.background = "#b32a2a";
+              }
+            }, 4000);
+            return;
+          }
+          btn.setAttribute("data-confirm", "");
+          btn.textContent = "Wird gelöscht …";
+          btn.disabled = true;
+          statusEl.textContent = "Wird gelöscht …";
+          statusEl.className = "form-status";
           client.from("points_transactions").delete().eq("company_id", companyId)
-            .then(function (r1) {
-              if (r1.error) console.warn("points_transactions delete:", r1.error.message);
+            .then(function () {
               return client.from("offer_requests").delete().eq("company_id", companyId);
             })
-            .then(function (r2) {
-              if (r2.error) console.warn("offer_requests delete:", r2.error.message);
+            .then(function () {
               return client.from("companies").delete().eq("id", companyId);
             })
             .then(function (delRes) {
               if (delRes.error) {
-                window.alert("Fehler beim Löschen: " + delRes.error.message);
+                statusEl.textContent = "Fehler: " + delRes.error.message;
+                statusEl.className = "form-status form-status--error";
+                btn.disabled = false;
+                btn.textContent = "Kunde löschen";
+                btn.style.background = "#b32a2a";
                 return;
               }
               historyPanel.style.display = "none";
               historyPanel.innerHTML = "";
               selectedCompanyId = null;
               loadCompanies();
-              window.alert("Kunde wurde gelöscht.");
             }).catch(function (err) {
-              window.alert("Fehler: " + (err && err.message ? err.message : JSON.stringify(err)));
+              statusEl.textContent = "Fehler: " + (err && err.message ? err.message : "Unbekannt");
+              statusEl.className = "form-status form-status--error";
+              btn.disabled = false;
+              btn.textContent = "Kunde löschen";
             });
         });
       });
