@@ -239,13 +239,14 @@
             })
             .then(function (delRes) {
               if (delRes.error) {
-                window.alert("Fehler: " + delRes.error.message);
+                window.alert("Fehler beim Löschen: " + delRes.error.message);
                 return;
               }
-              historyPanel.hidden = true;
+              historyPanel.style.display = "none";
               historyPanel.innerHTML = "";
               selectedCompanyId = null;
               loadCompanies();
+              window.alert("Kunde wurde gelöscht.");
             }).catch(function (err) {
               window.alert("Fehler: " + (err && err.message ? err.message : JSON.stringify(err)));
             });
