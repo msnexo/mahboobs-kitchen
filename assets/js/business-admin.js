@@ -169,11 +169,69 @@
       });
     }
 
+    var cateringLinkFirmaEl = document.getElementById("cateringLinkFirma");
+    var cateringLinkPersonEl = document.getElementById("cateringLinkPerson");
+    var cateringLinkMsgEl = document.getElementById("cateringLinkMsg");
+    var cateringLinkGenBtn = document.getElementById("cateringLinkGenBtn");
+    var cateringLinkCopyBtn = document.getElementById("cateringLinkCopyBtn");
+    var cateringLinkWaBtn = document.getElementById("cateringLinkWaBtn");
+    var cateringLinkDisplay = document.getElementById("cateringLinkDisplay");
+    var lastCateringCompany = null;
+
+    function buildCateringLink(firma, person, msg, code) {
+      var base = window.location.origin + "/business/catering-angebot/";
+      var params = "firma=" + encodeURIComponent(firma);
+      if (person) params += "&person=" + encodeURIComponent(person);
+      if (msg) params += "&msg=" + encodeURIComponent(msg);
+      if (code) params += "&code=" + encodeURIComponent(code);
+      return base + "?" + params;
+    }
+
+    cateringLinkGenBtn.addEventListener("click", function () {
+      var firma = cateringLinkFirmaEl.value.trim();
+      if (!firma) {
+        cateringLinkFirmaEl.focus();
+        return;
+      }
+      var person = cateringLinkPersonEl.value.trim();
+      var msg = cateringLinkMsgEl.value.trim();
+      var code = lastCateringCompany ? lastCateringCompany.card_code : "";
+      var link = buildCateringLink(firma, person, msg, code);
+
+      cateringLinkDisplay.textContent = link;
+      cateringLinkDisplay.style.display = "";
+      cateringLinkCopyBtn.style.display = "";
+      cateringLinkCopyBtn.textContent = "Link kopieren";
+
+      cateringLinkWaBtn.style.display = lastCateringCompany && lastCateringCompany.phone ? "" : "none";
+      var waMsg = "Hallo" + (person ? " " + person : "") + ", wir haben Ihnen ein persönliches Catering-Angebot zusammengestellt. Hier können Sie Ihr Menü auswählen und eine unverbindliche Anfrage stellen: " + link;
+      cateringLinkWaBtn.href = buildWhatsAppLink(lastCateringCompany ? lastCateringCompany.phone : "", waMsg);
+    });
+
+    cateringLinkCopyBtn.addEventListener("click", function () {
+      var link = cateringLinkDisplay.textContent;
+      if (!link) return;
+      navigator.clipboard.writeText(link).then(function () {
+        cateringLinkCopyBtn.textContent = "Kopiert ✓";
+        setTimeout(function () { cateringLinkCopyBtn.textContent = "Link kopieren"; }, 2500);
+      }).catch(function () {
+        cateringLinkCopyBtn.textContent = "Kopieren fehlgeschlagen";
+      });
+    });
+
     function showHistory(companyId) {
       selectedCompanyId = companyId;
       companySelect.value = companyId;
       var company = allCompanies.filter(function (c) { return c.id === companyId; })[0];
       if (!company) return;
+
+      lastCateringCompany = company;
+      cateringLinkFirmaEl.value = company.company_name;
+      cateringLinkPersonEl.value = company.contact_person || "";
+      cateringLinkDisplay.style.display = "none";
+      cateringLinkCopyBtn.style.display = "none";
+      cateringLinkWaBtn.style.display = "none";
+      cateringLinkFirmaEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
       client.from("points_transactions").select("*").eq("company_id", companyId).order("created_at", { ascending: false }).then(function (res) {
         var rows = (res.data || []).map(function (t) {

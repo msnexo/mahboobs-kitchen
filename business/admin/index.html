@@ -133,6 +133,29 @@
       <textarea id="emailTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
     </div>
 
+    <div class="card" style="margin-bottom:40px;">
+      <h3>🍽️ Catering-Angebot Link erstellen</h3>
+      <p class="muted" style="margin-bottom:16px;">Klicke auf einen Kunden in der Liste unten, um Firma und Ansprechpartner automatisch zu übernehmen – oder tippe manuell. Der Link öffnet einen personalisierten Menü-Konfigurator für den Kunden.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label class="field-label" for="cateringLinkFirma">Firma</label>
+          <input type="text" id="cateringLinkFirma" placeholder="Firmenname">
+        </div>
+        <div>
+          <label class="field-label" for="cateringLinkPerson">Ansprechpartner</label>
+          <input type="text" id="cateringLinkPerson" placeholder="Herr / Frau ...">
+        </div>
+      </div>
+      <label class="field-label" for="cateringLinkMsg">Persönliche Nachricht (optional)</label>
+      <textarea id="cateringLinkMsg" rows="2" placeholder="z. B. Hallo Herr Müller, wie besprochen haben wir dieses Angebot speziell für Sie vorbereitet …"></textarea>
+      <div class="btn-row" style="margin-top:12px;flex-wrap:wrap;">
+        <button type="button" id="cateringLinkGenBtn" class="btn btn--primary">🔗 Link generieren</button>
+        <button type="button" id="cateringLinkCopyBtn" class="btn btn--dark" style="display:none;">Link kopieren</button>
+        <a id="cateringLinkWaBtn" href="#" target="_blank" rel="noopener" class="btn btn--whatsapp" style="display:none;">Per WhatsApp senden</a>
+      </div>
+      <p id="cateringLinkDisplay" style="margin-top:12px;word-break:break-all;font-size:0.83rem;padding:10px;background:var(--color-bg-soft);border-radius:8px;display:none;"></p>
+    </div>
+
     <div class="grid grid--2" style="margin-bottom:40px;">
       <div class="card">
         <h3>Angebote verwalten</h3>
