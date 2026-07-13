@@ -75,6 +75,11 @@
     ".mki-cnt.neutral{background:var(--color-bg-soft,#f4f4f4);color:var(--color-text-soft,#888);}",
     ".mki-hint{font-size:0.8rem;color:var(--color-text-soft,#888);margin:0 0 10px;}",
     ".mki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}",
+    ".fi-wrap{display:flex;align-items:center;border:2px solid var(--color-border,#ddd);border-radius:12px;padding:0 14px;background:var(--color-bg,#fff);transition:border-color .2s,box-shadow .2s;}",
+    ".fi-wrap:focus-within{border-color:var(--color-primary,#e63030);box-shadow:0 0 0 3px rgba(230,48,48,.1);}",
+    ".fi-ico{font-size:1.05rem;flex-shrink:0;margin-right:10px;opacity:.65;pointer-events:none;}",
+    ".fi-input{border:none!important;outline:none!important;box-shadow:none!important;padding:13px 0!important;background:transparent!important;width:100%;font-size:0.95rem;color:inherit;}",
+    ".fi-input::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}",
     "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}}",
     "@media(max-width:480px){.mki-grid{grid-template-columns:1fr;}}"
   ].join("");
@@ -108,21 +113,44 @@
     { key: "nachtisch",    icon: "🍮",  label: "Nachtisch" }
   ];
 
+  var MONTHS_DE = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+  var DAYS_DE   = ["So","Mo","Di","Mi","Do","Fr","Sa"];
+
+  function formatDateDE(val) {
+    if (!val) return null;
+    var d = new Date(val + "T12:00:00");
+    return DAYS_DE[d.getDay()] + ", " + d.getDate() + ". " + MONTHS_DE[d.getMonth()] + " " + d.getFullYear();
+  }
+
   function updateSidebar() {
+    // --- event info section ---
+    var infoEl = document.getElementById("sidebarEventInfo");
+    if (infoEl) {
+      var dateVal = (document.getElementById("eventDate") || {}).value || "";
+      var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
+      var infoHtml = "";
+      if (dateVal) infoHtml += '<div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:5px;"><span>📅</span>' + formatDateDE(dateVal) + "</div>";
+      if (guests)  infoHtml += '<div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:rgba(255,255,255,0.8);"><span>👥</span>' + guests + " Personen</div>";
+      infoEl.innerHTML = infoHtml;
+      if (infoHtml) infoEl.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+      if (infoHtml) infoEl.style.paddingBottom = "14px";
+    }
+
+    // --- selection list ---
     var el = document.getElementById("sidebarSelection");
     if (!el) return;
     var hasAny = CAT_META.some(function (m) { return sel[m.key].length > 0; });
     if (!hasAny) {
-      el.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin:0;">Noch nichts ausgewählt …</p>';
+      el.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;margin:0;">Noch keine Gerichte gewählt …</p>';
       return;
     }
     var html = "";
     CAT_META.forEach(function (m) {
       if (!sel[m.key].length) return;
-      html += '<div style="margin-bottom:14px;">';
-      html += '<div style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;">' + m.icon + " " + m.label + "</div>";
+      html += '<div style="margin-bottom:13px;">';
+      html += '<div style="font-size:0.67rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;">' + m.icon + " " + m.label + "</div>";
       sel[m.key].forEach(function (item) {
-        html += '<div style="font-size:0.8rem;color:rgba(255,255,255,0.88);padding:3px 0 3px 4px;border-left:2px solid var(--color-primary,#e63030);margin-bottom:3px;padding-left:8px;">' + item + "</div>";
+        html += '<div style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:3px 0 3px 8px;border-left:2px solid var(--color-primary,#e63030);margin-bottom:3px;">' + item + "</div>";
       });
       html += "</div>";
     });
@@ -130,14 +158,13 @@
   }
 
   function updatePrice() {
-    var guests = Math.max(1, parseInt(document.getElementById("guestCount").value) || 20);
+    var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
     var mk = getPrice();
     var regular = mk * SHOW_MULT;
-    var total = mk * guests;
     document.getElementById("priceMK").textContent = formatEur(mk);
     document.getElementById("priceRegular").textContent = formatEur(regular);
-    document.getElementById("priceTotal").textContent = formatEur(total);
-    document.getElementById("priceGuests").textContent = guests;
+    document.getElementById("priceGuests").textContent = guests || "?";
+    document.getElementById("priceTotal").textContent = guests ? formatEur(mk * guests) : "—";
     updateSidebar();
   }
 
@@ -215,16 +242,6 @@
       });
     });
 
-    function pick(key, idx) {
-      var cards = section.querySelectorAll('.mki[data-key="' + key + '"]');
-      if (cards[idx]) cards[idx].click();
-    }
-    pick("vorspeise", 0);
-    pick("hauptgericht", 0);
-    pick("hauptgericht", 1);
-    pick("beilage", 0);
-    pick("beilage", 1);
-    pick("nachtisch", 0);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -247,6 +264,7 @@
     updatePrice();
 
     document.getElementById("guestCount").addEventListener("input", updatePrice);
+    document.getElementById("eventDate").addEventListener("change", updatePrice);
     document.getElementById("eventDate").min = new Date().toISOString().slice(0, 10);
 
     document.getElementById("cateringSubmitBtn").addEventListener("click", function () {
@@ -261,7 +279,7 @@
       if (!sel.hauptgericht.length) { statusEl.textContent = "Bitte mindestens ein Hauptgericht wählen."; statusEl.className = "form-status form-status--error"; return; }
 
       var mk = getPrice();
-      var total = mk * (parseInt(guests) || 20);
+      var total = mk * (parseInt(guests) || 1);
       statusEl.textContent = "Wird gesendet …";
       statusEl.className = "form-status";
       document.getElementById("cateringSubmitBtn").disabled = true;
