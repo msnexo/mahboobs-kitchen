@@ -157,8 +157,20 @@
     el.innerHTML = html;
   }
 
+  function hasSelection() {
+    return CAT_META.some(function (m) { return sel[m.key].length > 0; });
+  }
+
   function updatePrice() {
     var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
+    if (!hasSelection()) {
+      document.getElementById("priceMK").textContent = "0,00 €";
+      document.getElementById("priceRegular").textContent = "0,00 €";
+      document.getElementById("priceGuests").textContent = guests || "?";
+      document.getElementById("priceTotal").textContent = "0,00 €";
+      updateSidebar();
+      return;
+    }
     var mk = getPrice();
     var regular = mk * SHOW_MULT;
     document.getElementById("priceMK").textContent = formatEur(mk);
