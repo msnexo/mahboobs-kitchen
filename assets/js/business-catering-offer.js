@@ -75,6 +75,7 @@
     ".mki-cnt.neutral{background:var(--color-bg-soft,#f4f4f4);color:var(--color-text-soft,#888);}",
     ".mki-hint{font-size:0.8rem;color:var(--color-text-soft,#888);margin:0 0 10px;}",
     ".mki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}",
+    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}}",
     "@media(max-width:480px){.mki-grid{grid-template-columns:1fr;}}"
   ].join("");
   document.head.appendChild(css);
@@ -100,6 +101,34 @@
     return Math.max(BASE + (v - 1) * VS_UNIT + (h - 2) * HG_UNIT + (b - 2) * BL_UNIT + (n - 1) * NS_UNIT, 8);
   }
 
+  var CAT_META = [
+    { key: "vorspeise",    icon: "🥗",  label: "Vorspeise" },
+    { key: "hauptgericht", icon: "🍽️", label: "Hauptgerichte" },
+    { key: "beilage",      icon: "🥘",  label: "Beilagen" },
+    { key: "nachtisch",    icon: "🍮",  label: "Nachtisch" }
+  ];
+
+  function updateSidebar() {
+    var el = document.getElementById("sidebarSelection");
+    if (!el) return;
+    var hasAny = CAT_META.some(function (m) { return sel[m.key].length > 0; });
+    if (!hasAny) {
+      el.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin:0;">Noch nichts ausgewählt …</p>';
+      return;
+    }
+    var html = "";
+    CAT_META.forEach(function (m) {
+      if (!sel[m.key].length) return;
+      html += '<div style="margin-bottom:14px;">';
+      html += '<div style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;">' + m.icon + " " + m.label + "</div>";
+      sel[m.key].forEach(function (item) {
+        html += '<div style="font-size:0.8rem;color:rgba(255,255,255,0.88);padding:3px 0 3px 4px;border-left:2px solid var(--color-primary,#e63030);margin-bottom:3px;padding-left:8px;">' + item + "</div>";
+      });
+      html += "</div>";
+    });
+    el.innerHTML = html;
+  }
+
   function updatePrice() {
     var guests = Math.max(1, parseInt(document.getElementById("guestCount").value) || 20);
     var mk = getPrice();
@@ -109,6 +138,7 @@
     document.getElementById("priceRegular").textContent = formatEur(regular);
     document.getElementById("priceTotal").textContent = formatEur(total);
     document.getElementById("priceGuests").textContent = guests;
+    updateSidebar();
   }
 
   function updateCounter(key, isRadio) {

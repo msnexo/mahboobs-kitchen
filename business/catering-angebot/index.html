@@ -90,65 +90,75 @@
 </section>
 
 <section class="section">
-  <div class="container" style="max-width:700px;">
-    <div class="card" id="cateringMsgCard" style="margin-bottom:28px;padding:20px 24px;border-left:4px solid var(--color-primary);background:var(--color-bg-soft);" hidden>
-      <p id="cateringMsg" style="margin:0;font-style:italic;font-size:1.05rem;line-height:1.6;"></p>
-    </div>
+  <div class="container" style="max-width:1120px;">
+    <div id="cateringLayout" style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;">
 
-    <div class="card" style="margin-bottom:28px;">
-      <h2 style="margin-bottom:20px;">📅 Termin &amp; Gästezahl</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div>
-          <label class="field-label" for="eventDate">Veranstaltungsdatum</label>
-          <input type="date" id="eventDate" style="width:100%;">
+      <div id="cateringMain">
+        <div class="card" id="cateringMsgCard" style="margin-bottom:28px;padding:20px 24px;border-left:4px solid var(--color-primary);background:var(--color-bg-soft);" hidden>
+          <p id="cateringMsg" style="margin:0;font-style:italic;font-size:1.05rem;line-height:1.6;"></p>
         </div>
-        <div>
-          <label class="field-label" for="guestCount">Anzahl Gäste</label>
-          <input type="number" id="guestCount" value="20" min="5" max="1000" style="width:100%;">
+
+        <div class="card" style="margin-bottom:28px;">
+          <h2 style="margin-bottom:20px;">📅 Termin &amp; Gästezahl</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <label class="field-label" for="eventDate">Veranstaltungsdatum</label>
+              <input type="date" id="eventDate" style="width:100%;">
+            </div>
+            <div>
+              <label class="field-label" for="guestCount">Anzahl Gäste</label>
+              <input type="number" id="guestCount" value="20" min="1" max="1000" style="width:100%;">
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:28px;">
+          <h2 style="margin-bottom:6px;">🍽️ Menü zusammenstellen</h2>
+          <p class="muted" style="margin-bottom:24px;font-size:0.9rem;">Basis-Paket: 1&nbsp;Vorspeise · 2&nbsp;Hauptgerichte · 2&nbsp;Beilagen · 1&nbsp;Nachtisch = <strong>22&nbsp;€&nbsp;/ Person</strong></p>
+          <div id="menuSection"></div>
+        </div>
+
+        <div class="card" id="cateringFormCard">
+          <h2 style="margin-bottom:20px;">✅ Jetzt unverbindlich anfragen</h2>
+          <label class="field-label" for="contactName">Ihr Name</label>
+          <input type="text" id="contactName" placeholder="Vor- und Nachname">
+          <label class="field-label" for="contactPhone">Telefonnummer</label>
+          <input type="tel" id="contactPhone" placeholder="Für eine kurze Rücksprache">
+          <p class="form-status" id="cateringStatus" role="status" aria-live="polite" style="min-height:1em;"></p>
+          <div style="text-align:right;margin-top:8px;">
+            <button type="button" id="cateringSubmitBtn" class="btn btn--primary btn--lg">Anfrage absenden</button>
+          </div>
+        </div>
+
+        <div id="cateringThanks" style="display:none;text-align:center;padding:60px 20px;">
+          <div style="font-size:4rem;margin-bottom:20px;">🎉</div>
+          <h2>Vielen Dank für Ihre Anfrage!</h2>
+          <p class="lead">Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.</p>
+          <p class="muted">Wir freuen uns auf Ihr Event!</p>
         </div>
       </div>
-    </div>
 
-    <div class="card" style="margin-bottom:28px;">
-      <h2 style="margin-bottom:6px;">🍽️ Menü zusammenstellen</h2>
-      <p class="muted" style="margin-bottom:24px;font-size:0.9rem;">Basis-Paket: 1&nbsp;Vorspeise · 2&nbsp;Hauptgerichte · 2&nbsp;Beilagen · 1&nbsp;Nachtisch = <strong>22&nbsp;€&nbsp;/ Person</strong></p>
-      <div id="menuSection"></div>
-    </div>
+      <aside id="cateringSidebar" style="position:sticky;top:80px;">
+        <div style="background:#1c1c1e;color:#fff;border-radius:18px;padding:24px;">
+          <h3 style="color:#fff;margin:0 0 16px;font-size:1rem;letter-spacing:0.01em;">📋 Ihre Auswahl</h3>
+          <div id="sidebarSelection" style="margin-bottom:20px;min-height:48px;"></div>
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:0.8rem;color:rgba(255,255,255,0.45);">Regulärer Preis / Person</span>
+            <span style="text-decoration:line-through;color:rgba(255,255,255,0.35);font-size:0.85rem;" id="priceRegular">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <span style="font-size:0.88rem;color:#ff7043;">MK Business / Person</span>
+            <strong style="font-size:1.1rem;color:#ff7043;" id="priceMK">—</strong>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:16px 18px;">
+            <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;margin-bottom:4px;">GESAMT FÜR <span id="priceGuests">20</span> PERSONEN</div>
+            <strong style="font-size:1.9rem;color:#fff;line-height:1;" id="priceTotal">—</strong>
+          </div>
+          <p style="margin:12px 0 0;font-size:0.7rem;color:rgba(255,255,255,0.3);text-align:center;">✓ MK Business Sonderpreis – automatisch günstiger</p>
+        </div>
+      </aside>
 
-    <div class="card" style="margin-bottom:28px;background:#1c1c1e;color:#fff;border-radius:16px;padding:28px 32px;">
-      <h2 style="color:#fff;margin-bottom:20px;">💰 Preisübersicht</h2>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.1);">
-        <span style="color:rgba(255,255,255,0.55);">Regulärer Preis / Person</span>
-        <span style="text-decoration:line-through;color:rgba(255,255,255,0.4);" id="priceRegular">—</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1);">
-        <span style="color:#ff7043;">MK Business Preis / Person</span>
-        <strong style="font-size:1.3rem;color:#ff7043;" id="priceMK">22,00&nbsp;€</strong>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:16px 0 4px;">
-        <span style="color:rgba(255,255,255,0.9);font-size:1.05rem;">Gesamt für <span id="priceGuests">20</span> Personen</span>
-        <strong style="font-size:1.7rem;color:#fff;" id="priceTotal">440,00&nbsp;€</strong>
-      </div>
-      <p style="margin:12px 0 0;font-size:0.75rem;color:rgba(255,255,255,0.35);text-align:center;">Als MK Business Mitglied sparen Sie automatisch gegenüber dem Standardpreis</p>
-    </div>
-
-    <div class="card" id="cateringFormCard">
-      <h2 style="margin-bottom:20px;">✅ Jetzt unverbindlich anfragen</h2>
-      <label class="field-label" for="contactName">Ihr Name</label>
-      <input type="text" id="contactName" placeholder="Vor- und Nachname">
-      <label class="field-label" for="contactPhone">Telefonnummer</label>
-      <input type="tel" id="contactPhone" placeholder="Für eine kurze Rücksprache">
-      <p class="form-status" id="cateringStatus" role="status" aria-live="polite" style="min-height:1em;"></p>
-      <div style="text-align:right;margin-top:8px;">
-        <button type="button" id="cateringSubmitBtn" class="btn btn--primary btn--lg">Anfrage absenden</button>
-      </div>
-    </div>
-
-    <div id="cateringThanks" style="display:none;text-align:center;padding:60px 20px;">
-      <div style="font-size:4rem;margin-bottom:20px;">🎉</div>
-      <h2>Vielen Dank für Ihre Anfrage!</h2>
-      <p class="lead">Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.</p>
-      <p class="muted">Wir freuen uns auf Ihr Event!</p>
     </div>
   </div>
 </section>
