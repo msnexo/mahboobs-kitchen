@@ -228,15 +228,22 @@
 
         document.getElementById("deleteCompanyBtn").addEventListener("click", function () {
           if (!window.confirm("Diese Firma inklusive Punkte-Historie wirklich unwiderruflich löschen?")) return;
-          client.from("companies").delete().eq("id", companyId).then(function (delRes) {
-            if (delRes.error) throw delRes.error;
-            historyPanel.hidden = true;
-            historyPanel.innerHTML = "";
-            selectedCompanyId = null;
-            loadCompanies();
-          }).catch(function () {
-            window.alert("Löschen fehlgeschlagen. Bitte erneut versuchen.");
-          });
+          client.from("points_transactions").delete().eq("company_id", companyId)
+            .then(function () {
+              return client.from("offer_requests").delete().eq("company_id", companyId);
+            })
+            .then(function () {
+              return client.from("companies").delete().eq("id", companyId);
+            })
+            .then(function (delRes) {
+              if (delRes.error) throw delRes.error;
+              historyPanel.hidden = true;
+              historyPanel.innerHTML = "";
+              selectedCompanyId = null;
+              loadCompanies();
+            }).catch(function () {
+              window.alert("Löschen fehlgeschlagen. Bitte erneut versuchen.");
+            });
         });
       });
     }
