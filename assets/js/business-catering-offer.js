@@ -3,44 +3,44 @@
 
   var ENDPOINT = window.CATERING_FORMSPREE || "";
 
-  // [emoji, name]
+  // [emoji, name, flag, description]
   var ITEMS = {
     vorspeise: [
-      ["🥟", "Samosas mit Minz-Chutney"],
-      ["🍅", "Bruschetta al Pomodoro"],
-      ["🫙", "Hummus mit Fladenbrot & Oliven"],
-      ["🫒", "Gemischte Antipasti"],
-      ["🍜", "Miso-Suppe"],
-      ["🥗", "Caprese-Salat"]
+      ["🥟", "Samosas mit Minz-Chutney", "🇮🇳", "Knusprige Teigtaschen gefüllt mit gewürzten Kartoffeln & Erbsen, serviert mit frischem Minz-Koriander-Chutney"],
+      ["🍅", "Bruschetta al Pomodoro", "🇮🇹", "Geröstetes Baguette mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra"],
+      ["🫙", "Hummus mit Fladenbrot & Oliven", "🌍", "Cremig gemahlene Kichererbsen mit Tahini, Zitronensaft und Olivenöl, dazu warmes Fladenbrot und eingelegte Oliven"],
+      ["🫒", "Gemischte Antipasti", "🇮🇹", "Auswahl aus gegrilltem Gemüse, eingelegten Artischocken, Parmaschinken, Oliven und Büffelmozzarella"],
+      ["🍜", "Miso-Suppe", "🇯🇵", "Traditionelle japanische Suppe aus fermentierter Sojabohnenpaste mit Tofu, Wakame-Algen und Frühlingszwiebeln"],
+      ["🥗", "Caprese-Salat", "🇮🇹", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl"]
     ],
     hauptgericht: [
-      ["🍛", "Butter Chicken (Indisch)"],
-      ["🐑", "Lamm Rogan Josh (Indisch)"],
-      ["🍗", "Hähnchen Tikka Masala (Indisch)"],
-      ["🫕", "Lasagne al Forno (Italienisch)"],
-      ["🍝", "Pollo alla Parmigiana (Italienisch)"],
-      ["🐟", "Teriyaki-Lachs (Asiatisch)"],
-      ["🍣", "Sushi-Variation (Japanisch)"],
-      ["🥦", "Vegetarisches Gemüse-Curry (Vegan)"],
-      ["🍖", "Gegrillte Hähnchenbrust mit Kräuterbutter"]
+      ["🍛", "Butter Chicken", "🇮🇳", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne"],
+      ["🐑", "Lamm Rogan Josh", "🇮🇳", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und zart"],
+      ["🍗", "Hähnchen Tikka Masala", "🇮🇳", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee und frischem Ingwer"],
+      ["🫕", "Lasagne al Forno", "🇮🇹", "Hausgemachte Lasagne mit herzhafter Hackfleisch-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella"],
+      ["🍝", "Pollo alla Parmigiana", "🇮🇹", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan"],
+      ["🐟", "Teriyaki-Lachs", "🇯🇵", "Frisches Lachsfilet, mariniert in einer süß-salzigen Teriyaki-Glasur aus Sojasoße und Mirin, schonend gegrillt"],
+      ["🍣", "Sushi-Variation", "🇯🇵", "Sorgfältig ausgewählte Auswahl aus Nigiri, Maki-Rollen und Inside-Out-Rolls mit frischem Fisch, Lachs und Avocado"],
+      ["🥦", "Vegetarisches Gemüse-Curry", "🌱", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit frischem Ingwer, Kurkuma und Koriander – vollständig vegan"],
+      ["🍖", "Gegrillte Hähnchenbrust", "🇩🇪", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch"]
     ],
     beilage: [
-      ["🍚", "Basmati-Reis"],
-      ["🫓", "Knoblauch-Naan"],
-      ["🥔", "Rosmarin-Kartoffeln"],
-      ["🥦", "Gemüse vom Grill"],
-      ["🥗", "Coleslaw hausgemacht"],
-      ["🌿", "Taboulé"],
-      ["🍞", "Focaccia mit Olivenöl"],
-      ["🫛", "Edamame"]
+      ["🍚", "Basmati-Reis", "🇮🇳", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom und Butter – ideale Begleitung zu Currys und Schmorgerichten"],
+      ["🫓", "Knoblauch-Naan", "🇮🇳", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und leicht verkohlt"],
+      ["🥔", "Rosmarin-Kartoffeln", "🇩🇪", "Ofenkartoffeln im Ganzen gegart mit frischem Rosmarin, Knoblauch und Olivenöl – außen knusprig, innen weich"],
+      ["🥦", "Gemüse vom Grill", "🌿", "Saisonales Gemüse auf dem Grill gegart mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch"],
+      ["🥗", "Coleslaw hausgemacht", "🇩🇪", "Knackiger Weißkohl- und Karottensalat in einer cremigen Senf-Mayonnaise – klassisch deutsch, frisch und bekömmlich"],
+      ["🌿", "Taboulé", "🌍", "Frischer Bulgursalat mit Unmengen Petersilie, Minze, Tomaten, Gurke und einem würzigen Zitronen-Olivenöl-Dressing"],
+      ["🍞", "Focaccia mit Olivenöl", "🇮🇹", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – perfekt zum Dippen"],
+      ["🫛", "Edamame", "🇯🇵", "Gedämpfte junge Sojabohnenschoten mit Meersalz bestreut – knackig, proteinreich und leicht"]
     ],
     nachtisch: [
-      ["🍮", "Gulab Jamun (Indisch)"],
-      ["☕", "Tiramisu (Italienisch)"],
-      ["🍡", "Mochi-Eis (Japanisch)"],
-      ["🍯", "Crème Brûlée"],
-      ["🥐", "Baklava"],
-      ["🍫", "Schokoladen-Mousse"]
+      ["🍮", "Gulab Jamun", "🇮🇳", "Zarte Milchpulver-Bällchen in Ghee goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom"],
+      ["☕", "Tiramisu", "🇮🇹", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit Kakaopulver"],
+      ["🍡", "Mochi-Eis", "🇯🇵", "Japanische Reiskuchenbällchen aus klebrigem Mochiteig, gefüllt mit verschiedenen Eissorten – außen weich, innen angenehm kühl"],
+      ["🍯", "Crème Brûlée", "🇫🇷", "Zarte Vanille-Sahne-Creme, sanft im Wasserbad gestockt und mit einer knusprig karamellisierten Zuckerkruste abgeflämmt"],
+      ["🥐", "Baklava", "🇹🇷", "Feines Blätterteiggebäck, gefüllt mit gehackten Pistazien und Walnüssen, großzügig mit Honig und Rosenwasser-Sirup getränkt"],
+      ["🍫", "Schokoladen-Mousse", "🇫🇷", "Luftig aufgeschlagene Mousse aus dunkler Zartbitterschokolade mit einem Hauch Vanille – intensiv im Geschmack, leicht in der Textur"]
     ]
   };
 
@@ -53,12 +53,16 @@
   // --- CSS ---
   var css = document.createElement("style");
   css.textContent = [
-    ".mki{display:flex;align-items:center;gap:12px;padding:13px 16px;border:2px solid var(--color-border,#ddd);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;background:var(--color-card-bg,#fff);}",
+    ".mki{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:2px solid var(--color-border,#ddd);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;background:var(--color-card-bg,#fff);}",
     ".mki:hover{border-color:var(--color-primary,#e63030);box-shadow:0 2px 8px rgba(230,48,48,.12);}",
     ".mki.on{border-color:var(--color-primary,#e63030);background:rgba(230,48,48,.07);}",
-    ".mki__em{font-size:1.5rem;width:28px;text-align:center;flex-shrink:0;}",
-    ".mki__nm{font-size:0.88rem;line-height:1.35;flex:1;}",
-    ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;}",
+    ".mki__em{font-size:1.5rem;width:28px;text-align:center;flex-shrink:0;padding-top:2px;}",
+    ".mki__body{flex:1;min-width:0;}",
+    ".mki__row1{display:flex;align-items:center;gap:6px;margin-bottom:4px;}",
+    ".mki__nm{font-size:0.88rem;font-weight:600;line-height:1.3;flex:1;}",
+    ".mki__flag{font-size:1rem;flex-shrink:0;line-height:1;}",
+    ".mki__desc{font-size:0.75rem;color:var(--color-text-soft,#888);line-height:1.45;}",
+    ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;margin-top:3px;}",
     ".mki.on .mki__dot{background:var(--color-primary,#e63030);border-color:var(--color-primary,#e63030);color:#fff;}",
     ".mki-cat{margin-bottom:32px;}",
     ".mki-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}",
@@ -67,14 +71,13 @@
     ".mki-cnt.ok{background:rgba(230,48,48,.12);color:var(--color-primary,#e63030);}",
     ".mki-cnt.neutral{background:var(--color-bg-soft,#f4f4f4);color:var(--color-text-soft,#888);}",
     ".mki-hint{font-size:0.8rem;color:var(--color-text-soft,#888);margin:0 0 10px;}",
-    ".mki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}",
+    ".mki-grid{display:flex;flex-direction:column;gap:8px;}",
     ".fi-wrap{display:flex;align-items:center;border:2px solid var(--color-border,#ddd);border-radius:12px;padding:0 14px;background:var(--color-bg,#fff);transition:border-color .2s,box-shadow .2s;}",
     ".fi-wrap:focus-within{border-color:var(--color-primary,#e63030);box-shadow:0 0 0 3px rgba(230,48,48,.1);}",
     ".fi-ico{font-size:1.05rem;flex-shrink:0;margin-right:10px;opacity:.65;pointer-events:none;}",
     ".fi-input{border:none!important;outline:none!important;box-shadow:none!important;padding:13px 0!important;background:transparent!important;width:100%;font-size:0.95rem;color:inherit;}",
     ".fi-input::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}",
-    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}}",
-    "@media(max-width:480px){.mki-grid{grid-template-columns:1fr;}}"
+    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}}"
   ].join("");
   document.head.appendChild(css);
 
@@ -196,10 +199,18 @@
       '<div class="mki-grid">';
     items.forEach(function (item) {
       var val = item[1];
+      var flag = item[2] || "";
+      var desc = item[3] || "";
       html +=
         '<div class="mki" data-key="' + key + '" data-val="' + val.replace(/"/g, "&quot;") + '" data-radio="' + (isRadio ? "1" : "0") + '">' +
         '<span class="mki__em">' + item[0] + "</span>" +
-        '<span class="mki__nm">' + val + "</span>" +
+        '<div class="mki__body">' +
+          '<div class="mki__row1">' +
+            '<span class="mki__nm">' + val + "</span>" +
+            (flag ? '<span class="mki__flag">' + flag + "</span>" : "") +
+          "</div>" +
+          (desc ? '<div class="mki__desc">' + desc + "</div>" : "") +
+        "</div>" +
         '<span class="mki__dot"></span>' +
         "</div>";
     });
