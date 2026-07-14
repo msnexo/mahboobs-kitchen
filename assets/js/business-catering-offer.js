@@ -3,46 +3,45 @@
 
   var ENDPOINT = window.CATERING_FORMSPREE || "";
 
-  // [emoji, name, flagCode, description, wikiFile]
+  // [emoji, name, flagCode, description]
   // flagCode: ISO 3166-1 alpha-2 for flagcdn.com, "vegan"/"intl" for special icons
-  // wikiFile: Wikimedia Commons filename (served via Special:FilePath CDN)
   var ITEMS = {
     vorspeise: [
-      ["🥟", "Samosas mit Minz-Chutney", "in", "Knusprige Teigtaschen gefüllt mit gewürzten Kartoffeln & Erbsen, serviert mit frischem Minz-Koriander-Chutney", "Samosa.jpg"],
-      ["🍅", "Bruschetta al Pomodoro", "it", "Geröstetes Baguette mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra", "Bruschetta_001.jpg"],
-      ["🫙", "Hummus mit Fladenbrot & Oliven", "intl", "Cremig gemahlene Kichererbsen mit Tahini, Zitronensaft und Olivenöl, dazu warmes Fladenbrot und eingelegte Oliven", "Hummus_from_The_Nile.jpg"],
-      ["🫒", "Gemischte Antipasti", "it", "Auswahl aus gegrilltem Gemüse, eingelegten Artischocken, Parmaschinken, Oliven und Büffelmozzarella", "Antipasto.jpg"],
-      ["🍜", "Miso-Suppe", "jp", "Traditionelle japanische Suppe aus fermentierter Sojabohnenpaste mit Tofu, Wakame-Algen und Frühlingszwiebeln", "Miso_soup.jpg"],
-      ["🥗", "Caprese-Salat", "it", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl", "Insalata_caprese.jpg"]
+      ["🥟", "Samosas mit Minz-Chutney", "in", "Knusprige Teigtaschen gefüllt mit gewürzten Kartoffeln & Erbsen, serviert mit frischem Minz-Koriander-Chutney"],
+      ["🍅", "Bruschetta al Pomodoro", "it", "Geröstetes Baguette mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra"],
+      ["🫙", "Hummus mit Fladenbrot & Oliven", "intl", "Cremig gemahlene Kichererbsen mit Tahini, Zitronensaft und Olivenöl, dazu warmes Fladenbrot und eingelegte Oliven"],
+      ["🫒", "Gemischte Antipasti", "it", "Auswahl aus gegrilltem Gemüse, eingelegten Artischocken, Parmaschinken, Oliven und Büffelmozzarella"],
+      ["🍜", "Miso-Suppe", "jp", "Traditionelle japanische Suppe aus fermentierter Sojabohnenpaste mit Tofu, Wakame-Algen und Frühlingszwiebeln"],
+      ["🥗", "Caprese-Salat", "it", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl"]
     ],
     hauptgericht: [
-      ["🍛", "Butter Chicken", "in", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne", "Butter_chicken.jpg"],
-      ["🐑", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und zart", "Rogan_josh.jpg"],
-      ["🍗", "Hähnchen Tikka Masala", "in", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee und frischem Ingwer", "Chicken_tikka_masala.jpg"],
-      ["🫕", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Hackfleisch-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella", "Lasagna.jpg"],
-      ["🍝", "Pollo alla Parmigiana", "it", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan", "Chicken_parmesan.jpg"],
-      ["🐟", "Teriyaki-Lachs", "jp", "Frisches Lachsfilet, mariniert in einer süß-salzigen Teriyaki-Glasur aus Sojasoße und Mirin, schonend gegrillt", "Teriyaki_salmon.jpg"],
-      ["🍣", "Sushi-Variation", "jp", "Sorgfältig ausgewählte Auswahl aus Nigiri, Maki-Rollen und Inside-Out-Rolls mit frischem Fisch, Lachs und Avocado", "Sushi_platter.jpg"],
-      ["🥦", "Vegetarisches Gemüse-Curry", "vegan", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit frischem Ingwer, Kurkuma und Koriander – vollständig vegan", "Vegetable_curry.jpg"],
-      ["🍖", "Gegrillte Hähnchenbrust", "de", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch", "Grilled_chicken_breast.jpg"]
+      ["🍛", "Butter Chicken", "in", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne"],
+      ["🐑", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und zart"],
+      ["🍗", "Hähnchen Tikka Masala", "in", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee und frischem Ingwer"],
+      ["🫕", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Hackfleisch-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella"],
+      ["🍝", "Pollo alla Parmigiana", "it", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan"],
+      ["🐟", "Teriyaki-Lachs", "jp", "Frisches Lachsfilet, mariniert in einer süß-salzigen Teriyaki-Glasur aus Sojasoße und Mirin, schonend gegrillt"],
+      ["🍣", "Sushi-Variation", "jp", "Sorgfältig ausgewählte Auswahl aus Nigiri, Maki-Rollen und Inside-Out-Rolls mit frischem Fisch, Lachs und Avocado"],
+      ["🥦", "Vegetarisches Gemüse-Curry", "vegan", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit frischem Ingwer, Kurkuma und Koriander – vollständig vegan"],
+      ["🍖", "Gegrillte Hähnchenbrust", "de", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch"]
     ],
     beilage: [
-      ["🍚", "Basmati-Reis", "in", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom und Butter – ideale Begleitung zu Currys und Schmorgerichten", "Basmati_rice.jpg"],
-      ["🫓", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und leicht verkohlt", "Naan.jpg"],
-      ["🥔", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln im Ganzen gegart mit frischem Rosmarin, Knoblauch und Olivenöl – außen knusprig, innen weich", "Rosemary_potatoes.jpg"],
-      ["🥦", "Gemüse vom Grill", "intl", "Saisonales Gemüse auf dem Grill gegart mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch", "Grilled_vegetables.jpg"],
-      ["🥗", "Coleslaw hausgemacht", "de", "Knackiger Weißkohl- und Karottensalat in einer cremigen Senf-Mayonnaise – klassisch deutsch, frisch und bekömmlich", "Coleslaw.jpg"],
-      ["🌿", "Taboulé", "intl", "Frischer Bulgursalat mit Unmengen Petersilie, Minze, Tomaten, Gurke und einem würzigen Zitronen-Olivenöl-Dressing", "Tabbouleh.jpg"],
-      ["🍞", "Focaccia mit Olivenöl", "it", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – perfekt zum Dippen", "Focaccia.jpg"],
-      ["🫛", "Edamame", "jp", "Gedämpfte junge Sojabohnenschoten mit Meersalz bestreut – knackig, proteinreich und leicht", "Edamame.jpg"]
+      ["🍚", "Basmati-Reis", "in", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom und Butter – ideale Begleitung zu Currys und Schmorgerichten"],
+      ["🫓", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und leicht verkohlt"],
+      ["🥔", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln im Ganzen gegart mit frischem Rosmarin, Knoblauch und Olivenöl – außen knusprig, innen weich"],
+      ["🥦", "Gemüse vom Grill", "intl", "Saisonales Gemüse auf dem Grill gegart mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch"],
+      ["🥗", "Coleslaw hausgemacht", "de", "Knackiger Weißkohl- und Karottensalat in einer cremigen Senf-Mayonnaise – klassisch deutsch, frisch und bekömmlich"],
+      ["🌿", "Taboulé", "intl", "Frischer Bulgursalat mit Unmengen Petersilie, Minze, Tomaten, Gurke und einem würzigen Zitronen-Olivenöl-Dressing"],
+      ["🍞", "Focaccia mit Olivenöl", "it", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – perfekt zum Dippen"],
+      ["🫛", "Edamame", "jp", "Gedämpfte junge Sojabohnenschoten mit Meersalz bestreut – knackig, proteinreich und leicht"]
     ],
     nachtisch: [
-      ["🍮", "Gulab Jamun", "in", "Zarte Milchpulver-Bällchen in Ghee goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom", "Gulab_jamun.jpg"],
-      ["☕", "Tiramisu", "it", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit Kakaopulver", "Tiramisu.jpg"],
-      ["🍡", "Mochi-Eis", "jp", "Japanische Reiskuchenbällchen aus klebrigem Mochiteig, gefüllt mit verschiedenen Eissorten – außen weich, innen angenehm kühl", "Mochi_ice_cream.jpg"],
-      ["🍯", "Crème Brûlée", "fr", "Zarte Vanille-Sahne-Creme, sanft im Wasserbad gestockt und mit einer knusprig karamellisierten Zuckerkruste abgeflämmt", "Creme_brulee.jpg"],
-      ["🥐", "Baklava", "tr", "Feines Blätterteiggebäck, gefüllt mit gehackten Pistazien und Walnüssen, großzügig mit Honig und Rosenwasser-Sirup getränkt", "Baklava.jpg"],
-      ["🍫", "Schokoladen-Mousse", "fr", "Luftig aufgeschlagene Mousse aus dunkler Zartbitterschokolade mit einem Hauch Vanille – intensiv im Geschmack, leicht in der Textur", "Chocolate_mousse.jpg"]
+      ["🍮", "Gulab Jamun", "in", "Zarte Milchpulver-Bällchen in Ghee goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom"],
+      ["☕", "Tiramisu", "it", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit Kakaopulver"],
+      ["🍡", "Mochi-Eis", "jp", "Japanische Reiskuchenbällchen aus klebrigem Mochiteig, gefüllt mit verschiedenen Eissorten – außen weich, innen angenehm kühl"],
+      ["🍯", "Crème Brûlée", "fr", "Zarte Vanille-Sahne-Creme, sanft im Wasserbad gestockt und mit einer knusprig karamellisierten Zuckerkruste abgeflämmt"],
+      ["🥐", "Baklava", "tr", "Feines Blätterteiggebäck, gefüllt mit gehackten Pistazien und Walnüssen, großzügig mit Honig und Rosenwasser-Sirup getränkt"],
+      ["🍫", "Schokoladen-Mousse", "fr", "Luftig aufgeschlagene Mousse aus dunkler Zartbitterschokolade mit einem Hauch Vanille – intensiv im Geschmack, leicht in der Textur"]
     ]
   };
 
@@ -55,12 +54,10 @@
   // --- CSS ---
   var css = document.createElement("style");
   css.textContent = [
-    ".mki{display:flex;align-items:center;gap:12px;padding:10px 14px;border:2px solid var(--color-border,#ddd);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;background:var(--color-card-bg,#fff);}",
+    ".mki{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:2px solid var(--color-border,#ddd);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;background:var(--color-card-bg,#fff);}",
     ".mki:hover{border-color:var(--color-primary,#e63030);box-shadow:0 2px 8px rgba(230,48,48,.12);}",
     ".mki.on{border-color:var(--color-primary,#e63030);background:rgba(230,48,48,.07);}",
-    ".mki__thumb{width:84px;height:68px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--color-bg-soft,#f0f0f0);display:flex;align-items:center;justify-content:center;}",
-    ".mki__img{width:84px;height:68px;object-fit:cover;display:block;}",
-    ".mki__em{font-size:1.6rem;}",
+    ".mki__em{font-size:1.5rem;width:28px;text-align:center;flex-shrink:0;padding-top:2px;}",
     ".mki__body{flex:1;min-width:0;}",
     ".mki__row1{display:flex;align-items:center;gap:6px;margin-bottom:4px;}",
     ".mki__nm{font-size:0.88rem;font-weight:600;line-height:1.3;flex:1;}",
@@ -68,7 +65,7 @@
     ".mki__flag img{border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.2);display:block;}",
     ".mki__flag-em{font-size:1rem;}",
     ".mki__desc{font-size:0.75rem;color:var(--color-text-soft,#888);line-height:1.45;}",
-    ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;}",
+    ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;margin-top:3px;}",
     ".mki.on .mki__dot{background:var(--color-primary,#e63030);border-color:var(--color-primary,#e63030);color:#fff;}",
     ".mki-cat{margin-bottom:32px;padding:18px 18px 16px;border-radius:16px;}",
     ".mki-cat-vorspeise{background:rgba(16,185,129,.06);}",
@@ -227,14 +224,9 @@
       var val = item[1];
       var flag = item[2] || "";
       var desc = item[3] || "";
-      var img  = item[4] || "";
-      var thumbHtml = img
-        ? '<img class="mki__img" src="https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(img) + '?width=200" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
-          '<span class="mki__em" style="display:none">' + item[0] + "</span>"
-        : '<span class="mki__em">' + item[0] + "</span>";
       html +=
         '<div class="mki" data-key="' + key + '" data-val="' + val.replace(/"/g, "&quot;") + '" data-radio="' + (isRadio ? "1" : "0") + '">' +
-        '<div class="mki__thumb">' + thumbHtml + "</div>" +
+        '<span class="mki__em">' + item[0] + "</span>" +
         '<div class="mki__body">' +
           '<div class="mki__row1">' +
             '<span class="mki__nm">' + val + "</span>" +
