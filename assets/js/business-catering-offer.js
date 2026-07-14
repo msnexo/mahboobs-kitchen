@@ -370,10 +370,13 @@
     document.getElementById("cateringCardCode").textContent = code;
     document.getElementById("cateringGreeting").textContent =
       person ? "Exklusiv für " + firma + " · " + person : "Exklusiv für " + firma;
-    if (msg) {
-      document.getElementById("cateringMsg").textContent = msg;
-      document.getElementById("cateringMsgCard").hidden = false;
-    }
+    var displayMsg = msg || (
+      "Herzlich willkommen im MK Business-Bereich!\n\n" +
+      "Für Ihr Unternehmen " + firma + " gelten hier spezielle Business-Konditionen.\n\n" +
+      "Stellen Sie Ihr individuelles Catering ganz nach Ihren Wünschen zusammen und erhalten Sie direkt eine Übersicht der passenden Preise. Wir freuen uns darauf, Ihre Veranstaltung kulinarisch begleiten zu dürfen."
+    );
+    document.getElementById("cateringMsg").textContent = displayMsg;
+    document.getElementById("cateringMsgCard").hidden = false;
 
     // mobile sticky bottom bar
     var bar = document.createElement("div");
