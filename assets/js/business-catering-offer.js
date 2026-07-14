@@ -93,7 +93,7 @@
     ".fi-ico{font-size:1.05rem;flex-shrink:0;margin-right:10px;opacity:.65;pointer-events:none;}",
     ".fi-input{border:none!important;outline:none!important;box-shadow:none!important;padding:13px 0!important;background:transparent!important;width:100%;font-size:0.95rem;color:inherit;}",
     ".fi-input::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}",
-    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;}}",
+    "@media(max-width:900px){#cateringLayout{display:flex !important;flex-direction:column;}#cateringMain{display:contents;}#cateringMsgCard{order:1;}#cateringDateCard{order:2;}#cateringMenuCard{order:3;}#cateringSidebar{order:4;position:static !important;top:auto !important;}#cateringFormCard{order:5;}#cateringThanks{order:6;}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;}}",
     "@media(max-width:600px){#cateringEvGrid{grid-template-columns:1fr !important;}.fi-input{padding:15px 0 !important;}}",
     "#mkiBar{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--color-primary,#e63030);color:#fff;display:none;align-items:center;gap:10px;padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 24px rgba(0,0,0,.35);box-sizing:border-box;}",
     "@media(max-width:900px){#mkiBar{display:flex;}}",
@@ -338,30 +338,6 @@
       '</div>' +
       '<button class="mkiBar__btn" onclick="document.getElementById(\'cateringFormCard\').scrollIntoView({behavior:\'smooth\'})">Zum Formular ↓</button>';
     document.body.appendChild(bar);
-
-    // on mobile: move sidebar before the form card
-    function applyMobileOrder() {
-      var sidebar  = document.getElementById("cateringSidebar");
-      var formCard = document.getElementById("cateringFormCard");
-      var layout   = document.getElementById("cateringLayout");
-      var main     = document.getElementById("cateringMain");
-      if (!sidebar || !formCard || !main || !layout) return;
-      if (window.innerWidth <= 900) {
-        if (sidebar.parentNode !== main) {
-          main.insertBefore(sidebar, formCard);
-          sidebar.style.position = "static";
-          sidebar.style.top = "auto";
-        }
-      } else {
-        if (sidebar.parentNode === main) {
-          layout.appendChild(sidebar);
-          sidebar.style.position = "sticky";
-          sidebar.style.top = "80px";
-        }
-      }
-    }
-    applyMobileOrder();
-    window.addEventListener("resize", applyMobileOrder);
 
     initMenu();
     updatePrice();
