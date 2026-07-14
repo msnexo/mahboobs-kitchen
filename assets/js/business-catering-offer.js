@@ -7,41 +7,47 @@
   // flagCode: ISO 3166-1 alpha-2 for flagcdn.com, "vegan"/"intl" for special icons
   var ITEMS = {
     vorspeise: [
-      ["ğŸ¥Ÿ", "Samosas mit Minz-Chutney", "in", "Knusprige Teigtaschen gefÃ¼llt mit gewÃ¼rzten Kartoffeln & Erbsen, serviert mit frischem Minz-Koriander-Chutney"],
-      ["ğŸ…", "Bruschetta al Pomodoro", "it", "GerÃ¶stetes Baguette mit frischen Tomaten, Knoblauch und Basilikum, betrÃ¤ufelt mit nativem OlivenÃ¶l extra"],
-      ["ğŸ«™", "Hummus mit Fladenbrot & Oliven", "intl", "Cremig gemahlene Kichererbsen mit Tahini, Zitronensaft und OlivenÃ¶l, dazu warmes Fladenbrot und eingelegte Oliven"],
-      ["ğŸ«’", "Gemischte Antipasti", "it", "Auswahl aus gegrilltem GemÃ¼se, eingelegten Artischocken, Parmaschinken, Oliven und BÃ¼ffelmozzarella"],
-      ["ğŸœ", "Miso-Suppe", "jp", "Traditionelle japanische Suppe aus fermentierter Sojabohnenpaste mit Tofu, Wakame-Algen und FrÃ¼hlingszwiebeln"],
-      ["ğŸ¥—", "Caprese-Salat", "it", "Frischer BÃ¼ffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und OlivenÃ¶l"]
+      ["ğŸ¥Ÿ", "Gemüse-Samosas mit Minz-Chutney", "in", "Knusprig frittierte Teigtaschen gefüllt mit gewürzten Kartoffeln und Erbsen, serviert mit frischem Minz-Koriander-Chutney. ğŸŒ± Vegan"],
+      ["ğŸ§…", "Pakora", "in", "Knusprig ausgebackene Gemüse-Happen im würzigen Kichererbsenteig mit Zwiebeln, Spinat und Chili – ein beliebter indischer Straßensnack. ğŸŒ± Vegan"],
+      ["ğŸ…", "Bruschetta al Pomodoro", "it", "Geröstetes Ciabatta mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra. ğŸŒ± Vegan"],
+      ["ğŸ¥—", "Caprese mit Tomaten & Mozzarella", "it", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl. ğŸ¥š Vegetarisch"],
+      ["ğŸ¥”", "Kartoffelsalat", "de", "Klassischer hausgemachter Kartoffelsalat mit feiner Senf-Vinaigrette, roten Zwiebeln und frischem Schnittlauch. ğŸ¥š Vegetarisch"],
+      ["ğŸ¥’", "Gurkensalat mit Dill", "de", "Frisch geschnittene Gurken in einem leichten Essig-Dressing mit Dill und Zwiebeln – kühl, knackig und erfrischend. ğŸ¥š Vegetarisch"]
     ],
     hauptgericht: [
-      ["ğŸ›", "Butter Chicken", "in", "Zartes HÃ¤hnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, KreuzkÃ¼mmel und einem Hauch Sahne"],
-      ["ğŸ‘", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt â€“ aromatisch und zart"],
-      ["ğŸ—", "HÃ¤hnchen Tikka Masala", "in", "Im Tandoor-Ofen gegrillte HÃ¤hnchenspieÃŸe in einer wÃ¼rzigen Tomatencreme-Sauce mit Bockshornklee und frischem Ingwer"],
-      ["ğŸ«•", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Hackfleisch-Bolognese und klassischer BÃ©chamelsauce, Ã¼berbacken mit Parmesan und Mozzarella"],
-      ["ğŸ", "Pollo alla Parmigiana", "it", "Paniertes HÃ¤hnchenschnitzel auf Tomaten-Basilikum-Sugo, Ã¼berbacken mit reichlich Mozzarella und frisch geriebenem Parmesan"],
-      ["ğŸŸ", "Teriyaki-Lachs", "jp", "Frisches Lachsfilet, mariniert in einer sÃ¼ÃŸ-salzigen Teriyaki-Glasur aus SojasoÃŸe und Mirin, schonend gegrillt"],
-      ["ğŸ£", "Sushi-Variation", "jp", "SorgfÃ¤ltig ausgewÃ¤hlte Auswahl aus Nigiri, Maki-Rollen und Inside-Out-Rolls mit frischem Fisch, Lachs und Avocado"],
-      ["ğŸ¥¦", "Vegetarisches GemÃ¼se-Curry", "vegan", "Saisonales GemÃ¼se in einer aromatischen Kokosmilch-Currysauce mit frischem Ingwer, Kurkuma und Koriander â€“ vollstÃ¤ndig vegan"],
-      ["ğŸ–", "Gegrillte HÃ¤hnchenbrust", "de", "Saftige HÃ¤hnchenbrust vom Holzkohlegrill mit hausgemachter KrÃ¤uterbutter aus frischen GartenkrÃ¤utern, Zitrone und Knoblauch"]
+      ["ğŸ›", "Butter Chicken", "in", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne – mild-aromatisch und cremig"],
+      ["ğŸ—", "Chicken Tikka Masala", "in", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee, Ingwer und Koriander"],
+      ["ğŸ‘", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und butterweich"],
+      ["ğŸ¥¬", "Chana Masala", "in", "Herzhafte Kichererbsen in einer würzigen Tomatensauce mit Kreuzkümmel, Koriander und frischem Ingwer – proteinreich und vollständig vegan. ğŸŒ± Vegan"],
+      ["ğŸ¥¦", "Gemüse-Curry", "in", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit Ingwer, Kurkuma und frischem Koriander. ğŸŒ± Vegan"],
+      ["ğŸ§€", "Palak Paneer", "in", "Frischer Hüttenkäse in einer cremigen Spinatsauce, gewürzt mit Kreuzkümmel, Knoblauch und Ingwer – ein indischer Klassiker. ğŸ¥š Vegetarisch"],
+      ["ğŸ«•", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Rind-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella"],
+      ["ğŸ", "Penne Arrabbiata", "it", "Al dente Penne in einer feurigen Tomaten-Chili-Sauce mit Knoblauch und Basilikum – würzig und vollständig vegan. ğŸŒ± Vegan"],
+      ["ğŸ", "Penne al Pesto", "it", "Penne mit hausgemachtem Basilikum-Pesto aus frischen Kräutern, Pinienkernen und Olivenöl – mediterran und aromatisch. ğŸ¥š Vegetarisch"],
+      ["ğŸ†", "Melanzane alla Parmigiana", "it", "Geschichtete Auberginen mit Tomaten-Sugo, Basilikum und geschmolzenem Mozzarella – ein italienischer Klassiker ohne Fleisch. ğŸ¥š Vegetarisch"],
+      ["ğŸ—", "Pollo alla Parmigiana", "it", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan"],
+      ["ğŸ—", "Gegrillte Hähnchenbrust", "de", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch"],
+      ["ğŸ¥©", "Rinderroulade", "de", "Zart gerolltes Rindfleisch gefüllt mit Senf, Speck, Zwiebeln und Gewürzgurke, langsam geschmort in kräftiger Bratensauce"],
+      ["ğŸ§€", "Käsespätzle", "de", "Handgemachte Spätzle überbacken mit würzigem Bergkäse und knusprigen Röstzwiebeln – schwäbische Hausmannskost. ğŸ¥š Vegetarisch"]
     ],
     beilage: [
-      ["ğŸš", "Basmati-Reis", "in", "Locker gedÃ¤mpfter Langkornreis mit einem Hauch Kardamom und Butter â€“ ideale Begleitung zu Currys und Schmorgerichten"],
-      ["ğŸ«“", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander â€“ fluffig und leicht verkohlt"],
-      ["ğŸ¥”", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln im Ganzen gegart mit frischem Rosmarin, Knoblauch und OlivenÃ¶l â€“ auÃŸen knusprig, innen weich"],
-      ["ğŸ¥¦", "GemÃ¼se vom Grill", "intl", "Saisonales GemÃ¼se auf dem Grill gegart mit OlivenÃ¶l, Meersalz und mediterranen KrÃ¤utern â€“ bunt, knackig und aromatisch"],
-      ["ğŸ¥—", "Coleslaw hausgemacht", "de", "Knackiger WeiÃŸkohl- und Karottensalat in einer cremigen Senf-Mayonnaise â€“ klassisch deutsch, frisch und bekÃ¶mmlich"],
-      ["ğŸŒ¿", "TaboulÃ©", "intl", "Frischer Bulgursalat mit Unmengen Petersilie, Minze, Tomaten, Gurke und einem wÃ¼rzigen Zitronen-OlivenÃ¶l-Dressing"],
-      ["ğŸ", "Focaccia mit OlivenÃ¶l", "it", "Fluffiges italienisches Fladenbrot mit nativem OlivenÃ¶l, grobem Meersalz und frischem Rosmarin â€“ perfekt zum Dippen"],
-      ["ğŸ«›", "Edamame", "jp", "GedÃ¤mpfte junge Sojabohnenschoten mit Meersalz bestreut â€“ knackig, proteinreich und leicht"]
+      ["ğŸš", "Basmati-Reis", "in", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom – ideale Begleitung zu Currys und Schmorgerichten. ğŸŒ± Vegan"],
+      ["ğŸ«“", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und duftend. ğŸ¥š Vegetarisch"],
+      ["ğŸŒ¿", "Raita", "in", "Erfrischender Joghurt-Dip mit Gurke, Minze und einer Prise Kreuzkümmel – kühlt und ergänzt würzige Currys perfekt. ğŸ¥š Vegetarisch"],
+      ["ğŸ", "Focaccia", "it", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – knusprig außen, weich innen. ğŸŒ± Vegan"],
+      ["ğŸ¥—", "Italienischer gemischter Salat", "it", "Blattsalate, Kirschtomaten, Oliven und rote Zwiebeln mit leichtem Balsamico-Dressing. ğŸ¥š Vegetarisch"],
+      ["ğŸ¥’", "Gegrilltes mediterranes Gemüse", "it", "Saisonales Gemüse auf dem Grill mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch. ğŸŒ± Vegan"],
+      ["ğŸ¥”", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln mit frischem Rosmarin, Knoblauch und Olivenöl – außen golden-knusprig, innen weich. ğŸŒ± Vegan"],
+      ["ğŸ¥¬", "Rotkohl", "de", "Klassisch geschmorter Rotkohl mit Äpfeln, Gewürznelken und einem Schuss Rotweinessig – süßlich-herzhaft. ğŸŒ± Vegan"],
+      ["ğŸ¥—", "Krautsalat", "de", "Frisch geraspelter Weißkohl mit Essig-Öl-Dressing und Kümmel – knackig, bekömmlich und typisch deutsch. ğŸŒ± Vegan"]
     ],
     nachtisch: [
-      ["ğŸ®", "Gulab Jamun", "in", "Zarte Milchpulver-BÃ¤llchen in Ghee goldbraun frittiert, getrÃ¤nkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom"],
-      ["â˜•", "Tiramisu", "it", "Klassisches Dessert aus espresso-getrÃ¤nkten LÃ¶ffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit Kakaopulver"],
-      ["ğŸ¡", "Mochi-Eis", "jp", "Japanische ReiskuchenbÃ¤llchen aus klebrigem Mochiteig, gefÃ¼llt mit verschiedenen Eissorten â€“ auÃŸen weich, innen angenehm kÃ¼hl"],
-      ["ğŸ¯", "CrÃ¨me BrÃ»lÃ©e", "fr", "Zarte Vanille-Sahne-Creme, sanft im Wasserbad gestockt und mit einer knusprig karamellisierten Zuckerkruste abgeflÃ¤mmt"],
-      ["ğŸ¥", "Baklava", "tr", "Feines BlÃ¤tterteiggebÃ¤ck, gefÃ¼llt mit gehackten Pistazien und WalnÃ¼ssen, groÃŸzÃ¼gig mit Honig und Rosenwasser-Sirup getrÃ¤nkt"],
-      ["ğŸ«", "Schokoladen-Mousse", "fr", "Luftig aufgeschlagene Mousse aus dunkler Zartbitterschokolade mit einem Hauch Vanille â€“ intensiv im Geschmack, leicht in der Textur"]
+      ["ğŸ®", "Gulab Jamun", "in", "Zarte Milchpulver-Bällchen goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom. ğŸ¥š Vegetarisch"],
+      ["ğŸš", "Kheer", "in", "Cremiger indischer Milchreis mit Safran, Kardamom, Rosenwasser und gerösteten Pistazien – warm oder kalt ein Genuss. ğŸ¥š Vegetarisch"],
+      ["â˜•", "Tiramisu", "it", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit feinem Kakaopulver. ğŸ¥š Vegetarisch"],
+      ["ğŸ®", "Panna Cotta", "it", "Samtige Vanille-Sahne-Creme, serviert mit einem fruchtigen Beerenragout oder Karamellsauce – elegant und leicht. ğŸ¥š Vegetarisch"],
+      ["ğŸ", "Apfelstrudel mit Vanillesoße", "de", "Knuspriger Blätterteig gefüllt mit gezuckerten Äpfeln, Zimt und Rosinen, serviert mit warmer hausgemachter Vanillesoße. ğŸ¥š Vegetarisch"],
+      ["ğŸ’", "Rote Grütze mit Vanillesoße", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanillesoße. ğŸ¥š Vegetarisch"]
     ]
   };
 
