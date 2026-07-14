@@ -186,14 +186,17 @@
     if (!labelEl || !priceEl) return;
     if (!hasSelection()) {
       labelEl.textContent = "Noch nichts gewählt";
-      priceEl.innerHTML = '0,00 €<span class="mkiBar__sub">/Person</span>';
+      priceEl.innerHTML = '0,00 €<span class="mkiBar__sub"> gesamt</span>';
       return;
     }
     var parts = [];
     CAT_META.forEach(function (m) { if (sel[m.key].length) parts.push(sel[m.key].length + "× " + m.label); });
-    var total = (guests && mk) ? "  ·  " + formatEur(mk * guests) + " ges." : "";
-    labelEl.textContent = parts.join(" · ") + (guests ? " · " + guests + " Pers." : "");
-    priceEl.innerHTML = formatEur(mk || 0) + '<span class="mkiBar__sub">/Person' + total + "</span>";
+    labelEl.textContent = parts.join(" · ") + (guests ? " · " + guests + " Pers. · " + formatEur(mk) + "/P" : " · " + formatEur(mk) + "/Person");
+    if (guests && mk) {
+      priceEl.innerHTML = formatEur(mk * guests) + '<span class="mkiBar__sub"> gesamt</span>';
+    } else {
+      priceEl.innerHTML = formatEur(mk) + '<span class="mkiBar__sub">/Person</span>';
+    }
   }
 
   function updatePrice() {
