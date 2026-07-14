@@ -387,10 +387,12 @@
       var guests = document.getElementById("guestCount").value;
       var name = document.getElementById("contactName").value.trim();
       var phone = document.getElementById("contactPhone").value.trim();
+      var email = document.getElementById("contactEmail").value.trim();
       var statusEl = document.getElementById("cateringStatus");
 
       if (!date) { statusEl.textContent = "Bitte ein Veranstaltungsdatum wählen."; statusEl.className = "form-status form-status--error"; return; }
       if (!name) { statusEl.textContent = "Bitte Ihren Namen eingeben."; statusEl.className = "form-status form-status--error"; return; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { statusEl.textContent = "Bitte eine g�ltige E-Mail-Adresse eingeben."; statusEl.className = "form-status form-status--error"; return; }
       if (!sel.hauptgericht.length) { statusEl.textContent = "Bitte mindestens ein Hauptgericht wählen."; statusEl.className = "form-status form-status--error"; return; }
 
       var mk = getPrice();
@@ -408,6 +410,7 @@
           Ansprechpartner: person,
           Kontaktname: name,
           Telefon: phone || "—",
+          "E-Mail": email,
           Datum: date,
           "Anzahl Gäste": guests,
           "MK Preis / Person": mk.toFixed(2) + " €",
