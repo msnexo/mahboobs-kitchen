@@ -122,7 +122,7 @@
     ".mkiReco__pill{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #ddd;border-radius:100px;padding:5px 12px;font-size:0.78rem;font-weight:500;color:#555;transition:border-color .2s,background .2s,color .2s;}",
     ".mkiReco__pill--partial{border-color:#f59e0b;background:rgba(245,158,11,.08);color:#92600a;}",
     ".mkiReco__pill--done{border-color:#10b981;background:rgba(16,185,129,.1);color:#065f46;}",
-    ".mkiReco__prog{font-weight:700;font-size:0.75rem;}"
+    ".mkiReco__prog{font-weight:700;font-size:0.75rem;}",
     ".cookie-banner{z-index:10000!important;}",
     "@media(max-width:900px){.cookie-banner{bottom:calc(88px + env(safe-area-inset-bottom,0px))!important;}}",
   ].join("");
