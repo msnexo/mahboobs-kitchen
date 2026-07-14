@@ -7,51 +7,49 @@
   // flagCode: ISO 3166-1 alpha-2 for flagcdn.com, "vegan"/"intl" for special icons
   var ITEMS = {
     vorspeise: [
-      ["🥟", "Gem�se-Samosas mit Minz-Chutney", "in", "Knusprig frittierte Teigtaschen gef�llt mit gew�rzten Kartoffeln und Erbsen, serviert mit frischem Minz-Koriander-Chutney. 🌱 Vegan"],
-      ["🧅", "Pakora", "in", "Knusprig ausgebackene Gem�se-Happen im w�rzigen Kichererbsenteig mit Zwiebeln, Spinat und Chili � ein beliebter indischer Stra�ensnack. 🌱 Vegan"],
-      ["🍅", "Bruschetta al Pomodoro", "it", "Ger�stetes Ciabatta mit frischen Tomaten, Knoblauch und Basilikum, betr�ufelt mit nativem Oliven�l extra. 🌱 Vegan"],
-      ["🥗", "Caprese mit Tomaten & Mozzarella", "it", "Frischer B�ffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Oliven�l. 🥚 Vegetarisch"],
-      ["🥔", "Kartoffelsalat", "de", "Klassischer hausgemachter Kartoffelsalat mit feiner Senf-Vinaigrette, roten Zwiebeln und frischem Schnittlauch. 🥚 Vegetarisch"],
-      ["🥒", "Gurkensalat mit Dill", "de", "Frisch geschnittene Gurken in einem leichten Essig-Dressing mit Dill und Zwiebeln � k�hl, knackig und erfrischend. 🥚 Vegetarisch"]
+      ["🥟", "Gemüse-Samosas mit Minz-Chutney", "in", "Knusprig frittierte Teigtaschen gefüllt mit gewürzten Kartoffeln und Erbsen, serviert mit frischem Minz-Koriander-Chutney", "🌱"],
+      ["🧅", "Pakora", "in", "Knusprig ausgebackene Gemüse-Happen im würzigen Kichererbsenteig mit Zwiebeln, Spinat und Chili – ein beliebter indischer Straßensnack", "🌱"],
+      ["🍅", "Bruschetta al Pomodoro", "it", "Geröstetes Ciabatta mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra", "🌱"],
+      ["🥗", "Caprese mit Tomaten & Mozzarella", "it", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl", "🥚"],
+      ["🥔", "Kartoffelsalat", "de", "Klassischer hausgemachter Kartoffelsalat mit feiner Senf-Vinaigrette, roten Zwiebeln und frischem Schnittlauch", "🥚"],
+      ["🥒", "Gurkensalat mit Dill", "de", "Frisch geschnittene Gurken in einem leichten Essig-Dressing mit Dill und Zwiebeln – kühl, knackig und erfrischend", "🥚"]
     ],
     hauptgericht: [
-      ["🍛", "Butter Chicken", "in", "Zartes H�hnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzk�mmel und einem Hauch Sahne � mild-aromatisch und cremig"],
-      ["🍗", "Chicken Tikka Masala", "in", "Im Tandoor-Ofen gegrillte H�hnchenspie�e in einer w�rzigen Tomatencreme-Sauce mit Bockshornklee, Ingwer und Koriander"],
-      ["🐑", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt � aromatisch und butterweich"],
-      ["🥬", "Chana Masala", "in", "Herzhafte Kichererbsen in einer w�rzigen Tomatensauce mit Kreuzk�mmel, Koriander und frischem Ingwer � proteinreich und vollst�ndig vegan. 🌱 Vegan"],
-      ["🥦", "Gem�se-Curry", "in", "Saisonales Gem�se in einer aromatischen Kokosmilch-Currysauce mit Ingwer, Kurkuma und frischem Koriander. 🌱 Vegan"],
-      ["🧀", "Palak Paneer", "in", "Frischer H�ttenk�se in einer cremigen Spinatsauce, gew�rzt mit Kreuzk�mmel, Knoblauch und Ingwer � ein indischer Klassiker. 🥚 Vegetarisch"],
-      ["🫕", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Rind-Bolognese und klassischer B�chamelsauce, �berbacken mit Parmesan und Mozzarella"],
-      ["🍝", "Penne Arrabbiata", "it", "Al dente Penne in einer feurigen Tomaten-Chili-Sauce mit Knoblauch und Basilikum � w�rzig und vollst�ndig vegan. 🌱 Vegan"],
-      ["🍝", "Penne al Pesto", "it", "Penne mit hausgemachtem Basilikum-Pesto aus frischen Kr�utern, Pinienkernen und Oliven�l � mediterran und aromatisch. 🥚 Vegetarisch"],
-      ["🍆", "Melanzane alla Parmigiana", "it", "Geschichtete Auberginen mit Tomaten-Sugo, Basilikum und geschmolzenem Mozzarella � ein italienischer Klassiker ohne Fleisch. 🥚 Vegetarisch"],
-      ["🍗", "Pollo alla Parmigiana", "it", "Paniertes H�hnchenschnitzel auf Tomaten-Basilikum-Sugo, �berbacken mit reichlich Mozzarella und frisch geriebenem Parmesan"],
-      ["🍗", "Gegrillte H�hnchenbrust", "de", "Saftige H�hnchenbrust vom Holzkohlegrill mit hausgemachter Kr�uterbutter aus frischen Gartenkr�utern, Zitrone und Knoblauch"],
-      ["🥩", "Rinderroulade", "de", "Zart gerolltes Rindfleisch gef�llt mit Senf, Speck, Zwiebeln und Gew�rzgurke, langsam geschmort in kr�ftiger Bratensauce"],
-      ["🧀", "K�sesp�tzle", "de", "Handgemachte Sp�tzle �berbacken mit w�rzigem Bergk�se und knusprigen R�stzwiebeln � schw�bische Hausmannskost. 🥚 Vegetarisch"]
+      ["🍛", "Butter Chicken", "in", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne – mild-aromatisch und cremig", ""],
+      ["🍗", "Chicken Tikka Masala", "in", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee, Ingwer und Koriander", ""],
+      ["🐑", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und butterweich", ""],
+      ["🥬", "Chana Masala", "in", "Herzhafte Kichererbsen in einer würzigen Tomatensauce mit Kreuzkümmel, Koriander und frischem Ingwer – proteinreich", "🌱"],
+      ["🥦", "Gemüse-Curry", "in", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit Ingwer, Kurkuma und frischem Koriander", "🌱"],
+      ["🧀", "Palak Paneer", "in", "Frischer Hüttenkäse in einer cremigen Spinatsauce, gewürzt mit Kreuzkümmel, Knoblauch und Ingwer – ein indischer Klassiker", "🥚"],
+      ["🫕", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Rind-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella", ""],
+      ["🍝", "Penne Arrabbiata", "it", "Al dente Penne in einer feurigen Tomaten-Chili-Sauce mit Knoblauch und Basilikum – würzig und vollständig vegan", "🌱"],
+      ["🍝", "Penne al Pesto", "it", "Penne mit hausgemachtem Basilikum-Pesto aus frischen Kräutern, Pinienkernen und Olivenöl – mediterran und aromatisch", "🥚"],
+      ["🍆", "Melanzane alla Parmigiana", "it", "Geschichtete Auberginen mit Tomaten-Sugo, Basilikum und geschmolzenem Mozzarella – ein italienischer Klassiker ohne Fleisch", "🥚"],
+      ["🍗", "Pollo alla Parmigiana", "it", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan", ""],
+      ["🍗", "Gegrillte Hähnchenbrust", "de", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch", ""],
+      ["🥩", "Rinderroulade", "de", "Zart gerolltes Rindfleisch gefüllt mit Senf, Speck, Zwiebeln und Gewürzgurke, langsam geschmort in kräftiger Bratensauce", ""],
+      ["🧀", "Käsespätzle", "de", "Handgemachte Spätzle überbacken mit würzigem Bergkäse und knusprigen Röstzwiebeln – schwäbische Hausmannskost", "🥚"]
     ],
     beilage: [
-      ["🍚", "Basmati-Reis", "in", "Locker ged�mpfter Langkornreis mit einem Hauch Kardamom � ideale Begleitung zu Currys und Schmorgerichten. 🌱 Vegan"],
-      ["🫓", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander � fluffig und duftend. 🥚 Vegetarisch"],
-      ["🌿", "Raita", "in", "Erfrischender Joghurt-Dip mit Gurke, Minze und einer Prise Kreuzk�mmel � k�hlt und erg�nzt w�rzige Currys perfekt. 🥚 Vegetarisch"],
-      ["🍞", "Focaccia", "it", "Fluffiges italienisches Fladenbrot mit nativem Oliven�l, grobem Meersalz und frischem Rosmarin � knusprig au�en, weich innen. 🌱 Vegan"],
-      ["🥗", "Italienischer gemischter Salat", "it", "Blattsalate, Kirschtomaten, Oliven und rote Zwiebeln mit leichtem Balsamico-Dressing. 🥚 Vegetarisch"],
-      ["🥒", "Gegrilltes mediterranes Gem�se", "it", "Saisonales Gem�se auf dem Grill mit Oliven�l, Meersalz und mediterranen Kr�utern � bunt, knackig und aromatisch. 🌱 Vegan"],
-      ["🥔", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln mit frischem Rosmarin, Knoblauch und Oliven�l � au�en golden-knusprig, innen weich. 🌱 Vegan"],
-      ["🥬", "Rotkohl", "de", "Klassisch geschmorter Rotkohl mit �pfeln, Gew�rznelken und einem Schuss Rotweinessig � s��lich-herzhaft. 🌱 Vegan"],
-      ["🥗", "Krautsalat", "de", "Frisch geraspelter Wei�kohl mit Essig-�l-Dressing und K�mmel � knackig, bek�mmlich und typisch deutsch. 🌱 Vegan"]
+      ["🍚", "Basmati-Reis", "in", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom – ideale Begleitung zu Currys und Schmorgerichten", "🌱"],
+      ["🫓", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und duftend", "🥚"],
+      ["🌿", "Raita", "in", "Erfrischender Joghurt-Dip mit Gurke, Minze und einer Prise Kreuzkümmel – kühlt und ergänzt würzige Currys perfekt", "🥚"],
+      ["🍞", "Focaccia", "it", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – knusprig außen, weich innen", "🌱"],
+      ["🥗", "Italienischer gemischter Salat", "it", "Blattsalate, Kirschtomaten, Oliven und rote Zwiebeln mit leichtem Balsamico-Dressing", "🥚"],
+      ["🥒", "Gegrilltes mediterranes Gemüse", "it", "Saisonales Gemüse auf dem Grill mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch", "🌱"],
+      ["🥔", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln mit frischem Rosmarin, Knoblauch und Olivenöl – außen golden-knusprig, innen weich", "🌱"],
+      ["🥬", "Rotkohl", "de", "Klassisch geschmorter Rotkohl mit Äpfeln, Gewürznelken und einem Schuss Rotweinessig – süßlich-herzhaft", "🌱"],
+      ["🥗", "Krautsalat", "de", "Frisch geraspelter Weißkohl mit Essig-Öl-Dressing und Kümmel – knackig, bekömmlich und typisch deutsch", "🌱"]
     ],
     nachtisch: [
-      ["🍮", "Gulab Jamun", "in", "Zarte Milchpulver-B�llchen goldbraun frittiert, getr�nkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom. 🥚 Vegetarisch"],
-      ["🍚", "Kheer", "in", "Cremiger indischer Milchreis mit Safran, Kardamom, Rosenwasser und ger�steten Pistazien � warm oder kalt ein Genuss. 🥚 Vegetarisch"],
-      ["☕", "Tiramisu", "it", "Klassisches Dessert aus espresso-getr�nkten L�ffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit feinem Kakaopulver. 🥚 Vegetarisch"],
-      ["🍮", "Panna Cotta", "it", "Samtige Vanille-Sahne-Creme, serviert mit einem fruchtigen Beerenragout oder Karamellsauce � elegant und leicht. 🥚 Vegetarisch"],
-      ["🍎", "Apfelstrudel mit Vanilleso�e", "de", "Knuspriger Bl�tterteig gef�llt mit gezuckerten �pfeln, Zimt und Rosinen, serviert mit warmer hausgemachter Vanilleso�e. 🥚 Vegetarisch"],
-      ["🍒", "Rote Gr�tze mit Vanilleso�e", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanilleso�e. 🥚 Vegetarisch"]
+      ["🍮", "Gulab Jamun", "in", "Zarte Milchpulver-Bällchen goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom", "🥚"],
+      ["🍚", "Kheer", "in", "Cremiger indischer Milchreis mit Safran, Kardamom, Rosenwasser und gerösteten Pistazien – warm oder kalt ein Genuss", "🥚"],
+      ["☕", "Tiramisu", "it", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit feinem Kakaopulver", "🥚"],
+      ["🍮", "Panna Cotta", "it", "Samtige Vanille-Sahne-Creme, serviert mit einem fruchtigen Beerenragout oder Karamellsauce – elegant und leicht", "🥚"],
+      ["🍎", "Apfelstrudel mit Vanillesoße", "de", "Knuspriger Blätterteig gefüllt mit gezuckerten Äpfeln, Zimt und Rosinen, serviert mit warmer hausgemachter Vanillesoße", "🥚"],
+      ["🍒", "Rote Grütze mit Vanillesoße", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanillesoße", "🥚"]
     ]
   };
-
-  // Additive per-item pricing (1V+2H+2B+1N = 3+12+4+3 = 22 €/p)
   var P = { vorspeise: 3, hauptgericht: 6, beilage: 2, nachtisch: 3 };
   var SHOW_MULT = 1.35;
 
@@ -70,6 +68,7 @@
     ".mki__flag{flex-shrink:0;line-height:1;display:flex;align-items:center;}",
     ".mki__flag img{border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.2);display:block;}",
     ".mki__flag-em{font-size:1rem;}",
+    ".mki__diet{font-size:0.88rem;flex-shrink:0;line-height:1;margin-left:2px;}",
     ".mki__desc{font-size:0.75rem;color:var(--color-text-soft,#888);line-height:1.45;}",
     ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;margin-top:3px;}",
     ".mki.on .mki__dot{background:var(--color-primary,#e63030);border-color:var(--color-primary,#e63030);color:#fff;}",
@@ -295,6 +294,7 @@
     items.forEach(function (item) {
       var val = item[1];
       var flag = item[2] || "";
+      var diet = item[4] || "";
       var desc = item[3] || "";
       html +=
         '<div class="mki" data-key="' + key + '" data-val="' + val.replace(/"/g, "&quot;") + '" data-radio="' + (isRadio ? "1" : "0") + '">' +
@@ -302,6 +302,7 @@
         '<div class="mki__body">' +
           '<div class="mki__row1">' +
             '<span class="mki__nm">' + val + "</span>" +
+            (diet ? '<span class="mki__diet">' + diet + '</span>' : '') +
             renderFlag(flag) +
           "</div>" +
           (desc ? '<div class="mki__desc">' + desc + "</div>" : "") +
