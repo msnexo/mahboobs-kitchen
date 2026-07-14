@@ -138,7 +138,18 @@
 
         <div class="card" id="cateringMenuCard" style="margin-bottom:28px;">
           <h2 style="margin-bottom:6px;">🍽️ Menü zusammenstellen</h2>
-          <p class="muted" style="margin-bottom:24px;font-size:0.9rem;">Basis-Paket: 1&nbsp;Vorspeise · 2&nbsp;Hauptgerichte · 2&nbsp;Beilagen · 1&nbsp;Nachtisch = <strong>22&nbsp;€&nbsp;/ Person</strong></p>
+          <p class="muted" style="margin-bottom:16px;font-size:0.9rem;">Wählen Sie beliebig viele Gerichte – der Preis passt sich automatisch an.</p>
+
+          <div id="mkiReco" style="background:var(--color-bg-soft,#f5f5f5);border-radius:14px;padding:14px 16px;margin-bottom:24px;">
+            <div style="font-size:0.78rem;color:var(--color-text-soft,#888);margin-bottom:10px;">💡 <strong style="color:var(--color-text,#111);">Empfehlung des Hauses</strong> &nbsp;·&nbsp; ausgewogenes Buffet für <strong>22 €/Person</strong></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div class="mkiReco__pill" id="reco-vorspeise">🥗 Vorspeise <span class="mkiReco__prog">0/1</span></div>
+              <div class="mkiReco__pill" id="reco-hauptgericht">🍽️ Hauptgerichte <span class="mkiReco__prog">0/2</span></div>
+              <div class="mkiReco__pill" id="reco-beilage">🥘 Beilagen <span class="mkiReco__prog">0/2</span></div>
+              <div class="mkiReco__pill" id="reco-nachtisch">🍮 Nachtisch <span class="mkiReco__prog">0/1</span></div>
+            </div>
+          </div>
+
           <div id="menuSection"></div>
         </div>
 

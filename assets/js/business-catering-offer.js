@@ -102,7 +102,12 @@
     ".mkiBar__label{font-size:0.68rem;opacity:.8;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
     ".mkiBar__price{font-size:1.55rem;font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
     ".mkiBar__sub{font-size:0.68rem;font-weight:400;opacity:.8;margin-left:3px;}",
-    ".mkiBar__btn{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:10px;padding:9px 14px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;touch-action:manipulation;}"
+    ".mkiBar__btn{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:10px;padding:9px 14px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;touch-action:manipulation;}",
+    "#mkiReco{background:rgba(0,0,0,.03);border-radius:14px;padding:14px 16px;margin-bottom:24px;}",
+    ".mkiReco__pill{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #ddd;border-radius:100px;padding:5px 12px;font-size:0.78rem;font-weight:500;color:#555;transition:border-color .2s,background .2s,color .2s;}",
+    ".mkiReco__pill--partial{border-color:#f59e0b;background:rgba(245,158,11,.08);color:#92600a;}",
+    ".mkiReco__pill--done{border-color:#10b981;background:rgba(16,185,129,.1);color:#065f46;}",
+    ".mkiReco__prog{font-weight:700;font-size:0.75rem;}"
   ].join("");
   document.head.appendChild(css);
 
@@ -200,6 +205,20 @@
     }
   }
 
+  var RECO = { vorspeise: 1, hauptgericht: 2, beilage: 2, nachtisch: 1 };
+
+  function updateReco() {
+    Object.keys(RECO).forEach(function (key) {
+      var el = document.getElementById("reco-" + key);
+      if (!el) return;
+      var n = sel[key].length;
+      var r = RECO[key];
+      var prog = el.querySelector(".mkiReco__prog");
+      if (prog) prog.textContent = n >= r ? "✓" : n + "/" + r;
+      el.className = "mkiReco__pill" + (n >= r ? " mkiReco__pill--done" : n > 0 ? " mkiReco__pill--partial" : "");
+    });
+  }
+
   function updatePrice() {
     var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
     var labelEl = document.getElementById("priceTotalLabel");
@@ -210,6 +229,7 @@
       document.getElementById("priceTotal").textContent = "0,00 €";
       updateMobileBar(0, guests);
       updateSidebar();
+      updateReco();
       return;
     }
     var mk = getPrice();
@@ -219,6 +239,7 @@
     document.getElementById("priceTotal").textContent = guests ? formatEur(mk * guests) : "—";
     updateMobileBar(mk, guests);
     updateSidebar();
+    updateReco();
   }
 
   function updateCounter(key, isRadio) {
