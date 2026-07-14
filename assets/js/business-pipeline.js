@@ -64,13 +64,19 @@
 
   function formatDateTime(iso) {
     if (!iso) return "";
-    var d = new Date(iso);
+    // Date-only strings (YYYY-MM-DD) parse as UTC midnight in JS → add local noon to avoid timezone shift
+    var d = new Date(iso.length <= 10 ? iso + "T12:00:00" : iso);
     return d.toLocaleDateString("de-DE") + ", " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function formatDateOnly(iso) {
+    if (!iso) return "";
+    return new Date(iso.length <= 10 ? iso + "T12:00:00" : iso).toLocaleDateString("de-DE");
   }
 
   function toDatetimeLocalValue(iso) {
     if (!iso) return "";
-    var d = new Date(iso);
+    var d = new Date(iso.length <= 10 ? iso + "T12:00:00" : iso);
     var pad = function (n) { return String(n).padStart(2, "0"); };
     return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
   }
@@ -182,7 +188,7 @@
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span></div>" +
         "</div>" +
-        (p.next_contact_date ? '<p class="muted" style="margin:6px 0 0;font-size:0.8rem;">Termin: ' + formatDateTime(p.next_contact_date) + "</p>" : "") +
+        (p.next_contact_date ? '<p class="muted" style="margin:6px 0 0;font-size:0.8rem;">Termin: ' + formatDateOnly(p.next_contact_date) + "</p>" : "") +
         (p.notes ? '<p class="muted" style="margin:8px 0 0;font-size:0.85rem;">' + escapeHtml(p.notes.slice(0, 120)) + "</p>" : "") +
         "</div>"
       );
@@ -520,6 +526,9 @@
     logContactBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
       var date = nextContactDate.value;
+      // Convert local datetime-local string to UTC ISO so Supabase stores the correct time
+      var dateUTC = date ? new Date(date).toISOString() : null;
+      var datePart = date ? date.slice(0, 10) : null;
       var notes = nextContactNotes.value.trim();
       var prospectId = selectedProspectId;
       logStatus.textContent = "Wird gespeichert …";
@@ -528,11 +537,11 @@
         prospect_id: prospectId,
         contact_date: todayISO(),
         notes: notes || null,
-        next_contact_date: date || null
+        next_contact_date: dateUTC
       }).then(function (res) {
         if (res && res.error) throw res.error;
         var p = allProspects.filter(function (x) { return x.id === prospectId; })[0];
-        var updates = { next_contact_date: date || null };
+        var updates = { next_contact_date: datePart };
         if (p && p.status === "lead") updates.status = "contacted";
         return client.from("prospects").update(updates).eq("id", prospectId);
       }).then(function () {
