@@ -339,6 +339,30 @@
       '<button class="mkiBar__btn" onclick="document.getElementById(\'cateringFormCard\').scrollIntoView({behavior:\'smooth\'})">Zum Formular ↓</button>';
     document.body.appendChild(bar);
 
+    // on mobile: move sidebar before the form card
+    function applyMobileOrder() {
+      var sidebar  = document.getElementById("cateringSidebar");
+      var formCard = document.getElementById("cateringFormCard");
+      var layout   = document.getElementById("cateringLayout");
+      var main     = document.getElementById("cateringMain");
+      if (!sidebar || !formCard || !main || !layout) return;
+      if (window.innerWidth <= 900) {
+        if (sidebar.parentNode !== main) {
+          main.insertBefore(sidebar, formCard);
+          sidebar.style.position = "static";
+          sidebar.style.top = "auto";
+        }
+      } else {
+        if (sidebar.parentNode === main) {
+          layout.appendChild(sidebar);
+          sidebar.style.position = "sticky";
+          sidebar.style.top = "80px";
+        }
+      }
+    }
+    applyMobileOrder();
+    window.addEventListener("resize", applyMobileOrder);
+
     initMenu();
     updatePrice();
 
