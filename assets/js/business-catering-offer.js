@@ -174,10 +174,11 @@
 
   function updatePrice() {
     var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
+    var labelEl = document.getElementById("priceTotalLabel");
+    if (labelEl) labelEl.textContent = guests ? "GESAMT FÜR " + guests + " PERSONEN" : "GESAMT";
     if (!hasSelection()) {
       document.getElementById("priceMK").textContent = "0,00 €";
       document.getElementById("priceRegular").textContent = "0,00 €";
-      document.getElementById("priceGuests").textContent = guests || "?";
       document.getElementById("priceTotal").textContent = "0,00 €";
       updateSidebar();
       return;
@@ -186,7 +187,6 @@
     var regular = mk * SHOW_MULT;
     document.getElementById("priceMK").textContent = formatEur(mk);
     document.getElementById("priceRegular").textContent = formatEur(regular);
-    document.getElementById("priceGuests").textContent = guests || "?";
     document.getElementById("priceTotal").textContent = guests ? formatEur(mk * guests) : "—";
     updateSidebar();
   }
