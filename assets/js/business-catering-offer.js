@@ -93,13 +93,14 @@
     ".fi-ico{font-size:1.05rem;flex-shrink:0;margin-right:10px;opacity:.65;pointer-events:none;}",
     ".fi-input{border:none!important;outline:none!important;box-shadow:none!important;padding:13px 0!important;background:transparent!important;width:100%;font-size:0.95rem;color:inherit;}",
     ".fi-input::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}",
-    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;}}",
+    "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;display:flex !important;flex-direction:column;}#cateringMain{order:1;}#cateringSidebar{order:2;position:static !important;top:auto !important;}#cateringFormWrap{order:3;}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;}}",
+    "@media(max-width:600px){#cateringEvGrid{grid-template-columns:1fr !important;}.fi-wrap{border-radius:14px;}.fi-input{padding:15px 0 !important;}}",
     "#mkiBar{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--color-primary,#e63030);color:#fff;display:none;align-items:center;gap:10px;padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 24px rgba(0,0,0,.35);box-sizing:border-box;}",
     "@media(max-width:900px){#mkiBar{display:flex;}}",
     "@media(min-width:901px){#mkiBar{display:none!important;}}",
     ".mkiBar__info{flex:1;min-width:0;overflow:hidden;}",
     ".mkiBar__label{font-size:0.68rem;opacity:.8;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
-    ".mkiBar__price{font-size:1.1rem;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
+    ".mkiBar__price{font-size:1.55rem;font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
     ".mkiBar__sub{font-size:0.68rem;font-weight:400;opacity:.8;margin-left:3px;}",
     ".mkiBar__btn{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:10px;padding:9px 14px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;touch-action:manipulation;}"
   ].join("");
