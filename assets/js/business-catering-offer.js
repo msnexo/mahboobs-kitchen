@@ -67,22 +67,30 @@
     ".mki__desc{font-size:0.75rem;color:var(--color-text-soft,#888);line-height:1.45;}",
     ".mki__dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border,#ccc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .15s;margin-top:3px;}",
     ".mki.on .mki__dot{background:var(--color-primary,#e63030);border-color:var(--color-primary,#e63030);color:#fff;}",
-    ".mki-cat{margin-bottom:32px;padding:18px 18px 16px;border-radius:16px;}",
+    ".mki-cat{margin-bottom:12px;border-radius:16px;overflow:hidden;}",
+    ".mki-cat-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none;gap:10px;}",
+    ".mki-cat-hd:hover{opacity:.88;}",
+    ".mki-cat-arrow{font-size:1rem;transition:transform .25s;line-height:1;color:#888;}",
+    ".mki-cat.open .mki-cat-arrow{transform:rotate(180deg);}",
+    ".mki-cat-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s ease;}",
+    ".mki-cat.open .mki-cat-body{max-height:2400px;padding:0 18px 16px;}",
     ".mki-cat-vorspeise{background:rgba(16,185,129,.06);}",
+    ".mki-cat-vorspeise .mki-cat-hd{background:rgba(16,185,129,.09);}",
     ".mki-cat-vorspeise .mki{background:rgba(16,185,129,.05);border-color:rgba(16,185,129,.3);}",
     ".mki-cat-vorspeise .mki:hover{border-color:var(--color-primary,#e63030);}",
     ".mki-cat-hauptgericht{background:rgba(245,100,40,.06);}",
+    ".mki-cat-hauptgericht .mki-cat-hd{background:rgba(245,100,40,.09);}",
     ".mki-cat-hauptgericht .mki{background:rgba(245,100,40,.05);border-color:rgba(245,100,40,.28);}",
     ".mki-cat-hauptgericht .mki:hover{border-color:var(--color-primary,#e63030);}",
     ".mki-cat-beilage{background:rgba(234,179,8,.07);}",
+    ".mki-cat-beilage .mki-cat-hd{background:rgba(234,179,8,.12);}",
     ".mki-cat-beilage .mki{background:rgba(234,179,8,.06);border-color:rgba(200,155,5,.3);}",
     ".mki-cat-beilage .mki:hover{border-color:var(--color-primary,#e63030);}",
     ".mki-cat-nachtisch{background:rgba(139,92,246,.06);}",
+    ".mki-cat-nachtisch .mki-cat-hd{background:rgba(139,92,246,.1);}",
     ".mki-cat-nachtisch .mki{background:rgba(139,92,246,.05);border-color:rgba(139,92,246,.28);}",
     ".mki-cat-nachtisch .mki:hover{border-color:var(--color-primary,#e63030);}",
     ".mki-cat .mki.on{border-color:var(--color-primary,#e63030)!important;background:rgba(230,48,48,.09)!important;}",
-    ".mki-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}",
-    ".mki-hd h3{margin:0;font-size:1.05rem;}",
     ".mki-cnt{font-size:0.78rem;padding:2px 10px;border-radius:100px;font-weight:600;}",
     ".mki-cnt.ok{background:rgba(230,48,48,.12);color:var(--color-primary,#e63030);}",
     ".mki-cnt.neutral{background:var(--color-bg-soft,#f4f4f4);color:var(--color-text-soft,#888);}",
@@ -262,14 +270,21 @@
     return '<span class="mki__flag"><img src="https://flagcdn.com/20x15/' + code + '.png" width="20" height="15" alt="' + code.toUpperCase() + '"></span>';
   }
 
-  function renderCategory(key, title, icon, isRadio, hint) {
+  function renderCategory(key, title, icon, isRadio, hint, defaultOpen) {
     var items = ITEMS[key];
     var countBadge = isRadio ? "bitte wählen" : "0 gewählt";
+    var openClass = defaultOpen ? " open" : "";
     var html =
-      '<div class="mki-cat mki-cat-' + key + '">' +
-      '<div class="mki-hd"><h3>' + icon + " " + title + "</h3>" +
-      '<span class="mki-cnt neutral" id="cnt-' + key + '">' + countBadge + "</span></div>" +
-      (hint ? '<p class="mki-hint">' + hint + "</p>" : "") +
+      '<div class="mki-cat mki-cat-' + key + openClass + '" id="mki-acc-' + key + '">' +
+      '<div class="mki-cat-hd" onclick="(function(el){var cat=el.closest(\'.mki-cat\');cat.classList.toggle(\'open\');})(this)">' +
+        '<div style="display:flex;align-items:center;gap:10px;">' +
+          '<h3 style="margin:0;">' + icon + " " + title + "</h3>" +
+          '<span class="mki-cnt neutral" id="cnt-' + key + '">' + countBadge + "</span>" +
+        "</div>" +
+        '<span class="mki-cat-arrow">▼</span>' +
+      "</div>" +
+      '<div class="mki-cat-body">' +
+      (hint ? '<p class="mki-hint" style="margin:8px 0 12px;">' + hint + "</p>" : "") +
       '<div class="mki-grid">';
     items.forEach(function (item) {
       var val = item[1];
@@ -288,17 +303,17 @@
         '<span class="mki__dot"></span>' +
         "</div>";
     });
-    html += "</div></div>";
+    html += "</div></div></div>";
     return html;
   }
 
   function initMenu() {
     var section = document.getElementById("menuSection");
     section.innerHTML =
-      renderCategory("vorspeise", "Vorspeise", "🥗", false, "3 €/Person · jede Vorspeise zählt einzeln") +
-      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "Basispaket: 2 Gerichte · jedes weitere +7 €/P · weniger = günstiger") +
-      renderCategory("beilage", "Beilagen", "🥘", false, "Basispaket: 2 Beilagen · jede weitere +2 €/P · weniger = günstiger") +
-      renderCategory("nachtisch", "Nachtisch", "🍮", false, "3 €/Person · jeder Nachtisch zählt einzeln");
+      renderCategory("vorspeise", "Vorspeise", "🥗", false, "3 €/Person · jede Vorspeise zählt einzeln", true) +
+      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "Basispaket: 2 Gerichte · jedes weitere +7 €/P · weniger = günstiger", false) +
+      renderCategory("beilage", "Beilagen", "🥘", false, "Basispaket: 2 Beilagen · jede weitere +2 €/P · weniger = günstiger", false) +
+      renderCategory("nachtisch", "Nachtisch", "🍮", false, "3 €/Person · jeder Nachtisch zählt einzeln", false);
 
     Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
       card.addEventListener("click", function () {
