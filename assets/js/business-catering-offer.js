@@ -95,9 +95,8 @@
     ".fi-input::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}",
     "@media(max-width:900px){#cateringLayout{grid-template-columns:1fr !important;}#cateringSidebar{position:static !important;top:auto !important;}}",
     "#mkiBar{position:fixed;bottom:0;left:0;right:0;z-index:600;background:var(--color-primary,#e63030);color:#fff;display:none;align-items:center;gap:12px;padding:13px 16px 17px;box-shadow:0 -4px 24px rgba(0,0,0,.3);}",
-    "#mkiBar.on{display:flex;}",
+    "@media(max-width:900px){#mkiBar{display:flex;}body{padding-bottom:76px;}}",
     "@media(min-width:901px){#mkiBar{display:none!important;}}",
-    "@media(max-width:900px){#mkiBar.on~* body,body{padding-bottom:72px;}}",
     ".mkiBar__info{flex:1;min-width:0;}",
     ".mkiBar__label{font-size:0.7rem;opacity:.75;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
     ".mkiBar__price{font-size:1.2rem;font-weight:700;line-height:1.1;}",
@@ -182,24 +181,19 @@
   }
 
   function updateMobileBar(mk, guests) {
-    var bar = document.getElementById("mkiBar");
-    if (!bar) return;
+    var labelEl = document.getElementById("mkiBarLabel");
+    var priceEl = document.getElementById("mkiBarPrice");
+    if (!labelEl || !priceEl) return;
     if (!hasSelection()) {
-      bar.classList.remove("on");
-      document.body.style.paddingBottom = "";
+      labelEl.textContent = "Noch nichts gewählt";
+      priceEl.innerHTML = '0,00 €<span class="mkiBar__sub">/Person</span>';
       return;
     }
-    bar.classList.add("on");
-    document.body.style.paddingBottom = "72px";
+    var parts = [];
+    CAT_META.forEach(function (m) { if (sel[m.key].length) parts.push(sel[m.key].length + "× " + m.label); });
     var total = (guests && mk) ? " · " + formatEur(mk * guests) + " ges." : "";
-    var label = (function () {
-      var parts = [];
-      CAT_META.forEach(function (m) { if (sel[m.key].length) parts.push(sel[m.key].length + " " + m.label); });
-      return parts.join(" · ") + (guests ? " · " + guests + " Pers." : "");
-    }());
-    document.getElementById("mkiBarLabel").textContent = label;
-    document.getElementById("mkiBarPrice").innerHTML =
-      formatEur(mk || 0) + '<span class="mkiBar__sub">/Person' + total + "</span>";
+    labelEl.textContent = parts.join(" · ") + (guests ? " · " + guests + " Pers." : "");
+    priceEl.innerHTML = formatEur(mk || 0) + '<span class="mkiBar__sub">/Person' + total + "</span>";
   }
 
   function updatePrice() {
