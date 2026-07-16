@@ -180,10 +180,12 @@
 
     function buildCateringLink(firma, person, msg, code) {
       var base = window.location.origin + "/business/catering-angebot/";
+      // If a card_code exists, the catering page fetches firma/person from Supabase
+      if (code) return base + "?code=" + encodeURIComponent(code);
+      // Fallback for manual links without a code
       var params = "firma=" + encodeURIComponent(firma);
       if (person) params += "&person=" + encodeURIComponent(person);
       if (msg) params += "&msg=" + encodeURIComponent(msg);
-      if (code) params += "&code=" + encodeURIComponent(code);
       return base + "?" + params;
     }
 

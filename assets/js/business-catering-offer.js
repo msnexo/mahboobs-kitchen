@@ -361,11 +361,11 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     var params = getParams();
-    var firma = params.firma || "Ihre Firma";
-    var person = params.person || "";
     var msg = params.msg || "";
     var code = params.code || "MK-XXXXXX";
 
+    function startPage(firma, person) {
+      firma = firma || "Ihre Firma";
     document.getElementById("cateringCardFirma").textContent = firma.toUpperCase();
     document.getElementById("cateringCardCode").textContent = code;
     document.getElementById("cateringGreeting").textContent =
@@ -448,6 +448,19 @@
         statusEl.className = "form-status form-status--error";
         document.getElementById("cateringSubmitBtn").disabled = false;
       });
-    });
+    }
+    } // end startPage
+
+    if (code !== "MK-XXXXXX" && !params.firma && window.SUPABASE_URL && window.supabase) {
+      var sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+      sb.rpc("get_company_by_code", { p_code: code })
+        .then(function(res) {
+          var d = res.data || {};
+          startPage(d.company_name || "", d.contact_person || "");
+        })
+        .catch(function() { startPage(params.firma || "", params.person || ""); });
+    } else {
+      startPage(params.firma || "", params.person || "");
+    }
   });
 })();
