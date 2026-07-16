@@ -200,6 +200,17 @@
       var code = lastCateringCompany ? lastCateringCompany.card_code : "";
       var link = buildCateringLink(firma, person, msg, code);
 
+      // Upload company data to public storage so ?code=X short links work
+      if (code) {
+        var blob = new Blob(
+          [JSON.stringify({ company_name: firma, contact_person: person })],
+          { type: "application/json" }
+        );
+        client.storage.from("catering-links").upload(code + ".json", blob, {
+          contentType: "application/json", upsert: true
+        });
+      }
+
       cateringLinkDisplay.textContent = link;
       cateringLinkDisplay.style.display = "";
       cateringLinkCopyBtn.style.display = "";

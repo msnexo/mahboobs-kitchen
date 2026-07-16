@@ -451,14 +451,15 @@
     }
     } // end startPage
 
-    if (code !== "MK-XXXXXX" && !params.firma && window.SUPABASE_URL && window.supabase) {
-      var sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-      sb.rpc("get_company_by_code", { p_code: code })
-        .then(function(res) {
-          var d = res.data || {};
-          startPage(d.company_name || "", d.contact_person || "");
+    if (code !== "MK-XXXXXX" && !params.firma && window.SUPABASE_URL) {
+      var storageUrl = window.SUPABASE_URL +
+        "/storage/v1/object/public/catering-links/" + encodeURIComponent(code) + ".json";
+      fetch(storageUrl)
+        .then(function(res) { return res.ok ? res.json() : {}; })
+        .then(function(data) {
+          startPage(data.company_name || "", data.contact_person || "");
         })
-        .catch(function() { startPage(params.firma || "", params.person || ""); });
+        .catch(function() { startPage("", ""); });
     } else {
       startPage(params.firma || "", params.person || "");
     }
