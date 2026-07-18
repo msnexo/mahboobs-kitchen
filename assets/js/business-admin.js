@@ -180,12 +180,10 @@
 
     function buildCateringLink(firma, person, msg, code) {
       var base = window.location.origin + "/business/catering-angebot/";
-      // If a card_code exists, the catering page fetches firma/person from Supabase
-      if (code) return base + "?code=" + encodeURIComponent(code);
-      // Fallback for manual links without a code
       var params = "firma=" + encodeURIComponent(firma);
       if (person) params += "&person=" + encodeURIComponent(person);
       if (msg) params += "&msg=" + encodeURIComponent(msg);
+      if (code) params += "&code=" + encodeURIComponent(code);
       return base + "?" + params;
     }
 
@@ -198,27 +196,30 @@
       var person = cateringLinkPersonEl.value.trim();
       var msg = cateringLinkMsgEl.value.trim();
       var code = lastCateringCompany ? lastCateringCompany.card_code : "";
-      var link = buildCateringLink(firma, person, msg, code);
+      var fullLink = buildCateringLink(firma, person, msg, code);
 
-      // Upload company data to public storage so ?code=X short links work
-      if (code) {
-        var blob = new Blob(
-          [JSON.stringify({ company_name: firma, contact_person: person })],
-          { type: "application/json" }
-        );
-        client.storage.from("catering-links").upload(code + ".json", blob, {
-          contentType: "application/json", upsert: true
-        });
+      cateringLinkDisplay.textContent = "Link wird gekürzt …";
+      cateringLinkDisplay.style.display = "";
+      cateringLinkCopyBtn.style.display = "none";
+      cateringLinkWaBtn.style.display = "none";
+
+      function showLink(link) {
+        cateringLinkDisplay.textContent = link;
+        cateringLinkCopyBtn.style.display = "";
+        cateringLinkCopyBtn.textContent = "Link kopieren";
+        var phone = lastCateringCompany ? lastCateringCompany.phone : "";
+        cateringLinkWaBtn.style.display = phone ? "" : "none";
+        var waMsg = "Hallo" + (person ? " " + person : "") +
+          ", hier ist Ihr persönlicher Catering-Konfigurator: " + link;
+        cateringLinkWaBtn.href = buildWhatsAppLink(phone, waMsg);
       }
 
-      cateringLinkDisplay.textContent = link;
-      cateringLinkDisplay.style.display = "";
-      cateringLinkCopyBtn.style.display = "";
-      cateringLinkCopyBtn.textContent = "Link kopieren";
-
-      cateringLinkWaBtn.style.display = lastCateringCompany && lastCateringCompany.phone ? "" : "none";
-      var waMsg = "Hallo" + (person ? " " + person : "") + ", wir haben Ihnen ein persönliches Catering-Angebot zusammengestellt. Hier können Sie Ihr Menü auswählen und eine unverbindliche Anfrage stellen: " + link;
-      cateringLinkWaBtn.href = buildWhatsAppLink(lastCateringCompany ? lastCateringCompany.phone : "", waMsg);
+      fetch("https://is.gd/create.php?format=simple&url=" + encodeURIComponent(fullLink))
+        .then(function(res) { return res.ok ? res.text() : null; })
+        .then(function(short) {
+          showLink(short && short.trim().startsWith("http") ? short.trim() : fullLink);
+        })
+        .catch(function() { showLink(fullLink); });
     });
 
     cateringLinkCopyBtn.addEventListener("click", function () {
