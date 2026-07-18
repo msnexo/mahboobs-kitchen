@@ -68,14 +68,17 @@
     <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
       <div>
         <span class="eyebrow">MK Business Karte</span>
-        <h1>Vertrieb</h1>
+        <h1>Vertrieb <span id="pipelineUserBadge" style="font-size:0.7em;vertical-align:middle;padding:3px 10px;border-radius:100px;color:#fff;font-weight:700;"></span></h1>
       </div>
       <div class="btn-row">
         <button type="button" id="addProspectBtn" class="btn btn--primary">+ Neue Firma</button>
-        <a href="/business/admin/" class="btn btn--dark">Zum Admin-Bereich</a>
+        <button type="button" id="toggleViewBtn" class="btn btn--dark">Alle anzeigen</button>
+        <a href="/business/admin/" class="btn btn--dark" id="adminLink" style="display:none;">Admin</a>
+        <button type="button" id="logoutPipelineBtn" class="btn btn--dark">Abmelden</button>
       </div>
     </div>
-    <p class="muted" id="dailyCounter" style="margin-bottom:32px;font-size:1.05rem;">Wird geladen …</p>
+    <p class="muted" id="dailyCounter" style="margin-bottom:12px;font-size:1.05rem;">Wird geladen …</p>
+    <input type="text" id="pipelineSearch" placeholder="Firma suchen …" style="width:100%;max-width:400px;margin-bottom:24px;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;font-size:0.95rem;background:var(--color-card-bg);">
 
     <div id="pipelineLeads" style="margin-bottom:32px;"></div>
     <div id="pipelineOverdue" style="margin-bottom:32px;"></div>
@@ -87,6 +90,25 @@
     <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
   </div>
 </section>
+
+<div class="modal-overlay" id="pipelineLoginOverlay" hidden>
+  <div class="modal-box" style="max-width:360px;text-align:center;">
+    <span class="eyebrow">MK Vertrieb</span>
+    <h2 style="margin-bottom:24px;">Wer bist du?</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+      <button type="button" class="btn btn--primary pipeline-user-btn" data-user="REA" style="background:#10b981;border-color:#10b981;">REA</button>
+      <button type="button" class="btn btn--primary pipeline-user-btn" data-user="SAF" style="background:#3b82f6;border-color:#3b82f6;">SAF</button>
+      <button type="button" class="btn btn--primary pipeline-user-btn" data-user="FAZ" style="background:#f59e0b;border-color:#f59e0b;">FAZ</button>
+    </div>
+    <div id="pipelinePinEntry" style="display:none;">
+      <p class="muted" id="pipelinePinLabel" style="margin-bottom:10px;"></p>
+      <input type="password" id="pipelinePinInput" placeholder="PIN eingeben" maxlength="20"
+        style="width:100%;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;font-size:1.1rem;text-align:center;margin-bottom:10px;">
+      <button type="button" id="pipelinePinConfirm" class="btn btn--primary" style="width:100%;">Einloggen</button>
+      <p class="form-status form-status--error" id="pipelinePinError" style="min-height:1.2em;margin-top:8px;"></p>
+    </div>
+  </div>
+</div>
 
 <div class="modal-overlay" id="addProspectOverlay" hidden>
   <div class="modal-box">
@@ -159,6 +181,16 @@
       <option value="customer">Kunde</option>
       <option value="lost">Kein Interesse</option>
     </select>
+
+    <div style="margin-top:16px;">
+      <label class="field-label">Lead übergeben an</label>
+      <div style="display:flex;gap:8px;">
+        <button type="button" class="btn transfer-btn" data-target="REA" style="background:#10b981;color:#fff;border-color:#10b981;flex:1;">REA</button>
+        <button type="button" class="btn transfer-btn" data-target="SAF" style="background:#3b82f6;color:#fff;border-color:#3b82f6;flex:1;">SAF</button>
+        <button type="button" class="btn transfer-btn" data-target="FAZ" style="background:#f59e0b;color:#fff;border-color:#f59e0b;flex:1;">FAZ</button>
+      </div>
+      <p id="transferStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
+    </div>
 
     <label class="field-label" for="prospectDetailNotes">Notizen</label>
     <textarea id="prospectDetailNotes" rows="3"></textarea>
@@ -252,7 +284,7 @@
 </div>
 <script src="/assets/js/main.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script>window.SUPABASE_URL="https://rodfrlvzoiwvwpjbvrhw.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvZGZybHZ6b2l3dndwamJ2cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODUxODksImV4cCI6MjA5Nzk2MTE4OX0.nQZ_VvILG2t7pKiDDQXTqZ3XTX_2q_jYKzb5OnpfEqg";</script>
+<script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111", "SAF": "2222", "FAZ": "3333"};</script>
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-pipeline.js" defer></script>
 </body>

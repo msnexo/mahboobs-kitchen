@@ -3,6 +3,14 @@
 
   var DAILY_GOAL = 10;
 
+  var PIPELINE_PINS = window.PIPELINE_PINS || { REA: "1111", SAF: "2222", FAZ: "3333" };
+  var USER_COLORS   = { REA: "#10b981", SAF: "#3b82f6", FAZ: "#f59e0b" };
+
+  function getPipelineUser()   { return sessionStorage.getItem("mk_pipeline_user"); }
+  function setPipelineUser(u)  { sessionStorage.setItem("mk_pipeline_user", u); }
+  function clearPipelineUser() { sessionStorage.removeItem("mk_pipeline_user"); }
+
+
   function escapeHtml(str) {
     return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -117,11 +125,13 @@
     localStorage.setItem("mk_reminders", JSON.stringify(remaining));
   }
 
-  window.mkBusiness.requireAdminSession(function (session, client) {
+  function startPipeline(client, currentUser) {
     var allProspects = [];
     var currentPeople = [];
     var selectedProspectId = null;
     var showArchive = false;
+    var showAll = false;
+    var searchQuery = "";
 
     var dailyCounterEl = document.getElementById("dailyCounter");
 
@@ -186,7 +196,8 @@
         '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
         "<div><strong>" + escapeHtml(p.name) + '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
-        '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span></div>" +
+        '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>" +
+        '<span style="margin-left:6px;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:700;color:#fff;background:' + (USER_COLORS[p.assigned_to] || '#888') + ';">' + escapeHtml(p.assigned_to || 'REA') + "</span></div>" +
         "</div>" +
         (p.next_contact_date ? '<p class="muted" style="margin:6px 0 0;font-size:0.8rem;">Termin: ' + formatDateOnly(p.next_contact_date) + "</p>" : "") +
         (p.notes ? '<p class="muted" style="margin:8px 0 0;font-size:0.85rem;">' + escapeHtml(p.notes.slice(0, 120)) + "</p>" : "") +
@@ -269,8 +280,14 @@
     function renderPipeline() {
       var today = todayISO();
       var tomorrow = addDaysISO(1);
-      var active = allProspects.filter(function (p) { return p.status === "lead" || p.status === "contacted"; });
-      var archived = allProspects.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
+      var q = searchQuery.toLowerCase();
+      var visible = allProspects.filter(function (p) {
+        if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
+        if (!showAll && (p.assigned_to || "REA") !== currentUser) return false;
+        return true;
+      });
+      var active = visible.filter(function (p) { return p.status === "lead" || p.status === "contacted"; });
+      var archived = visible.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
 
       var leads = active.filter(function (p) { return !p.next_contact_date; }).sort(byCreated);
       var overdue = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) < today; }).sort(byDate);
@@ -409,6 +426,8 @@
       reminderStatus.textContent = "";
       reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
       conversionLinkBox.hidden = true;
+      var xferStatus = document.getElementById("transferStatus");
+      if (xferStatus) xferStatus.textContent = "Aktuell: " + (p.assigned_to || "REA");
       detailOverlay.hidden = false;
       loadPeople(id);
       loadHistory(id);
@@ -432,6 +451,47 @@
       toggleArchiveBtn.textContent = showArchive ? "Archiv ausblenden" : "Archiv anzeigen";
     });
 
+    // ── Suche ──────────────────────────────────────────────────────────────
+    var pipelineSearchEl = document.getElementById("pipelineSearch");
+    if (pipelineSearchEl) {
+      pipelineSearchEl.addEventListener("input", function () {
+        searchQuery = pipelineSearchEl.value.trim();
+        renderPipeline();
+      });
+    }
+
+    // ── Alle / Meine Toggle ─────────────────────────────────────────────────
+    var toggleViewBtn = document.getElementById("toggleViewBtn");
+    if (toggleViewBtn) {
+      toggleViewBtn.addEventListener("click", function () {
+        showAll = !showAll;
+        toggleViewBtn.textContent = showAll ? "Meine anzeigen" : "Alle anzeigen";
+        renderPipeline();
+      });
+    }
+
+    // ── Uebergabe-Buttons ───────────────────────────────────────────────────
+    Array.prototype.forEach.call(document.querySelectorAll(".transfer-btn"), function (btn) {
+      btn.addEventListener("click", function () {
+        if (!selectedProspectId) return;
+        var target = btn.getAttribute("data-target");
+        client.from("prospects").update({ assigned_to: target }).eq("id", selectedProspectId).then(function () {
+          var ts = document.getElementById("transferStatus");
+          if (ts) ts.textContent = "Übergeben an " + target + " ✓";
+          loadProspects();
+        });
+      });
+    });
+
+    // ── Abmelden ────────────────────────────────────────────────────────────
+    var logoutPipelineBtn = document.getElementById("logoutPipelineBtn");
+    if (logoutPipelineBtn) {
+      logoutPipelineBtn.addEventListener("click", function () {
+        clearPipelineUser();
+        window.location.reload();
+      });
+    }
+
     addProspectForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = document.getElementById("prospectName").value.trim();
@@ -446,7 +506,7 @@
       if (!name) return;
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
-      client.from("prospects").insert({ name: name, category: category, status: status, website: website, address: address }).select().single().then(function (res) {
+      client.from("prospects").insert({ name: name, category: category, status: status, website: website, address: address, assigned_to: currentUser }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
         if (people.length) {
@@ -649,5 +709,66 @@
 
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });
-  });
+  } // end startPipeline
+
+  // ── Pipeline-Authentifizierung & Boot ─────────────────────────────────
+  (function () {
+    var loginOverlay = document.getElementById("pipelineLoginOverlay");
+    var pinEntry     = document.getElementById("pipelinePinEntry");
+    var pinLabel     = document.getElementById("pipelinePinLabel");
+    var pinInput     = document.getElementById("pipelinePinInput");
+    var pinConfirm   = document.getElementById("pipelinePinConfirm");
+    var pinError     = document.getElementById("pipelinePinError");
+    var userBadge    = document.getElementById("pipelineUserBadge");
+    var adminLink    = document.getElementById("adminLink");
+    var pendingUser  = null;
+
+    function bootWithUser(user) {
+      if (userBadge) {
+        userBadge.textContent = user;
+        userBadge.style.background = USER_COLORS[user] || "#888";
+      }
+      if (adminLink) adminLink.style.display = user === "REA" ? "" : "none";
+      // Supabase-Admin-Session erforderlich (schreibt RLS via is_admin())
+      window.mkBusiness.requireAdminSession(function (session, client) {
+        startPipeline(client, user);
+      });
+    }
+
+    // Bereits in dieser Session angemeldet?
+    var stored = getPipelineUser();
+    if (stored && PIPELINE_PINS[stored]) {
+      bootWithUser(stored);
+      return;
+    }
+
+    // Login-Overlay zeigen
+    if (loginOverlay) loginOverlay.hidden = false;
+
+    Array.prototype.forEach.call(document.querySelectorAll(".pipeline-user-btn"), function (btn) {
+      btn.addEventListener("click", function () {
+        pendingUser = btn.getAttribute("data-user");
+        if (pinLabel) pinLabel.textContent = "PIN für " + pendingUser + ":";
+        if (pinEntry) pinEntry.style.display = "";
+        if (pinInput) { pinInput.value = ""; pinInput.focus(); }
+        if (pinError) pinError.textContent = "";
+      });
+    });
+
+    function tryLogin() {
+      if (!pendingUser) return;
+      var entered = pinInput ? pinInput.value.trim() : "";
+      if (entered === PIPELINE_PINS[pendingUser]) {
+        setPipelineUser(pendingUser);
+        if (loginOverlay) loginOverlay.hidden = true;
+        bootWithUser(pendingUser);
+      } else {
+        if (pinError) pinError.textContent = "Falscher PIN. Bitte erneut versuchen.";
+        if (pinInput) pinInput.value = "";
+      }
+    }
+
+    if (pinConfirm) pinConfirm.addEventListener("click", tryLogin);
+    if (pinInput) pinInput.addEventListener("keydown", function (e) { if (e.key === "Enter") tryLogin(); });
+  })();
 })();
