@@ -454,6 +454,7 @@
     // ── Suche ──────────────────────────────────────────────────────────────
     var pipelineSearchEl = document.getElementById("pipelineSearch");
     if (pipelineSearchEl) {
+      pipelineSearchEl.value = "";
       pipelineSearchEl.addEventListener("input", function () {
         searchQuery = pipelineSearchEl.value.trim();
         renderPipeline();
