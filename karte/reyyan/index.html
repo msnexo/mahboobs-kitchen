@@ -106,8 +106,6 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 .pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
 .pill{background:var(--paper-soft);border:1px solid var(--line);border-radius:999px;
   padding:7px 13px;font-size:.83rem;font-weight:500}
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:17px}
-.shots img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;display:block}
 
 /* ---------- Weihnachts-Banner ---------- */
 .xmas{margin:26px 20px 0;padding:22px;border-radius:16px;
@@ -184,6 +182,25 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   stroke-linecap:round;stroke-linejoin:round}
 .bizitem strong{display:block;font-size:.85rem;margin-top:9px;font-weight:700;line-height:1.25}
 .bizitem span{display:block;font-size:.74rem;color:rgba(255,255,255,.76);margin-top:3px;line-height:1.35}
+
+/* ---------- Kuechen-Kacheln und Buffet-Rechner ---------- */
+.kitchens{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:17px}
+.kitchen{position:relative;display:block;border-radius:13px;overflow:hidden;
+  text-decoration:none;aspect-ratio:3/4;background:var(--paper-soft)}
+.kitchen img{width:100%;height:100%;object-fit:cover;display:block}
+.kitchen__label{position:absolute;left:0;right:0;bottom:0;padding:26px 6px 9px;color:#fff;
+  font-weight:700;font-size:.82rem;text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.80))}
+.builder{display:flex;align-items:center;gap:13px;margin-top:13px;padding:16px;
+  border-radius:14px;background:var(--ink);color:#fff;text-decoration:none}
+.builder__ic{flex:0 0 42px;width:42px;height:42px;border-radius:12px;background:var(--orange);
+  display:flex;align-items:center;justify-content:center}
+.builder__ic svg{width:22px;height:22px;stroke:#fff;stroke-width:1.7;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.builder__txt{flex:1}
+.builder__txt strong{display:block;font-size:.95rem}
+.builder__sub{display:block;font-size:.79rem;color:rgba(255,255,255,.72);margin-top:3px;line-height:1.35}
+.builder__arrow{color:var(--orange);font-weight:700;font-size:1.25rem}
 
 /* ---------- MK Business Karte ---------- */
 .biz{margin:26px 20px 0;padding:24px 22px;border-radius:16px;color:#fff;text-align:left;
@@ -278,6 +295,29 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
       <a href="mailto:info@mahboobs-kitchen.com">E-Mail</a></p>
   </section>
 
+  <section class="sec">
+    <p class="sec__kicker">Unsere K&uuml;che</p>
+    <h2 class="sec__title">Was bei uns auf den Tisch kommt</h2>
+    <p class="sec__text">Indisch, italienisch und japanisch &ndash; frisch gekocht und beliebig kombinierbar.</p>
+    <div class="kitchens">
+      <a class="kitchen" data-reveal href="https://mahboobs-kitchen.com/speisen/" target="_blank" rel="noopener">
+        <img src="/assets/img/indische-gerichte.webp" alt="Indische Gerichte" loading="lazy">
+        <span class="kitchen__label">Indisch</span></a>
+      <a class="kitchen" data-reveal href="https://mahboobs-kitchen.com/speisen/" target="_blank" rel="noopener">
+        <img src="/assets/img/italienische-gerichte.webp" alt="Italienische Gerichte" loading="lazy">
+        <span class="kitchen__label">Italienisch</span></a>
+      <a class="kitchen" data-reveal href="https://mahboobs-kitchen.com/speisen/" target="_blank" rel="noopener">
+        <img src="/assets/img/sushi-gerichte.webp" alt="Sushi" loading="lazy">
+        <span class="kitchen__label">Sushi</span></a>
+    </div>
+    <a class="builder" data-reveal href="https://mahboobs-kitchen.com/business/catering-angebot/" target="_blank" rel="noopener">
+      <span class="builder__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></span>
+      <span class="builder__txt"><strong>Buffet selbst zusammenstellen</strong>
+        <span class="builder__sub">Gerichte antippen &ndash; der Preis pro Person rechnet sich sofort aus</span></span>
+      <span class="builder__arrow">&rarr;</span>
+    </a>
+  </section>
+
   <section class="biz">
     <span class="biz__tag">Exklusiv f&uuml;r Firmenkunden</span>
     <h2 class="biz__title">Mit der MK Business Karte bin ich Ihr fester Partner</h2>
@@ -342,9 +382,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 
   <section class="sec">
     <p class="sec__kicker">Alles auf einen Blick</p>
-    <h2 class="sec__title">Unsere Leistungen und Speisen</h2>
-    <p class="sec__text">Indisch, italienisch und japanisch &ndash; frisch gekocht, f&uuml;r Firmen wie f&uuml;r private Feiern.</p>
-    <div class="shots"><img src="/assets/img/buffet-8.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"><img src="/assets/img/buffet-3.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"><img src="/assets/img/tisch-gedeckt-2.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"></div>
+    <h2 class="sec__title">Mehr &uuml;ber uns</h2>
     <div class="portal">
       <a href="https://mahboobs-kitchen.com/speisen/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-7a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h7z"/></svg>Speisekarte</a>
       <a href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l-1 5a5 5 0 0 1-10 0Z"/><path d="M12 13v7M8 21h8"/></svg>Firmen-Catering</a>
