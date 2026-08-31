@@ -65,9 +65,11 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   transform:translateY(-46px);border-radius:20px;overflow:hidden;background:var(--paper-soft);
   border:5px solid var(--paper);box-shadow:0 10px 28px rgba(0,0,0,.22)}
 .person__photo{width:100%;height:100%;object-fit:cover;display:block}
-.person__initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  background:var(--ink);color:#fff;font-family:var(--ff-head);font-weight:800;
-  font-size:2.6rem;letter-spacing:.02em}
+.person__ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:9px;background:var(--paper-soft);color:#b4aea3}
+.person__ph svg{width:52px;height:52px;stroke:currentColor;stroke-width:1.5;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.person__ph span{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
 .person__body{margin-top:-30px}
 .person__kicker{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--orange);font-weight:700}
@@ -152,7 +154,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   </header>
 
   <section class="person">
-    <div class="person__shot"><img class="person__photo" src="/assets/img/portrait-reyyan.jpg" alt="Reyyan Ahmad" width="236" height="236"></div>
+    <div class="person__shot"><span class="person__ph" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg><span>Foto folgt</span></span></div>
     <div class="person__body">
       <p class="person__kicker">Ihr pers&ouml;nlicher Ansprechpartner</p>
       <h1 class="person__name">
