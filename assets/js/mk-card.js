@@ -111,3 +111,38 @@
     });
   });
 })();
+
+/* Hero-Video: Autoplay auf dem Handy nachhelfen.
+   iOS/Android starten stummes Autoplay oft nicht von selbst - im Low Power Mode
+   bzw. Datensparmodus gar nicht. Daher play() wiederholt anstossen und
+   spaetestens bei der ersten Nutzergeste nachholen. */
+(function () {
+  "use strict";
+
+  var v = document.querySelector(".hero__video");
+  if (!v) return;
+
+  // Manche Browser pruefen die Property, nicht das Attribut.
+  v.muted = true;
+  v.defaultMuted = true;
+  v.setAttribute("muted", "");
+  v.setAttribute("playsinline", "");
+
+  function kick() {
+    if (!v.paused) return;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* Autoplay blockiert - Geste holt es nach */ });
+  }
+
+  kick();
+  v.addEventListener("loadeddata", kick);
+  v.addEventListener("canplay", kick);
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) kick();
+  });
+
+  ["touchstart", "pointerdown", "click", "scroll"].forEach(function (ev) {
+    document.addEventListener(ev, kick, { once: true, passive: true });
+  });
+})();

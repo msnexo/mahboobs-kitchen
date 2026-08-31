@@ -69,10 +69,9 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 .person__body{margin-top:-24px}
 .person__kicker{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--orange);font-weight:700}
-.person__name{font-family:var(--ff-head);font-weight:800;font-size:1.74rem;line-height:1.15;
-  letter-spacing:-.02em;margin-top:8px}
+.person__name{margin-top:12px;font-size:0}
 .person__role{color:var(--ink-soft);font-weight:600;font-size:.92rem;margin-top:5px}
-.person__sig{display:block;margin:15px auto 0;height:50px;width:auto;max-width:76%;opacity:.88}
+.person__sig{display:block;margin:0 auto;height:64px;width:auto;max-width:84%}
 
 /* ---------- Aktionen ---------- */
 .actions{padding:20px 20px 4px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -143,22 +142,22 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 <main class="wrap">
 
   <header class="hero">
-    <video class="hero__video" autoplay muted loop playsinline preload="metadata"
+    <video class="hero__video" autoplay muted loop playsinline preload="auto"
            poster="/assets/img/hero-poster.webp" aria-hidden="true" tabindex="-1">
       <source src="/assets/video/hero.mp4" type="video/mp4">
     </video>
     <img class="hero__logo" src="/assets/img/logo.webp" alt="Mahboobs Kitchen" width="190" height="72">
-    <p class="hero__tagline">Catering aus einer Hand</p>
   </header>
 
   <section class="person">
     <span class="person__initials" aria-hidden="true">RA</span>
     <div class="person__body">
       <p class="person__kicker">Ihr pers&ouml;nlicher Ansprechpartner</p>
-      <h1 class="person__name">Reyyan Ahmad</h1>
+      <h1 class="person__name">
+        <img class="person__sig" src="/assets/img/signatur-reyyan.png"
+             alt="Reyyan Ahmad" width="260" height="50">
+      </h1>
       <p class="person__role">Firmen-Catering & Business Karte</p>
-      <img class="person__sig" src="/assets/img/signatur-reyyan.png"
-           alt="Unterschrift Reyyan Ahmad" width="260" height="50" loading="lazy">
     </div>
   </section>
 
