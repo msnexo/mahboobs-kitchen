@@ -1,0 +1,113 @@
+(function () {
+  "use strict";
+
+  var form = document.getElementById("cardForm");
+  if (!form) return;
+
+  var msg = document.getElementById("cMsg");
+  var btn = document.getElementById("cSubmit");
+  var fName = document.getElementById("cName");
+  var fCompany = document.getElementById("cCompany");
+  var fPhone = document.getElementById("cPhone");
+  var fEmail = document.getElementById("cEmail");
+  var fConsent = document.getElementById("cConsent");
+
+  function val(el) {
+    return el && el.value ? el.value.trim() : "";
+  }
+
+  function say(text, kind) {
+    msg.textContent = text;
+    msg.className = "form__msg" + (kind ? " form__msg--" + kind : "");
+  }
+
+  function reset(label) {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+
+  function done() {
+    say("Danke! Ich melde mich persönlich bei Ihnen.", "ok");
+    form.reset();
+    btn.textContent = "Gesendet ✓";
+  }
+
+  // Notfall-Weg: wenn Supabase nicht erreichbar ist, geht der Kontakt per
+  // Formspree an info@mahboobs-kitchen.com - es darf keiner verloren gehen.
+  function sendFallback(payload) {
+    if (!window.CARD_FALLBACK) return Promise.reject(new Error("no fallback"));
+    var body = new FormData();
+    body.append("Firma", payload.p_company);
+    body.append("Name", payload.p_name);
+    body.append("Telefon", payload.p_phone || "—");
+    body.append("E-Mail", payload.p_email || "—");
+    body.append("Einwilligung", payload.p_consent ? "ja" : "nein");
+    body.append("Quelle", "Visitenkarte " + (window.CARD_PERSON || ""));
+    return fetch(window.CARD_FALLBACK, {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: body
+    }).then(function (res) {
+      if (!res.ok) throw new Error("fallback failed");
+    });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name = val(fName);
+    var company = val(fCompany);
+    var phone = val(fPhone);
+    var email = val(fEmail);
+
+    if (!name && !company) {
+      say("Bitte Namen oder Firma angeben.", "err");
+      (name ? fCompany : fName).focus();
+      return;
+    }
+    // Telefon ODER E-Mail reicht - wenn beides da ist, wird auch beides gespeichert.
+    if (!phone && !email) {
+      say("Bitte Telefon oder E-Mail angeben – eines von beiden genügt.", "err");
+      fPhone.focus();
+      return;
+    }
+    if (email && email.indexOf("@") < 1) {
+      say("Bitte eine gültige E-Mail-Adresse angeben.", "err");
+      fEmail.focus();
+      return;
+    }
+
+    var payload = {
+      p_company: company,
+      p_name: name,
+      p_phone: phone,
+      p_email: email,
+      p_role: null,
+      p_consent: !!(fConsent && fConsent.checked),
+      p_owner: window.CARD_OWNER || "REA",
+      p_source: "Visitenkarte " + (window.CARD_PERSON || "")
+    };
+
+    btn.disabled = true;
+    btn.textContent = "Wird gesendet …";
+    say("");
+
+    var client = null;
+    if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+      client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    }
+
+    var attempt = client
+      ? client.rpc("submit_card_contact", payload).then(function (res) {
+          if (res.error) throw res.error;
+        })
+      : Promise.reject(new Error("no client"));
+
+    attempt.then(done).catch(function () {
+      sendFallback(payload).then(done).catch(function () {
+        say("Senden hat nicht geklappt. Rufen Sie mich gern direkt an.", "err");
+        reset("Kontakt senden");
+      });
+    });
+  });
+})();
