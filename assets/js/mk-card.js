@@ -11,6 +11,8 @@
   var fPhone = document.getElementById("cPhone");
   var fEmail = document.getElementById("cEmail");
   var fConsent = document.getElementById("cConsent");
+  var fOccasion = document.getElementById("cOccasion");
+  var fDate = document.getElementById("cDate");
 
   function val(el) {
     return el && el.value ? el.value.trim() : "";
@@ -42,7 +44,9 @@
     body.append("Telefon", payload.p_phone || "—");
     body.append("E-Mail", payload.p_email || "—");
     body.append("Einwilligung", payload.p_consent ? "ja" : "nein");
-    body.append("Quelle", "Visitenkarte " + (window.CARD_PERSON || ""));
+    body.append("Anlass", payload.p_anlass || "—");
+    body.append("Wunschtermin", payload.p_termin || "—");
+    body.append("Quelle", payload.p_source);
     return fetch(window.CARD_FALLBACK, {
       method: "POST",
       headers: { Accept: "application/json" },
@@ -50,6 +54,29 @@
     }).then(function (res) {
       if (!res.ok) throw new Error("fallback failed");
     });
+  }
+
+  // Die RPC kennt nur ihre acht Parameter - Extras vorher abziehen.
+  function rpcPayload(p) {
+    var out = {};
+    Object.keys(p).forEach(function (k) {
+      if (k !== "p_anlass" && k !== "p_termin") out[k] = p[k];
+    });
+    return out;
+  }
+
+  function terminText() {
+    var d = val(fDate);
+    if (!d) return "";
+    var t = d.split("-");
+    return t.length === 3 ? t[2] + "." + t[1] + "." + t[0] : d;
+  }
+
+  function quelle() {
+    var teile = ["Visitenkarte " + (window.CARD_PERSON || "")];
+    if (val(fOccasion)) teile.push("Anlass: " + val(fOccasion));
+    if (terminText()) teile.push("Wunschtermin: " + terminText());
+    return teile.join(" · ");
   }
 
   form.addEventListener("submit", function (e) {
@@ -61,7 +88,7 @@
     var email = val(fEmail);
 
     if (!name && !company) {
-      say("Bitte Namen oder Firma angeben.", "err");
+      say("Bitte Ihren Namen angeben.", "err");
       (name ? fCompany : fName).focus();
       return;
     }
@@ -85,8 +112,10 @@
       p_role: null,
       p_consent: !!(fConsent && fConsent.checked),
       p_owner: window.CARD_OWNER || "REA",
-      p_source: "Visitenkarte " + (window.CARD_PERSON || "")
+      p_source: quelle()
     };
+    payload.p_anlass = val(fOccasion);
+    payload.p_termin = terminText();
 
     btn.disabled = true;
     btn.textContent = "Wird gesendet …";
@@ -98,7 +127,7 @@
     }
 
     var attempt = client
-      ? client.rpc("submit_card_contact", payload).then(function (res) {
+      ? client.rpc("submit_card_contact", rpcPayload(payload)).then(function (res) {
           if (res.error) throw res.error;
         })
       : Promise.reject(new Error("no client"));
