@@ -120,15 +120,33 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   text-decoration:none;font-weight:700;padding:13px 24px;border-radius:11px;font-size:.94rem}
 
 /* ---------- Prozess in Schritten ---------- */
-.steps{list-style:none;margin:20px 0 0;padding:0;position:relative}
-.steps::before{content:"";position:absolute;left:17px;top:18px;bottom:22px;width:2px;background:var(--line)}
-.step{position:relative;display:flex;gap:14px;padding-bottom:20px}
+.steps{list-style:none;margin:22px 0 0;padding:0;position:relative}
+.steps::before{content:"";position:absolute;left:22px;top:20px;bottom:26px;width:2px;
+  background:linear-gradient(180deg,var(--orange),var(--line));
+  transform:scaleY(0);transform-origin:top;transition:transform .9s cubic-bezier(.4,0,.2,1) .1s}
+.steps.is-in::before{transform:scaleY(1)}
+.step{position:relative;display:flex;gap:15px;padding-bottom:22px}
 .step:last-child{padding-bottom:0}
-.step__num{flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;
-  display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-weight:800;
-  font-size:.95rem;z-index:1;box-shadow:0 0 0 5px var(--paper)}
-.step strong{display:block;font-size:.98rem;padding-top:8px}
+.step__mark{position:relative;flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+  background:var(--orange);display:flex;align-items:center;justify-content:center;z-index:1;
+  box-shadow:0 0 0 5px var(--paper),0 7px 16px rgba(232,89,12,.30)}
+.step__mark svg{width:22px;height:22px;stroke:#fff;stroke-width:1.7;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.step__num{position:absolute;top:-5px;left:-5px;width:21px;height:21px;border-radius:50%;
+  background:var(--ink);color:#fff;font-family:var(--ff-head);font-weight:800;font-size:.67rem;
+  display:flex;align-items:center;justify-content:center;border:2px solid var(--paper)}
+.step strong{display:block;font-size:.98rem;padding-top:11px}
 .step p{color:var(--ink-soft);font-size:.88rem;margin-top:4px}
+
+/* ---------- Einblenden beim Scrollen ---------- */
+/* Die Klasse setzt das Skript - ohne JavaScript bleibt alles sichtbar. */
+.js-reveal [data-reveal]{opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease,transform .55s cubic-bezier(.4,0,.2,1)}
+.js-reveal [data-reveal].is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .js-reveal [data-reveal]{opacity:1;transform:none;transition:none}
+  .steps::before{transition:none;transform:scaleY(1)}
+}
 
 .stepcta{display:block;margin-top:22px;padding:16px;border-radius:13px;text-align:center;
   background:var(--orange);color:#fff;text-decoration:none;font-weight:700;font-size:1rem}
@@ -242,18 +260,18 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   <section class="sec">
     <p class="sec__kicker">So einfach ist es</p>
     <h2 class="sec__title">In drei Schritten zum fertigen Buffet</h2>
-    <ol class="steps">
-      <li class="step"><span class="step__num">1</span>
+    <ol class="steps" data-line>
+      <li class="step" data-reveal><span class="step__mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-5A8 8 0 1 1 21 12Z"/></svg><span class="step__num">1</span></span>
         <div><strong>Sie melden sich</strong>
         <p>Kurze Nachricht oder Anruf &ndash; direkt bei mir.</p></div></li>
-      <li class="step"><span class="step__num">2</span>
+      <li class="step" data-reveal><span class="step__mark"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M9 3v3M15 3v3M8 11h8M8 15h5"/></svg><span class="step__num">2</span></span>
         <div><strong>Wir planen zusammen</strong>
         <p>Men&uuml;, G&auml;stezahl, Termin. Der Preis steht vorher fest, Probeessen auf Wunsch.</p></div></li>
-      <li class="step"><span class="step__num">3</span>
+      <li class="step" data-reveal><span class="step__mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M4.5 17a7.5 7.5 0 0 1 15 0"/><path d="M12 6v3.5M12 4.2h.01"/><path d="M2 20.5h20"/></svg><span class="step__num">3</span></span>
         <div><strong>Wir kochen, liefern und bauen auf</strong>
         <p>Sie k&uuml;mmern sich nur um Ihre G&auml;ste.</p></div></li>
     </ol>
-    <a class="stepcta" href="#kontakt">Sagen Sie mir, was Sie planen</a>
+    <a class="stepcta" href="#kontakt" data-reveal>Sagen Sie mir, was Sie planen</a>
     <p class="stepcta__alt">Oder direkt:
       <a href="tel:+491772019889">anrufen</a> &middot;
       <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> &middot;
@@ -265,12 +283,12 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
     <h2 class="biz__title">Mit der MK Business Karte bin ich Ihr fester Partner</h2>
     <p class="biz__text">F&uuml;r Unternehmen, die &ouml;fter bestellen. Kostenlos, unverbindlich &ndash; und ab der ersten Bestellung g&uuml;nstiger:</p>
     <div class="bizgrid">
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg><strong>Bis zu 20&nbsp;% Rabatt</strong><span>Automatisch, bei jeder Bestellung</span></div>
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><strong>Immer derselbe Ansprechpartner</strong><span>Nie wieder alles neu erkl&auml;ren</span></div>
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v9a3 3 0 0 0 6 0V3M9 12v9"/><path d="M17 3c-1.5 2-2 4-2 6a2 2 0 0 0 4 0c0-2-.5-4-2-6ZM17 11v10"/></svg><strong>Men&uuml; nach Ihren W&uuml;nschen</strong><span>Auf Anlass und G&auml;ste abgestimmt</span></div>
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4a1 1 0 0 1 1-1h9l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg><strong>Ihr Logo auf dem Buffet</strong><span>Auf Wunsch sogar im Essen</span></div>
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></svg><strong>Lieferung, Aufbau, Abbau</strong><span>Komplett, ohne Aufwand f&uuml;r Sie</span></div>
-      <div class="bizitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .8-4.4 4.2 1.1 6L12 16.8 6.7 19.6l1.1-6L3.4 9.4l6-.8Z"/></svg><strong>Kundenkonto &amp; Punkte</strong><span>Bestellhistorie immer im Blick</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg><strong>Bis zu 20&nbsp;% Rabatt</strong><span>Automatisch, bei jeder Bestellung</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><strong>Immer derselbe Ansprechpartner</strong><span>Nie wieder alles neu erkl&auml;ren</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v9a3 3 0 0 0 6 0V3M9 12v9"/><path d="M17 3c-1.5 2-2 4-2 6a2 2 0 0 0 4 0c0-2-.5-4-2-6ZM17 11v10"/></svg><strong>Men&uuml; nach Ihren W&uuml;nschen</strong><span>Auf Anlass und G&auml;ste abgestimmt</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4a1 1 0 0 1 1-1h9l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg><strong>Ihr Logo auf dem Buffet</strong><span>Auf Wunsch sogar im Essen</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></svg><strong>Lieferung, Aufbau, Abbau</strong><span>Komplett, ohne Aufwand f&uuml;r Sie</span></div>
+      <div class="bizitem" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .8-4.4 4.2 1.1 6L12 16.8 6.7 19.6l1.1-6L3.4 9.4l6-.8Z"/></svg><strong>Kundenkonto &amp; Punkte</strong><span>Bestellhistorie immer im Blick</span></div>
     </div>
     <a class="biz__btn" href="https://mahboobs-kitchen.com/business/" target="_blank" rel="noopener">Karte kostenlos beantragen</a>
     <p class="biz__note">Keine Grundgeb&uuml;hr &middot; keine Mindestlaufzeit &middot; in 2 Minuten beantragt</p>
@@ -281,7 +299,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
     <h2 class="offers__title">Das k&ouml;nnen Sie jetzt buchen</h2>
     <p class="sec__text" style="margin-bottom:4px">F&uuml;r Firmen und f&uuml;r private Feiern &ndash; suchen Sie sich aus, was passt.</p>
 
-    <a class="offer" href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener">
+    <a class="offer" data-reveal href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener">
       <img src="/assets/img/buffet-3.webp" alt="Winterliches Buffet von Mahboobs Kitchen" loading="lazy">
       <span class="offer__body">
         <span class="offer__tag">Winterangebot</span>
@@ -291,7 +309,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
       </span>
     </a>
 
-    <a class="offer" href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener">
+    <a class="offer" data-reveal href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener">
       <img src="/assets/img/tisch-gedeckt-2.webp" alt="Festlich gedeckter Tisch von Mahboobs Kitchen" loading="lazy">
       <span class="offer__body">
         <span class="offer__tag">Jubil&auml;um</span>
@@ -301,7 +319,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
       </span>
     </a>
 
-    <a class="offer" href="https://mahboobs-kitchen.com/privates-catering/" target="_blank" rel="noopener">
+    <a class="offer" data-reveal href="https://mahboobs-kitchen.com/privates-catering/" target="_blank" rel="noopener">
       <img src="/assets/img/gedeckter-tisch.webp" alt="Gedeckter Tisch f&uuml;r eine private Feier" loading="lazy">
       <span class="offer__body">
         <span class="offer__tag">Privat</span>
@@ -311,7 +329,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
       </span>
     </a>
 
-    <a class="offer" href="https://wa.me/491772019889" target="_blank" rel="noopener">
+    <a class="offer" data-reveal href="https://wa.me/491772019889" target="_blank" rel="noopener">
       <img src="/assets/img/buffet-8.webp" alt="Buffet zum Probieren von Mahboobs Kitchen" loading="lazy">
       <span class="offer__body">
         <span class="offer__tag">Unverbindlich</span>

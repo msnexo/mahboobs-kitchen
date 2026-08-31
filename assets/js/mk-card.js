@@ -146,3 +146,43 @@
     document.addEventListener(ev, kick, { once: true, passive: true });
   });
 })();
+
+/* Einblenden beim Scrollen. Die Klasse js-reveal setzt erst dieses Skript -
+   ohne JavaScript bleibt die Seite vollstaendig sichtbar. */
+(function () {
+  "use strict";
+
+  var ziele = document.querySelectorAll("[data-reveal],[data-line]");
+  if (!ziele.length) return;
+
+  var sparsam = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!("IntersectionObserver" in window) || sparsam) {
+    for (var i = 0; i < ziele.length; i++) ziele[i].classList.add("is-in");
+    return;
+  }
+
+  document.documentElement.classList.add("js-reveal");
+
+  // Gestaffelt einblenden: Geschwister nacheinander, nicht alle gleichzeitig.
+  var zaehler = new Map();
+  ziele.forEach(function (el) {
+    var eltern = el.parentNode;
+    var n = zaehler.get(eltern) || 0;
+    zaehler.set(eltern, n + 1);
+    if (el.hasAttribute("data-reveal")) {
+      el.style.transitionDelay = Math.min(n, 5) * 80 + "ms";
+    }
+  });
+
+  var beobachter = new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-in");
+      beobachter.unobserve(e.target);
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+
+  ziele.forEach(function (el) { beobachter.observe(el); });
+})();
