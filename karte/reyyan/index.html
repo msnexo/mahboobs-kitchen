@@ -32,6 +32,7 @@
 <link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 :root{
   --ink:#0d0d0d; --ink-soft:#4a4a4a; --line:#e7e4dd;
   --orange:#e8590c; --orange-dark:#c4480a; --green:#5e9a1f;
@@ -129,10 +130,10 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 .step strong{display:block;font-size:.98rem;padding-top:8px}
 .step p{color:var(--ink-soft);font-size:.88rem;margin-top:4px}
 
-.stepcta{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;
-  padding:16px;border-radius:13px;background:var(--orange);color:#fff;text-decoration:none;
-  font-weight:700;font-size:1rem}
-.stepcta svg{width:20px;height:20px}
+.stepcta{display:block;margin-top:22px;padding:16px;border-radius:13px;text-align:center;
+  background:var(--orange);color:#fff;text-decoration:none;font-weight:700;font-size:1rem}
+.stepcta__alt{margin-top:11px;text-align:center;font-size:.83rem;color:var(--ink-soft)}
+.stepcta__alt a{color:var(--ink-soft);text-decoration:underline;text-underline-offset:2px}
 
 /* ---------- Angebots-Karten ---------- */
 .offers{padding:28px 20px 0;display:grid;gap:14px}
@@ -252,7 +253,11 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
         <div><strong>Wir kochen, liefern und bauen auf</strong>
         <p>Sie k&uuml;mmern sich nur um Ihre G&auml;ste.</p></div></li>
     </ol>
-    <a class="stepcta" href="https://wa.me/491772019889" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7 0a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6.3-.5v-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.5 5.8 5.8 0 0 0 1.2 3 13 13 0 0 0 5 4.4c2.4 1 2.4.6 2.8.6a2.9 2.9 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.3a8.3 8.3 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.3 8.3 0 1 1 12 20.3Z"/></svg>Nachricht schreiben</a>
+    <a class="stepcta" href="#kontakt">Sagen Sie mir, was Sie planen</a>
+    <p class="stepcta__alt">Oder direkt:
+      <a href="tel:+491772019889">anrufen</a> &middot;
+      <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> &middot;
+      <a href="mailto:info@mahboobs-kitchen.com">E-Mail</a></p>
   </section>
 
   <section class="biz">
@@ -332,7 +337,7 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec" id="kontakt">
     <p class="sec__kicker">Vernetzen</p>
     <h2 class="sec__title">Bleiben wir in Kontakt</h2>
     <p class="sec__text">Hinterlassen Sie mir Ihre Daten &ndash; Telefon oder E-Mail gen&uuml;gt. Ich melde mich pers&ouml;nlich bei Ihnen.</p>
