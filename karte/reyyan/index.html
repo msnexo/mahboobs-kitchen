@@ -118,6 +118,21 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 .xmas__btn{display:inline-block;margin-top:16px;background:#fff;color:var(--ink);
   text-decoration:none;font-weight:700;padding:13px 24px;border-radius:11px;font-size:.94rem}
 
+/* ---------- MK Business Karte ---------- */
+.biz{margin:26px 20px 0;padding:24px 22px;border-radius:16px;color:#fff;text-align:left;
+  background:linear-gradient(140deg,#e8590c,#8f3406 62%,#0d0d0d)}
+.biz__tag{display:inline-block;background:rgba(255,255,255,.18);font-size:.68rem;
+  font-weight:700;letter-spacing:.11em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.biz__title{font-family:var(--ff-head);font-size:1.26rem;font-weight:700;margin-top:13px}
+.biz__text{color:rgba(255,255,255,.82);font-size:.9rem;margin-top:8px}
+.biz__list{list-style:none;margin:15px 0 0;display:grid;gap:8px}
+.biz__list li{position:relative;padding-left:25px;font-size:.9rem;color:rgba(255,255,255,.94)}
+.biz__list li::before{content:"";position:absolute;left:2px;top:5px;width:11px;height:6px;
+  border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+.biz__btn{display:block;margin-top:18px;background:#fff;color:var(--ink);text-align:center;
+  text-decoration:none;font-weight:700;padding:14px 20px;border-radius:11px;font-size:.95rem}
+.biz__note{margin-top:10px;font-size:.76rem;color:rgba(255,255,255,.7);text-align:center}
+
 /* ---------- Formular ---------- */
 .form{display:grid;gap:11px;margin-top:17px}
 .form input{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:11px;
@@ -176,11 +191,18 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
   <p class="save__hint">Speichert Reyyan direkt in Ihre Kontakte</p>
 
   <section class="sec">
-    <p class="sec__kicker">Was wir machen</p>
-    <h2 class="sec__title">Catering aus einer Hand</h2>
-    <p class="sec__text">Wir kochen frisch f&uuml;r Firmenfeiern, Events und den t&auml;glichen Mittagstisch &ndash; indisch, italienisch und japanisch. Lieferung, Aufbau und Abr&auml;umen &uuml;bernehmen wir komplett.</p>
-    <div class="pills"><span class="pill">Weihnachtsfeiern</span><span class="pill">Firmen-Events</span><span class="pill">Mittagstisch</span><span class="pill">Jubil&auml;en</span><span class="pill">Indisch</span><span class="pill">Italienisch</span><span class="pill">Sushi</span><span class="pill">Lieferung &amp; Aufbau</span></div>
+    <p class="sec__kicker">Was Sie davon haben</p>
+    <h2 class="sec__title">Sie feiern. Um den Rest k&uuml;mmern wir uns.</h2>
+    <p class="sec__text">Ein Ansprechpartner statt Warteschleife, ein Menü nach Ihren W&uuml;nschen statt Standardkarte, der Preis steht vor der Zusage fest. Wir kochen frisch &ndash; indisch, italienisch und japanisch &ndash; liefern, bauen auf und r&auml;umen wieder ab.</p>
+    <div class="pills"><span class="pill">Fester Ansprechpartner</span><span class="pill">Menü nach Ihren Wünschen</span><span class="pill">Feste Preise vorab</span><span class="pill">Lieferung &amp; Aufbau</span><span class="pill">Abräumen inklusive</span><span class="pill">Service-Personal auf Wunsch</span></div>
     <div class="shots"><img src="/assets/img/buffet-8.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"><img src="/assets/img/buffet-3.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"><img src="/assets/img/tisch-gedeckt-2.webp" alt="Catering von Mahboobs Kitchen" loading="lazy"></div>
+  </section>
+
+  <section class="sec">
+    <p class="sec__kicker">Erst probieren, dann entscheiden</p>
+    <h2 class="sec__title">Probeessen vor der Zusage</h2>
+    <p class="sec__text">Bevor Sie sich festlegen, kochen wir Ihnen das geplante Men&uuml; vor. Sie probieren, wir passen an &ndash; und Sie wissen genau, was am Tag der Veranstaltung auf dem Buffet steht. Gerade beim Firmenjubil&auml;um, wo es beim ersten Mal sitzen muss.</p>
+    <div class="pills"><span class="pill">Firmenjubiläen</span><span class="pill">Sommerfeste</span><span class="pill">Kundenevents</span><span class="pill">Mitarbeiterfeiern</span><span class="pill">Weihnachtsfeiern</span><span class="pill">Mittagstisch</span><span class="pill">Messen &amp; Tagungen</span></div>
   </section>
 
   <section class="xmas">
@@ -188,6 +210,20 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
     <h2 class="xmas__title">Jetzt ist die Zeit zu planen</h2>
     <p class="xmas__text">Die guten Termine im Dezember sind fr&uuml;h vergeben. Sichern Sie sich Ihren Wunschtermin &ndash; inklusive Probeessen vorab.</p>
     <a class="xmas__btn" href="https://mahboobs-kitchen.com/firmen-catering/" target="_blank" rel="noopener">Firmen-Catering ansehen</a>
+  </section>
+
+  <section class="biz">
+    <span class="biz__tag">Exklusiv f&uuml;r Firmenkunden</span>
+    <h2 class="biz__title">Die MK Business Karte</h2>
+    <p class="biz__text">Wenn Sie &ouml;fter bestellen, lohnt sich die Karte ab der ersten Lieferung:</p>
+    <ul class="biz__list">
+      <li>Bis zu 20&nbsp;% Rabatt bei jeder Bestellung</li>
+      <li>Ich bleibe Ihr fester Ansprechpartner</li>
+      <li>Individuelle Men&uuml;s, auf Wunsch mit Ihrem Firmenlogo auf dem Buffet</li>
+      <li>Eigenes Kundenkonto mit Bestellhistorie und Punktestand</li>
+    </ul>
+    <a class="biz__btn" href="https://mahboobs-kitchen.com/business/" target="_blank" rel="noopener">Karte kostenlos beantragen</a>
+    <p class="biz__note">Keine Grundgeb&uuml;hr &middot; keine Mindestlaufzeit &middot; in 2 Minuten beantragt</p>
   </section>
 
   <section class="sec">
