@@ -4,17 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Reyyan Ahmad | Mahboobs Kitchen</title>
-<meta name="description" content="Digitale Visitenkarte von Reyyan Ahmad, Mahboobs Kitchen &ndash; Catering für Firmenevents, Weihnachtsfeiern & Mittagstisch.">
+<meta name="description" content="Digitale Visitenkarte von Reyyan Ahmad, Mahboobs Kitchen – Catering für Firmenevents, Weihnachtsfeiern & Mittagstisch.">
 <link rel="canonical" href="https://mahboobs-kitchen.com/karte/reyyan/">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#0d0d0d">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Reyyan Ahmad &ndash; Mahboobs Kitchen">
+<meta property="og:title" content="Reyyan Ahmad · Mahboobs Kitchen">
 <meta property="og:description" content="Catering für Firmenevents, Weihnachtsfeiern & Mittagstisch">
 <meta property="og:url" content="https://mahboobs-kitchen.com/karte/reyyan/">
-<meta property="og:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
 <meta property="og:site_name" content="Mahboobs Kitchen">
 <meta property="og:locale" content="de_DE">
+<!-- JPEG, nicht WebP: WhatsApp zeigt WebP-Vorschaubilder nicht an. -->
+<meta property="og:image" content="https://mahboobs-kitchen.com/assets/og/karte-reyyan.jpg">
+<meta property="og:image:secure_url" content="https://mahboobs-kitchen.com/assets/og/karte-reyyan.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Reyyan Ahmad – Firmen-Catering & Business Karte bei Mahboobs Kitchen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reyyan Ahmad · Mahboobs Kitchen">
+<meta name="twitter:description" content="Catering für Firmenevents, Weihnachtsfeiern & Mittagstisch">
+<meta name="twitter:image" content="https://mahboobs-kitchen.com/assets/og/karte-reyyan.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -35,19 +45,37 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 .wrap{max-width:460px;margin:0 auto;background:var(--paper);min-height:100vh;
   box-shadow:0 0 60px rgba(0,0,0,.10)}
 
-/* ---------- Hero ---------- */
-.hero{position:relative;background:var(--ink);color:#fff;padding:34px 24px 26px;text-align:center;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;
-  background:radial-gradient(120% 90% at 50% 0%,rgba(232,89,12,.30),transparent 62%);
-  pointer-events:none}
-.hero > *{position:relative;z-index:1}
-.hero__logo{width:186px;max-width:72%;height:auto;margin:0 auto 20px;display:block}
-.hero__name{font-family:var(--ff-head);font-weight:800;font-size:1.85rem;line-height:1.15;letter-spacing:-.02em}
-.hero__role{color:var(--orange);font-weight:600;font-size:.95rem;margin-top:6px}
-.hero__company{color:rgba(255,255,255,.62);font-size:.85rem;margin-top:10px}
+/* ---------- Hero mit Video ---------- */
+/* Unterer Abstand muss den ueberlappenden Avatar freihalten (-54px Karte, -36px Avatar) */
+.hero{position:relative;background:var(--ink);color:#fff;padding:36px 24px 112px;
+  text-align:center;overflow:hidden;isolation:isolate}
+.hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(
+  180deg,rgba(13,13,13,.80) 0%,rgba(13,13,13,.58) 42%,rgba(13,13,13,.96) 100%)}
+.hero__logo{width:190px;max-width:70%;height:auto;margin:0 auto;display:block;
+  filter:drop-shadow(0 3px 14px rgba(0,0,0,.65))}
+.hero__tagline{margin-top:15px;font-size:.87rem;letter-spacing:.02em;
+  color:rgba(255,255,255,.88);text-shadow:0 2px 10px rgba(0,0,0,.75)}
+
+/* ---------- Ansprechpartner ---------- */
+.person{position:relative;margin:-54px 16px 0;padding:0 22px 24px;background:var(--paper);
+  border-radius:18px;box-shadow:0 14px 36px rgba(0,0,0,.14);text-align:center}
+.person__photo,.person__initials{width:106px;height:106px;border-radius:50%;display:block;
+  margin:0 auto;transform:translateY(-36px);border:4px solid var(--paper);
+  box-shadow:0 6px 20px rgba(0,0,0,.24);background:var(--ink)}
+.person__photo{object-fit:cover}
+.person__initials{display:flex;align-items:center;justify-content:center;color:#fff;
+  font-family:var(--ff-head);font-weight:800;font-size:2.1rem;letter-spacing:.02em}
+.person__body{margin-top:-24px}
+.person__kicker{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--orange);font-weight:700}
+.person__name{font-family:var(--ff-head);font-weight:800;font-size:1.74rem;line-height:1.15;
+  letter-spacing:-.02em;margin-top:8px}
+.person__role{color:var(--ink-soft);font-weight:600;font-size:.92rem;margin-top:5px}
+.person__sig{display:block;margin:15px auto 0;height:50px;width:auto;max-width:76%;opacity:.88}
 
 /* ---------- Aktionen ---------- */
-.actions{padding:22px 20px 4px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.actions{padding:20px 20px 4px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .act{display:flex;align-items:center;justify-content:center;gap:8px;
   padding:15px 10px;border-radius:13px;border:1.5px solid var(--line);
   background:var(--paper);color:var(--ink);text-decoration:none;
@@ -115,11 +143,24 @@ body{font-family:var(--ff-body);background:var(--paper-soft);color:var(--ink);
 <main class="wrap">
 
   <header class="hero">
-    <img class="hero__logo" src="/assets/img/logo.webp" alt="Mahboobs Kitchen" width="186" height="70">
-    <h1 class="hero__name">Reyyan Ahmad</h1>
-    <p class="hero__role">Firmen-Catering & Business Karte</p>
-    <p class="hero__company">Mahboobs Kitchen &middot; 24558 Wakendorf II</p>
+    <video class="hero__video" autoplay muted loop playsinline preload="metadata"
+           poster="/assets/img/hero-poster.webp" aria-hidden="true" tabindex="-1">
+      <source src="/assets/video/hero.mp4" type="video/mp4">
+    </video>
+    <img class="hero__logo" src="/assets/img/logo.webp" alt="Mahboobs Kitchen" width="190" height="72">
+    <p class="hero__tagline">Catering aus einer Hand</p>
   </header>
+
+  <section class="person">
+    <span class="person__initials" aria-hidden="true">RA</span>
+    <div class="person__body">
+      <p class="person__kicker">Ihr pers&ouml;nlicher Ansprechpartner</p>
+      <h1 class="person__name">Reyyan Ahmad</h1>
+      <p class="person__role">Firmen-Catering & Business Karte</p>
+      <img class="person__sig" src="/assets/img/signatur-reyyan.png"
+           alt="Unterschrift Reyyan Ahmad" width="260" height="50" loading="lazy">
+    </div>
+  </section>
 
   <nav class="actions">
     <a class="act act--call" href="tel:+491772019889"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>Anrufen</a>
