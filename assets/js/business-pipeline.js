@@ -634,9 +634,13 @@
           });
         }
         loadProspects();
-      }).catch(function () {
-        addProspectStatus.textContent = "Anlegen fehlgeschlagen. Bitte erneut versuchen.";
+      }).catch(function (err) {
+        // Den echten Grund zeigen - "bitte erneut versuchen" hilft bei einem
+        // fehlenden Feld oder einer Rechteregel niemandem weiter.
+        var grund = (err && (err.message || err.hint)) || "unbekannter Fehler";
+        addProspectStatus.textContent = "Anlegen fehlgeschlagen: " + grund;
         addProspectStatus.className = "form-status form-status--error";
+        if (window.console) console.error("Anlegen fehlgeschlagen:", err);
       });
     });
 
