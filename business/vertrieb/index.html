@@ -147,9 +147,39 @@
       <input type="tel" id="prospectPersonPhone2">
       <label class="field-label" for="prospectPersonEmail2">E-Mail 2 (optional)</label>
       <input type="email" id="prospectPersonEmail2">
+
+      <label class="field-label" for="prospectNote">Notiz &ndash; wor&uuml;ber gesprochen (optional)</label>
+      <textarea id="prospectNote" rows="3" placeholder="z. B. Kantine l&auml;uft &uuml;ber Fremdanbieter, Vertrag endet im Sommer"></textarea>
+
+      <label class="field-label" for="prospectFollowUp">Wiedervorlage (optional)</label>
+      <input type="date" id="prospectFollowUp">
+      <div class="quickdates" id="prospectQuickDates">
+        <button type="button" data-tage="7">1 Woche</button>
+        <button type="button" data-tage="30">1 Monat</button>
+        <button type="button" data-tage="90">3 Monate</button>
+        <button type="button" data-tage="180">6 Monate</button>
+        <button type="button" data-tage="">l&ouml;schen</button>
+      </div>
+
+      <label class="consent-line">
+        <input type="checkbox" id="prospectConsent">
+        <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
+      </label>
+
       <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
       <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Anlegen</button></div>
     </form>
+
+    <div id="prospectShare" hidden>
+      <p class="share-hint">Angelegt. Jetzt die Karte schicken:</p>
+      <div class="share-row">
+        <a class="btn btn--primary" id="shareWa" href="#" target="_blank" rel="noopener">Per WhatsApp</a>
+        <a class="btn" id="shareMail" href="#">Per E-Mail</a>
+        <button type="button" class="btn" id="shareCopy">Link kopieren</button>
+      </div>
+      <p class="form-status" id="shareStatus" role="status" aria-live="polite"></p>
+      <div class="form-nav"><span></span><button type="button" class="btn btn--primary" id="shareDone">Fertig</button></div>
+    </div>
   </div>
 </div>
 

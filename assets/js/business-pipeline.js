@@ -433,7 +433,14 @@
       loadHistory(id);
     }
 
-    addProspectBtn.addEventListener("click", function () { addProspectOverlay.hidden = false; });
+    addProspectBtn.addEventListener("click", function () {
+      // Immer mit dem Formular starten, nicht mit dem Teilen-Bereich des letzten Eintrags.
+      var box = document.getElementById("prospectShare");
+      if (box) { box.hidden = true; addProspectForm.hidden = false; }
+      addProspectStatus.textContent = "";
+      addProspectStatus.className = "form-status";
+      addProspectOverlay.hidden = false;
+    });
     addProspectClose.addEventListener("click", function () { addProspectOverlay.hidden = true; });
     detailClose.addEventListener("click", function () {
       detailOverlay.hidden = true;
@@ -493,6 +500,81 @@
       });
     }
 
+    // ---------- Besuch erfassen: Schnellwahl fuer die Wiedervorlage ----------
+    var followUpEl = document.getElementById("prospectFollowUp");
+    var quickDates = document.getElementById("prospectQuickDates");
+    if (quickDates) {
+      quickDates.addEventListener("click", function (e) {
+        var btn = e.target.closest("button[data-tage]");
+        if (!btn) return;
+        var tage = btn.getAttribute("data-tage");
+        followUpEl.value = tage ? addDaysISO(parseInt(tage, 10)) : "";
+        Array.prototype.forEach.call(quickDates.querySelectorAll("button"), function (b) {
+          b.setAttribute("aria-pressed", b === btn && tage ? "true" : "false");
+        });
+      });
+    }
+
+    // ---------- Karte teilen, direkt nach dem Anlegen ----------
+    var shareBox = document.getElementById("prospectShare");
+    var shareWa = document.getElementById("shareWa");
+    var shareMail = document.getElementById("shareMail");
+    var shareCopy = document.getElementById("shareCopy");
+    var shareDone = document.getElementById("shareDone");
+    var shareStatus = document.getElementById("shareStatus");
+    var KARTE = "https://mahboobs-kitchen.com/karte/reyyan/";
+
+    function nurZiffern(tel) {
+      var t = (tel || "").replace(/[^0-9+]/g, "");
+      if (t.indexOf("+") === 0) return t.slice(1);
+      if (t.indexOf("00") === 0) return t.slice(2);
+      if (t.indexOf("0") === 0) return "49" + t.slice(1);
+      return t;
+    }
+
+    function zeigeTeilen(person) {
+      var anrede = person && person.name ? person.name : "";
+      var text = "Hallo " + (anrede ? anrede + ", " : "") +
+        "schön, dass wir eben sprechen konnten. Hier ist meine digitale Visitenkarte " +
+        "mit allem, was wir anbieten: " + KARTE;
+
+      shareWa.href = person && person.phone
+        ? "https://wa.me/" + nurZiffern(person.phone) + "?text=" + encodeURIComponent(text)
+        : "https://wa.me/?text=" + encodeURIComponent(text);
+      shareMail.href = "mailto:" + (person && person.email ? person.email : "") +
+        "?subject=" + encodeURIComponent("Mahboobs Kitchen – meine Visitenkarte") +
+        "&body=" + encodeURIComponent(text);
+
+      shareStatus.textContent = "";
+      shareStatus.className = "form-status";
+      addProspectForm.hidden = true;
+      shareBox.hidden = false;
+    }
+
+    if (shareCopy) {
+      shareCopy.addEventListener("click", function () {
+        var fertig = function () {
+          shareStatus.textContent = "Link kopiert.";
+          shareStatus.className = "form-status form-status--ok";
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(KARTE).then(fertig, function () {
+            shareStatus.textContent = KARTE;
+          });
+        } else {
+          shareStatus.textContent = KARTE;
+        }
+      });
+    }
+
+    if (shareDone) {
+      shareDone.addEventListener("click", function () {
+        shareBox.hidden = true;
+        addProspectForm.hidden = false;
+        addProspectOverlay.hidden = true;
+      });
+    }
+
     addProspectForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = document.getElementById("prospectName").value.trim();
@@ -500,6 +582,9 @@
       var status = document.getElementById("prospectStatus").value;
       var website = document.getElementById("prospectWebsite").value.trim() || null;
       var address = document.getElementById("prospectAddress").value.trim() || null;
+      var notiz = document.getElementById("prospectNote").value.trim();
+      var wiedervorlage = followUpEl && followUpEl.value ? followUpEl.value : null;
+      var einwilligung = !!document.getElementById("prospectConsent").checked;
       var people = [
         { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
         { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
@@ -507,20 +592,47 @@
       if (!name) return;
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
-      client.from("prospects").insert({ name: name, category: category, status: status, website: website, address: address, assigned_to: currentUser }).select().single().then(function (res) {
+
+      client.from("prospects").insert({
+        name: name, category: category, status: status, website: website, address: address,
+        assigned_to: currentUser,
+        notes: notiz || null,
+        source: "Besuch vor Ort",
+        next_contact_date: wiedervorlage
+      }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
+        var schritte = [];
+
         if (people.length) {
-          return Promise.all(people.map(function (person) {
-            return client.from("prospect_people").insert({ prospect_id: prospect.id, name: person.name, phone: person.phone || null, email: person.email || null });
-          })).then(function () { return prospect; });
+          schritte.push(Promise.all(people.map(function (person) {
+            return client.from("prospect_people").insert({
+              prospect_id: prospect.id, name: person.name,
+              phone: person.phone || null, email: person.email || null,
+              marketing_consent: einwilligung,
+              consent_at: einwilligung ? new Date().toISOString() : null
+            });
+          })));
         }
-        return prospect;
+
+        // Gespraech in der Historie festhalten, damit es beim Wiedervorlage-Termin dasteht.
+        schritte.push(client.from("prospect_contacts").insert({
+          prospect_id: prospect.id,
+          notes: "Karte übergeben" + (notiz ? " · " + notiz : ""),
+          next_contact_date: wiedervorlage
+        }));
+
+        return Promise.all(schritte).then(function () { return prospect; });
       }).then(function () {
-        addProspectStatus.textContent = "Angelegt.";
-        addProspectStatus.className = "form-status form-status--ok";
+        addProspectStatus.textContent = "";
+        addProspectStatus.className = "form-status";
+        zeigeTeilen(people[0]);
         addProspectForm.reset();
-        addProspectOverlay.hidden = true;
+        if (quickDates) {
+          Array.prototype.forEach.call(quickDates.querySelectorAll("button"), function (b) {
+            b.setAttribute("aria-pressed", "false");
+          });
+        }
         loadProspects();
       }).catch(function () {
         addProspectStatus.textContent = "Anlegen fehlgeschlagen. Bitte erneut versuchen.";

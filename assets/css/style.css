@@ -637,3 +637,32 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .mk-offer-hero__image { order: -1; }
   .mk-offer-hero__image img { max-height: 220px; object-fit: cover; }
 }
+
+/* ---------- Vertrieb: Besuch erfassen ---------- */
+#addProspectForm textarea {
+  width: 100%; padding: 13px 14px; border: 1.5px solid var(--color-border, #e2e2e2);
+  border-radius: 10px; font: inherit; font-size: 16px; background: #fff;
+  color: inherit; resize: vertical;
+}
+#addProspectForm textarea:focus { outline: none; border-color: var(--color-primary); }
+
+.quickdates { display: flex; flex-wrap: wrap; gap: 7px; margin: 9px 0 4px; }
+.quickdates button {
+  padding: 8px 13px; border: 1.5px solid var(--color-border, #e2e2e2); border-radius: 999px;
+  background: #fff; font: inherit; font-size: 0.82rem; font-weight: 600;
+  color: #4a4a4a; cursor: pointer;
+}
+.quickdates button:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.quickdates button[aria-pressed="true"] {
+  background: var(--color-primary); border-color: var(--color-primary); color: #fff;
+}
+
+.consent-line {
+  display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 4px;
+  font-size: 0.88rem; line-height: 1.45; color: #4a4a4a; cursor: pointer;
+}
+.consent-line input { width: 19px; height: 19px; flex: none; margin-top: 1px; accent-color: var(--color-primary); }
+
+.share-hint { margin: 0 0 14px; font-weight: 600; }
+.share-row { display: flex; flex-wrap: wrap; gap: 9px; }
+.share-row .btn { flex: 1 1 auto; text-align: center; }
