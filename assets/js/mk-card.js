@@ -215,3 +215,24 @@
 
   ziele.forEach(function (el) { beobachter.observe(el); });
 })();
+
+/* Angebots-Karten fuehren ins Formular und waehlen den Anlass gleich aus -
+   der Besucher soll nicht erst suchen, worum es ging. */
+(function () {
+  "use strict";
+
+  var auswahl = document.getElementById("cOccasion");
+  if (!auswahl) return;
+
+  document.querySelectorAll("[data-anlass]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var wunsch = el.getAttribute("data-anlass");
+      for (var i = 0; i < auswahl.options.length; i++) {
+        if (auswahl.options[i].text === wunsch) {
+          auswahl.selectedIndex = i;
+          break;
+        }
+      }
+    });
+  });
+})();
