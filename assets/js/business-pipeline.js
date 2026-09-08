@@ -52,6 +52,13 @@
     return "";
   }
 
+  // "firma.de" reicht als Eingabe - fuers Oeffnen braucht der Browser https://
+  function vollstaendigeAdresse(eingabe) {
+    var w = (eingabe || "").trim();
+    if (!w) return null;
+    return /^https?:\/\//i.test(w) ? w : "https://" + w;
+  }
+
   function buildWhatsAppLink(phone, message) {
     var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
     if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
@@ -447,7 +454,7 @@
       detailCategoryInput.value = p.category;
       detailWebsite.value = p.website || "";
       detailAddress.value = p.address || "";
-      detailWebsiteOpen.href = p.website || "#";
+      detailWebsiteOpen.href = vollstaendigeAdresse(p.website) || "#";
       detailWebsiteOpen.hidden = !p.website;
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
@@ -662,7 +669,7 @@
       var name = document.getElementById("prospectName").value.trim();
       var category = document.getElementById("prospectCategory").value.trim() || "Firma";
       var status = document.getElementById("prospectStatus").value;
-      var website = document.getElementById("prospectWebsite").value.trim() || null;
+      var website = vollstaendigeAdresse(document.getElementById("prospectWebsite").value);
       var address = document.getElementById("prospectAddress").value.trim() || null;
       var notiz = document.getElementById("prospectNote").value.trim();
       var wiedervorlage = followUpEl && followUpEl.value ? followUpEl.value : null;
@@ -747,7 +754,7 @@
         name: nameVal,
         category: detailCategoryInput.value.trim() || "Firma",
         notes: detailNotes.value.trim(),
-        website: detailWebsite.value.trim() || null,
+        website: vollstaendigeAdresse(detailWebsite.value),
         address: detailAddress.value.trim() || null
       }).eq("id", selectedProspectId).then(function () {
         loadProspects();
