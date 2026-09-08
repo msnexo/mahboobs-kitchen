@@ -59,6 +59,34 @@
     return /^https?:\/\//i.test(w) ? w : "https://" + w;
   }
 
+  var KARTE_URL = "https://mahboobs-kitchen.com/karte/reyyan/";
+  // Am Handy oeffnet wa.me die App direkt. Am Rechner schiebt wa.me eine
+  // Zwischenseite ("Continue to Chat") dazwischen - web.whatsapp.com nicht.
+  var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  // frisch = direkt nach dem Besuch, sonst der neutrale Text fuer spaeter.
+  function kartenText(name, frisch) {
+    var anrede = name ? "Hallo " + name + ", " : "Hallo, ";
+    return anrede + (frisch
+      ? "schön, dass wir eben sprechen konnten. Hier ist meine digitale Visitenkarte "
+      : "wie besprochen hier meine digitale Visitenkarte ") +
+      "mit allem, was wir anbieten: " + KARTE_URL;
+  }
+
+  function waZiel(nummer, text) {
+    var t = encodeURIComponent(text);
+    if (amHandy) return nummer ? "https://wa.me/" + nummer + "?text=" + t
+                               : "https://wa.me/?text=" + t;
+    return nummer ? "https://web.whatsapp.com/send?phone=" + nummer + "&text=" + t
+                  : "https://web.whatsapp.com/send?text=" + t;
+  }
+
+  function mailZiel(empfaenger, text) {
+    return "mailto:" + (empfaenger || "") +
+      "?subject=" + encodeURIComponent("Mahboobs Kitchen – meine Visitenkarte") +
+      "&body=" + encodeURIComponent(text);
+  }
+
   function buildWhatsAppLink(phone, message) {
     var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
     if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
@@ -359,7 +387,8 @@
           '<div><strong>' + escapeHtml(person.name) + '</strong>' + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + '</span>' : '') + '</div>' +
           '<div style="display:flex;gap:6px;">' +
           (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : '') +
-          (handy ? '<a href="https://wa.me/' + handy + '" target="_blank" rel="noopener" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">WhatsApp</a>' : '') +
+          (handy ? '<a href="' + escapeHtml(waZiel(handy, kartenText(person.name, false))) + '" target="_blank" rel="noopener" class="btn btn--primary" style="padding:6px 12px;font-size:0.8rem;">Karte per WhatsApp</a>' : '') +
+          (person.email ? '<a href="' + escapeHtml(mailZiel(person.email, kartenText(person.name, false))) + '" class="btn btn--dark" style="padding:6px 12px;font-size:0.8rem;">Karte per E-Mail</a>' : '') +
           '<button type="button" data-edit-person="' + person.id + '" class="btn btn--dark" style="padding:6px 10px;font-size:0.8rem;">✏️</button>' +
           '</div></div>' +
           (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + '</a>' : '') +
@@ -470,6 +499,20 @@
       loadHistory(id);
     }
 
+    var copyCardLink = document.getElementById("copyCardLink");
+    if (copyCardLink) {
+      copyCardLink.addEventListener("click", function () {
+        var status = document.getElementById("copyCardStatus");
+        var zeigen = function (t) { if (status) status.textContent = t; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(KARTE_URL).then(function () { zeigen("kopiert ✓"); },
+                                                        function () { zeigen(KARTE_URL); });
+        } else {
+          zeigen(KARTE_URL);
+        }
+      });
+    }
+
     addProspectBtn.addEventListener("click", function () {
       // Immer mit dem Formular starten, nicht mit dem Teilen-Bereich des letzten Eintrags.
       var box = document.getElementById("prospectShare");
@@ -564,29 +607,14 @@
     var shareMobileSave = document.getElementById("shareMobileSave");
     var erstePersonId = null;
     var shareText = "";
-    var KARTE = "https://mahboobs-kitchen.com/karte/reyyan/";
-
-    // Am Handy oeffnet wa.me die App direkt. Am Rechner schiebt wa.me eine
-    // Zwischenseite ("Continue to Chat") dazwischen - web.whatsapp.com nicht.
-    var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     function setzeWaZiel(nummer) {
-      var txt = encodeURIComponent(shareText);
-      if (amHandy) {
-        shareWa.href = nummer ? "https://wa.me/" + nummer + "?text=" + txt
-                              : "https://wa.me/?text=" + txt;
-      } else {
-        shareWa.href = nummer
-          ? "https://web.whatsapp.com/send?phone=" + nummer + "&text=" + txt
-          : "https://web.whatsapp.com/send?text=" + txt;
-      }
+      shareWa.href = waZiel(nummer, shareText);
     }
 
     function zeigeTeilen(person) {
       var anrede = person && person.name ? person.name : "";
-      shareText = "Hallo " + (anrede ? anrede + ", " : "") +
-        "schön, dass wir eben sprechen konnten. Hier ist meine digitale Visitenkarte " +
-        "mit allem, was wir anbieten: " + KARTE;
+      shareText = kartenText(anrede, true);
 
       var handy = handyVon(person);
       setzeWaZiel(handy);
@@ -647,11 +675,11 @@
           shareStatus.className = "form-status form-status--ok";
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(KARTE).then(fertig, function () {
-            shareStatus.textContent = KARTE;
+          navigator.clipboard.writeText(KARTE_URL).then(fertig, function () {
+            shareStatus.textContent = KARTE_URL;
           });
         } else {
-          shareStatus.textContent = KARTE;
+          shareStatus.textContent = KARTE_URL;
         }
       });
     }
