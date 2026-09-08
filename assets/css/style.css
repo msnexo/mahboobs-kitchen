@@ -678,3 +678,5 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   border-radius: 9px; font: inherit; font-size: 16px; background: #fff;
 }
 .share-fix__row input:focus { outline: none; border-color: var(--color-primary); }
+.share-alt { margin: 9px 0 0; font-size: 0.83rem; }
+.share-alt a { color: var(--color-primary); text-decoration: underline; }

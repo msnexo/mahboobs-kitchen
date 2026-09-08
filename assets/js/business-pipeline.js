@@ -559,10 +559,20 @@
     var shareText = "";
     var KARTE = "https://mahboobs-kitchen.com/karte/reyyan/";
 
+    // Am Handy oeffnet wa.me die App direkt. Am Rechner schiebt wa.me eine
+    // Zwischenseite ("Continue to Chat") dazwischen - web.whatsapp.com nicht.
+    var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     function setzeWaZiel(nummer) {
-      shareWa.href = nummer
-        ? "https://wa.me/" + nummer + "?text=" + encodeURIComponent(shareText)
-        : "https://wa.me/?text=" + encodeURIComponent(shareText);
+      var txt = encodeURIComponent(shareText);
+      if (amHandy) {
+        shareWa.href = nummer ? "https://wa.me/" + nummer + "?text=" + txt
+                              : "https://wa.me/?text=" + txt;
+      } else {
+        shareWa.href = nummer
+          ? "https://web.whatsapp.com/send?phone=" + nummer + "&text=" + txt
+          : "https://web.whatsapp.com/send?text=" + txt;
+      }
     }
 
     function zeigeTeilen(person) {
@@ -580,9 +590,21 @@
         if (shareMobileInput) shareMobileInput.value = "";
       }
 
-      shareMail.href = "mailto:" + (person && person.email ? person.email : "") +
-        "?subject=" + encodeURIComponent("Mahboobs Kitchen – meine Visitenkarte") +
+      var empfaenger = person && person.email ? person.email : "";
+      var betreff = "Mahboobs Kitchen – meine Visitenkarte";
+      shareMail.href = "mailto:" + empfaenger +
+        "?subject=" + encodeURIComponent(betreff) +
         "&body=" + encodeURIComponent(shareText);
+
+      // Wer am Rechner Gmail im Browser nutzt, bei dem tut mailto nichts.
+      var gmail = document.getElementById("shareGmail");
+      if (gmail) {
+        gmail.hidden = amHandy;
+        gmail.href = "https://mail.google.com/mail/?view=cm&fs=1" +
+          "&to=" + encodeURIComponent(empfaenger) +
+          "&su=" + encodeURIComponent(betreff) +
+          "&body=" + encodeURIComponent(shareText);
+      }
 
       shareStatus.textContent = "";
       shareStatus.className = "form-status";
