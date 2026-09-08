@@ -114,7 +114,7 @@
   <div class="modal-box">
     <button type="button" class="modal-close" id="addProspectClose" aria-label="Schließen">&times;</button>
     <h3>Neue Firma anlegen</h3>
-    <form id="addProspectForm" class="lead-form" style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
+    <form id="addProspectForm" class="lead-form" novalidate style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
       <label class="field-label" for="prospectName">Firma</label>
       <input type="text" id="prospectName" placeholder="Firmenname" required>
       <label class="field-label" for="prospectCategory">Kategorie</label>
@@ -132,7 +132,7 @@
         <option value="lost">Kein Interesse</option>
       </select>
       <label class="field-label" for="prospectWebsite">Webseite (optional)</label>
-      <input type="url" id="prospectWebsite" placeholder="https://...">
+      <input type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
       <label class="field-label" for="prospectAddress">Adresse (optional)</label>
       <input type="text" id="prospectAddress" placeholder="Straße, PLZ Ort">
       <label class="field-label" for="prospectPersonName">Ansprechpartner 1 (optional)</label>

@@ -680,3 +680,15 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .share-fix__row input:focus { outline: none; border-color: var(--color-primary); }
 .share-alt { margin: 9px 0 0; font-size: 0.83rem; }
 .share-alt a { color: var(--color-primary); text-decoration: underline; }
+
+/* Handy: unter 16px zoomt iOS beim Antippen in jedes Feld hinein.
+   Deshalb hier fest 16px, unabhaengig von der Grundschrift. */
+#addProspectForm input,
+#addProspectForm select,
+#addProspectForm textarea,
+#prospectDetailOverlay input,
+#prospectDetailOverlay select,
+#prospectDetailOverlay textarea,
+.share-fix__row input {
+  font-size: 16px;
+}

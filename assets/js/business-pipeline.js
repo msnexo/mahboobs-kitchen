@@ -671,7 +671,12 @@
         { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), mobile: document.getElementById("prospectPersonMobile").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
         { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), mobile: document.getElementById("prospectPersonMobile2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
       ].filter(function (person) { return person.name; });
-      if (!name) return;
+      if (!name) {
+        addProspectStatus.textContent = "Bitte einen Firmennamen eintragen.";
+        addProspectStatus.className = "form-status form-status--error";
+        document.getElementById("prospectName").focus();
+        return;
+      }
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
       erstePersonId = null;
@@ -726,6 +731,10 @@
         var grund = (err && (err.message || err.hint)) || "unbekannter Fehler";
         addProspectStatus.textContent = "Anlegen fehlgeschlagen: " + grund;
         addProspectStatus.className = "form-status form-status--error";
+        // Auf dem Handy steht die Meldung sonst weit ausserhalb des Bildes.
+        if (addProspectStatus.scrollIntoView) {
+          addProspectStatus.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
         if (window.console) console.error("Anlegen fehlgeschlagen:", err);
       });
     });
