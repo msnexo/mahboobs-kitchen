@@ -26,6 +26,32 @@
     return "MK-" + code;
   }
 
+  // Nur an Handynummern kann WhatsApp zustellen. Deutsche Mobilfunknummern
+  // beginnen nach der Landesvorwahl mit 15, 16 oder 17 - Festnetz nicht.
+  function normalisiereNummer(nummer) {
+    var d = (nummer || "").replace(/[^\d+]/g, "");
+    if (d.indexOf("+") === 0) d = d.slice(1);
+    else if (d.indexOf("00") === 0) d = d.slice(2);
+    else if (d.indexOf("0") === 0) d = "49" + d.slice(1);
+    return d;
+  }
+
+  function istHandy(nummer) {
+    var d = normalisiereNummer(nummer);
+    if (!d) return false;
+    // Auslaendische Nummern koennen wir nicht beurteilen - die lassen wir zu.
+    if (d.indexOf("49") !== 0) return d.length >= 8;
+    return /^49(15|16|17)/.test(d) && d.length >= 11;
+  }
+
+  // Die Nummer, an die WhatsApp gehen darf: bevorzugt das Handy-Feld.
+  function handyVon(person) {
+    if (!person) return "";
+    if (istHandy(person.mobile)) return normalisiereNummer(person.mobile);
+    if (istHandy(person.phone)) return normalisiereNummer(person.phone);
+    return "";
+  }
+
   function buildWhatsAppLink(phone, message) {
     var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
     if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
@@ -317,20 +343,23 @@
         return;
       }
       peopleListEl.innerHTML = people.map(function (person) {
-        var tel = person.phone ? buildTelLink(person.phone) : "";
-        var meta = [person.phone, person.email].filter(Boolean).map(escapeHtml).join(" · ");
+        var tel = person.phone ? buildTelLink(person.phone) : (person.mobile ? buildTelLink(person.mobile) : "");
+        var handy = handyVon(person);
+        var meta = [person.phone, person.mobile, person.email].filter(Boolean).map(escapeHtml).join(" · ");
         return (
           '<div style="padding:8px 0;border-bottom:1px solid var(--color-border);" data-person-row="' + person.id + '">' +
           '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
           '<div><strong>' + escapeHtml(person.name) + '</strong>' + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + '</span>' : '') + '</div>' +
           '<div style="display:flex;gap:6px;">' +
           (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : '') +
+          (handy ? '<a href="https://wa.me/' + handy + '" target="_blank" rel="noopener" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">WhatsApp</a>' : '') +
           '<button type="button" data-edit-person="' + person.id + '" class="btn btn--dark" style="padding:6px 10px;font-size:0.8rem;">✏️</button>' +
           '</div></div>' +
           (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + '</a>' : '') +
           '<div data-edit-form="' + person.id + '" style="display:none;flex-direction:column;gap:6px;margin-top:8px;">' +
           '<input type="text" data-field="name" value="' + escapeHtml(person.name) + '" placeholder="Name" style="width:100%;">' +
           '<input type="tel" data-field="phone" value="' + escapeHtml(person.phone || '') + '" placeholder="Telefon" style="width:100%;">' +
+          '<input type="tel" data-field="mobile" value="' + escapeHtml(person.mobile || '') + '" placeholder="Handy (WhatsApp)" style="width:100%;">' +
           '<input type="email" data-field="email" value="' + escapeHtml(person.email || '') + '" placeholder="E-Mail" style="width:100%;">' +
           '<div style="display:flex;gap:6px;">' +
           '<button type="button" data-save-person="' + person.id + '" class="btn btn--primary" style="padding:6px 14px;font-size:0.8rem;">Speichern</button>' +
@@ -358,9 +387,10 @@
           var form = peopleListEl.querySelector('[data-edit-form="' + id + '"]');
           var name = form.querySelector('[data-field="name"]').value.trim();
           var phone = form.querySelector('[data-field="phone"]').value.trim();
+          var mobile = form.querySelector('[data-field="mobile"]').value.trim();
           var email = form.querySelector('[data-field="email"]').value.trim();
           if (!name) return;
-          client.from('prospect_people').update({ name: name, phone: phone || null, email: email || null }).eq('id', id).then(function () {
+          client.from('prospect_people').update({ name: name, phone: phone || null, mobile: mobile || null, email: email || null }).eq('id', id).then(function () {
             loadPeople(selectedProspectId);
           });
         });
@@ -522,33 +552,63 @@
     var shareCopy = document.getElementById("shareCopy");
     var shareDone = document.getElementById("shareDone");
     var shareStatus = document.getElementById("shareStatus");
+    var shareMobileFix = document.getElementById("shareMobileFix");
+    var shareMobileInput = document.getElementById("shareMobile");
+    var shareMobileSave = document.getElementById("shareMobileSave");
+    var erstePersonId = null;
+    var shareText = "";
     var KARTE = "https://mahboobs-kitchen.com/karte/reyyan/";
 
-    function nurZiffern(tel) {
-      var t = (tel || "").replace(/[^0-9+]/g, "");
-      if (t.indexOf("+") === 0) return t.slice(1);
-      if (t.indexOf("00") === 0) return t.slice(2);
-      if (t.indexOf("0") === 0) return "49" + t.slice(1);
-      return t;
+    function setzeWaZiel(nummer) {
+      shareWa.href = nummer
+        ? "https://wa.me/" + nummer + "?text=" + encodeURIComponent(shareText)
+        : "https://wa.me/?text=" + encodeURIComponent(shareText);
     }
 
     function zeigeTeilen(person) {
       var anrede = person && person.name ? person.name : "";
-      var text = "Hallo " + (anrede ? anrede + ", " : "") +
+      shareText = "Hallo " + (anrede ? anrede + ", " : "") +
         "schön, dass wir eben sprechen konnten. Hier ist meine digitale Visitenkarte " +
         "mit allem, was wir anbieten: " + KARTE;
 
-      shareWa.href = person && person.phone
-        ? "https://wa.me/" + nurZiffern(person.phone) + "?text=" + encodeURIComponent(text)
-        : "https://wa.me/?text=" + encodeURIComponent(text);
+      var handy = handyVon(person);
+      setzeWaZiel(handy);
+      // Ohne Handynummer wuerde WhatsApp die Festnetznummer ablehnen -
+      // deshalb hier die Gelegenheit, sie direkt nachzutragen.
+      if (shareMobileFix) {
+        shareMobileFix.hidden = !!handy;
+        if (shareMobileInput) shareMobileInput.value = "";
+      }
+
       shareMail.href = "mailto:" + (person && person.email ? person.email : "") +
         "?subject=" + encodeURIComponent("Mahboobs Kitchen – meine Visitenkarte") +
-        "&body=" + encodeURIComponent(text);
+        "&body=" + encodeURIComponent(shareText);
 
       shareStatus.textContent = "";
       shareStatus.className = "form-status";
       addProspectForm.hidden = true;
       shareBox.hidden = false;
+    }
+
+    if (shareMobileSave) {
+      shareMobileSave.addEventListener("click", function () {
+        var eingabe = shareMobileInput.value.trim();
+        if (!istHandy(eingabe)) {
+          shareStatus.textContent = "Das sieht nicht nach einer Handynummer aus (015…, 016…, 017…).";
+          shareStatus.className = "form-status form-status--error";
+          return;
+        }
+        setzeWaZiel(normalisiereNummer(eingabe));
+        shareMobileFix.hidden = true;
+        shareStatus.textContent = "Handynummer übernommen.";
+        shareStatus.className = "form-status form-status--ok";
+        // Auch beim Ansprechpartner speichern, damit sie beim naechsten Mal dasteht.
+        if (erstePersonId) {
+          client.from("prospect_people").update({ mobile: eingabe }).eq("id", erstePersonId).then(function () {
+            if (selectedProspectId) loadPeople(selectedProspectId);
+          });
+        }
+      });
     }
 
     if (shareCopy) {
@@ -586,12 +646,13 @@
       var wiedervorlage = followUpEl && followUpEl.value ? followUpEl.value : null;
       var einwilligung = !!document.getElementById("prospectConsent").checked;
       var people = [
-        { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
-        { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
+        { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), mobile: document.getElementById("prospectPersonMobile").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
+        { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), mobile: document.getElementById("prospectPersonMobile2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
       ].filter(function (person) { return person.name; });
       if (!name) return;
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
+      erstePersonId = null;
 
       client.from("prospects").insert({
         name: name, category: category, status: status, website: website, address: address,
@@ -608,9 +669,12 @@
           schritte.push(Promise.all(people.map(function (person) {
             return client.from("prospect_people").insert({
               prospect_id: prospect.id, name: person.name,
-              phone: person.phone || null, email: person.email || null,
+              phone: person.phone || null, mobile: person.mobile || null,
+              email: person.email || null,
               marketing_consent: einwilligung,
               consent_at: einwilligung ? new Date().toISOString() : null
+            }).select().single().then(function (r) {
+              if (!r.error && r.data && !erstePersonId) erstePersonId = r.data.id;
             });
           })));
         }
@@ -687,14 +751,17 @@
     addPersonBtn.addEventListener("click", function () {
       var name = newPersonName.value.trim();
       if (!name || !selectedProspectId) return;
+      var newPersonMobile = document.getElementById("newPersonMobile");
       client.from("prospect_people").insert({
         prospect_id: selectedProspectId,
         name: name,
         phone: newPersonPhone.value.trim() || null,
+        mobile: newPersonMobile ? (newPersonMobile.value.trim() || null) : null,
         email: newPersonEmail.value.trim() || null
       }).then(function () {
         newPersonName.value = "";
         newPersonPhone.value = "";
+        if (newPersonMobile) newPersonMobile.value = "";
         newPersonEmail.value = "";
         loadPeople(selectedProspectId);
       });

@@ -138,13 +138,17 @@
       <label class="field-label" for="prospectPersonName">Ansprechpartner 1 (optional)</label>
       <input type="text" id="prospectPersonName">
       <label class="field-label" for="prospectPersonPhone">Telefon 1 (optional)</label>
-      <input type="tel" id="prospectPersonPhone">
+      <input type="tel" id="prospectPersonPhone" placeholder="z. B. Zentrale / Festnetz">
+      <label class="field-label" for="prospectPersonMobile">Handy 1 &ndash; f&uuml;r WhatsApp (optional)</label>
+      <input type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
       <label class="field-label" for="prospectPersonEmail">E-Mail 1 (optional)</label>
       <input type="email" id="prospectPersonEmail">
       <label class="field-label" for="prospectPersonName2">Ansprechpartner 2 (optional)</label>
       <input type="text" id="prospectPersonName2">
       <label class="field-label" for="prospectPersonPhone2">Telefon 2 (optional)</label>
-      <input type="tel" id="prospectPersonPhone2">
+      <input type="tel" id="prospectPersonPhone2" placeholder="z. B. Zentrale / Festnetz">
+      <label class="field-label" for="prospectPersonMobile2">Handy 2 &ndash; f&uuml;r WhatsApp (optional)</label>
+      <input type="tel" id="prospectPersonMobile2" placeholder="z. B. 0170 1234567">
       <label class="field-label" for="prospectPersonEmail2">E-Mail 2 (optional)</label>
       <input type="email" id="prospectPersonEmail2">
 
@@ -172,6 +176,13 @@
 
     <div id="prospectShare" hidden>
       <p class="share-hint">Angelegt. Jetzt die Karte schicken:</p>
+      <div class="share-fix" id="shareMobileFix" hidden>
+        <p>Keine Handynummer erfasst &ndash; WhatsApp braucht eine. Jetzt nachtragen:</p>
+        <div class="share-fix__row">
+          <input type="tel" id="shareMobile" placeholder="z. B. 0170 1234567">
+          <button type="button" class="btn btn--dark" id="shareMobileSave">&Uuml;bernehmen</button>
+        </div>
+      </div>
       <div class="share-row">
         <a class="btn btn--primary" id="shareWa" href="#" target="_blank" rel="noopener">Per WhatsApp</a>
         <a class="btn" id="shareMail" href="#">Per E-Mail</a>
@@ -231,6 +242,7 @@
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
       <input type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
       <input type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
+      <input type="tel" id="newPersonMobile" placeholder="Handy (WhatsApp)" style="flex:1;min-width:120px;">
       <input type="email" id="newPersonEmail" placeholder="E-Mail" style="flex:1;min-width:160px;">
       <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
     </div>

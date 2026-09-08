@@ -666,3 +666,15 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .share-hint { margin: 0 0 14px; font-weight: 600; }
 .share-row { display: flex; flex-wrap: wrap; gap: 9px; }
 .share-row .btn { flex: 1 1 auto; text-align: center; }
+
+.share-fix {
+  margin-bottom: 14px; padding: 13px 14px; border-radius: 10px;
+  background: rgba(232, 89, 12, 0.07); border: 1px solid rgba(232, 89, 12, 0.25);
+}
+.share-fix p { margin: 0 0 9px; font-size: 0.85rem; color: #4a4a4a; }
+.share-fix__row { display: flex; gap: 8px; flex-wrap: wrap; }
+.share-fix__row input {
+  flex: 1 1 160px; padding: 11px 12px; border: 1.5px solid var(--color-border, #e2e2e2);
+  border-radius: 9px; font: inherit; font-size: 16px; background: #fff;
+}
+.share-fix__row input:focus { outline: none; border-color: var(--color-primary); }
