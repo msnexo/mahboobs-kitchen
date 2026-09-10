@@ -117,45 +117,20 @@
     <form id="addProspectForm" class="lead-form" novalidate style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
       <label class="field-label" for="prospectName">Firma</label>
       <input type="text" id="prospectName" placeholder="Firmenname" required>
-      <label class="field-label" for="prospectCategory">Kategorie</label>
-      <input type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
-      <datalist id="categoryOptions">
-        <option value="Firma"></option>
-        <option value="Schule"></option>
-        <option value="Verein"></option>
-      </datalist>
-      <label class="field-label" for="prospectStatus">Status</label>
-      <select id="prospectStatus">
-        <option value="lead">Lead</option>
-        <option value="contacted">Kontaktiert</option>
-        <option value="customer">Kunde</option>
-        <option value="lost">Kein Interesse</option>
-      </select>
-      <label class="field-label" for="prospectWebsite">Webseite (optional)</label>
-      <input type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
-      <label class="field-label" for="prospectAddress">Adresse (optional)</label>
-      <input type="text" id="prospectAddress" placeholder="Straße, PLZ Ort">
-      <label class="field-label" for="prospectPersonName">Ansprechpartner 1 (optional)</label>
-      <input type="text" id="prospectPersonName">
-      <label class="field-label" for="prospectPersonPhone">Telefon 1 (optional)</label>
-      <input type="tel" id="prospectPersonPhone" placeholder="z. B. Zentrale / Festnetz">
-      <label class="field-label" for="prospectPersonMobile">Handy 1 &ndash; f&uuml;r WhatsApp (optional)</label>
-      <input type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
-      <label class="field-label" for="prospectPersonEmail">E-Mail 1 (optional)</label>
-      <input type="email" id="prospectPersonEmail">
-      <label class="field-label" for="prospectPersonName2">Ansprechpartner 2 (optional)</label>
-      <input type="text" id="prospectPersonName2">
-      <label class="field-label" for="prospectPersonPhone2">Telefon 2 (optional)</label>
-      <input type="tel" id="prospectPersonPhone2" placeholder="z. B. Zentrale / Festnetz">
-      <label class="field-label" for="prospectPersonMobile2">Handy 2 &ndash; f&uuml;r WhatsApp (optional)</label>
-      <input type="tel" id="prospectPersonMobile2" placeholder="z. B. 0170 1234567">
-      <label class="field-label" for="prospectPersonEmail2">E-Mail 2 (optional)</label>
-      <input type="email" id="prospectPersonEmail2">
 
-      <label class="field-label" for="prospectNote">Notiz &ndash; wor&uuml;ber gesprochen (optional)</label>
+      <label class="field-label" for="prospectPersonName">Ansprechpartner</label>
+      <input type="text" id="prospectPersonName" placeholder="Name">
+
+      <label class="field-label" for="prospectPersonMobile">Handy &ndash; f&uuml;r WhatsApp</label>
+      <input type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
+
+      <label class="field-label" for="prospectPersonEmail">E-Mail</label>
+      <input type="email" id="prospectPersonEmail" placeholder="name@firma.de">
+
+      <label class="field-label" for="prospectNote">Notiz &ndash; wor&uuml;ber gesprochen</label>
       <textarea id="prospectNote" rows="3" placeholder="z. B. Kantine l&auml;uft &uuml;ber Fremdanbieter, Vertrag endet im Sommer"></textarea>
 
-      <label class="field-label" for="prospectFollowUp">Wiedervorlage (optional)</label>
+      <label class="field-label" for="prospectFollowUp">Wiedervorlage</label>
       <input type="date" id="prospectFollowUp">
       <div class="quickdates" id="prospectQuickDates">
         <button type="button" data-tage="7">1 Woche</button>
@@ -169,6 +144,38 @@
         <input type="checkbox" id="prospectConsent">
         <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
       </label>
+
+      <details class="more-fields">
+        <summary>Weitere Angaben</summary>
+        <label class="field-label" for="prospectPersonPhone">Telefon / Zentrale</label>
+        <input type="tel" id="prospectPersonPhone" placeholder="z. B. 04193 123456">
+        <label class="field-label" for="prospectAddress">Adresse</label>
+        <input type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
+        <label class="field-label" for="prospectWebsite">Webseite</label>
+        <input type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
+        <label class="field-label" for="prospectCategory">Kategorie</label>
+        <input type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
+        <datalist id="categoryOptions">
+          <option value="Firma"></option>
+          <option value="Schule"></option>
+          <option value="Verein"></option>
+        </datalist>
+        <label class="field-label" for="prospectStatus">Status</label>
+        <select id="prospectStatus">
+          <option value="lead">Lead</option>
+          <option value="contacted">Kontaktiert</option>
+          <option value="customer">Kunde</option>
+          <option value="lost">Kein Interesse</option>
+        </select>
+        <label class="field-label" for="prospectPersonName2">Zweiter Ansprechpartner</label>
+        <input type="text" id="prospectPersonName2" placeholder="Name">
+        <label class="field-label" for="prospectPersonMobile2">Handy 2</label>
+        <input type="tel" id="prospectPersonMobile2">
+        <label class="field-label" for="prospectPersonPhone2">Telefon 2</label>
+        <input type="tel" id="prospectPersonPhone2">
+        <label class="field-label" for="prospectPersonEmail2">E-Mail 2</label>
+        <input type="email" id="prospectPersonEmail2">
+      </details>
 
       <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
       <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Anlegen</button></div>
@@ -190,7 +197,10 @@
       </div>
       <p class="share-alt"><a id="shareGmail" href="#" target="_blank" rel="noopener" hidden>oder in Gmail &ouml;ffnen</a></p>
       <p class="form-status" id="shareStatus" role="status" aria-live="polite"></p>
-      <div class="form-nav"><span></span><button type="button" class="btn btn--primary" id="shareDone">Fertig</button></div>
+      <div class="form-nav" style="gap:8px;">
+        <button type="button" class="btn btn--dark" id="shareDone">Fertig</button>
+        <button type="button" class="btn btn--primary" id="shareToCard">Weiter zur Business Karte &rarr;</button>
+      </div>
     </div>
   </div>
 </div>

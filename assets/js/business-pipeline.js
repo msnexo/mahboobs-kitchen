@@ -629,6 +629,7 @@
     var shareMobileInput = document.getElementById("shareMobile");
     var shareMobileSave = document.getElementById("shareMobileSave");
     var erstePersonId = null;
+    var letzterProspectId = null;
     var shareText = "";
 
     function setzeWaZiel(nummer) {
@@ -707,11 +708,21 @@
       });
     }
 
-    if (shareDone) {
-      shareDone.addEventListener("click", function () {
-        shareBox.hidden = true;
-        addProspectForm.hidden = false;
-        addProspectOverlay.hidden = true;
+    function teilenSchliessen() {
+      shareBox.hidden = true;
+      addProspectForm.hidden = false;
+      addProspectOverlay.hidden = true;
+    }
+
+    if (shareDone) shareDone.addEventListener("click", teilenSchliessen);
+
+    var shareToCard = document.getElementById("shareToCard");
+    if (shareToCard) {
+      shareToCard.addEventListener("click", function () {
+        var id = letzterProspectId;
+        teilenSchliessen();
+        // Ohne Umweg ueber die Liste direkt in den frisch angelegten Eintrag.
+        if (id) openDetail(id);
       });
     }
 
@@ -738,6 +749,7 @@
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
       erstePersonId = null;
+      letzterProspectId = null;
 
       client.from("prospects").insert({
         name: name, category: category, status: status, website: website, address: address,
@@ -748,6 +760,7 @@
       }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
+        letzterProspectId = prospect.id;
         var schritte = [];
 
         if (people.length) {
