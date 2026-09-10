@@ -81,9 +81,32 @@
                   : "https://web.whatsapp.com/send?text=" + t;
   }
 
-  function mailZiel(empfaenger, text) {
+  // Eine Nachricht, zwei Dinge: die Visitenkarte und die eigene Business-Karte.
+  function willkommensText(name, aktivierungsLink) {
+    return [
+      "Hallo " + (name || "") + ",",
+      "",
+      "schön, dass wir gesprochen haben. Wie versprochen zwei Dinge:",
+      "",
+      "1) Meine digitale Visitenkarte – dort sehen Sie alles, was wir anbieten, und erreichen mich direkt:",
+      KARTE_URL,
+      "",
+      "2) Ihre persönliche MK Business Karte. Der Code ist schon hinterlegt, Sie vergeben nur noch E-Mail und Passwort:",
+      aktivierungsLink,
+      "",
+      "Mit der Karte bekommen Sie bis zu 20 % Rabatt bei jeder Bestellung, ein Menü nach Ihren Wünschen und mich als festen Ansprechpartner. Keine Grundgebühr, keine Mindestlaufzeit.",
+      "",
+      "Bei Fragen rufen Sie mich einfach an: 0177 201 9889",
+      "",
+      "Herzliche Grüße",
+      "Reyyan Ahmad",
+      "Mahboobs Kitchen"
+    ].join("\n");
+  }
+
+  function mailZiel(empfaenger, text, betreff) {
     return "mailto:" + (empfaenger || "") +
-      "?subject=" + encodeURIComponent("Mahboobs Kitchen – meine Visitenkarte") +
+      "?subject=" + encodeURIComponent(betreff || "Mahboobs Kitchen – meine Visitenkarte") +
       "&body=" + encodeURIComponent(text);
   }
 
@@ -900,8 +923,8 @@
       insertCompanyWithRetry(client, {
         company_name: p.name,
         contact_person: firstPerson.name || "",
-        phone: firstPerson.phone || "",
-        email: "",
+        phone: firstPerson.mobile || firstPerson.phone || "",
+        email: firstPerson.email || "",
         notes: p.notes || ""
       }, 3).then(function (company) {
         return client.from("prospects").update({ status: "customer", company_id: company.id }).eq("id", selectedProspectId).then(function () {
@@ -920,13 +943,18 @@
             conversionCopyBtn.textContent = "Kopieren fehlgeschlagen";
           });
         };
-        conversionWhatsAppBtn.style.display = firstPerson.phone ? "" : "none";
+        var text = willkommensText(firstPerson.name, link);
+        var handy = handyVon(firstPerson);
+        conversionWhatsAppBtn.style.display = handy ? "" : "none";
         conversionWhatsAppBtn.onclick = function () {
-          var message =
-            "Willkommen bei der MK Business Karte! Klicken Sie einfach auf diesen Link, Ihr persönlicher Code ist schon eingetragen – " +
-            "Sie müssen nur noch eine E-Mail-Adresse und ein Passwort vergeben: " + link;
-          window.open(buildWhatsAppLink(firstPerson.phone, message), "_blank");
+          window.open(waZiel(handy, text), "_blank");
         };
+        var mailBtn = document.getElementById("conversionMailBtn");
+        if (mailBtn) {
+          mailBtn.style.display = firstPerson.email ? "" : "none";
+          mailBtn.href = mailZiel(firstPerson.email, text,
+            "Ihre MK Business Karte – Mahboobs Kitchen");
+        }
         refreshDetailStatus();
         loadProspects();
       }).catch(function () {
