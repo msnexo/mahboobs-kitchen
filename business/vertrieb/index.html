@@ -275,11 +275,21 @@
     <div id="conversionLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
       <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="conversionCompanyName"></strong>:</p>
       <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="conversionLink"></p>
+
+      <div id="conversionNoteBox" style="margin:0 0 10px;padding:10px 12px;background:#fff;border-left:3px solid var(--color-primary);border-radius:0 8px 8px 0;font-size:0.85rem;" hidden>
+        <strong>Ihre Notiz zum Gespr&auml;ch:</strong><br><span id="conversionNote"></span>
+      </div>
+
+      <label class="field-label" for="conversionMailText">Nachricht &ndash; hier anpassen, bevor Sie senden</label>
+      <textarea id="conversionMailText" rows="12" style="width:100%;font-size:16px;"></textarea>
+      <p class="muted" style="margin:6px 0 12px;font-size:0.78rem;" id="conversionLenHint"></p>
+
       <div class="btn-row">
         <button type="button" class="btn btn--dark" id="conversionCopyBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
         <button type="button" class="btn btn--whatsapp" id="conversionWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
         <a class="btn btn--primary" id="conversionMailBtn" href="#" style="padding:8px 16px;font-size:0.85rem;">Per E-Mail senden</a>
       </div>
+      <p class="share-alt"><a id="conversionGmail" href="#" target="_blank" rel="noopener" hidden>oder in Gmail &ouml;ffnen</a></p>
     </div>
   </div>
 </div>

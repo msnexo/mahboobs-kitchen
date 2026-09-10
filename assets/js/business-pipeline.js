@@ -943,18 +943,53 @@
             conversionCopyBtn.textContent = "Kopieren fehlgeschlagen";
           });
         };
-        var text = willkommensText(firstPerson.name, link);
         var handy = handyVon(firstPerson);
+        var feld = document.getElementById("conversionMailText");
+        var hinweis = document.getElementById("conversionLenHint");
+        var mailBtn = document.getElementById("conversionMailBtn");
+
+        // Vorlage als Startpunkt - geschrieben wird die Mail von Hand.
+        if (feld) feld.value = willkommensText(firstPerson.name, link);
+
+        // Die Gesprächsnotiz danebenlegen, damit das Persönliche einfließen kann.
+        var notizBox = document.getElementById("conversionNoteBox");
+        if (notizBox) {
+          notizBox.hidden = !p.notes;
+          if (p.notes) document.getElementById("conversionNote").textContent = p.notes;
+        }
+
+        function aktuellerText() { return feld ? feld.value : ""; }
+
+        function zieleAktualisieren() {
+          var t = aktuellerText();
+          var betreff = "Ihre MK Business Karte – Mahboobs Kitchen";
+          if (mailBtn) mailBtn.href = mailZiel(firstPerson.email, t, betreff);
+          // Am Rechner tut mailto nichts, wenn kein Mailprogramm eingerichtet ist.
+          var gm = document.getElementById("conversionGmail");
+          if (gm) {
+            gm.hidden = amHandy || !firstPerson.email;
+            gm.href = "https://mail.google.com/mail/?view=cm&fs=1" +
+              "&to=" + encodeURIComponent(firstPerson.email || "") +
+              "&su=" + encodeURIComponent(betreff) +
+              "&body=" + encodeURIComponent(t);
+          }
+          // Sehr lange Texte schneiden manche Mailprogramme im mailto ab.
+          if (hinweis) {
+            hinweis.textContent = t.length > 1800
+              ? t.length + " Zeichen – das ist lang. Falls die Mail abgeschnitten ankommt, "
+                + "Text hier markieren, kopieren und im Mailprogramm einfügen."
+              : t.length + " Zeichen";
+          }
+        }
+
+        if (feld) feld.addEventListener("input", zieleAktualisieren);
+        zieleAktualisieren();
+
         conversionWhatsAppBtn.style.display = handy ? "" : "none";
         conversionWhatsAppBtn.onclick = function () {
-          window.open(waZiel(handy, text), "_blank");
+          window.open(waZiel(handy, aktuellerText()), "_blank");
         };
-        var mailBtn = document.getElementById("conversionMailBtn");
-        if (mailBtn) {
-          mailBtn.style.display = firstPerson.email ? "" : "none";
-          mailBtn.href = mailZiel(firstPerson.email, text,
-            "Ihre MK Business Karte – Mahboobs Kitchen");
-        }
+        if (mailBtn) mailBtn.style.display = firstPerson.email ? "" : "none";
         refreshDetailStatus();
         loadProspects();
       }).catch(function () {
