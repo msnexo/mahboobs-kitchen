@@ -73,10 +73,16 @@
       <div class="btn-row">
         <button type="button" id="addProspectBtn" class="btn btn--primary">+ Neue Firma</button>
         <button type="button" id="toggleViewBtn" class="btn btn--dark">Alle anzeigen</button>
-        <a href="/business/admin/" class="btn btn--dark" id="adminLink" style="display:none;">Admin</a>
         <button type="button" id="logoutPipelineBtn" class="btn btn--dark">Abmelden</button>
       </div>
     </div>
+
+    <nav class="tabs" id="bereichTabs">
+      <button type="button" class="tabs__btn" data-tab="tabPipeline" aria-selected="true">Pipeline</button>
+      <button type="button" class="tabs__btn" data-tab="tabKunden" aria-selected="false">Kunden &amp; Angebote</button>
+    </nav>
+
+    <div id="tabPipeline">
     <p class="muted" id="dailyCounter" style="margin-bottom:12px;font-size:1.05rem;">Wird geladen …</p>
     <input type="search" id="pipelineSearch" placeholder="Firma suchen …" autocomplete="off" style="width:100%;max-width:400px;margin-bottom:24px;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;font-size:0.95rem;background:var(--color-card-bg);">
 
@@ -88,6 +94,117 @@
 
     <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
     <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
+    </div>
+
+    <div id="tabKunden" hidden>
+    <div class="grid grid--2" style="margin-bottom:40px;">
+      <div class="card">
+        <details><summary style="cursor:pointer;font-weight:700;">Kunde ohne Lead anlegen &ndash; Ausnahmefall</summary>
+        <h3 style="margin-top:14px;">Neuen Firmenkunden anlegen</h3>
+        <form class="lead-form" id="addCompanyForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
+          <label class="field-label" for="companyName">Firmenname</label>
+          <input type="text" id="companyName" name="companyName" required>
+          <label class="field-label" for="contactPerson">Ansprechpartner</label>
+          <input type="text" id="contactPerson" name="contactPerson">
+          <label class="field-label" for="addCompanyEmail">E-Mail</label>
+          <input type="email" id="addCompanyEmail" name="email">
+          <label class="field-label" for="phone">Telefon</label>
+          <input type="tel" id="phone" name="phone">
+          <label class="field-label" for="notes">Notizen</label>
+          <textarea id="notes" name="notes" rows="2"></textarea>
+          <p class="form-status" id="addCompanyStatus" role="status" aria-live="polite"></p>
+          <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Kunde anlegen</button></div>
+        </form>
+        <div id="newCompanyLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
+          <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="newCompanyName"></strong>:</p>
+          <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="newCompanyLink"></p>
+          <div class="btn-row">
+            <button type="button" class="btn btn--dark" id="copyLinkBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
+            <button type="button" class="btn btn--whatsapp" id="sendLinkWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Punkte gutschreiben</h3>
+        <form class="lead-form" id="addPointsForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
+          <label class="field-label" for="companySelect">Firma</label>
+          <select id="companySelect" name="companySelect"></select>
+          <label class="field-label" for="points">Punkte (negativ für Korrektur)</label>
+          <input type="number" id="points" name="points" required>
+          <label class="field-label" for="reason">Grund</label>
+          <input type="text" id="reason" name="reason" placeholder="z. B. Bestellung Weihnachtsfeier">
+          <p class="form-status" id="addPointsStatus" role="status" aria-live="polite"></p>
+          <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Punkte gutschreiben</button></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:40px;">
+      <h3>Angebots-Nachricht für WhatsApp</h3>
+      <p class="muted">Schreib hier deine Nachricht. Platzhalter <code>{{ansprechpartner}}</code> und <code>{{firma}}</code> werden automatisch ersetzt. In der Kundenliste unten erscheint pro Kunde ein WhatsApp-Button mit der fertig ausgefüllten Nachricht — du musst nur noch ein Bild dazu anhängen (falls gewünscht) und auf Senden tippen.</p>
+      <textarea id="whatsappTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
+    </div>
+
+    <div class="card" style="margin-bottom:40px;">
+      <h3>Angebots-Nachricht für E-Mail</h3>
+      <p class="muted">Gleiches Prinzip wie bei WhatsApp: Betreff und Nachricht hier vorbereiten, Platzhalter <code>{{ansprechpartner}}</code> und <code>{{firma}}</code> werden automatisch ersetzt. In der Kundenliste unten erscheint pro Kunde ein E-Mail-Button, der dein E-Mail-Programm mit Betreff und Text fertig ausgefüllt öffnet.</p>
+      <label class="field-label" for="emailSubjectTemplate">Betreff</label>
+      <input type="text" id="emailSubjectTemplate" class="search-input" value="Neues Angebot von Mahboobs Kitchen">
+      <label class="field-label" for="emailTemplate">Nachricht</label>
+      <textarea id="emailTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
+    </div>
+
+    <div class="card" style="margin-bottom:40px;">
+      <h3>🍽️ Catering-Angebot Link erstellen</h3>
+      <p class="muted" style="margin-bottom:16px;">Klicke auf einen Kunden in der Liste unten, um Firma und Ansprechpartner automatisch zu übernehmen – oder tippe manuell. Der Link öffnet einen personalisierten Menü-Konfigurator für den Kunden.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label class="field-label" for="cateringLinkFirma">Firma</label>
+          <input type="text" id="cateringLinkFirma" placeholder="Firmenname">
+        </div>
+        <div>
+          <label class="field-label" for="cateringLinkPerson">Ansprechpartner</label>
+          <input type="text" id="cateringLinkPerson" placeholder="Herr / Frau ...">
+        </div>
+      </div>
+      <label class="field-label" for="cateringLinkMsg">Persönliche Nachricht (optional)</label>
+      <textarea id="cateringLinkMsg" rows="2" placeholder="z. B. Hallo Herr Müller, wie besprochen haben wir dieses Angebot speziell für Sie vorbereitet …"></textarea>
+      <div class="btn-row" style="margin-top:12px;flex-wrap:wrap;">
+        <button type="button" id="cateringLinkGenBtn" class="btn btn--primary">🔗 Link generieren</button>
+        <button type="button" id="cateringLinkCopyBtn" class="btn btn--dark" style="display:none;">Link kopieren</button>
+        <a id="cateringLinkWaBtn" href="#" target="_blank" rel="noopener" class="btn btn--whatsapp" style="display:none;">Per WhatsApp senden</a>
+      </div>
+      <p id="cateringLinkDisplay" style="margin-top:12px;word-break:break-all;font-size:0.83rem;padding:10px;background:var(--color-bg-soft);border-radius:8px;display:none;"></p>
+    </div>
+
+    <div class="grid grid--2" style="margin-bottom:40px;">
+      <div class="card">
+        <h3>Angebote verwalten</h3>
+        <form class="lead-form" id="addOfferForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
+          <label class="field-label" for="offerTitle">Titel</label>
+          <input type="text" id="offerTitle" name="offerTitle" required>
+          <label class="field-label" for="offerDescription">Beschreibung</label>
+          <textarea id="offerDescription" name="offerDescription" rows="3"></textarea>
+          <label class="field-label" for="image">Bild (optional)</label>
+          <input type="file" id="image" name="image" accept="image/*">
+          <p class="form-status" id="addOfferStatus" role="status" aria-live="polite"></p>
+          <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Angebot veröffentlichen</button></div>
+        </form>
+        <div id="offersList" style="margin-top:24px;"><p class="muted">Wird geladen …</p></div>
+      </div>
+      <div class="card">
+        <h3>Angebot-Anfragen</h3>
+        <p class="muted">Wer hat zuletzt Interesse an einem Angebot gezeigt.</p>
+        <div id="offerRequestsList"><p class="muted">Wird geladen …</p></div>
+      </div>
+    </div>
+
+    <h3>Firmenkunden</h3>
+    <input type="text" id="searchInput" class="search-input" placeholder="Suche nach Firma, Ansprechpartner, E-Mail oder Karten-Code …">
+    <div id="companiesTable"><p class="muted">Wird geladen …</p></div>
+
+    <div class="card" id="companyHistoryPanel" hidden style="margin-top:28px;"></div>
+    </div>
   </div>
 </section>
 
@@ -354,5 +471,6 @@
 <script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111", "SAF": "2222", "FAZ": "3333"};</script>
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-pipeline.js" defer></script>
+<script src="/assets/js/business-admin.js" defer></script>
 </body>
 </html>

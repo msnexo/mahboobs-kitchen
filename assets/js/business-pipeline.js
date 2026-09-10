@@ -1037,6 +1037,23 @@
     loadProspects().then(function () { checkDueNotifications(); });
   } // end startPipeline
 
+  // Reiter unabhaengig von der Anmeldung schalten - sie zeigen nur Bereiche um.
+  (function () {
+    var leiste = document.getElementById("bereichTabs");
+    if (!leiste) return;
+    leiste.addEventListener("click", function (e) {
+      var btn = e.target.closest(".tabs__btn");
+      if (!btn) return;
+      Array.prototype.forEach.call(leiste.querySelectorAll(".tabs__btn"), function (b) {
+        var aktiv = b === btn;
+        b.setAttribute("aria-selected", aktiv ? "true" : "false");
+        var ziel = document.getElementById(b.getAttribute("data-tab"));
+        if (ziel) ziel.hidden = !aktiv;
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  })();
+
   // ── Pipeline-Authentifizierung & Boot ─────────────────────────────────
   (function () {
     var loginOverlay = document.getElementById("pipelineLoginOverlay");
@@ -1046,7 +1063,6 @@
     var pinConfirm   = document.getElementById("pipelinePinConfirm");
     var pinError     = document.getElementById("pipelinePinError");
     var userBadge    = document.getElementById("pipelineUserBadge");
-    var adminLink    = document.getElementById("adminLink");
     var pendingUser  = null;
 
     function bootWithUser(user) {
@@ -1054,7 +1070,6 @@
         userBadge.textContent = user;
         userBadge.style.background = USER_COLORS[user] || "#888";
       }
-      if (adminLink) adminLink.style.display = user === "REA" ? "" : "none";
       // Supabase-Admin-Session erforderlich (schreibt RLS via is_admin())
       window.mkBusiness.requireAdminSession(function (session, client) {
         startPipeline(client, user);

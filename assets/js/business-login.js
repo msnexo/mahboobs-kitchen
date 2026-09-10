@@ -27,7 +27,7 @@
       return window.mkBusiness.getProfile(res.data.user.id);
     }).then(function (profile) {
       if (profile && profile.role === "admin") {
-        window.location.href = "/business/admin/";
+        window.location.href = "/business/vertrieb/";
         return;
       }
       var redirect = new URLSearchParams(window.location.search).get("redirect");
