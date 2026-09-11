@@ -3,8 +3,8 @@
 
   var DAILY_GOAL = 10;
 
-  var PIPELINE_PINS = window.PIPELINE_PINS || { REA: "1111", SAF: "2222", FAZ: "3333" };
-  var USER_COLORS   = { REA: "#10b981", SAF: "#3b82f6", FAZ: "#f59e0b" };
+  var PIPELINE_PINS = window.PIPELINE_PINS || { REA: "1111" };
+  var NUTZER = "REA";   // aktuell arbeitet nur eine Person damit
 
   function getPipelineUser()   { return sessionStorage.getItem("mk_pipeline_user"); }
   function setPipelineUser(u)  { sessionStorage.setItem("mk_pipeline_user", u); }
@@ -224,7 +224,6 @@
     var currentPeople = [];
     var selectedProspectId = null;
     var showArchive = false;
-    var showAll = false;
     var searchQuery = "";
 
     var dailyCounterEl = document.getElementById("dailyCounter");
@@ -291,7 +290,7 @@
         "<div><strong>" + escapeHtml(p.name) + '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>" +
-        '<span style="margin-left:6px;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:700;color:#fff;background:' + (USER_COLORS[p.assigned_to] || '#888') + ';">' + escapeHtml(p.assigned_to || 'REA') + "</span></div>" +
+        "</div>" +
         "</div>" +
         (function () {
           var person = erstePersonen[p.id];
@@ -417,7 +416,6 @@
       var q = searchQuery.toLowerCase();
       var visible = allProspects.filter(function (p) {
         if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
-        if (!showAll && (p.assigned_to || "REA") !== currentUser) return false;
         return true;
       });
       var active = visible.filter(function (p) { return p.status === "lead" || p.status === "contacted"; });
@@ -657,27 +655,8 @@
     }
 
     // ── Alle / Meine Toggle ─────────────────────────────────────────────────
-    var toggleViewBtn = document.getElementById("toggleViewBtn");
-    if (toggleViewBtn) {
-      toggleViewBtn.addEventListener("click", function () {
-        showAll = !showAll;
-        toggleViewBtn.textContent = showAll ? "Meine anzeigen" : "Alle anzeigen";
-        renderPipeline();
-      });
-    }
 
     // ── Uebergabe-Buttons ───────────────────────────────────────────────────
-    Array.prototype.forEach.call(document.querySelectorAll(".transfer-btn"), function (btn) {
-      btn.addEventListener("click", function () {
-        if (!selectedProspectId) return;
-        var target = btn.getAttribute("data-target");
-        client.from("prospects").update({ assigned_to: target }).eq("id", selectedProspectId).then(function () {
-          var ts = document.getElementById("transferStatus");
-          if (ts) ts.textContent = "Übergeben an " + target + " ✓";
-          loadProspects();
-        });
-      });
-    });
 
     // ── Abmelden ────────────────────────────────────────────────────────────
     var logoutPipelineBtn = document.getElementById("logoutPipelineBtn");
@@ -1187,12 +1166,10 @@
     var pinConfirm   = document.getElementById("pipelinePinConfirm");
     var pinError     = document.getElementById("pipelinePinError");
     var userBadge    = document.getElementById("pipelineUserBadge");
-    var pendingUser  = null;
-
     function bootWithUser(user) {
       if (userBadge) {
         userBadge.textContent = user;
-        userBadge.style.background = USER_COLORS[user] || "#888";
+        userBadge.style.background = "#10b981";
       }
       // Supabase-Admin-Session erforderlich (schreibt RLS via is_admin())
       window.mkBusiness.requireAdminSession(function (session, client) {
@@ -1210,23 +1187,15 @@
     // Login-Overlay zeigen
     if (loginOverlay) loginOverlay.hidden = false;
 
-    Array.prototype.forEach.call(document.querySelectorAll(".pipeline-user-btn"), function (btn) {
-      btn.addEventListener("click", function () {
-        pendingUser = btn.getAttribute("data-user");
-        if (pinLabel) pinLabel.textContent = "PIN für " + pendingUser + ":";
-        if (pinEntry) pinEntry.style.display = "";
-        if (pinInput) { pinInput.value = ""; pinInput.focus(); }
-        if (pinError) pinError.textContent = "";
-      });
-    });
+    if (pinLabel) pinLabel.textContent = "PIN:";
+    if (pinInput) pinInput.focus();
 
     function tryLogin() {
-      if (!pendingUser) return;
       var entered = pinInput ? pinInput.value.trim() : "";
-      if (entered === PIPELINE_PINS[pendingUser]) {
-        setPipelineUser(pendingUser);
+      if (entered === PIPELINE_PINS[NUTZER]) {
+        setPipelineUser(NUTZER);
         if (loginOverlay) loginOverlay.hidden = true;
-        bootWithUser(pendingUser);
+        bootWithUser(NUTZER);
       } else {
         if (pinError) pinError.textContent = "Falscher PIN. Bitte erneut versuchen.";
         if (pinInput) pinInput.value = "";
