@@ -711,3 +711,50 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   margin-bottom: -2px;
 }
 .tabs__btn[aria-selected="true"] { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ================= Arbeitsbereich: Ansicht fuer den Rechner =================
+   Nur ab 1100 px. Darunter bleibt alles, wie es am Handy war. */
+@media (min-width: 1100px) {
+  .work-mode #siteHeader,
+  .work-mode .site-footer,
+  .work-mode .sticky-cta,
+  .work-mode .eyebrow { display: none !important; }
+
+  .work-mode body { padding-bottom: 0; }
+  .work-mode .section { padding: 18px 0 24px !important; }
+  .work-mode .container { max-width: none; padding-left: 22px; padding-right: 22px; }
+  .work-mode h1 { font-size: 1.45rem; margin: 0; }
+  .work-mode .tabs { margin-bottom: 14px; }
+  .work-mode #dailyCounter { margin: 0 0 8px !important; font-size: 0.9rem !important; }
+  .work-mode #pipelineSearch { margin-bottom: 14px !important; padding: 7px 12px !important; }
+
+  /* Liste links, Detail rechts */
+  .work-split { display: grid; grid-template-columns: minmax(0, 1fr) 470px; gap: 18px; align-items: start; }
+  .work-list { min-width: 0; }
+  .work-detail { position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow-y: auto; }
+  .work-detail__leer {
+    color: #8a8a8a; font-size: 0.9rem; border: 1px dashed var(--color-border);
+    border-radius: 10px; padding: 26px 18px; text-align: center; margin: 0;
+  }
+  .work-detail #prospectDetailOverlay {
+    position: static; inset: auto; background: none; padding: 0; display: block; z-index: auto;
+  }
+  .work-detail #prospectDetailOverlay .modal-box {
+    max-width: none; width: 100%; margin: 0; padding: 20px; max-height: none;
+    border: 1px solid var(--color-border); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .work-detail #prospectDetailClose { display: none; }
+
+  /* Dichte Zeilen statt grosser Karten */
+  .work-list h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #8a8a8a; margin: 16px 0 6px !important; }
+  .work-list > div { margin-bottom: 14px !important; }
+  .work-list .prospect-card {
+    padding: 7px 12px !important; margin-bottom: 3px !important; border-radius: 7px;
+    box-shadow: none; border: 1px solid var(--color-border);
+  }
+  .work-list .prospect-card:hover { border-color: var(--color-primary); background: var(--color-bg-soft); }
+  .work-list .prospect-card.is-aktiv { border-color: var(--color-primary); background: #fff6f0; }
+  .work-list .prospect-card p { margin: 2px 0 0 !important; font-size: 0.78rem !important; }
+  .work-list .prospect-card strong { font-size: 0.95rem; }
+}

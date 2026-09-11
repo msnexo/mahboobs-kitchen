@@ -283,7 +283,19 @@
         '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>" +
         '<span style="margin-left:6px;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:700;color:#fff;background:' + (USER_COLORS[p.assigned_to] || '#888') + ';">' + escapeHtml(p.assigned_to || 'REA') + "</span></div>" +
         "</div>" +
-        (p.next_contact_date ? '<p class="muted" style="margin:6px 0 0;font-size:0.8rem;">Termin: ' + formatDateOnly(p.next_contact_date) + "</p>" : "") +
+        (function () {
+          var person = erstePersonen[p.id];
+          var teile = [];
+          if (p.next_contact_date) teile.push("Termin: " + formatDateOnly(p.next_contact_date));
+          if (person && person.name) teile.push(escapeHtml(person.name));
+          var nr = person && (person.mobile || person.phone);
+          if (nr) teile.push(escapeHtml(nr));
+          if (person && person.email) teile.push(escapeHtml(person.email));
+          return teile.length
+            ? '<p class="muted zeile2" style="margin:6px 0 0;font-size:0.8rem;">' +
+              teile.join(" &middot; ") + "</p>"
+            : "";
+        })() +
         (p.notes ? '<p class="muted" style="margin:8px 0 0;font-size:0.85rem;">' + escapeHtml(p.notes.slice(0, 120)) + "</p>" : "") +
         "</div>"
       );
@@ -387,9 +399,28 @@
       renderBucket(pipelineArchive, "Archiv", archived);
     }
 
+    // Erste Ansprechpartner je Eintrag, damit die Liste Name und Nummer zeigt,
+    // ohne dass man jede Zeile oeffnen muss.
+    var erstePersonen = {};
+
+    function loadErstePersonen() {
+      return client.from("prospect_people")
+        .select("prospect_id, name, phone, mobile, email")
+        .order("created_at", { ascending: true })
+        .then(function (res) {
+          erstePersonen = {};
+          (res.data || []).forEach(function (pe) {
+            if (!erstePersonen[pe.prospect_id]) erstePersonen[pe.prospect_id] = pe;
+          });
+        })
+        .catch(function () { erstePersonen = {}; });
+    }
+
     function loadProspects() {
       return client.from("prospects").select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false }).then(function (res) {
         allProspects = res.data || [];
+        return loadErstePersonen();
+      }).then(function () {
         renderPipeline();
       });
     }
@@ -496,10 +527,19 @@
       statusSelect.value = p.status;
     }
 
+    function markiereAktiv(id) {
+      var platzhalter = document.getElementById("detailPlatzhalter");
+      if (platzhalter) platzhalter.hidden = !!id;
+      Array.prototype.forEach.call(document.querySelectorAll(".prospect-card"), function (c) {
+        c.classList.toggle("is-aktiv", !!id && c.getAttribute("data-prospect-id") === id);
+      });
+    }
+
     function openDetail(id) {
       selectedProspectId = id;
       var p = allProspects.filter(function (x) { return x.id === id; })[0];
       if (!p) return;
+      markiereAktiv(id);
       detailStatus.className = "status-pill status-pill--" + p.status;
       detailStatus.textContent = statusLabels[p.status];
       detailNameInput.value = p.name;
@@ -547,6 +587,7 @@
     addProspectClose.addEventListener("click", function () { addProspectOverlay.hidden = true; });
     detailClose.addEventListener("click", function () {
       detailOverlay.hidden = true;
+      markiereAktiv(null);
       selectedProspectId = null;
     });
 
@@ -911,6 +952,8 @@
       if (!window.confirm("Diesen Interessenten als 'Kein Interesse' markieren? Er kommt ins Archiv.")) return;
       client.from("prospects").update({ status: "lost" }).eq("id", selectedProspectId).then(function () {
         detailOverlay.hidden = true;
+        markiereAktiv(null);
+      markiereAktiv(null);
         loadProspects();
       });
     });
@@ -922,6 +965,8 @@
       if (!window.confirm('"' + p.name + '" komplett löschen? Das kann nicht rückgängig gemacht werden.')) return;
       client.from("prospects").delete().eq("id", selectedProspectId).then(function () {
         detailOverlay.hidden = true;
+        markiereAktiv(null);
+      markiereAktiv(null);
         selectedProspectId = null;
         loadProspects();
       });
@@ -1036,6 +1081,9 @@
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });
   } // end startPipeline
+
+  // Kennzeichnet die Seite als Arbeitswerkzeug - die Rechner-Ansicht haengt daran.
+  document.documentElement.classList.add("work-mode");
 
   // Reiter unabhaengig von der Anmeldung schalten - sie zeigen nur Bereiche um.
   (function () {
