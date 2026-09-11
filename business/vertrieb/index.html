@@ -104,8 +104,7 @@
     <textarea autocomplete="off" id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
     <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
     <div style="display:flex;gap:8px;align-items:center;">
-      <input autocomplete="off" type="date" id="nextContactDate" style="flex:1;">
-      <select autocomplete="off" id="nextContactTime" aria-label="Uhrzeit" style="flex:0 0 106px;"></select>
+      <input autocomplete="off" type="datetime-local" id="nextContactDate" step="900" style="flex:1;">
       <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
     </div>
     <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>

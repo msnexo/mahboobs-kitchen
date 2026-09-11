@@ -259,51 +259,6 @@
     var detailWebsiteOpen = document.getElementById("prospectDetailWebsiteOpen");
     var detailAddress = document.getElementById("prospectDetailAddress");
     var nextContactDate = document.getElementById("nextContactDate");
-    var nextContactTime = document.getElementById("nextContactTime");
-
-    // Viertelstunden von 6 bis 21 Uhr - minutengenau braucht hier niemand.
-    (function fuelleUhrzeiten() {
-      if (!nextContactTime) return;
-      var html = '<option value="">Uhrzeit</option>';
-      for (var st = 6; st <= 21; st++) {
-        for (var mi = 0; mi < 60; mi += 15) {
-          if (st === 21 && mi > 0) break;
-          var t = (st < 10 ? "0" : "") + st + ":" + (mi === 0 ? "00" : mi);
-          html += '<option value="' + t + '">' + t + "</option>";
-        }
-      }
-      nextContactTime.innerHTML = html;
-    })();
-
-    // Datum und Uhrzeit zu einem Zeitpunkt zusammensetzen. Ohne Uhrzeit
-    // nehmen wir 9 Uhr, damit der Termin nicht um Mitternacht liegt.
-    function terminAusFeldern() {
-      var d = nextContactDate ? nextContactDate.value : "";
-      if (!d) return null;
-      var t = (nextContactTime && nextContactTime.value) || "09:00";
-      var teile = d.split("-");
-      var uhr = t.split(":");
-      return new Date(+teile[0], +teile[1] - 1, +teile[2], +uhr[0], +uhr[1]);
-    }
-
-    function terminInFelder(iso) {
-      if (!nextContactDate) return;
-      if (!iso) {
-        nextContactDate.value = "";
-        if (nextContactTime) nextContactTime.value = "";
-        return;
-      }
-      var d = new Date(iso);
-      nextContactDate.value = d.getFullYear() + "-" +
-        ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-      if (nextContactTime) {
-        var mi = Math.round(d.getMinutes() / 15) * 15;
-        var st = d.getHours() + (mi === 60 ? 1 : 0);
-        var wert = ("0" + st).slice(-2) + ":" + (mi % 60 === 0 ? "00" : mi % 60);
-        nextContactTime.value = [].slice.call(nextContactTime.options)
-          .some(function (o) { return o.value === wert; }) ? wert : "";
-      }
-    }
     var nextContactNotes = document.getElementById("nextContactNotes");
     var logContactBtn = document.getElementById("logContactBtn");
     var logStatus = document.getElementById("logStatus");
@@ -637,7 +592,7 @@
       detailWebsiteOpen.hidden = !p.website;
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
-      terminInFelder(p.next_contact_date);
+      nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
       nextContactNotes.value = "";
       reminderStatus.textContent = "";
       reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
@@ -944,9 +899,8 @@
 
     reminderBellBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
-      var zeitpunkt = terminAusFeldern();
-      if (!zeitpunkt) { reminderStatus.textContent = "Bitte zuerst ein Datum wählen."; return; }
-      var at = zeitpunkt.toISOString();
+      var at = nextContactDate.value;
+      if (!at) { reminderStatus.textContent = "Bitte zuerst ein Datum eingeben."; return; }
       var p = allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
       var name = p ? p.name : "";
       if (hasReminder(selectedProspectId)) {
@@ -981,9 +935,10 @@
 
     logContactBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
-      var zeitpunkt = terminAusFeldern();
-      var dateUTC = zeitpunkt ? zeitpunkt.toISOString() : null;
-      var datePart = nextContactDate.value || null;
+      var date = nextContactDate.value;
+      // Ortszeit in UTC umrechnen, damit Supabase den richtigen Zeitpunkt speichert
+      var dateUTC = date ? new Date(date).toISOString() : null;
+      var datePart = date ? date.slice(0, 10) : null;
       var notes = nextContactNotes.value.trim();
       var prospectId = selectedProspectId;
       logStatus.textContent = "Wird gespeichert …";
@@ -1001,7 +956,7 @@
         return client.from("prospects").update(updates).eq("id", prospectId);
       }).then(function () {
         nextContactNotes.value = "";
-        terminInFelder(null);
+        nextContactDate.value = "";
         logStatus.textContent = "Gespeichert ✓";
         logStatus.className = "form-status form-status--ok";
         loadDailyCounter();
