@@ -830,3 +830,6 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .bucket--faellig > summary .bucket__zahl { background: #fdecea; color: #c0392b; }
 .bucket--heute > summary { color: var(--color-primary); }
 .bucket--heute > summary .bucket__zahl { background: #fdece1; color: var(--color-primary); }
+
+/* Termin liegt in der Vergangenheit */
+.termin-vorbei { color: #c0392b; font-weight: 600; }

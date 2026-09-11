@@ -296,7 +296,16 @@
         (function () {
           var person = erstePersonen[p.id];
           var teile = [];
-          if (p.next_contact_date) teile.push("Termin: " + formatDateOnly(p.next_contact_date));
+          if (p.next_contact_date) {
+            var wann = new Date(p.next_contact_date);
+            var mitUhrzeit = p.next_contact_date.length > 10 &&
+              (wann.getHours() !== 0 || wann.getMinutes() !== 0);
+            var text = "Termin: " + (mitUhrzeit ? formatDateTime(p.next_contact_date)
+                                                : formatDateOnly(p.next_contact_date));
+            // Vorbei? Dann hervorheben - gemessen an der Uhr, nicht nur am Tag.
+            teile.push(wann.getTime() < Date.now()
+              ? '<span class="termin-vorbei">' + text + "</span>" : text);
+          }
           if (person && person.name) teile.push(escapeHtml(person.name));
           var nr = person && (person.mobile || person.phone);
           if (nr) teile.push(escapeHtml(nr));
@@ -324,14 +333,26 @@
       })).then(function () { loadProspects(); });
     }
 
-    // Gruppen starten immer zugeklappt - geoeffnet wird per Klick.
+    // Beim Laden der Seite ist alles zu. Waehrend der Sitzung bleibt geoeffnet,
+    // was geoeffnet wurde - sonst wuerde das automatische Neuzeichnen es zuklappen.
+    var offeneGruppen = {};
+
     function gruppeHtml(titel, prospects, klasse) {
       return '<details class="bucket' + (klasse ? " " + klasse : "") + '"' +
+        (offeneGruppen[titel] ? " open" : "") +
         ' data-bucket="' + escapeHtml(titel) + '">' +
         "<summary>" + escapeHtml(titel) + ' <span class="bucket__zahl">' + prospects.length + "</span></summary>" +
         '<div class="bucket__inhalt">' +
         prospects.map(function (p, i) { return renderProspectCard(p, i, prospects.length); }).join("") +
         "</div></details>";
+    }
+
+    function merkeOffen(container) {
+      Array.prototype.forEach.call(container.querySelectorAll("details.bucket"), function (d) {
+        d.addEventListener("toggle", function () {
+          offeneGruppen[d.getAttribute("data-bucket")] = d.open;
+        });
+      });
     }
 
     function renderBucket(container, title, prospects, klasse) {
@@ -340,6 +361,7 @@
         return;
       }
       container.innerHTML = gruppeHtml(title, prospects, klasse);
+      merkeOffen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;
@@ -370,6 +392,7 @@
       container.innerHTML = dates.map(function (d) {
         return gruppeHtml(tagName(d), grouped[d], d < todayISO() ? "bucket--faellig" : "");
       }).join("");
+      merkeOffen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;
@@ -406,12 +429,18 @@
       var dueTomorrow = active.filter(function (p) { return dateOnly(p.next_contact_date) === tomorrow; }).sort(byDate);
       var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; }).sort(byDate);
 
+      var liste = document.querySelector(".work-list");
+      var scrollStand = liste ? liste.scrollTop : 0;
+
       renderBucket(pipelineLeads, "Neue Leads", leads);
       renderLaterBuckets(pipelineOverdue, overdue);
       renderBucket(pipelineToday, "Heute", dueToday, "bucket--heute");
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
       renderLaterBuckets(pipelineDates, later);
       renderBucket(pipelineArchive, "Archiv", archived);
+
+      if (liste) liste.scrollTop = scrollStand;
+      if (selectedProspectId) markiereAktiv(selectedProspectId);
     }
 
     // Erste Ansprechpartner je Eintrag, damit die Liste Name und Nummer zeigt,
@@ -1095,6 +1124,19 @@
 
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });
+
+    // Bleibt die Seite ueber Nacht offen, stimmt die Einteilung sonst nicht mehr.
+    var zuletztGesehenerTag = todayISO();
+    setInterval(function () {
+      var jetzt = todayISO();
+      if (jetzt !== zuletztGesehenerTag) {
+        zuletztGesehenerTag = jetzt;
+        loadDailyCounter();
+        loadProspects();
+      } else {
+        renderPipeline();   // haelt die Markierung "Termin vorbei" aktuell
+      }
+    }, 60000);
   } // end startPipeline
 
   // Am Rechner gehoert das Logbuch in die linke untere Zone, am Handy bleibt es
