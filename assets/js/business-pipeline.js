@@ -192,31 +192,51 @@
   }
 
   function setReminder(id, name, at) {
-    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
-    reminders = reminders.filter(function (r) { return r.id !== id; });
-    if (at) reminders.push({ id: id, name: name, at: at });
+    var reminders = getReminders().filter(function (r) { return r.id !== id; });
+    if (at) reminders.push({ id: id, name: name, at: at, fired: false });
     localStorage.setItem("mk_reminders", JSON.stringify(reminders));
   }
 
   function hasReminder(id) {
-    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
-    return reminders.some(function (r) { return r.id === id; });
+    return reminderZustand(id) !== "keine";
+  }
+
+  function getReminders() {
+    try { return JSON.parse(localStorage.getItem("mk_reminders") || "[]"); }
+    catch (e) { return []; }
+  }
+
+  // "keine" | "gesetzt" | "faellig" - fuer die Klingel in Liste und Logbuch.
+  function reminderZustand(id) {
+    var r = getReminders().filter(function (x) { return x.id === id; })[0];
+    if (!r) return "keine";
+    return new Date(r.at).getTime() <= Date.now() ? "faellig" : "gesetzt";
   }
 
   function checkReminders() {
-    if (!("Notification" in window) || Notification.permission !== "granted") return;
-    var reminders = JSON.parse(localStorage.getItem("mk_reminders") || "[]");
+    var reminders = getReminders();
     var now = Date.now();
-    var remaining = [];
+    var geaendert = false;
+
     reminders.forEach(function (r) {
-      var diff = new Date(r.at).getTime() - now;
-      if (diff >= -60000 && diff < 60000) {
-        new Notification("🔔 Erinnerung: " + r.name, { body: "Nächster Kontakt jetzt fällig", icon: "/assets/img/favicon.webp" });
-      } else {
-        remaining.push(r);
+      // Faellig und noch nicht gemeldet? Dann jetzt melden - auch wenn der
+      // Zeitpunkt laengst vorbei ist, weil die Seite damals zu war.
+      if (!r.fired && new Date(r.at).getTime() <= now) {
+        r.fired = true;
+        geaendert = true;
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification("🔔 Erinnerung: " + r.name, {
+            body: "Nächster Kontakt ist fällig",
+            icon: "/assets/img/favicon.webp"
+          });
+        }
       }
     });
-    localStorage.setItem("mk_reminders", JSON.stringify(remaining));
+
+    if (geaendert) {
+      localStorage.setItem("mk_reminders", JSON.stringify(reminders));
+      document.dispatchEvent(new CustomEvent("mk-erinnerung"));
+    }
   }
 
   function startPipeline(client, currentUser) {
@@ -280,6 +300,14 @@
       });
     }
 
+    // Klingel: grau wenn nur gesetzt, orange und pulsierend wenn faellig.
+    function glockeHtml(zustand) {
+      if (zustand === "keine") return "";
+      var faellig = zustand === "faellig";
+      return '<span class="glocke' + (faellig ? " glocke--faellig" : "") + '" title="' +
+        (faellig ? "Erinnerung f&auml;llig" : "Erinnerung gesetzt") + '">&#128276;</span>';
+    }
+
     function renderProspectCard(p, index, total) {
       var moveBtnStyle = "background:none;border:1px solid var(--color-border);border-radius:6px;cursor:pointer;padding:2px 8px;font-size:0.8rem;color:var(--color-text-soft);";
       var upBtn = index > 0 ? '<button type="button" data-move="up" style="' + moveBtnStyle + '">▲</button>' : "";
@@ -287,7 +315,8 @@
       return (
         '<div class="card prospect-card" data-prospect-id="' + p.id + '" style="cursor:pointer;margin-bottom:10px;padding:16px 20px;">' +
         '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
-        "<div><strong>" + escapeHtml(p.name) + '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
+        "<div>" + glockeHtml(reminderZustand(p.id)) + "<strong>" + escapeHtml(p.name) +
+        '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>" +
         "</div>" +
@@ -542,8 +571,12 @@
       }
       historyEl.innerHTML = contacts.map(function (c) {
         var when = formatDateTime(c.created_at || c.contact_date);
+        var faellig = c.next_contact_date &&
+          new Date(c.next_contact_date).getTime() <= Date.now();
         var nextBlock = c.next_contact_date
-          ? '<div style="margin-top:6px;padding:6px 10px;background:var(--color-bg-soft);border-left:3px solid var(--color-primary);border-radius:0 6px 6px 0;font-size:0.83rem;">📅 Nächster Kontakt: <strong>' + formatDateTime(c.next_contact_date) + "</strong></div>"
+          ? '<div class="log-termin-zeile' + (faellig ? " log-termin-zeile--faellig" : "") + '">' +
+            '<span class="glocke' + (faellig ? " glocke--faellig" : "") + '">&#128276;</span>' +
+            "Nächster Kontakt: <strong>" + formatDateTime(c.next_contact_date) + "</strong></div>"
           : "";
         return (
           '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--color-border);">' +
@@ -1100,6 +1133,11 @@
     }
 
     setInterval(checkReminders, 60000);
+    // Wird eine Erinnerung faellig, sollen die Klingeln sofort umspringen.
+    document.addEventListener("mk-erinnerung", function () {
+      renderPipeline();
+      if (selectedProspectId) loadHistory(selectedProspectId);
+    });
 
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });

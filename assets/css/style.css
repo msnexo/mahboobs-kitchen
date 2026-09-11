@@ -836,3 +836,21 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .termin-vorbei { color: #c0392b; font-weight: 600; }
 
 
+
+/* Klingel für gesetzte und fällige Erinnerungen */
+.glocke { display: inline-block; margin-right: 6px; font-size: 0.9em; filter: grayscale(1); opacity: 0.5; }
+.glocke--faellig { filter: none; opacity: 1; animation: glockePuls 1.6s ease-in-out infinite; }
+@keyframes glockePuls {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  10% { transform: rotate(-12deg) scale(1.15); }
+  20% { transform: rotate(10deg) scale(1.15); }
+  30% { transform: rotate(-6deg) scale(1.08); }
+  40% { transform: rotate(0deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .glocke--faellig { animation: none; } }
+
+.log-termin-zeile {
+  margin-top: 6px; padding: 6px 10px; background: var(--color-bg-soft);
+  border-left: 3px solid var(--color-border); border-radius: 0 6px 6px 0; font-size: 0.83rem;
+}
+.log-termin-zeile--faellig { border-left-color: var(--color-primary); background: #fff6f0; }
