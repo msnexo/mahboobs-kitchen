@@ -1118,6 +1118,28 @@
     }, 60000);
   } // end startPipeline
 
+  // Chrome ignoriert autocomplete="off" hier und schreibt die gespeicherte
+  // Anmelde-Adresse ins Suchfeld. Ein schreibgeschuetztes Feld fuellt es nicht -
+  // beim Antippen geben wir es frei.
+  (function () {
+    var feld = document.getElementById("pipelineSearch");
+    if (!feld) return;
+
+    function freigeben() {
+      feld.removeAttribute("readonly");
+    }
+
+    feld.value = "";
+    ["focus", "pointerdown", "touchstart"].forEach(function (ev) {
+      feld.addEventListener(ev, freigeben);
+    });
+
+    // Chrome fuellt teils erst kurz nach dem Laden - deshalb mehrfach leeren.
+    [0, 150, 500, 1200].forEach(function (ms) {
+      setTimeout(function () { if (!feld.matches(":focus")) feld.value = ""; }, ms);
+    });
+  })();
+
   // Am Rechner gehoert das Logbuch in die linke untere Zone, am Handy bleibt es
   // im Detailfenster - sonst waere es dort hinter dem Fenster verborgen.
   (function () {
