@@ -193,7 +193,7 @@
 
   function setReminder(id, name, at) {
     var reminders = getReminders().filter(function (r) { return r.id !== id; });
-    if (at) reminders.push({ id: id, name: name, at: at, fired: false });
+    if (at) reminders.push({ id: id, name: name, at: at, fired: false, gesehen: false });
     localStorage.setItem("mk_reminders", JSON.stringify(reminders));
   }
 
@@ -207,10 +207,26 @@
   }
 
   // "keine" | "gesetzt" | "faellig" - fuer die Klingel in Liste und Logbuch.
+  // Wer den Eintrag geoeffnet hat, hat die Erinnerung gesehen: sie leuchtet
+  // dann nicht mehr, bleibt aber als blasse Markierung stehen.
   function reminderZustand(id) {
     var r = getReminders().filter(function (x) { return x.id === id; })[0];
     if (!r) return "keine";
+    if (r.gesehen) return "gesetzt";
     return new Date(r.at).getTime() <= Date.now() ? "faellig" : "gesetzt";
+  }
+
+  function erinnerungGesehen(id) {
+    var reminders = getReminders();
+    var geaendert = false;
+    reminders.forEach(function (r) {
+      if (r.id === id && !r.gesehen && new Date(r.at).getTime() <= Date.now()) {
+        r.gesehen = true;
+        geaendert = true;
+      }
+    });
+    if (geaendert) localStorage.setItem("mk_reminders", JSON.stringify(reminders));
+    return geaendert;
   }
 
   function checkReminders() {
@@ -615,6 +631,8 @@
       var p = allProspects.filter(function (x) { return x.id === id; })[0];
       if (!p) return;
       markiereAktiv(id);
+      // Angesehen heisst erledigt genug - das Pulsieren hoert auf.
+      if (erinnerungGesehen(id)) renderPipeline();
       detailStatus.className = "status-pill status-pill--" + p.status;
       detailStatus.textContent = statusLabels[p.status];
       detailNameInput.value = p.name;
