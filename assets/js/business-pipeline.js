@@ -324,36 +324,14 @@
       })).then(function () { loadProspects(); });
     }
 
-    // Zugeklappte Gruppen merken, damit sie beim Neuladen zu bleiben.
-    var ZU_SCHLUESSEL = "mk_pipeline_zu";
-
-    function zugeklappt() {
-      try { return JSON.parse(localStorage.getItem(ZU_SCHLUESSEL) || "[]"); }
-      catch (e) { return []; }
-    }
-
-    function merkeZustand(titel, offen) {
-      var liste = zugeklappt().filter(function (t) { return t !== titel; });
-      if (!offen) liste.push(titel);
-      try { localStorage.setItem(ZU_SCHLUESSEL, JSON.stringify(liste)); } catch (e) {}
-    }
-
+    // Gruppen starten immer zugeklappt - geoeffnet wird per Klick.
     function gruppeHtml(titel, prospects, klasse) {
-      var offen = zugeklappt().indexOf(titel) === -1;
-      return '<details class="bucket' + (klasse ? " " + klasse : "") + '"' + (offen ? " open" : "") +
+      return '<details class="bucket' + (klasse ? " " + klasse : "") + '"' +
         ' data-bucket="' + escapeHtml(titel) + '">' +
         "<summary>" + escapeHtml(titel) + ' <span class="bucket__zahl">' + prospects.length + "</span></summary>" +
         '<div class="bucket__inhalt">' +
         prospects.map(function (p, i) { return renderProspectCard(p, i, prospects.length); }).join("") +
         "</div></details>";
-    }
-
-    function verdrahteGruppen(container) {
-      Array.prototype.forEach.call(container.querySelectorAll("details.bucket"), function (d) {
-        d.addEventListener("toggle", function () {
-          merkeZustand(d.getAttribute("data-bucket"), d.open);
-        });
-      });
     }
 
     function renderBucket(container, title, prospects, klasse) {
@@ -362,7 +340,6 @@
         return;
       }
       container.innerHTML = gruppeHtml(title, prospects, klasse);
-      verdrahteGruppen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;
@@ -393,7 +370,6 @@
       container.innerHTML = dates.map(function (d) {
         return gruppeHtml(tagName(d), grouped[d], d < todayISO() ? "bucket--faellig" : "");
       }).join("");
-      verdrahteGruppen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;

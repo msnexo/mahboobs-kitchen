@@ -753,6 +753,8 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .work-detail #prospectDetailOverlay {
     position: static; inset: auto; background: none; padding: 0; display: block; z-index: auto;
   }
+  /* Ohne Auswahl bleibt rechts nur der Platzhalter stehen. */
+  .work-detail #prospectDetailOverlay[hidden] { display: none; }
   .work-detail #prospectDetailOverlay .modal-box {
     max-width: none; width: 100%; margin: 0; padding: 20px; max-height: none;
     border: 1px solid var(--color-border); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
