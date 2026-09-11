@@ -101,10 +101,10 @@
     <h4 style="margin-top:24px;">Logeintrag</h4>
     <div class="log-eingabe">
     <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
-    <textarea id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
+    <textarea autocomplete="off" id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
     <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
     <div style="display:flex;gap:8px;align-items:center;">
-      <input type="datetime-local" id="nextContactDate" style="flex:1;">
+      <input autocomplete="off" type="datetime-local" id="nextContactDate" style="flex:1;">
       <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
     </div>
     <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
@@ -123,9 +123,9 @@
     <button type="button" class="modal-close" id="prospectDetailClose" aria-label="Schließen">&times;</button>
     <span class="status-pill" id="prospectDetailStatus" style="margin-bottom:10px;display:inline-block;"></span>
     <label class="field-label" for="prospectDetailNameInput">Name / Firma</label>
-    <input type="text" id="prospectDetailNameInput" style="font-size:1.05rem;font-weight:600;">
+    <input autocomplete="off" type="text" id="prospectDetailNameInput" style="font-size:1.05rem;font-weight:600;">
     <label class="field-label" for="prospectDetailCategoryInput">Kategorie</label>
-    <input type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
+    <input autocomplete="off" type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
     <datalist id="detailCategoryOptions">
       <option value="Firma"></option>
       <option value="Schule"></option>
@@ -133,14 +133,14 @@
     </datalist>
     <label class="field-label" for="prospectDetailWebsite">Webseite</label>
     <div style="display:flex;gap:8px;align-items:center;">
-      <input type="url" id="prospectDetailWebsite" placeholder="https://..." style="flex:1;">
+      <input autocomplete="off" type="url" id="prospectDetailWebsite" placeholder="https://..." style="flex:1;">
       <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="btn btn--dark" style="padding:8px 14px;font-size:0.85rem;white-space:nowrap;" hidden>↗ Öffnen</a>
     </div>
     <label class="field-label" for="prospectDetailAddress">Adresse</label>
-    <input type="text" id="prospectDetailAddress" placeholder="Straße, PLZ Ort">
+    <input autocomplete="off" type="text" id="prospectDetailAddress" placeholder="Straße, PLZ Ort">
 
     <label class="field-label" for="prospectStatusSelect">Status ändern</label>
-    <select id="prospectStatusSelect">
+    <select autocomplete="off" id="prospectStatusSelect">
       <option value="lead">Lead</option>
       <option value="contacted">Kontaktiert</option>
       <option value="customer">Kunde</option>
@@ -148,7 +148,7 @@
     </select>
 
     <label class="field-label" for="prospectDetailNotes">Notizen</label>
-    <textarea id="prospectDetailNotes" rows="3"></textarea>
+    <textarea autocomplete="off" id="prospectDetailNotes" rows="3"></textarea>
     <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Speichern</button></div>
 
     <h4 style="margin-top:24px;">Ansprechpartner</h4>
@@ -157,10 +157,10 @@
       <span id="copyCardStatus" style="margin-left:6px;"></span></p>
     <div id="prospectDetailPeople"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-      <input type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
-      <input type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
-      <input type="tel" id="newPersonMobile" placeholder="Handy (WhatsApp)" style="flex:1;min-width:120px;">
-      <input type="email" id="newPersonEmail" placeholder="E-Mail" style="flex:1;min-width:160px;">
+      <input autocomplete="off" type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
+      <input autocomplete="off" type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
+      <input autocomplete="off" type="tel" id="newPersonMobile" placeholder="Handy (WhatsApp)" style="flex:1;min-width:120px;">
+      <input autocomplete="off" type="email" id="newPersonEmail" placeholder="E-Mail" style="flex:1;min-width:160px;">
       <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
     </div>
 
@@ -181,7 +181,7 @@
       </div>
 
       <label class="field-label" for="conversionMailText">Nachricht &ndash; hier anpassen, bevor Sie senden</label>
-      <textarea id="conversionMailText" rows="12" style="width:100%;font-size:16px;"></textarea>
+      <textarea autocomplete="off" id="conversionMailText" rows="12" style="width:100%;font-size:16px;"></textarea>
       <p class="muted" style="margin:6px 0 12px;font-size:0.78rem;" id="conversionLenHint"></p>
 
       <div class="btn-row">
@@ -204,15 +204,15 @@
         <h3 style="margin-top:14px;">Neuen Firmenkunden anlegen</h3>
         <form class="lead-form" id="addCompanyForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
           <label class="field-label" for="companyName">Firmenname</label>
-          <input type="text" id="companyName" name="companyName" required>
+          <input autocomplete="off" type="text" id="companyName" name="companyName" required>
           <label class="field-label" for="contactPerson">Ansprechpartner</label>
-          <input type="text" id="contactPerson" name="contactPerson">
+          <input autocomplete="off" type="text" id="contactPerson" name="contactPerson">
           <label class="field-label" for="addCompanyEmail">E-Mail</label>
-          <input type="email" id="addCompanyEmail" name="email">
+          <input autocomplete="off" type="email" id="addCompanyEmail" name="email">
           <label class="field-label" for="phone">Telefon</label>
-          <input type="tel" id="phone" name="phone">
+          <input autocomplete="off" type="tel" id="phone" name="phone">
           <label class="field-label" for="notes">Notizen</label>
-          <textarea id="notes" name="notes" rows="2"></textarea>
+          <textarea autocomplete="off" id="notes" name="notes" rows="2"></textarea>
           <p class="form-status" id="addCompanyStatus" role="status" aria-live="polite"></p>
           <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Kunde anlegen</button></div>
         </form>
@@ -229,11 +229,11 @@
         <h3>Punkte gutschreiben</h3>
         <form class="lead-form" id="addPointsForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
           <label class="field-label" for="companySelect">Firma</label>
-          <select id="companySelect" name="companySelect"></select>
+          <select autocomplete="off" id="companySelect" name="companySelect"></select>
           <label class="field-label" for="points">Punkte (negativ für Korrektur)</label>
-          <input type="number" id="points" name="points" required>
+          <input autocomplete="off" type="number" id="points" name="points" required>
           <label class="field-label" for="reason">Grund</label>
-          <input type="text" id="reason" name="reason" placeholder="z. B. Bestellung Weihnachtsfeier">
+          <input autocomplete="off" type="text" id="reason" name="reason" placeholder="z. B. Bestellung Weihnachtsfeier">
           <p class="form-status" id="addPointsStatus" role="status" aria-live="polite"></p>
           <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Punkte gutschreiben</button></div>
         </form>
@@ -243,16 +243,16 @@
     <div class="card" style="margin-bottom:40px;">
       <h3>Angebots-Nachricht für WhatsApp</h3>
       <p class="muted">Schreib hier deine Nachricht. Platzhalter <code>{{ansprechpartner}}</code> und <code>{{firma}}</code> werden automatisch ersetzt. In der Kundenliste unten erscheint pro Kunde ein WhatsApp-Button mit der fertig ausgefüllten Nachricht — du musst nur noch ein Bild dazu anhängen (falls gewünscht) und auf Senden tippen.</p>
-      <textarea id="whatsappTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
+      <textarea autocomplete="off" id="whatsappTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
     </div>
 
     <div class="card" style="margin-bottom:40px;">
       <h3>Angebots-Nachricht für E-Mail</h3>
       <p class="muted">Gleiches Prinzip wie bei WhatsApp: Betreff und Nachricht hier vorbereiten, Platzhalter <code>{{ansprechpartner}}</code> und <code>{{firma}}</code> werden automatisch ersetzt. In der Kundenliste unten erscheint pro Kunde ein E-Mail-Button, der dein E-Mail-Programm mit Betreff und Text fertig ausgefüllt öffnet.</p>
       <label class="field-label" for="emailSubjectTemplate">Betreff</label>
-      <input type="text" id="emailSubjectTemplate" class="search-input" value="Neues Angebot von Mahboobs Kitchen">
+      <input autocomplete="off" type="text" id="emailSubjectTemplate" class="search-input" value="Neues Angebot von Mahboobs Kitchen">
       <label class="field-label" for="emailTemplate">Nachricht</label>
-      <textarea id="emailTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
+      <textarea autocomplete="off" id="emailTemplate" class="search-input" style="margin-bottom:0;" rows="5" placeholder="Hallo {{ansprechpartner}}, wir haben gerade eine Aktion für Sie: ..."></textarea>
     </div>
 
     <div class="card" style="margin-bottom:40px;">
@@ -261,15 +261,15 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
           <label class="field-label" for="cateringLinkFirma">Firma</label>
-          <input type="text" id="cateringLinkFirma" placeholder="Firmenname">
+          <input autocomplete="off" type="text" id="cateringLinkFirma" placeholder="Firmenname">
         </div>
         <div>
           <label class="field-label" for="cateringLinkPerson">Ansprechpartner</label>
-          <input type="text" id="cateringLinkPerson" placeholder="Herr / Frau ...">
+          <input autocomplete="off" type="text" id="cateringLinkPerson" placeholder="Herr / Frau ...">
         </div>
       </div>
       <label class="field-label" for="cateringLinkMsg">Persönliche Nachricht (optional)</label>
-      <textarea id="cateringLinkMsg" rows="2" placeholder="z. B. Hallo Herr Müller, wie besprochen haben wir dieses Angebot speziell für Sie vorbereitet …"></textarea>
+      <textarea autocomplete="off" id="cateringLinkMsg" rows="2" placeholder="z. B. Hallo Herr Müller, wie besprochen haben wir dieses Angebot speziell für Sie vorbereitet …"></textarea>
       <div class="btn-row" style="margin-top:12px;flex-wrap:wrap;">
         <button type="button" id="cateringLinkGenBtn" class="btn btn--primary">🔗 Link generieren</button>
         <button type="button" id="cateringLinkCopyBtn" class="btn btn--dark" style="display:none;">Link kopieren</button>
@@ -283,11 +283,11 @@
         <h3>Angebote verwalten</h3>
         <form class="lead-form" id="addOfferForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
           <label class="field-label" for="offerTitle">Titel</label>
-          <input type="text" id="offerTitle" name="offerTitle" required>
+          <input autocomplete="off" type="text" id="offerTitle" name="offerTitle" required>
           <label class="field-label" for="offerDescription">Beschreibung</label>
-          <textarea id="offerDescription" name="offerDescription" rows="3"></textarea>
+          <textarea autocomplete="off" id="offerDescription" name="offerDescription" rows="3"></textarea>
           <label class="field-label" for="image">Bild (optional)</label>
-          <input type="file" id="image" name="image" accept="image/*">
+          <input autocomplete="off" type="file" id="image" name="image" accept="image/*">
           <p class="form-status" id="addOfferStatus" role="status" aria-live="polite"></p>
           <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Angebot veröffentlichen</button></div>
         </form>
@@ -301,7 +301,7 @@
     </div>
 
     <h3>Firmenkunden</h3>
-    <input type="text" id="searchInput" class="search-input" placeholder="Suche nach Firma, Ansprechpartner, E-Mail oder Karten-Code …">
+    <input autocomplete="off" type="text" id="searchInput" class="search-input" placeholder="Suche nach Firma, Ansprechpartner, E-Mail oder Karten-Code …">
     <div id="companiesTable"><p class="muted">Wird geladen …</p></div>
 
     <div class="card" id="companyHistoryPanel" hidden style="margin-top:28px;"></div>
@@ -315,7 +315,7 @@
     <h2 style="margin-bottom:24px;">PIN eingeben</h2>
     <div id="pipelinePinEntry">
       <p class="muted" id="pipelinePinLabel" style="margin-bottom:10px;"></p>
-      <input type="password" id="pipelinePinInput" placeholder="PIN eingeben" maxlength="20"
+      <input autocomplete="off" type="password" id="pipelinePinInput" placeholder="PIN eingeben" maxlength="20"
         style="width:100%;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;font-size:1.1rem;text-align:center;margin-bottom:10px;">
       <button type="button" id="pipelinePinConfirm" class="btn btn--primary" style="width:100%;">Einloggen</button>
       <p class="form-status form-status--error" id="pipelinePinError" style="min-height:1.2em;margin-top:8px;"></p>
@@ -329,22 +329,22 @@
     <h3>Neue Firma anlegen</h3>
     <form id="addProspectForm" class="lead-form" novalidate style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
       <label class="field-label" for="prospectName">Firma</label>
-      <input type="text" id="prospectName" placeholder="Firmenname" required>
+      <input autocomplete="off" type="text" id="prospectName" placeholder="Firmenname" required>
 
       <label class="field-label" for="prospectPersonName">Ansprechpartner</label>
-      <input type="text" id="prospectPersonName" placeholder="Name">
+      <input autocomplete="off" type="text" id="prospectPersonName" placeholder="Name">
 
       <label class="field-label" for="prospectPersonMobile">Handy &ndash; f&uuml;r WhatsApp</label>
-      <input type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
+      <input autocomplete="off" type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
 
       <label class="field-label" for="prospectPersonEmail">E-Mail</label>
-      <input type="email" id="prospectPersonEmail" placeholder="name@firma.de">
+      <input autocomplete="off" type="email" id="prospectPersonEmail" placeholder="name@firma.de">
 
       <label class="field-label" for="prospectNote">Notiz &ndash; wor&uuml;ber gesprochen</label>
-      <textarea id="prospectNote" rows="3" placeholder="z. B. Kantine l&auml;uft &uuml;ber Fremdanbieter, Vertrag endet im Sommer"></textarea>
+      <textarea autocomplete="off" id="prospectNote" rows="3" placeholder="z. B. Kantine l&auml;uft &uuml;ber Fremdanbieter, Vertrag endet im Sommer"></textarea>
 
       <label class="field-label" for="prospectFollowUp">Wiedervorlage</label>
-      <input type="date" id="prospectFollowUp">
+      <input autocomplete="off" type="date" id="prospectFollowUp">
       <div class="quickdates" id="prospectQuickDates">
         <button type="button" data-tage="7">1 Woche</button>
         <button type="button" data-tage="30">1 Monat</button>
@@ -354,40 +354,40 @@
       </div>
 
       <label class="consent-line">
-        <input type="checkbox" id="prospectConsent">
+        <input autocomplete="off" type="checkbox" id="prospectConsent">
         <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
       </label>
 
       <details class="more-fields">
         <summary>Weitere Angaben</summary>
         <label class="field-label" for="prospectPersonPhone">Telefon / Zentrale</label>
-        <input type="tel" id="prospectPersonPhone" placeholder="z. B. 04193 123456">
+        <input autocomplete="off" type="tel" id="prospectPersonPhone" placeholder="z. B. 04193 123456">
         <label class="field-label" for="prospectAddress">Adresse</label>
-        <input type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
+        <input autocomplete="off" type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
         <label class="field-label" for="prospectWebsite">Webseite</label>
-        <input type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
+        <input autocomplete="off" type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
         <label class="field-label" for="prospectCategory">Kategorie</label>
-        <input type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
+        <input autocomplete="off" type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
         <datalist id="categoryOptions">
           <option value="Firma"></option>
           <option value="Schule"></option>
           <option value="Verein"></option>
         </datalist>
         <label class="field-label" for="prospectStatus">Status</label>
-        <select id="prospectStatus">
+        <select autocomplete="off" id="prospectStatus">
           <option value="lead">Lead</option>
           <option value="contacted">Kontaktiert</option>
           <option value="customer">Kunde</option>
           <option value="lost">Kein Interesse</option>
         </select>
         <label class="field-label" for="prospectPersonName2">Zweiter Ansprechpartner</label>
-        <input type="text" id="prospectPersonName2" placeholder="Name">
+        <input autocomplete="off" type="text" id="prospectPersonName2" placeholder="Name">
         <label class="field-label" for="prospectPersonMobile2">Handy 2</label>
-        <input type="tel" id="prospectPersonMobile2">
+        <input autocomplete="off" type="tel" id="prospectPersonMobile2">
         <label class="field-label" for="prospectPersonPhone2">Telefon 2</label>
-        <input type="tel" id="prospectPersonPhone2">
+        <input autocomplete="off" type="tel" id="prospectPersonPhone2">
         <label class="field-label" for="prospectPersonEmail2">E-Mail 2</label>
-        <input type="email" id="prospectPersonEmail2">
+        <input autocomplete="off" type="email" id="prospectPersonEmail2">
       </details>
 
       <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
@@ -399,7 +399,7 @@
       <div class="share-fix" id="shareMobileFix" hidden>
         <p>Keine Handynummer erfasst &ndash; WhatsApp braucht eine. Jetzt nachtragen:</p>
         <div class="share-fix__row">
-          <input type="tel" id="shareMobile" placeholder="z. B. 0170 1234567">
+          <input autocomplete="off" type="tel" id="shareMobile" placeholder="z. B. 0170 1234567">
           <button type="button" class="btn btn--dark" id="shareMobileSave">&Uuml;bernehmen</button>
         </div>
       </div>
