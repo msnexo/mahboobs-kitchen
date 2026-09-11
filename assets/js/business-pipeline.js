@@ -640,7 +640,7 @@
       terminInFelder(p.next_contact_date);
       nextContactNotes.value = "";
       reminderStatus.textContent = "";
-      reminderBellBtn.setAttribute("aria-pressed", hasReminder(id) ? "true" : "false");
+      reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
       conversionLinkBox.hidden = true;
       var xferStatus = document.getElementById("transferStatus");
       if (xferStatus) xferStatus.textContent = "Aktuell: " + (p.assigned_to || "REA");
@@ -952,11 +952,11 @@
       if (hasReminder(selectedProspectId)) {
         setReminder(selectedProspectId, name, null);
         reminderStatus.textContent = "Erinnerung entfernt.";
-        reminderBellBtn.setAttribute("aria-pressed", "false");
+        reminderBellBtn.style.opacity = "0.5";
       } else {
         setReminder(selectedProspectId, name, at);
         reminderStatus.textContent = "Erinnerung gesetzt ✓ (" + new Date(at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + ")";
-        reminderBellBtn.setAttribute("aria-pressed", "true");
+        reminderBellBtn.style.opacity = "1";
       }
     });
 
@@ -978,25 +978,6 @@
         loadPeople(selectedProspectId);
       });
     });
-
-    // Schnellwahl fuer den naechsten Kontakt
-    var logSchnell = document.getElementById("logSchnell");
-    if (logSchnell) {
-      logSchnell.addEventListener("click", function (e) {
-        var btn = e.target.closest("button[data-plus]");
-        if (!btn) return;
-        var plus = btn.getAttribute("data-plus");
-        if (plus === "") {
-          terminInFelder(null);
-        } else {
-          nextContactDate.value = addDaysISO(parseInt(plus, 10));
-          if (nextContactTime && !nextContactTime.value) nextContactTime.value = "09:00";
-        }
-        Array.prototype.forEach.call(logSchnell.querySelectorAll("button"), function (b) {
-          b.setAttribute("aria-pressed", b === btn && plus !== "" ? "true" : "false");
-        });
-      });
-    }
 
     logContactBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
