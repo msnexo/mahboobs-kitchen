@@ -1082,6 +1082,25 @@
     loadProspects().then(function () { checkDueNotifications(); });
   } // end startPipeline
 
+  // Am Rechner gehoert das Logbuch in die linke untere Zone, am Handy bleibt es
+  // im Detailfenster - sonst waere es dort hinter dem Fenster verborgen.
+  (function () {
+    var breit = window.matchMedia("(min-width: 1100px)");
+
+    function einsortieren() {
+      var zone = document.getElementById("logZone");
+      if (!zone) return;
+      var ziel = breit.matches
+        ? document.querySelector(".work-log")
+        : document.getElementById("logHeimat");
+      if (ziel && zone.parentNode !== ziel) ziel.appendChild(zone);
+    }
+
+    einsortieren();
+    if (breit.addEventListener) breit.addEventListener("change", einsortieren);
+    else if (breit.addListener) breit.addListener(einsortieren);
+  })();
+
   // Kennzeichnet die Seite als Arbeitswerkzeug - die Rechner-Ansicht haengt daran.
   document.documentElement.classList.add("work-mode");
 

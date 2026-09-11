@@ -728,10 +728,24 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .work-mode #dailyCounter { margin: 0 0 8px !important; font-size: 0.9rem !important; }
   .work-mode #pipelineSearch { margin-bottom: 14px !important; padding: 7px 12px !important; }
 
-  /* Liste links, Detail rechts */
-  .work-split { display: grid; grid-template-columns: minmax(0, 1fr) 470px; gap: 18px; align-items: start; }
-  .work-list { min-width: 0; }
-  .work-detail { position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow-y: auto; }
+  /* Drei Bereiche: Liste oben links, Logbuch unten links, Details rechts */
+  .work-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 470px;
+    grid-template-areas: "liste detail" "log detail";
+    grid-template-rows: minmax(180px, 1.15fr) minmax(160px, 0.85fr);
+    gap: 14px 18px;
+    height: calc(100vh - 178px);
+    min-height: 520px;
+  }
+  .work-list { grid-area: liste; min-width: 0; overflow-y: auto; padding-right: 4px; }
+  .work-log {
+    grid-area: log; min-width: 0; overflow-y: auto;
+    border-top: 2px solid var(--color-border); padding: 12px 4px 0 0;
+  }
+  .work-log h4:first-child { margin-top: 0 !important; }
+  .work-log__leer { color: #8a8a8a; font-size: 0.9rem; margin: 0; }
+  .work-detail { grid-area: detail; min-width: 0; overflow-y: auto; }
   .work-detail__leer {
     color: #8a8a8a; font-size: 0.9rem; border: 1px dashed var(--color-border);
     border-radius: 10px; padding: 26px 18px; text-align: center; margin: 0;
@@ -757,4 +771,31 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .work-list .prospect-card.is-aktiv { border-color: var(--color-primary); background: #fff6f0; }
   .work-list .prospect-card p { margin: 2px 0 0 !important; font-size: 0.78rem !important; }
   .work-list .prospect-card strong { font-size: 0.95rem; }
+}
+
+@media (min-width: 1100px) {
+  /* Logbereich kompakt halten - er teilt sich die Hoehe mit der Liste */
+  .work-log #logZone h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #8a8a8a; margin: 0 0 8px !important; }
+  .work-log #logZone .field-label { font-size: 0.8rem; margin-top: 6px; }
+  .work-log #logZone textarea,
+  .work-log #logZone input { margin-top: 5px !important; padding: 8px 11px !important; }
+  .work-log #logZone .form-nav { margin-top: 10px !important; }
+  .work-log #logZone #logStatus { margin: 4px 0 0; }
+  .work-log #prospectDetailHistory { margin-top: 6px; }
+}
+
+@media (min-width: 1100px) {
+  /* Eingabe auf eine Zeile - der Verlauf darunter ist die Hauptsache */
+  .work-log .log-eingabe { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+  .work-log .log-eingabe > .field-label { display: none; }
+  .work-log .log-eingabe > textarea { flex: 1 1 300px; margin: 0 !important; height: 62px; min-height: 62px; }
+  .work-log .log-eingabe > div:not(.form-nav) { flex: 0 0 230px; margin: 0; }
+  .work-log .log-eingabe > div:not(.form-nav) input { margin: 0 !important; }
+  .work-log .log-eingabe > .form-nav { flex: 0 0 auto; margin: 0 !important; }
+  .work-log .log-eingabe > .form-nav > span { display: none; }
+  .work-log .log-eingabe > .form-nav .btn { padding: 10px 18px; font-size: 0.88rem; }
+  .work-log .log-eingabe > #reminderStatus,
+  .work-log .log-eingabe > #logStatus { flex: 1 1 100%; margin: 0 !important; }
+  .work-log #prospectDetailHistory { margin-top: 12px; border-top: 1px solid var(--color-border); padding-top: 10px; }
 }

@@ -97,6 +97,26 @@
     <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
     <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
       </div>
+      <div class="work-log">
+        <div id="logZone" class="lead-form" style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
+    <h4 style="margin-top:24px;">Logeintrag</h4>
+    <div class="log-eingabe">
+    <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
+    <textarea id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
+    <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="datetime-local" id="nextContactDate" style="flex:1;">
+      <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
+    </div>
+    <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
+    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Eintrag speichern</button></div>
+    <p class="form-status" id="logStatus" role="status" aria-live="polite" style="min-height:1.2em;"></p>
+    </div>
+
+    <h4 style="margin-top:20px;">Logbuch</h4>
+    <div id="prospectDetailHistory"><p class="muted">Noch keine Einträge.</p></div>
+        </div>
+      </div>
       <div class="work-detail">
         <p class="work-detail__leer" id="detailPlatzhalter">Eintrag links ausw&auml;hlen, um Details zu sehen.</p>
 <div class="modal-overlay" id="prospectDetailOverlay" hidden>
@@ -155,20 +175,7 @@
       <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
     </div>
 
-    <h4 style="margin-top:24px;">Logeintrag</h4>
-    <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
-    <textarea id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
-    <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <input type="datetime-local" id="nextContactDate" style="flex:1;">
-      <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
-    </div>
-    <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
-    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Eintrag speichern</button></div>
-    <p class="form-status" id="logStatus" role="status" aria-live="polite" style="min-height:1.2em;"></p>
-
-    <h4 style="margin-top:20px;">Logbuch</h4>
-    <div id="prospectDetailHistory"><p class="muted">Noch keine Einträge.</p></div>
+    <div id="logHeimat"></div>
 
     <div class="btn-row" style="margin-top:24px;flex-wrap:wrap;">
       <a href="/business/?presenter=live" target="_blank" rel="noopener" class="btn btn--whatsapp">Live-Präsentation starten</a>
