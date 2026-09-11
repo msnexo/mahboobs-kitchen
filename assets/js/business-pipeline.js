@@ -175,6 +175,16 @@
 
   var statusLabels = { lead: "Lead", contacted: "Kontaktiert", customer: "Kunde", lost: "Kein Interesse" };
 
+  // Nahe Tage bekommen einen Namen, der Rest das Datum.
+  function tagName(iso) {
+    var heute = todayISO();
+    if (iso === heute) return "Heute";
+    if (iso === addDaysISO(1)) return "Morgen";
+    if (iso === addDaysISO(-1)) return "Gestern";
+    if (iso === addDaysISO(-2)) return "Vorgestern";
+    return formatDayLabel(iso);
+  }
+
   function formatDayLabel(iso) {
     var d = new Date(iso + "T12:00:00");
     var dayNames = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
@@ -314,13 +324,45 @@
       })).then(function () { loadProspects(); });
     }
 
-    function renderBucket(container, title, prospects) {
+    // Zugeklappte Gruppen merken, damit sie beim Neuladen zu bleiben.
+    var ZU_SCHLUESSEL = "mk_pipeline_zu";
+
+    function zugeklappt() {
+      try { return JSON.parse(localStorage.getItem(ZU_SCHLUESSEL) || "[]"); }
+      catch (e) { return []; }
+    }
+
+    function merkeZustand(titel, offen) {
+      var liste = zugeklappt().filter(function (t) { return t !== titel; });
+      if (!offen) liste.push(titel);
+      try { localStorage.setItem(ZU_SCHLUESSEL, JSON.stringify(liste)); } catch (e) {}
+    }
+
+    function gruppeHtml(titel, prospects, klasse) {
+      var offen = zugeklappt().indexOf(titel) === -1;
+      return '<details class="bucket' + (klasse ? " " + klasse : "") + '"' + (offen ? " open" : "") +
+        ' data-bucket="' + escapeHtml(titel) + '">' +
+        "<summary>" + escapeHtml(titel) + ' <span class="bucket__zahl">' + prospects.length + "</span></summary>" +
+        '<div class="bucket__inhalt">' +
+        prospects.map(function (p, i) { return renderProspectCard(p, i, prospects.length); }).join("") +
+        "</div></details>";
+    }
+
+    function verdrahteGruppen(container) {
+      Array.prototype.forEach.call(container.querySelectorAll("details.bucket"), function (d) {
+        d.addEventListener("toggle", function () {
+          merkeZustand(d.getAttribute("data-bucket"), d.open);
+        });
+      });
+    }
+
+    function renderBucket(container, title, prospects, klasse) {
       if (!prospects.length) {
         container.innerHTML = "";
         return;
       }
-      container.innerHTML = '<h3 style="margin-bottom:12px;">' + title + " (" + prospects.length + ")</h3>" +
-        prospects.map(function (p, i) { return renderProspectCard(p, i, prospects.length); }).join("");
+      container.innerHTML = gruppeHtml(title, prospects, klasse);
+      verdrahteGruppen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;
@@ -349,12 +391,9 @@
       });
       var dates = Object.keys(grouped).sort();
       container.innerHTML = dates.map(function (d) {
-        var group = grouped[d];
-        return '<div style="margin-bottom:24px;"><h3 style="margin-bottom:12px;">' +
-          formatDayLabel(d) + " (" + group.length + ")</h3>" +
-          group.map(function (p, i) { return renderProspectCard(p, i, group.length); }).join("") +
-          "</div>";
+        return gruppeHtml(tagName(d), grouped[d], d < todayISO() ? "bucket--faellig" : "");
       }).join("");
+      verdrahteGruppen(container);
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function (e) {
           if (e.target.closest("[data-move]")) return;
@@ -392,8 +431,8 @@
       var later = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) > tomorrow; }).sort(byDate);
 
       renderBucket(pipelineLeads, "Neue Leads", leads);
-      renderBucket(pipelineOverdue, "Überfällig", overdue);
-      renderBucket(pipelineToday, "Heute", dueToday);
+      renderLaterBuckets(pipelineOverdue, overdue);
+      renderBucket(pipelineToday, "Heute", dueToday, "bucket--heute");
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
       renderLaterBuckets(pipelineDates, later);
       renderBucket(pipelineArchive, "Archiv", archived);

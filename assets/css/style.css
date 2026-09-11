@@ -804,3 +804,27 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .work-log .log-eingabe > #logStatus { flex: 1 1 100%; margin: 0 !important; }
   .work-log #prospectDetailHistory { margin-top: 12px; border-top: 1px solid var(--color-border); padding-top: 10px; }
 }
+
+/* Aufklappbare Gruppen in der Pipeline */
+.bucket { margin-bottom: 10px; }
+.bucket > summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: #7a7a7a; padding: 6px 2px; border-bottom: 1px solid var(--color-border);
+  user-select: none;
+}
+.bucket > summary::-webkit-details-marker { display: none; }
+.bucket > summary::before {
+  content: "▸"; font-size: 0.72rem; color: #b0b0b0; transition: transform 0.15s ease;
+}
+.bucket[open] > summary::before { transform: rotate(90deg); }
+.bucket > summary:hover { color: var(--color-primary); }
+.bucket__zahl {
+  background: var(--color-bg-soft); border-radius: 100px; padding: 1px 8px;
+  font-size: 0.72rem; color: #6a6a6a; letter-spacing: 0;
+}
+.bucket__inhalt { padding-top: 6px; }
+.bucket--faellig > summary { color: #c0392b; }
+.bucket--faellig > summary .bucket__zahl { background: #fdecea; color: #c0392b; }
+.bucket--heute > summary { color: var(--color-primary); }
+.bucket--heute > summary .bucket__zahl { background: #fdece1; color: var(--color-primary); }
