@@ -102,13 +102,26 @@
     <div class="log-eingabe">
     <label class="field-label" for="nextContactNotes">Notiz / Was wurde besprochen?</label>
     <textarea autocomplete="off" id="nextContactNotes" rows="2" placeholder="z. B. Voicemail hinterlassen, Interesse vorhanden …"></textarea>
-    <label class="field-label" for="nextContactDate">Nächster Kontakt am (optional)</label>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <input autocomplete="off" type="datetime-local" id="nextContactDate" style="flex:1;">
-      <button type="button" id="reminderBellBtn" class="btn btn--dark" style="padding:8px 14px;font-size:1.1rem;opacity:0.5;" title="Erinnerung setzen">🔔</button>
+    <div class="log-termin">
+      <span class="log-termin__titel">N&auml;chster Kontakt</span>
+      <div class="log-schnell" id="logSchnell">
+        <button type="button" data-plus="0">Heute</button>
+        <button type="button" data-plus="1">Morgen</button>
+        <button type="button" data-plus="2">&Uuml;bermorgen</button>
+        <button type="button" data-plus="7">1 Woche</button>
+        <button type="button" data-plus="30">1 Monat</button>
+        <button type="button" data-plus="">ohne Termin</button>
+      </div>
+      <div class="log-termin__felder">
+        <input autocomplete="off" type="date" id="nextContactDate" aria-label="Datum">
+        <select autocomplete="off" id="nextContactTime" aria-label="Uhrzeit"></select>
+        <button type="button" id="reminderBellBtn" class="log-glocke" aria-pressed="false">
+          <span class="log-glocke__zeichen">&#128276;</span> Erinnerung
+        </button>
+      </div>
+      <p id="reminderStatus"></p>
     </div>
-    <p id="reminderStatus" style="font-size:0.8rem;min-height:1.2em;margin:4px 0 0;color:var(--color-text-soft);"></p>
-    <div class="form-nav"><span></span><button type="button" id="logContactBtn" class="btn btn--primary">Eintrag speichern</button></div>
+    <button type="button" id="logContactBtn" class="btn btn--primary log-speichern">Eintrag speichern</button>
     <p class="form-status" id="logStatus" role="status" aria-live="polite" style="min-height:1.2em;"></p>
     </div>
 

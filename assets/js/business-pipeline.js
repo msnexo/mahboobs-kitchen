@@ -259,6 +259,51 @@
     var detailWebsiteOpen = document.getElementById("prospectDetailWebsiteOpen");
     var detailAddress = document.getElementById("prospectDetailAddress");
     var nextContactDate = document.getElementById("nextContactDate");
+    var nextContactTime = document.getElementById("nextContactTime");
+
+    // Viertelstunden von 6 bis 21 Uhr - minutengenau braucht hier niemand.
+    (function fuelleUhrzeiten() {
+      if (!nextContactTime) return;
+      var html = '<option value="">Uhrzeit</option>';
+      for (var st = 6; st <= 21; st++) {
+        for (var mi = 0; mi < 60; mi += 15) {
+          if (st === 21 && mi > 0) break;
+          var t = (st < 10 ? "0" : "") + st + ":" + (mi === 0 ? "00" : mi);
+          html += '<option value="' + t + '">' + t + "</option>";
+        }
+      }
+      nextContactTime.innerHTML = html;
+    })();
+
+    // Datum und Uhrzeit zu einem Zeitpunkt zusammensetzen. Ohne Uhrzeit
+    // nehmen wir 9 Uhr, damit der Termin nicht um Mitternacht liegt.
+    function terminAusFeldern() {
+      var d = nextContactDate ? nextContactDate.value : "";
+      if (!d) return null;
+      var t = (nextContactTime && nextContactTime.value) || "09:00";
+      var teile = d.split("-");
+      var uhr = t.split(":");
+      return new Date(+teile[0], +teile[1] - 1, +teile[2], +uhr[0], +uhr[1]);
+    }
+
+    function terminInFelder(iso) {
+      if (!nextContactDate) return;
+      if (!iso) {
+        nextContactDate.value = "";
+        if (nextContactTime) nextContactTime.value = "";
+        return;
+      }
+      var d = new Date(iso);
+      nextContactDate.value = d.getFullYear() + "-" +
+        ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+      if (nextContactTime) {
+        var mi = Math.round(d.getMinutes() / 15) * 15;
+        var st = d.getHours() + (mi === 60 ? 1 : 0);
+        var wert = ("0" + st).slice(-2) + ":" + (mi % 60 === 0 ? "00" : mi % 60);
+        nextContactTime.value = [].slice.call(nextContactTime.options)
+          .some(function (o) { return o.value === wert; }) ? wert : "";
+      }
+    }
     var nextContactNotes = document.getElementById("nextContactNotes");
     var logContactBtn = document.getElementById("logContactBtn");
     var logStatus = document.getElementById("logStatus");
@@ -592,10 +637,10 @@
       detailWebsiteOpen.hidden = !p.website;
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
-      nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
+      terminInFelder(p.next_contact_date);
       nextContactNotes.value = "";
       reminderStatus.textContent = "";
-      reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
+      reminderBellBtn.setAttribute("aria-pressed", hasReminder(id) ? "true" : "false");
       conversionLinkBox.hidden = true;
       var xferStatus = document.getElementById("transferStatus");
       if (xferStatus) xferStatus.textContent = "Aktuell: " + (p.assigned_to || "REA");
@@ -899,18 +944,19 @@
 
     reminderBellBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
-      var at = nextContactDate.value;
-      if (!at) { reminderStatus.textContent = "Bitte zuerst ein Datum eingeben."; return; }
+      var zeitpunkt = terminAusFeldern();
+      if (!zeitpunkt) { reminderStatus.textContent = "Bitte zuerst ein Datum wählen."; return; }
+      var at = zeitpunkt.toISOString();
       var p = allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
       var name = p ? p.name : "";
       if (hasReminder(selectedProspectId)) {
         setReminder(selectedProspectId, name, null);
         reminderStatus.textContent = "Erinnerung entfernt.";
-        reminderBellBtn.style.opacity = "0.5";
+        reminderBellBtn.setAttribute("aria-pressed", "false");
       } else {
         setReminder(selectedProspectId, name, at);
         reminderStatus.textContent = "Erinnerung gesetzt ✓ (" + new Date(at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + ")";
-        reminderBellBtn.style.opacity = "1";
+        reminderBellBtn.setAttribute("aria-pressed", "true");
       }
     });
 
@@ -933,12 +979,30 @@
       });
     });
 
+    // Schnellwahl fuer den naechsten Kontakt
+    var logSchnell = document.getElementById("logSchnell");
+    if (logSchnell) {
+      logSchnell.addEventListener("click", function (e) {
+        var btn = e.target.closest("button[data-plus]");
+        if (!btn) return;
+        var plus = btn.getAttribute("data-plus");
+        if (plus === "") {
+          terminInFelder(null);
+        } else {
+          nextContactDate.value = addDaysISO(parseInt(plus, 10));
+          if (nextContactTime && !nextContactTime.value) nextContactTime.value = "09:00";
+        }
+        Array.prototype.forEach.call(logSchnell.querySelectorAll("button"), function (b) {
+          b.setAttribute("aria-pressed", b === btn && plus !== "" ? "true" : "false");
+        });
+      });
+    }
+
     logContactBtn.addEventListener("click", function () {
       if (!selectedProspectId) return;
-      var date = nextContactDate.value;
-      // Convert local datetime-local string to UTC ISO so Supabase stores the correct time
-      var dateUTC = date ? new Date(date).toISOString() : null;
-      var datePart = date ? date.slice(0, 10) : null;
+      var zeitpunkt = terminAusFeldern();
+      var dateUTC = zeitpunkt ? zeitpunkt.toISOString() : null;
+      var datePart = nextContactDate.value || null;
       var notes = nextContactNotes.value.trim();
       var prospectId = selectedProspectId;
       logStatus.textContent = "Wird gespeichert …";
@@ -956,7 +1020,7 @@
         return client.from("prospects").update(updates).eq("id", prospectId);
       }).then(function () {
         nextContactNotes.value = "";
-        nextContactDate.value = "";
+        terminInFelder(null);
         logStatus.textContent = "Gespeichert ✓";
         logStatus.className = "form-status form-status--ok";
         loadDailyCounter();
