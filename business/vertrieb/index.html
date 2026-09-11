@@ -121,47 +121,64 @@
 <div class="modal-overlay" id="prospectDetailOverlay" hidden>
   <div class="modal-box lead-form" style="max-width:680px;padding:36px;box-shadow:none;margin:0;">
     <button type="button" class="modal-close" id="prospectDetailClose" aria-label="Schließen">&times;</button>
-    <span class="status-pill" id="prospectDetailStatus" style="margin-bottom:10px;display:inline-block;"></span>
-    <label class="field-label" for="prospectDetailNameInput">Name / Firma</label>
-    <input autocomplete="off" type="text" id="prospectDetailNameInput" style="font-size:1.05rem;font-weight:600;">
-    <label class="field-label" for="prospectDetailCategoryInput">Kategorie</label>
-    <input autocomplete="off" type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
-    <datalist id="detailCategoryOptions">
-      <option value="Firma"></option>
-      <option value="Schule"></option>
-      <option value="Verein"></option>
-    </datalist>
-    <label class="field-label" for="prospectDetailWebsite">Webseite</label>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <input autocomplete="off" type="url" id="prospectDetailWebsite" placeholder="https://..." style="flex:1;">
-      <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="btn btn--dark" style="padding:8px 14px;font-size:0.85rem;white-space:nowrap;" hidden>↗ Öffnen</a>
+
+    <div class="dk-titel">
+      <h3 id="prospectDetailTitel">&nbsp;</h3>
+      <span class="status-pill" id="prospectDetailStatus"></span>
     </div>
-    <label class="field-label" for="prospectDetailAddress">Adresse</label>
-    <input autocomplete="off" type="text" id="prospectDetailAddress" placeholder="Straße, PLZ Ort">
 
-    <label class="field-label" for="prospectStatusSelect">Status ändern</label>
-    <select autocomplete="off" id="prospectStatusSelect">
-      <option value="lead">Lead</option>
-      <option value="contacted">Kontaktiert</option>
-      <option value="customer">Kunde</option>
-      <option value="lost">Kein Interesse</option>
-    </select>
+    <div class="dk-block">
+      <div class="dk-kopf">Firma</div>
+      <div class="dk-felder">
+        <label for="prospectDetailNameInput">Name</label>
+        <input autocomplete="off" type="text" id="prospectDetailNameInput">
 
-    <label class="field-label" for="prospectDetailNotes">Notizen</label>
-    <textarea autocomplete="off" id="prospectDetailNotes" rows="3"></textarea>
-    <div class="form-nav"><span></span><button type="button" id="prospectDetailSaveNotes" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Speichern</button></div>
+        <label for="prospectDetailCategoryInput">Kategorie</label>
+        <input autocomplete="off" type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
+        <datalist id="detailCategoryOptions">
+          <option value="Firma"></option>
+          <option value="Schule"></option>
+          <option value="Verein"></option>
+        </datalist>
 
-    <h4 style="margin-top:24px;">Ansprechpartner</h4>
-    <p class="muted" style="margin:0 0 8px;font-size:0.82rem;">Karte verschicken: Knopf beim jeweiligen Ansprechpartner &ndash;
-      <button type="button" id="copyCardLink" class="btn btn--dark" style="padding:4px 10px;font-size:0.78rem;">Link kopieren</button>
-      <span id="copyCardStatus" style="margin-left:6px;"></span></p>
-    <div id="prospectDetailPeople"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-      <input autocomplete="off" type="text" id="newPersonName" placeholder="Name" style="flex:1;min-width:120px;">
-      <input autocomplete="off" type="tel" id="newPersonPhone" placeholder="Telefon" style="flex:1;min-width:120px;">
-      <input autocomplete="off" type="tel" id="newPersonMobile" placeholder="Handy (WhatsApp)" style="flex:1;min-width:120px;">
-      <input autocomplete="off" type="email" id="newPersonEmail" placeholder="E-Mail" style="flex:1;min-width:160px;">
-      <button type="button" id="addPersonBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;">+ Hinzufügen</button>
+        <label for="prospectDetailWebsite">Webseite</label>
+        <div class="dk-mitknopf">
+          <input autocomplete="off" type="text" id="prospectDetailWebsite" inputmode="url" placeholder="z. B. firma.de">
+          <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="dk-mini" hidden>&#8599;</a>
+        </div>
+
+        <label for="prospectDetailAddress">Adresse</label>
+        <input autocomplete="off" type="text" id="prospectDetailAddress" placeholder="Stra&szlig;e, PLZ Ort">
+
+        <label for="prospectStatusSelect">Status</label>
+        <select autocomplete="off" id="prospectStatusSelect">
+          <option value="lead">Lead</option>
+          <option value="contacted">Kontaktiert</option>
+          <option value="customer">Kunde</option>
+          <option value="lost">Kein Interesse</option>
+        </select>
+
+        <label for="prospectDetailNotes">Notiz</label>
+        <textarea autocomplete="off" id="prospectDetailNotes" rows="3"></textarea>
+      </div>
+      <div class="dk-fuss">
+        <button type="button" id="prospectDetailSaveNotes" class="btn btn--dark dk-speichern">Speichern</button>
+      </div>
+    </div>
+
+    <div class="dk-block">
+      <div class="dk-kopf">Ansprechpartner</div>
+      <p class="dk-hinweis">Karte verschicken: Knopf bei der jeweiligen Person &ndash;
+        <button type="button" id="copyCardLink" class="dk-mini-btn">Link kopieren</button>
+        <span id="copyCardStatus"></span></p>
+      <div id="prospectDetailPeople"></div>
+      <div class="dk-neueperson">
+        <input autocomplete="off" type="text" id="newPersonName" placeholder="Name">
+        <input autocomplete="off" type="tel" id="newPersonPhone" placeholder="Telefon">
+        <input autocomplete="off" type="tel" id="newPersonMobile" placeholder="Handy (WhatsApp)">
+        <input autocomplete="off" type="email" id="newPersonEmail" placeholder="E-Mail">
+        <button type="button" id="addPersonBtn" class="btn btn--dark dk-mini-btn">+ Hinzuf&uuml;gen</button>
+      </div>
     </div>
 
     <div id="logHeimat"></div>

@@ -854,3 +854,68 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   border-left: 3px solid var(--color-border); border-radius: 0 6px 6px 0; font-size: 0.83rem;
 }
 .log-termin-zeile--faellig { border-left-color: var(--color-primary); background: #fff6f0; }
+
+/* ================= Detailspalte: Blöcke wie im Vorbild ================= */
+.dk-titel { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.dk-titel h3 { margin: 0; font-size: 1.12rem; line-height: 1.25; }
+
+.dk-block { border: 1px solid var(--color-border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+.dk-kopf {
+  background: var(--color-bg-dark); color: #fff; padding: 7px 12px;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+}
+.dk-felder {
+  display: grid; grid-template-columns: 96px minmax(0, 1fr);
+  gap: 7px 10px; align-items: center; padding: 12px;
+}
+.dk-felder > label { font-size: 0.8rem; color: #6a6a6a; font-weight: 600; margin: 0; }
+.dk-felder > input, .dk-felder > select, .dk-felder > textarea,
+.dk-mitknopf > input {
+  width: 100%; margin: 0 !important; padding: 7px 10px !important;
+  border: 1.5px solid var(--color-border); border-radius: 7px;
+  font: inherit; font-size: 0.88rem; background: #fff;
+}
+.dk-felder > textarea { resize: vertical; min-height: 58px; }
+.dk-mitknopf { display: flex; gap: 6px; align-items: center; }
+.dk-mini {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 7px; background: var(--color-bg-dark);
+  color: #fff; text-decoration: none; font-size: 0.9rem;
+}
+.dk-fuss { padding: 0 12px 12px; text-align: right; }
+.dk-speichern, .dk-mini-btn {
+  padding: 6px 14px !important; font-size: 0.8rem !important; border-radius: 999px;
+}
+.dk-hinweis { margin: 10px 12px 0; font-size: 0.78rem; color: #7a7a7a; }
+.dk-hinweis #copyCardStatus { margin-left: 6px; color: var(--color-secondary); }
+
+/* Ansprechpartner als Karten */
+.dk-person { border: 1px solid var(--color-border); border-radius: 9px; margin: 10px 12px 0; overflow: hidden; }
+.dk-person__kopf {
+  background: var(--color-bg-soft); padding: 7px 11px; display: flex; gap: 8px;
+  align-items: baseline; flex-wrap: wrap; border-bottom: 1px solid var(--color-border);
+}
+.dk-person__kopf strong { font-size: 0.92rem; }
+.dk-person__kopf span { font-size: 0.76rem; color: #7a7a7a; }
+.dk-person__symbole { display: flex; gap: 6px; padding: 8px 11px 0; }
+.dk-sym {
+  width: 32px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--color-border); border-radius: 7px; background: #fff;
+  text-decoration: none; color: #4a4a4a; font-size: 0.95rem; cursor: pointer;
+}
+.dk-sym:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.dk-sym--wa:hover { border-color: #25d366; color: #128c4a; }
+.dk-person__daten { padding: 8px 11px 10px; display: grid; gap: 3px; }
+.dk-pz { font-size: 0.82rem; display: flex; gap: 8px; }
+.dk-pz > span { flex: 0 0 62px; color: #8a8a8a; }
+.dk-person__bearbeiten { padding: 0 11px 11px; display: grid; gap: 6px; }
+.dk-person__bearbeiten input {
+  width: 100%; padding: 7px 10px; border: 1.5px solid var(--color-border);
+  border-radius: 7px; font: inherit; font-size: 0.85rem;
+}
+.dk-person__aktionen { display: flex; gap: 6px; }
+.dk-neueperson { display: flex; flex-wrap: wrap; gap: 6px; padding: 11px 12px 12px; }
+.dk-neueperson input {
+  flex: 1 1 120px; padding: 7px 10px; border: 1.5px solid var(--color-border);
+  border-radius: 7px; font: inherit; font-size: 0.85rem;
+}

@@ -519,30 +519,39 @@
         return;
       }
       peopleListEl.innerHTML = people.map(function (person) {
-        var tel = person.phone ? buildTelLink(person.phone) : (person.mobile ? buildTelLink(person.mobile) : "");
         var handy = handyVon(person);
-        var meta = [person.phone, person.mobile, person.email].filter(Boolean).map(escapeHtml).join(" · ");
+        var tel = person.phone || person.mobile;
+        var symbole =
+          (tel ? '<a class="dk-sym" href="' + buildTelLink(tel) + '" title="Anrufen">&#9742;</a>' : '') +
+          (handy ? '<a class="dk-sym dk-sym--wa" href="' + escapeHtml(waZiel(handy, kartenText(person.name, false))) +
+                   '" target="_blank" rel="noopener" title="Karte per WhatsApp">&#128172;</a>' : '') +
+          (person.email ? '<a class="dk-sym" href="' + escapeHtml(mailZiel(person.email, kartenText(person.name, false))) +
+                   '" title="Karte per E-Mail">&#9993;</a>' : '') +
+          '<button type="button" class="dk-sym" data-edit-person="' + person.id + '" title="Bearbeiten">&#9998;</button>';
+
+        var zeile = function (bez, wert) {
+          return wert ? '<div class="dk-pz"><span>' + bez + "</span>" + escapeHtml(wert) + "</div>" : "";
+        };
+
         return (
-          '<div style="padding:8px 0;border-bottom:1px solid var(--color-border);" data-person-row="' + person.id + '">' +
-          '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
-          '<div><strong>' + escapeHtml(person.name) + '</strong>' + (meta ? ' <span class="muted" style="font-size:0.85rem;">' + meta + '</span>' : '') + '</div>' +
-          '<div style="display:flex;gap:6px;">' +
-          (tel ? '<a href="' + tel + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">📞 Anrufen</a>' : '') +
-          (handy ? '<a href="' + escapeHtml(waZiel(handy, kartenText(person.name, false))) + '" target="_blank" rel="noopener" class="btn btn--primary" style="padding:6px 12px;font-size:0.8rem;">Karte per WhatsApp</a>' : '') +
-          (person.email ? '<a href="' + escapeHtml(mailZiel(person.email, kartenText(person.name, false))) + '" class="btn btn--dark" style="padding:6px 12px;font-size:0.8rem;">Karte per E-Mail</a>' : '') +
-          '<button type="button" data-edit-person="' + person.id + '" class="btn btn--dark" style="padding:6px 10px;font-size:0.8rem;">✏️</button>' +
-          '</div></div>' +
-          (person.email ? '<a href="mailto:' + escapeHtml(person.email) + '" style="font-size:0.8rem;color:var(--color-primary);">' + escapeHtml(person.email) + '</a>' : '') +
-          '<div data-edit-form="' + person.id + '" style="display:none;flex-direction:column;gap:6px;margin-top:8px;">' +
-          '<input type="text" data-field="name" value="' + escapeHtml(person.name) + '" placeholder="Name" style="width:100%;">' +
-          '<input type="tel" data-field="phone" value="' + escapeHtml(person.phone || '') + '" placeholder="Telefon" style="width:100%;">' +
-          '<input type="tel" data-field="mobile" value="' + escapeHtml(person.mobile || '') + '" placeholder="Handy (WhatsApp)" style="width:100%;">' +
-          '<input type="email" data-field="email" value="' + escapeHtml(person.email || '') + '" placeholder="E-Mail" style="width:100%;">' +
-          '<div style="display:flex;gap:6px;">' +
-          '<button type="button" data-save-person="' + person.id + '" class="btn btn--primary" style="padding:6px 14px;font-size:0.8rem;">Speichern</button>' +
-          '<button type="button" data-cancel-person="' + person.id + '" class="btn btn--dark" style="padding:6px 14px;font-size:0.8rem;">Abbrechen</button>' +
-          '</div></div>' +
-          '</div>'
+          '<div class="dk-person" data-person-row="' + person.id + '">' +
+          '<div class="dk-person__kopf"><strong>' + escapeHtml(person.name) + "</strong>" +
+          (person.role ? "<span>" + escapeHtml(person.role) + "</span>" : "") + "</div>" +
+          '<div class="dk-person__symbole">' + symbole + "</div>" +
+          '<div class="dk-person__daten">' +
+          zeile("Telefon", person.phone) + zeile("Handy", person.mobile) + zeile("E-Mail", person.email) +
+          "</div>" +
+          '<div class="dk-person__bearbeiten" data-edit-form="' + person.id + '" style="display:none;">' +
+          '<input type="text" data-field="name" value="' + escapeHtml(person.name) + '" placeholder="Name">' +
+          '<input type="text" data-field="role" value="' + escapeHtml(person.role || '') + '" placeholder="Rolle">' +
+          '<input type="tel" data-field="phone" value="' + escapeHtml(person.phone || '') + '" placeholder="Telefon">' +
+          '<input type="tel" data-field="mobile" value="' + escapeHtml(person.mobile || '') + '" placeholder="Handy (WhatsApp)">' +
+          '<input type="email" data-field="email" value="' + escapeHtml(person.email || '') + '" placeholder="E-Mail">' +
+          '<div class="dk-person__aktionen">' +
+          '<button type="button" data-save-person="' + person.id + '" class="btn btn--primary dk-mini-btn">Speichern</button>' +
+          '<button type="button" data-cancel-person="' + person.id + '" class="btn btn--dark dk-mini-btn">Abbrechen</button>' +
+          "</div></div>" +
+          "</div>"
         );
       }).join('');
 
@@ -563,11 +572,12 @@
           var id = btn.getAttribute('data-save-person');
           var form = peopleListEl.querySelector('[data-edit-form="' + id + '"]');
           var name = form.querySelector('[data-field="name"]').value.trim();
+          var role = form.querySelector('[data-field="role"]').value.trim();
           var phone = form.querySelector('[data-field="phone"]').value.trim();
           var mobile = form.querySelector('[data-field="mobile"]').value.trim();
           var email = form.querySelector('[data-field="email"]').value.trim();
           if (!name) return;
-          client.from('prospect_people').update({ name: name, phone: phone || null, mobile: mobile || null, email: email || null }).eq('id', id).then(function () {
+          client.from('prospect_people').update({ name: name, role: role || null, phone: phone || null, mobile: mobile || null, email: email || null }).eq('id', id).then(function () {
             loadPeople(selectedProspectId);
           });
         });
@@ -631,6 +641,8 @@
       var p = allProspects.filter(function (x) { return x.id === id; })[0];
       if (!p) return;
       markiereAktiv(id);
+      var titel = document.getElementById("prospectDetailTitel");
+      if (titel) titel.textContent = p.name;
       // Angesehen heisst erledigt genug - das Pulsieren hoert auf.
       if (erinnerungGesehen(id)) renderPipeline();
       detailStatus.className = "status-pill status-pill--" + p.status;
