@@ -520,13 +520,37 @@
       }
       peopleListEl.innerHTML = people.map(function (person) {
         var handy = handyVon(person);
-        var tel = person.phone || person.mobile;
+        var pid = escapeHtml(person.id);
+
+        // B: Festnetz und Handy getrennt anrufen
+        var anruf = function (nummer, art, zeichen) {
+          return '<a class="dk-sym" href="' + buildTelLink(nummer) + '" title="' + art + ' anrufen" ' +
+            'data-aktion="anruf" data-art="' + art + '" data-nummer="' + escapeHtml(nummer) + '" ' +
+            'data-person="' + pid + '">' + zeichen + "</a>";
+        };
+
+        // C: Karte schicken oder normal schreiben
+        var menue = function (typ, zeichen, titel, karteHref, leerHref, neuesFenster) {
+          var ziel = neuesFenster ? ' target="_blank" rel="noopener"' : "";
+          return '<span class="dk-menue-wrap">' +
+            '<button type="button" class="dk-sym' + (typ === "wa" ? " dk-sym--wa" : "") + '" title="' + titel + '" ' +
+            'data-menue="' + typ + "-" + pid + '">' + zeichen + "</button>" +
+            '<span class="dk-menue" id="' + typ + "-" + pid + '" hidden>' +
+            '<a href="' + escapeHtml(karteHref) + '"' + ziel + ' data-aktion="' + typ + '-karte" data-person="' + pid + '">Karte schicken</a>' +
+            '<a href="' + escapeHtml(leerHref) + '"' + ziel + ' data-aktion="' + typ + '-normal" data-person="' + pid + '">Normal schreiben</a>' +
+            "</span></span>";
+        };
+
+        var waLeer = handy
+          ? (amHandy ? "https://wa.me/" + handy : "https://web.whatsapp.com/send?phone=" + handy)
+          : "";
+
         var symbole =
-          (tel ? '<a class="dk-sym" href="' + buildTelLink(tel) + '" title="Anrufen">&#9742;</a>' : '') +
-          (handy ? '<a class="dk-sym dk-sym--wa" href="' + escapeHtml(waZiel(handy, kartenText(person.name, false))) +
-                   '" target="_blank" rel="noopener" title="Karte per WhatsApp">&#128172;</a>' : '') +
-          (person.email ? '<a class="dk-sym" href="' + escapeHtml(mailZiel(person.email, kartenText(person.name, false))) +
-                   '" title="Karte per E-Mail">&#9993;</a>' : '') +
+          (person.phone ? anruf(person.phone, "Festnetz", "&#9742;") : "") +
+          (person.mobile ? anruf(person.mobile, "Handy", "&#128241;") : "") +
+          (handy ? menue("wa", "&#128172;", "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, true) : "") +
+          (person.email ? menue("mail", "&#9993;", "E-Mail",
+            mailZiel(person.email, kartenText(person.name, false)), "mailto:" + person.email, false) : "") +
           '<button type="button" class="dk-sym" data-edit-person="' + person.id + '" title="Bearbeiten">&#9998;</button>';
 
         var zeile = function (bez, wert) {
@@ -538,6 +562,7 @@
           '<div class="dk-person__kopf"><strong>' + escapeHtml(person.name) + "</strong>" +
           (person.role ? "<span>" + escapeHtml(person.role) + "</span>" : "") + "</div>" +
           '<div class="dk-person__symbole">' + symbole + "</div>" +
+          '<div class="dk-rueckfrage" data-rueckfrage="' + pid + '" hidden></div>' +
           '<div class="dk-person__daten">' +
           zeile("Festnetz", person.phone) + zeile("Handy", person.mobile) + zeile("E-Mail", person.email) +
           "</div>" +
@@ -560,6 +585,26 @@
         ? '<button type="button" class="dk-person dk-person--frei" id="zweitePersonAnlegen">' +
           "<span>+</span>Zweiten Ansprechpartner anlegen</button>"
         : "");
+
+      // Aufklappmenues fuer WhatsApp und E-Mail
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll("[data-menue]"), function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var menueEl = document.getElementById(btn.getAttribute("data-menue"));
+          var warOffen = menueEl && !menueEl.hidden;
+          Array.prototype.forEach.call(peopleListEl.querySelectorAll(".dk-menue"), function (m) { m.hidden = true; });
+          if (menueEl) menueEl.hidden = warOffen;
+        });
+      });
+
+      // A: nach Anruf, Karte oder Nachricht kurz nachfragen - erst die Antwort traegt ein
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll("[data-aktion]"), function (el) {
+        el.addEventListener("click", function () {
+          Array.prototype.forEach.call(peopleListEl.querySelectorAll(".dk-menue"), function (m) { m.hidden = true; });
+          var wer = people.filter(function (x) { return x.id === el.getAttribute("data-person"); })[0];
+          if (wer) zeigeRueckfrage(wer, el.getAttribute("data-aktion"), el);
+        });
+      });
 
       var frei = document.getElementById("zweitePersonAnlegen");
       if (frei) {
@@ -645,6 +690,87 @@
           "</div>"
         );
       }).join("");
+    }
+
+    // Schliesst offene Aufklappmenues, sobald woanders geklickt wird.
+    document.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest(".dk-menue-wrap")) return;
+      Array.prototype.forEach.call(document.querySelectorAll(".dk-menue"), function (m) { m.hidden = true; });
+    });
+
+    // Traegt eine wichtige Aktion ins Logbuch ein. Ein Lead mit Status "Lead"
+    // wird dabei zu "Kontaktiert" - wie beim Eintrag von Hand.
+    function logSignifikant(prospectId, text) {
+      return client.from("prospect_contacts").insert({
+        prospect_id: prospectId,
+        contact_date: todayISO(),
+        notes: text
+      }).then(function (res) {
+        if (res && res.error) throw res.error;
+        var p = allProspects.filter(function (x) { return x.id === prospectId; })[0];
+        if (p && p.status === "lead") {
+          return client.from("prospects").update({ status: "contacted" }).eq("id", prospectId);
+        }
+      }).then(function () {
+        loadDailyCounter();
+        loadHistory(prospectId);
+        return loadProspects();
+      }).then(function () {
+        refreshDetailStatus();
+      });
+    }
+
+    function zeigeRueckfrage(person, aktion, el) {
+      var leiste = document.querySelector('[data-rueckfrage="' + person.id + '"]');
+      if (!leiste) return;
+      var name = person.name || "Ansprechpartner";
+      var frage, antworten;
+
+      if (aktion === "anruf") {
+        var art = el.getAttribute("data-art");
+        var nummer = el.getAttribute("data-nummer");
+        frage = "Anruf " + art + " " + nummer + " \u2013 wie lief es?";
+        antworten = [
+          ["Erreicht", "Anruf " + art + " " + nummer + " \u00b7 erreicht \u00b7 " + name],
+          ["Nicht erreicht", "Anruf " + art + " " + nummer + " \u00b7 nicht erreicht \u00b7 " + name],
+          ["Mailbox", "Anruf " + art + " " + nummer + " \u00b7 Mailbox \u00b7 " + name]
+        ];
+      } else {
+        var texte = {
+          "wa-karte":    ["Visitenkarte per WhatsApp an " + name + " verschickt?", "Visitenkarte per WhatsApp an " + name],
+          "wa-normal":   ["WhatsApp an " + name + " geschrieben?", "WhatsApp an " + name + " geschrieben"],
+          "mail-karte":  ["Visitenkarte per E-Mail an " + name + " verschickt?", "Visitenkarte per E-Mail an " + name],
+          "mail-normal": ["E-Mail an " + name + " geschrieben?", "E-Mail an " + name + " geschrieben"]
+        }[aktion];
+        if (!texte) return;
+        frage = texte[0];
+        antworten = [["Ja", texte[1]]];
+      }
+
+      leiste.innerHTML = '<span class="dk-rueckfrage__frage">' + escapeHtml(frage) + "</span>" +
+        antworten.map(function (a, i) {
+          return '<button type="button" class="dk-knopf' + (i === 0 ? " dk-knopf--primaer" : "") +
+            '" data-log="' + i + '">' + escapeHtml(a[0]) + "</button>";
+        }).join("") +
+        '<button type="button" class="dk-knopf dk-rueckfrage__weg" data-log="weg">' +
+        (aktion === "anruf" ? "&times;" : "Nein") + "</button>";
+      leiste.hidden = false;
+
+      Array.prototype.forEach.call(leiste.querySelectorAll("[data-log]"), function (b) {
+        b.addEventListener("click", function () {
+          var wahl = b.getAttribute("data-log");
+          if (wahl === "weg") { leiste.hidden = true; return; }
+          var prospectId = selectedProspectId;
+          leiste.innerHTML = '<span class="dk-rueckfrage__frage">Wird eingetragen \u2026</span>';
+          logSignifikant(prospectId, antworten[+wahl][1]).then(function () {
+            leiste.innerHTML = '<span class="dk-rueckfrage__ok">Im Logbuch eingetragen &#10003;</span>';
+            setTimeout(function () { leiste.hidden = true; }, 2200);
+          }).catch(function (err) {
+            leiste.innerHTML = '<span class="dk-rueckfrage__fehler">Eintrag fehlgeschlagen: ' +
+              escapeHtml((err && err.message) || "unbekannter Fehler") + "</span>";
+          });
+        });
+      });
     }
 
     function loadHistory(prospectId) {

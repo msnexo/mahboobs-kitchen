@@ -1015,3 +1015,31 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .an-einwilligung { margin: 0 !important; padding: 0 12px 12px; }
 .an-fuss { padding: 4px 0 0; }
 .an-fuss .btn { padding: 11px 28px; }
+
+/* Knopfreihe der Ansprechpartner: Aufklappmenue und Rueckfrage */
+.dk-person__symbole { flex-wrap: wrap; }
+.dk-menue-wrap { position: relative; display: inline-flex; }
+.dk-menue {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 160px;
+  display: grid; background: #fff; border: 1px solid var(--color-border);
+  border-radius: 9px; box-shadow: 0 8px 22px rgba(0,0,0,0.12); overflow: hidden;
+}
+.dk-menue[hidden] { display: none; }
+.dk-menue a {
+  padding: 9px 12px; font-size: 0.82rem; font-weight: 600; color: var(--color-text);
+  text-decoration: none; white-space: nowrap;
+}
+.dk-menue a + a { border-top: 1px solid var(--color-border); }
+.dk-menue a:hover { background: var(--color-bg-soft); color: var(--color-primary); }
+
+.dk-rueckfrage {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin: 8px 11px 0; padding: 8px 10px; border-radius: 8px;
+  background: #fff6f0; border: 1px solid #f6d3bd;
+}
+.dk-rueckfrage[hidden] { display: none; }
+.dk-rueckfrage__frage { flex: 1 1 100%; font-size: 0.8rem; font-weight: 600; color: #4a4a4a; }
+.dk-rueckfrage__ok { font-size: 0.8rem; font-weight: 700; color: var(--color-secondary); }
+.dk-rueckfrage__fehler { font-size: 0.8rem; font-weight: 600; color: #c0392b; }
+.dk-rueckfrage__weg { margin-left: auto; }
+.dk-person.is-bearbeiten .dk-rueckfrage { display: none; }
