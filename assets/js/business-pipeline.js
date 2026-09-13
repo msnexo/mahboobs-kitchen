@@ -553,7 +553,23 @@
           "</div></div>" +
           "</div>"
         );
-      }).join('');
+      }).join('') +
+      // Platz fuer eine zweite Person sichtbar machen, solange nur eine da ist.
+      (people.length === 1
+        ? '<button type="button" class="dk-person dk-person--frei" id="zweitePersonAnlegen">' +
+          "<span>+</span>Zweiten Ansprechpartner anlegen</button>"
+        : "");
+
+      var frei = document.getElementById("zweitePersonAnlegen");
+      if (frei) {
+        frei.addEventListener("click", function () {
+          var feld = document.getElementById("newPersonName");
+          if (feld) {
+            feld.scrollIntoView({ block: "center", behavior: "smooth" });
+            feld.focus();
+          }
+        });
+      }
 
       Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-edit-person]'), function (btn) {
         btn.addEventListener('click', function () {
