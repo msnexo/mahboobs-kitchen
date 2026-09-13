@@ -43,10 +43,20 @@
     return result;
   }
 
+  // Am Laptop die installierte WhatsApp-App, am Handy wa.me.
+  var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  function oeffneWhatsApp(url) {
+    if (amHandy) window.open(url, "_blank");
+    else window.location.href = url;
+  }
+
   function buildWhatsAppLink(phone, message) {
     var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
     if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
-    return "https://wa.me/" + digits + "?text=" + encodeURIComponent(message);
+    var text = encodeURIComponent(message || "");
+    if (amHandy) return "https://wa.me/" + digits + (text ? "?text=" + text : "");
+    return "whatsapp://send?phone=" + digits + (text ? "&text=" + text : "");
   }
 
   function buildMailtoLink(email, subject, body) {
@@ -125,7 +135,7 @@
           var company = allCompanies.filter(function (c) { return c.id === btn.getAttribute("data-wa-id"); })[0];
           if (!company) return;
           var message = personalize(whatsappTemplate.value.trim(), company);
-          window.open(buildWhatsAppLink(company.phone, message), "_blank");
+          oeffneWhatsApp(buildWhatsAppLink(company.phone, message));
         });
       });
       Array.prototype.forEach.call(tableContainer.querySelectorAll("[data-email-id]"), function (btn) {
@@ -212,6 +222,7 @@
         var waMsg = "Hallo" + (person ? " " + person : "") +
           ", hier ist Ihr persönlicher Catering-Konfigurator: " + link;
         cateringLinkWaBtn.href = buildWhatsAppLink(phone, waMsg);
+        if (!amHandy) cateringLinkWaBtn.removeAttribute("target");
       }
 
       fetch("https://is.gd/create.php?format=simple&url=" + encodeURIComponent(fullLink))
@@ -556,7 +567,7 @@
         var message =
           "Willkommen bei der MK Business Karte! Klicken Sie einfach auf diesen Link, Ihr persönlicher Code ist schon eingetragen – " +
           "Sie müssen nur noch eine E-Mail-Adresse und ein Passwort vergeben: " + link;
-        window.open(buildWhatsAppLink(company.phone, message), "_blank");
+        oeffneWhatsApp(buildWhatsAppLink(company.phone, message));
       };
 
       document.getElementById("newCompanyLinkBox").hidden = false;

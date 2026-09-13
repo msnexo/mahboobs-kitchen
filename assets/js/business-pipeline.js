@@ -60,8 +60,9 @@
   }
 
   var KARTE_URL = "https://mahboobs-kitchen.com/karte/reyyan/";
-  // Am Handy oeffnet wa.me die App direkt. Am Rechner schiebt wa.me eine
-  // Zwischenseite ("Continue to Chat") dazwischen - web.whatsapp.com nicht.
+  // Am Handy oeffnet wa.me die App direkt. Am Laptop oeffnen wir ueber
+  // whatsapp:// die installierte App - WhatsApp Web wuerde jedes Mal einen
+  // neuen Tab aufmachen und das Geraet neu verknuepfen wollen.
   var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   // Einheitliche Strich-Symbole statt Emojis - sehen auf jedem Geraet gleich aus.
@@ -107,11 +108,21 @@
   }
 
   function waZiel(nummer, text) {
-    var t = encodeURIComponent(text);
-    if (amHandy) return nummer ? "https://wa.me/" + nummer + "?text=" + t
-                               : "https://wa.me/?text=" + t;
-    return nummer ? "https://web.whatsapp.com/send?phone=" + nummer + "&text=" + t
-                  : "https://web.whatsapp.com/send?text=" + t;
+    var t = text ? encodeURIComponent(text) : "";
+    if (amHandy) {
+      return "https://wa.me/" + (nummer || "") + (t ? "?text=" + t : "");
+    }
+    var teile = [];
+    if (nummer) teile.push("phone=" + nummer);
+    if (t) teile.push("text=" + t);
+    return "whatsapp://send" + (teile.length ? "?" + teile.join("&") : "");
+  }
+
+  // Am Handy in neuem Fenster, am Laptop direkt die App - ein neuer Tab
+  // bliebe dort sonst leer zurueck.
+  function oeffneWhatsApp(url) {
+    if (amHandy) window.open(url, "_blank");
+    else window.location.href = url;
   }
 
   // Eine Nachricht, zwei Dinge: die Visitenkarte und die eigene Business-Karte.
@@ -575,14 +586,12 @@
             "</span></span>";
         };
 
-        var waLeer = handy
-          ? (amHandy ? "https://wa.me/" + handy : "https://web.whatsapp.com/send?phone=" + handy)
-          : "";
+        var waLeer = handy ? waZiel(handy, "") : "";
 
         var symbole =
           (person.phone ? anruf(person.phone, "Festnetz", SYM.festnetz) : "") +
           (person.mobile ? anruf(person.mobile, "Handy", SYM.handy) : "") +
-          (handy ? menue("wa", SYM.whatsapp, "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, true) : "") +
+          (handy ? menue("wa", SYM.whatsapp, "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, amHandy) : "") +
           (person.email ? menue("mail", SYM.mail, "E-Mail",
             mailZiel(person.email, kartenText(person.name, false)), "mailto:" + person.email, false) : "") +
           // E: Person recherchieren - nichts wird gespeichert oder ins Logbuch geschrieben
@@ -1070,6 +1079,8 @@
 
     function setzeWaZiel(nummer) {
       shareWa.href = waZiel(nummer, shareText);
+      if (amHandy) shareWa.setAttribute("target", "_blank");
+      else shareWa.removeAttribute("target");
     }
 
     function zeigeTeilen(person) {
@@ -1482,7 +1493,7 @@
 
         conversionWhatsAppBtn.style.display = handy ? "" : "none";
         conversionWhatsAppBtn.onclick = function () {
-          window.open(waZiel(handy, aktuellerText()), "_blank");
+          oeffneWhatsApp(waZiel(handy, aktuellerText()));
         };
         if (mailBtn) mailBtn.style.display = firstPerson.email ? "" : "none";
         refreshDetailStatus();
