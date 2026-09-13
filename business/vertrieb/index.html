@@ -71,7 +71,7 @@
         <h1>Vertrieb <span id="pipelineUserBadge" style="font-size:0.7em;vertical-align:middle;padding:3px 10px;border-radius:100px;color:#fff;font-weight:700;"></span></h1>
       </div>
       <div class="btn-row">
-        <button type="button" id="addProspectBtn" class="btn btn--primary">+ Neue Firma</button>
+        <button type="button" id="addProspectBtn" class="btn btn--primary">+ Neuer Kontakt</button>
         <button type="button" id="logoutPipelineBtn" class="btn btn--dark">Abmelden</button>
       </div>
     </div>
@@ -128,7 +128,7 @@
     </div>
 
     <div class="dk-block">
-      <div class="dk-kopf">Firma</div>
+      <div class="dk-kopf">Stammdaten</div>
       <div class="dk-felder">
         <label for="prospectDetailNameInput">Name</label>
         <input autocomplete="off" type="text" id="prospectDetailNameInput">
@@ -358,14 +358,14 @@
 <div class="modal-overlay" id="addProspectOverlay" hidden>
   <div class="modal-box">
     <button type="button" class="modal-close" id="addProspectClose" aria-label="Schließen">&times;</button>
-    <div class="dk-titel"><h3>Neue Firma anlegen</h3></div>
+    <div class="dk-titel"><h3>Neuen Kontakt anlegen</h3></div>
     <form id="addProspectForm" class="lead-form" novalidate style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
 
       <div class="dk-block">
-        <div class="dk-kopf">Firma</div>
+        <div class="dk-kopf">Stammdaten</div>
         <div class="dk-felder">
           <label for="prospectName">Name</label>
-          <input autocomplete="off" type="text" id="prospectName" placeholder="Firmenname" required>
+          <input autocomplete="off" type="text" id="prospectName" placeholder="Name der Firma oder Person" required>
 
           <label for="prospectCategory">Kategorie</label>
           <select autocomplete="off" id="prospectCategory">

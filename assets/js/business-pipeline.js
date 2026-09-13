@@ -1164,7 +1164,7 @@
         };
       }).filter(function (person) { return person.name; });
       if (!name) {
-        addProspectStatus.textContent = "Bitte einen Firmennamen eintragen.";
+        addProspectStatus.textContent = "Bitte einen Namen eintragen.";
         addProspectStatus.className = "form-status form-status--error";
         document.getElementById("prospectName").focus();
         return;
