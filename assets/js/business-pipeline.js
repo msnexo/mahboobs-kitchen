@@ -945,7 +945,7 @@
       // Immer mit dem Formular starten, nicht mit dem Teilen-Bereich des letzten Eintrags.
       var box = document.getElementById("prospectShare");
       if (box) { box.hidden = true; addProspectForm.hidden = false; }
-      zweitePersonZu();
+      zweitePersonZu(); weitereAngabenZu();
       addProspectStatus.textContent = "";
       addProspectStatus.className = "form-status";
       addProspectOverlay.hidden = false;
@@ -990,6 +990,26 @@
         window.location.reload();
       });
     }
+
+    // ---------- Anlage-Dialog: am Handy seltene Felder erst auf Tipp ----------
+    // Am Laptop blendet das Stylesheet den Knopf aus, dort ist alles sichtbar.
+    function weitereAngabenAuf() {
+      var knopf = document.getElementById("anWeitereKnopf");
+      var raster = knopf && knopf.parentNode;
+      if (!raster) return;
+      raster.classList.add("zeigt-weitere");
+      var feld = document.getElementById("prospectWebsite");
+      if (feld) feld.focus();
+    }
+
+    function weitereAngabenZu() {
+      var knopf = document.getElementById("anWeitereKnopf");
+      var raster = knopf && knopf.parentNode;
+      if (raster) raster.classList.remove("zeigt-weitere");
+    }
+
+    var anWeitereKnopf = document.getElementById("anWeitereKnopf");
+    if (anWeitereKnopf) anWeitereKnopf.addEventListener("click", weitereAngabenAuf);
 
     // ---------- Anlage-Dialog: zweite Person erst auf Klick ----------
     function zweitePersonAuf() {
@@ -1213,7 +1233,7 @@
         addProspectStatus.className = "form-status";
         zeigeTeilen(people[0]);
         addProspectForm.reset();
-        zweitePersonZu();
+        zweitePersonZu(); weitereAngabenZu();
         if (quickDates) {
           Array.prototype.forEach.call(quickDates.querySelectorAll("button"), function (b) {
             b.setAttribute("aria-pressed", "false");

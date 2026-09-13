@@ -374,14 +374,16 @@
             <option value="Privatperson">Privatperson</option>
           </select>
 
-          <label for="prospectWebsite">Webseite</label>
-          <input autocomplete="off" type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
+          <button type="button" class="an-weitere-knopf" id="anWeitereKnopf">+ Weitere Angaben</button>
 
-          <label for="prospectAddress">Adresse</label>
-          <input autocomplete="off" type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
+          <label for="prospectWebsite" class="an-weitere">Webseite</label>
+          <input autocomplete="off" type="text" id="prospectWebsite" class="an-weitere" inputmode="url" placeholder="z. B. firma.de">
 
-          <label for="prospectStatus">Status</label>
-          <select autocomplete="off" id="prospectStatus">
+          <label for="prospectAddress" class="an-weitere">Adresse</label>
+          <input autocomplete="off" type="text" id="prospectAddress" class="an-weitere" placeholder="Stra&szlig;e, PLZ Ort">
+
+          <label for="prospectStatus" class="an-weitere">Status</label>
+          <select autocomplete="off" id="prospectStatus" class="an-weitere">
             <option value="lead">Lead</option>
             <option value="contacted">Kontaktiert</option>
             <option value="customer">Kunde</option>

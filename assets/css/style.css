@@ -1087,3 +1087,18 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .dk-kopieren svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .dk-kopieren:hover { border-color: var(--color-border); color: var(--color-text); background: #fff; }
 .dk-kopieren.is-kopiert { color: var(--color-secondary); border-color: var(--color-secondary); }
+
+/* Punkt 2: am Handy Webseite, Adresse und Status im Anlage-Dialog einklappen */
+.an-weitere-knopf { display: none; }
+@media (max-width: 699px) {
+  #addProspectForm .an-weitere { display: none !important; }
+  #addProspectForm .zeigt-weitere .an-weitere { display: block !important; }
+  #addProspectForm .zeigt-weitere > select.an-weitere,
+  #addProspectForm .zeigt-weitere > input.an-weitere { display: block !important; width: 100%; }
+  .an-weitere-knopf {
+    display: block; grid-column: 1 / -1; justify-self: start;
+    border: none; background: none; padding: 2px 0; margin: 0;
+    font: inherit; font-size: 0.85rem; font-weight: 700; color: var(--color-primary); cursor: pointer;
+  }
+  .zeigt-weitere > .an-weitere-knopf { display: none; }
+}
