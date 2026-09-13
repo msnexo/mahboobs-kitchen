@@ -535,7 +535,7 @@
 
     var addCompanyForm = document.getElementById("addCompanyForm");
     var addCompanyStatus = document.getElementById("addCompanyStatus");
-    addCompanyForm.addEventListener("submit", function (e) {
+    if (addCompanyForm) addCompanyForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var payload = {
         company_name: addCompanyForm.companyName.value.trim(),

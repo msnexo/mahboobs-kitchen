@@ -17,15 +17,6 @@
     });
   }
 
-  function generateCardCode() {
-    var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    var bytes = new Uint8Array(6);
-    window.crypto.getRandomValues(bytes);
-    var code = "";
-    for (var i = 0; i < bytes.length; i++) code += chars[bytes[i] % chars.length];
-    return "MK-" + code;
-  }
-
   // Nur an Handynummern kann WhatsApp zustellen. Deutsche Mobilfunknummern
   // beginnen nach der Landesvorwahl mit 15, 16 oder 17 - Festnetz nicht.
   function normalisiereNummer(nummer) {
@@ -59,7 +50,21 @@
     return /^https?:\/\//i.test(w) ? w : "https://" + w;
   }
 
-  var KARTE_URL = "https://mahboobs-kitchen.com/karte/reyyan/";
+  var SEITE = "https://mahboobs-kitchen.com";
+  var KARTE_URL = SEITE + "/karte/reyyan/";
+
+  // Link zur Business Karte des Kunden - der Schluessel ist geheim, ohne ihn
+  // laesst sich keine Karte oeffnen.
+  function karteLink(schluessel) {
+    return SEITE + "/business/meine-karte/?k=" + schluessel;
+  }
+
+  // Heutiges Datum nach Ortszeit (nicht UTC) - fuer Datumsfelder.
+  function heuteLokal() {
+    var d = new Date();
+    var pad = function (n) { return String(n).padStart(2, "0"); };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
   // Am Handy oeffnet wa.me die App direkt. Am Laptop oeffnen wir ueber
   // whatsapp:// die installierte App - WhatsApp Web wuerde jedes Mal einen
   // neuen Tab aufmachen und das Geraet neu verknuepfen wollen.
@@ -125,29 +130,6 @@
     else window.location.href = url;
   }
 
-  // Eine Nachricht, zwei Dinge: die Visitenkarte und die eigene Business-Karte.
-  function willkommensText(name, aktivierungsLink) {
-    return [
-      "Hallo " + (name || "") + ",",
-      "",
-      "schön, dass wir gesprochen haben. Wie versprochen zwei Dinge:",
-      "",
-      "1) Meine digitale Visitenkarte – dort sehen Sie alles, was wir anbieten, und erreichen mich direkt:",
-      KARTE_URL,
-      "",
-      "2) Ihre persönliche MK Business Karte. Der Code ist schon hinterlegt, Sie vergeben nur noch E-Mail und Passwort:",
-      aktivierungsLink,
-      "",
-      "Mit der Karte bekommen Sie bis zu 20 % Rabatt bei jeder Bestellung, ein Menü nach Ihren Wünschen und mich als festen Ansprechpartner. Keine Grundgebühr, keine Mindestlaufzeit.",
-      "",
-      "Bei Fragen rufen Sie mich einfach an: 0177 201 9889",
-      "",
-      "Herzliche Grüße",
-      "Reyyan Ahmad",
-      "Mahboobs Kitchen"
-    ].join("\n");
-  }
-
   // Am Laptop oeffnet mailto Outlook - deshalb dort direkt Gmail mit dem
   // Geschaeftskonto. Am Handy nimmt mailto die Mail-App (z. B. Gmail-App).
   var MAIL_ABSENDER = "info@mahboobs-kitchen.com";
@@ -184,19 +166,6 @@
     var digits = (phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
     if (digits.indexOf("0") === 0) digits = "49" + digits.slice(1);
     return "tel:+" + digits;
-  }
-
-  function insertCompanyWithRetry(client, payload, attemptsLeft) {
-    var row = Object.assign({}, payload, { card_code: generateCardCode() });
-    return client.from("companies").insert(row).select().single().then(function (res) {
-      if (res.error) {
-        if (res.error.code === "23505" && attemptsLeft > 0) {
-          return insertCompanyWithRetry(client, payload, attemptsLeft - 1);
-        }
-        throw res.error;
-      }
-      return res.data;
-    });
   }
 
   function todayISO() {
@@ -237,7 +206,7 @@
     return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
   }
 
-  var statusLabels = { lead: "Lead", contacted: "Kontaktiert", customer: "Kunde", lost: "Kein Interesse" };
+  var statusLabels = { lead: "Lead", contacted: "Kontaktiert", customer: "Stammkunde", lost: "Kein Interesse" };
 
   // Nahe Tage bekommen einen Namen, der Rest das Datum.
   function tagName(iso) {
@@ -339,6 +308,7 @@
     var pipelineToday = document.getElementById("pipelineToday");
     var pipelineTomorrow = document.getElementById("pipelineTomorrow");
     var pipelineDates = document.getElementById("pipelineDates");
+    var pipelineStammkunden = document.getElementById("pipelineStammkunden");
     var pipelineArchive = document.getElementById("pipelineArchive");
     var toggleArchiveBtn = document.getElementById("toggleArchiveBtn");
 
@@ -365,14 +335,9 @@
     var reminderBellBtn = document.getElementById("reminderBellBtn");
     var reminderStatus = document.getElementById("reminderStatus");
     var historyEl = document.getElementById("prospectDetailHistory");
-    var markCustomerBtn = document.getElementById("markCustomerBtn");
     var markLostBtn = document.getElementById("markLostBtn");
     var deleteProspectBtn = document.getElementById("deleteProspectBtn");
-    var conversionLinkBox = document.getElementById("conversionLinkBox");
-    var conversionCompanyName = document.getElementById("conversionCompanyName");
-    var conversionLink = document.getElementById("conversionLink");
-    var conversionCopyBtn = document.getElementById("conversionCopyBtn");
-    var conversionWhatsAppBtn = document.getElementById("conversionWhatsAppBtn");
+    var bkInhalt = document.getElementById("bkInhalt");
 
     function loadDailyCounter() {
       client.from("prospect_contacts").select("id", { count: "exact", head: true }).eq("contact_date", todayISO()).then(function (res) {
@@ -398,7 +363,9 @@
         "<div>" + glockeHtml(reminderZustand(p.id)) + "<strong>" + escapeHtml(p.name) +
         '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
-        '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>" +
+        (p.status === "customer" && p.customer_no
+          ? '<span class="kundennr" title="Kundennummer">' + escapeHtml(p.customer_no) + "</span>"
+          : '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>") +
         "</div>" +
         "</div>" +
         (function () {
@@ -528,7 +495,10 @@
         return true;
       });
       var active = visible.filter(function (p) { return p.status === "lead" || p.status === "contacted"; });
-      var archived = visible.filter(function (p) { return p.status === "customer" || p.status === "lost"; });
+      var archived = visible.filter(function (p) { return p.status === "lost"; });
+      // Stammkunde = Business Karte verschickt. Alphabetisch, damit man sie schnell findet.
+      var stammkunden = visible.filter(function (p) { return p.status === "customer"; })
+        .sort(function (a, b) { return a.name.localeCompare(b.name, "de"); });
 
       var leads = active.filter(function (p) { return !p.next_contact_date; }).sort(byCreated);
       var overdue = active.filter(function (p) { return p.next_contact_date && dateOnly(p.next_contact_date) < today; }).sort(byDate);
@@ -544,6 +514,7 @@
       renderBucket(pipelineToday, "Heute", dueToday, "bucket--heute");
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
       renderLaterBuckets(pipelineDates, later);
+      renderBucket(pipelineStammkunden, "Stammkunden", stammkunden, "bucket--stamm");
       renderBucket(pipelineArchive, "Archiv", archived);
 
       if (liste) liste.scrollTop = scrollStand;
@@ -601,7 +572,7 @@
             '<button type="button" class="dk-sym' + (typ === "wa" ? " dk-sym--wa" : "") + '" title="' + titel + '" ' +
             'data-menue="' + typ + "-" + pid + '">' + zeichen + "</button>" +
             '<span class="dk-menue" id="' + typ + "-" + pid + '" hidden>' +
-            '<a href="' + escapeHtml(karteHref) + '"' + ziel + ' data-aktion="' + typ + '-karte" data-person="' + pid + '">Karte schicken</a>' +
+            '<a href="' + escapeHtml(karteHref) + '"' + ziel + ' data-aktion="' + typ + '-karte" data-person="' + pid + '">Visitenkarte schicken</a>' +
             '<a href="' + escapeHtml(leerHref) + '"' + ziel + ' data-aktion="' + typ + '-normal" data-person="' + pid + '">Normal schreiben</a>' +
             "</span></span>";
         };
@@ -778,6 +749,7 @@
     function loadPeople(prospectId) {
       return client.from("prospect_people").select("*").eq("prospect_id", prospectId).order("created_at", { ascending: true }).then(function (res) {
         renderPeople(res.data || []);
+        bkZeigen();
       });
     }
 
@@ -948,7 +920,8 @@
       nextContactNotes.value = "";
       reminderStatus.textContent = "";
       reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
-      conversionLinkBox.hidden = true;
+      bkOffenFuer = null;
+      if (bkInhalt) bkInhalt.innerHTML = '<p class="muted">Wird geladen &hellip;</p>';
       var xferStatus = document.getElementById("transferStatus");
       if (xferStatus) xferStatus.textContent = "Aktuell: " + (p.assigned_to || "REA");
       detailOverlay.hidden = false;
@@ -971,10 +944,10 @@
     }
 
     addProspectBtn.addEventListener("click", function () {
-      // Immer mit dem Formular starten, nicht mit dem Teilen-Bereich des letzten Eintrags.
-      var box = document.getElementById("prospectShare");
-      if (box) { box.hidden = true; addProspectForm.hidden = false; }
       zweitePersonZu(); weitereAngabenZu();
+      // Meist wird am selben Tag eingetragen - sonst das Datum einfach aendern.
+      var gespraechFeld = document.getElementById("prospectGespraech");
+      if (gespraechFeld && !gespraechFeld.value) gespraechFeld.value = heuteLokal();
       addProspectStatus.textContent = "";
       addProspectStatus.className = "form-status";
       addProspectOverlay.hidden = false;
@@ -1083,110 +1056,12 @@
       });
     }
 
-    // ---------- Karte teilen, direkt nach dem Anlegen ----------
-    var shareBox = document.getElementById("prospectShare");
-    var shareWa = document.getElementById("shareWa");
-    var shareMail = document.getElementById("shareMail");
-    var shareCopy = document.getElementById("shareCopy");
-    var shareDone = document.getElementById("shareDone");
-    var shareStatus = document.getElementById("shareStatus");
-    var shareMobileFix = document.getElementById("shareMobileFix");
-    var shareMobileInput = document.getElementById("shareMobile");
-    var shareMobileSave = document.getElementById("shareMobileSave");
-    var erstePersonId = null;
-    var letzterProspectId = null;
-    var shareText = "";
-
-    function setzeWaZiel(nummer) {
-      shareWa.href = waZiel(nummer, shareText);
-      if (amHandy) shareWa.setAttribute("target", "_blank");
-      else shareWa.removeAttribute("target");
-    }
-
-    function zeigeTeilen(person) {
-      var anrede = person && person.name ? person.name : "";
-      shareText = kartenText(anrede, true);
-
-      var handy = handyVon(person);
-      setzeWaZiel(handy);
-      // Ohne Handynummer wuerde WhatsApp die Festnetznummer ablehnen -
-      // deshalb hier die Gelegenheit, sie direkt nachzutragen.
-      if (shareMobileFix) {
-        shareMobileFix.hidden = !!handy;
-        if (shareMobileInput) shareMobileInput.value = "";
-      }
-
-      var empfaenger = person && person.email ? person.email : "";
-      var betreff = "Mahboobs Kitchen – meine Visitenkarte";
-      shareMail.href = mailZiel(empfaenger, shareText, betreff);
-      mailFenster(shareMail);
-
-      shareStatus.textContent = "";
-      shareStatus.className = "form-status";
-      addProspectForm.hidden = true;
-      shareBox.hidden = false;
-    }
-
-    if (shareMobileSave) {
-      shareMobileSave.addEventListener("click", function () {
-        var eingabe = shareMobileInput.value.trim();
-        if (!istHandy(eingabe)) {
-          shareStatus.textContent = "Das sieht nicht nach einer Handynummer aus (015…, 016…, 017…).";
-          shareStatus.className = "form-status form-status--error";
-          return;
-        }
-        setzeWaZiel(normalisiereNummer(eingabe));
-        shareMobileFix.hidden = true;
-        shareStatus.textContent = "Handynummer übernommen.";
-        shareStatus.className = "form-status form-status--ok";
-        // Auch beim Ansprechpartner speichern, damit sie beim naechsten Mal dasteht.
-        if (erstePersonId) {
-          client.from("prospect_people").update({ mobile: eingabe }).eq("id", erstePersonId).then(function () {
-            if (selectedProspectId) loadPeople(selectedProspectId);
-          });
-        }
-      });
-    }
-
-    if (shareCopy) {
-      shareCopy.addEventListener("click", function () {
-        var fertig = function () {
-          shareStatus.textContent = "Link kopiert.";
-          shareStatus.className = "form-status form-status--ok";
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(KARTE_URL).then(fertig, function () {
-            shareStatus.textContent = KARTE_URL;
-          });
-        } else {
-          shareStatus.textContent = KARTE_URL;
-        }
-      });
-    }
-
-    function teilenSchliessen() {
-      shareBox.hidden = true;
-      addProspectForm.hidden = false;
-      addProspectOverlay.hidden = true;
-    }
-
-    if (shareDone) shareDone.addEventListener("click", teilenSchliessen);
-
-    var shareToCard = document.getElementById("shareToCard");
-    if (shareToCard) {
-      shareToCard.addEventListener("click", function () {
-        var id = letzterProspectId;
-        teilenSchliessen();
-        // Ohne Umweg ueber die Liste direkt in den frisch angelegten Eintrag.
-        if (id) openDetail(id);
-      });
-    }
-
     addProspectForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = document.getElementById("prospectName").value.trim();
       var category = document.getElementById("prospectCategory").value.trim() || "Firma";
-      var status = document.getElementById("prospectStatus").value;
+      var gespraech = (document.getElementById("prospectGespraech") || {}).value || heuteLokal();
+      var quelle = (document.getElementById("prospectQuelle") || {}).value || "Vor Ort";
       var website = vollstaendigeAdresse(document.getElementById("prospectWebsite").value);
       var address = document.getElementById("prospectAddress").value.trim() || null;
       var notiz = document.getElementById("prospectNote").value.trim();
@@ -1211,19 +1086,17 @@
       }
       addProspectStatus.textContent = "Wird angelegt …";
       addProspectStatus.className = "form-status";
-      erstePersonId = null;
-      letzterProspectId = null;
 
       client.from("prospects").insert({
-        name: name, category: category, status: status, website: website, address: address,
+        name: name, category: category, status: "lead", website: website, address: address,
         assigned_to: currentUser,
         notes: notiz || null,
-        source: "Besuch vor Ort",
+        source: quelle,
+        conversation_date: gespraech,
         next_contact_date: wiedervorlage
       }).select().single().then(function (res) {
         if (res.error) throw res.error;
         var prospect = res.data;
-        letzterProspectId = prospect.id;
         var schritte = [];
 
         if (people.length) {
@@ -1233,9 +1106,9 @@
               phone: person.phone || null, mobile: person.mobile || null,
               email: person.email || null,
               marketing_consent: einwilligung,
-              consent_at: einwilligung ? new Date().toISOString() : null
+              consent_at: einwilligung ? new Date(gespraech + "T12:00:00").toISOString() : null
             }).select().single().then(function (r) {
-              if (!r.error && r.data && !erstePersonId) erstePersonId = r.data.id;
+              if (r.error) throw r.error;
             });
           })));
         }
@@ -1243,15 +1116,18 @@
         // Gespraech in der Historie festhalten, damit es beim Wiedervorlage-Termin dasteht.
         schritte.push(client.from("prospect_contacts").insert({
           prospect_id: prospect.id,
-          notes: "Karte übergeben" + (notiz ? " · " + notiz : ""),
+          contact_date: gespraech,
+          notes: (quelle === "Telefon" ? "Telefonat" : "Gespräch vor Ort") + " am " + formatSimpleDate(gespraech) +
+            (einwilligung ? " · Ja zu Business Karte und Angeboten" : "") +
+            (notiz ? " · " + notiz : ""),
           next_contact_date: wiedervorlage
         }));
 
         return Promise.all(schritte).then(function () { return prospect; });
-      }).then(function () {
+      }).then(function (prospect) {
         addProspectStatus.textContent = "";
         addProspectStatus.className = "form-status";
-        zeigeTeilen(people[0]);
+        addProspectOverlay.hidden = true;
         addProspectForm.reset();
         zweitePersonZu(); weitereAngabenZu();
         if (quickDates) {
@@ -1259,7 +1135,8 @@
             b.setAttribute("aria-pressed", "false");
           });
         }
-        loadProspects();
+        // Direkt in den neuen Kontakt - dort geht es mit der Business Karte weiter.
+        loadProspects().then(function () { openDetail(prospect.id); });
       }).catch(function (err) {
         // Den echten Grund zeigen - "bitte erneut versuchen" hilft bei einem
         // fehlenden Feld oder einer Rechteregel niemandem weiter.
@@ -1429,82 +1306,260 @@
       });
     });
 
-    markCustomerBtn.addEventListener("click", function () {
-      if (!selectedProspectId) return;
-      var p = allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
-      if (!p) return;
-      if (!window.confirm('"' + p.name + '" als Business-Karten-Kunde anlegen?')) return;
-      var firstPerson = currentPeople[0] || {};
-      insertCompanyWithRetry(client, {
-        company_name: p.name,
-        contact_person: firstPerson.name || "",
-        phone: firstPerson.mobile || firstPerson.phone || "",
-        email: firstPerson.email || "",
-        notes: p.notes || ""
-      }, 3).then(function (company) {
-        return client.from("prospects").update({ status: "customer", company_id: company.id }).eq("id", selectedProspectId).then(function () {
-          return company;
+    // ---------- MK Business Karte: der eine Weg zum Stammkunden ----------
+    // Karte erstellen -> persoenliche Nachricht mit Kartenlink und Visitenkarte ->
+    // "Verschickt?" Ja -> Stammkunde. Automatisch verschickt wird nichts.
+    var bkOffenFuer = null;   // solange geschrieben wird, nicht neu zeichnen
+
+    function aktuellerKontakt() {
+      return allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
+    }
+
+    function kopiere(text, btn) {
+      var alt = btn.textContent;
+      var fertig = function () {
+        btn.textContent = "Kopiert \u2713";
+        setTimeout(function () { btn.textContent = alt; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(fertig, function () { window.prompt("Link kopieren:", text); });
+      } else {
+        window.prompt("Link kopieren:", text);
+      }
+    }
+
+    function miniKarte(p) {
+      return '<div class="mk-card bk-karte">' +
+        '<div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo">' +
+        '<span class="mk-card__label">Business Karte</span></div>' +
+        '<div class="mk-card__number">' + escapeHtml(p.customer_no || "") + "</div>" +
+        '<div class="mk-card__bottom"><div><span class="mk-card__field-label">Inhaber</span>' +
+        '<div class="mk-card__name">' + escapeHtml(p.name) + "</div></div></div></div>";
+    }
+
+    // Steht unter jedem persoenlichen Text - so fehlt nie ein Link.
+    function bkAnhang(p) {
+      return [
+        "Ihre MK Business Karte (Kundennummer " + p.customer_no + "):",
+        karteLink(p.card_token),
+        "",
+        "Meine Visitenkarte mit allen Kontaktdaten:",
+        KARTE_URL,
+        "",
+        "Wie besprochen informieren wir Sie ab jetzt über unsere Angebote. " +
+          "Wenn Sie das nicht möchten, genügt eine kurze Antwort auf diese Nachricht."
+      ].join("\n");
+    }
+
+    function bkZeigen() {
+      var p = aktuellerKontakt();
+      if (!p || !bkInhalt) return;
+      if (bkOffenFuer === p.id) return;
+
+      // Schon Stammkunde: Karte zeigen, fertig.
+      if (p.status === "customer" && p.card_token) {
+        var link = karteLink(p.card_token);
+        bkInhalt.innerHTML =
+          '<div class="bk-stamm">' + miniKarte(p) +
+          '<div class="bk-stamm__text"><strong>Stammkunde</strong>' +
+          "<span>seit " + escapeHtml(formatDateOnly(p.card_sent_at)) +
+          (p.card_person ? " \u00b7 Karte an " + escapeHtml(p.card_person) : "") + "</span>" +
+          '<div class="bk-knoepfe">' +
+          '<a class="dk-knopf" href="' + escapeHtml(link) + '" target="_blank" rel="noopener">Karte ansehen</a>' +
+          '<button type="button" class="dk-knopf" id="bkLinkKopieren">Link kopieren</button>' +
+          "</div></div></div>";
+        var kopierKnopf = document.getElementById("bkLinkKopieren");
+        kopierKnopf.addEventListener("click", function () { kopiere(link, kopierKnopf); });
+        return;
+      }
+
+      var erreichbar = currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
+      if (!erreichbar.length) {
+        bkInhalt.innerHTML = '<p class="dk-hinweis">F\u00fcr die Karte braucht es einen Ansprechpartner mit E-Mail oder Handynummer.</p>';
+        return;
+      }
+
+      var zugestimmt = currentPeople.filter(function (pe) { return pe.marketing_consent; })[0];
+      bkInhalt.innerHTML =
+        (zugestimmt
+          ? '<p class="bk-ok">\u2713 Ja zu Business Karte und Angeboten' +
+            (zugestimmt.consent_at ? " \u2013 am " + escapeHtml(formatDateOnly(zugestimmt.consent_at)) : "") + "</p>"
+          : '<div class="bk-zustimmung">' +
+            '<label><input type="checkbox" id="bkZustimmung"> Hat im Gespr\u00e4ch Ja gesagt zu Business Karte und Angeboten</label>' +
+            '<span>am <input type="date" id="bkZustimmungDatum" autocomplete="off" value="' +
+            escapeHtml(p.conversation_date || heuteLokal()) + '"></span></div>') +
+        '<div class="bk-knoepfe"><button type="button" class="btn btn--primary" id="bkErstellen"' +
+        (zugestimmt ? "" : " disabled") + ">" +
+        (p.customer_no ? "Weiter mit Karte " + escapeHtml(p.customer_no) : "Business Karte erstellen") +
+        "</button></div>" +
+        '<p class="form-status" id="bkStatus" role="status" aria-live="polite"></p>';
+
+      var knopf = document.getElementById("bkErstellen");
+      var haken = document.getElementById("bkZustimmung");
+      if (haken) haken.addEventListener("change", function () { knopf.disabled = !haken.checked; });
+
+      knopf.addEventListener("click", function () {
+        var status = document.getElementById("bkStatus");
+        knopf.disabled = true;
+        status.textContent = "Karte wird erstellt \u2026";
+        status.className = "form-status";
+
+        // Zustimmung nachtragen und im Logbuch festhalten - das ist der Nachweis.
+        var vorher = Promise.resolve();
+        if (!zugestimmt) {
+          var tag = document.getElementById("bkZustimmungDatum").value || heuteLokal();
+          vorher = client.from("prospect_people")
+            .update({ marketing_consent: true, consent_at: new Date(tag + "T12:00:00").toISOString() })
+            .eq("prospect_id", p.id)
+            .then(function (r) {
+              if (r && r.error) throw r.error;
+              currentPeople.forEach(function (pe) { pe.marketing_consent = true; });
+              return client.from("prospect_contacts").insert({
+                prospect_id: p.id,
+                contact_date: tag,
+                notes: "Ja zu Business Karte und Angeboten (im Gespr\u00e4ch am " + formatSimpleDate(tag) + ")"
+              });
+            })
+            .then(function (r) { if (r && r.error) throw r.error; });
+        }
+
+        vorher.then(function () {
+          return client.rpc("business_karte_erstellen", { p_prospect: p.id });
+        }).then(function (res) {
+          if (res.error) throw res.error;
+          p.customer_no = res.data.customer_no;
+          p.card_token = res.data.card_token;
+          loadHistory(p.id);
+          bkSchreiben(p);
+        }).catch(function (err) {
+          knopf.disabled = false;
+          var grund = (err && err.message) || "unbekannter Fehler";
+          if (/business_karte_erstellen|function|column/i.test(grund)) {
+            grund = "Die Datenbank-Erweiterung (SQL 014) fehlt noch.";
+          }
+          status.textContent = "Karte konnte nicht erstellt werden: " + grund;
+          status.className = "form-status form-status--error";
         });
-      }).then(function (company) {
-        var link = window.location.origin + "/business/aktivieren/?code=" + encodeURIComponent(company.card_code);
-        conversionCompanyName.textContent = company.company_name;
-        conversionLink.textContent = link;
-        conversionLinkBox.hidden = false;
-        conversionCopyBtn.textContent = "Link kopieren";
-        conversionCopyBtn.onclick = function () {
-          navigator.clipboard.writeText(link).then(function () {
-            conversionCopyBtn.textContent = "Kopiert ✓";
-          }).catch(function () {
-            conversionCopyBtn.textContent = "Kopieren fehlgeschlagen";
-          });
-        };
-        var handy = handyVon(firstPerson);
-        var feld = document.getElementById("conversionMailText");
-        var hinweis = document.getElementById("conversionLenHint");
-        var mailBtn = document.getElementById("conversionMailBtn");
-
-        // Vorlage als Startpunkt - geschrieben wird die Mail von Hand.
-        if (feld) feld.value = willkommensText(firstPerson.name, link);
-
-        // Die Gesprächsnotiz danebenlegen, damit das Persönliche einfließen kann.
-        var notizBox = document.getElementById("conversionNoteBox");
-        if (notizBox) {
-          notizBox.hidden = !p.notes;
-          if (p.notes) document.getElementById("conversionNote").textContent = p.notes;
-        }
-
-        function aktuellerText() { return feld ? feld.value : ""; }
-
-        function zieleAktualisieren() {
-          var t = aktuellerText();
-          var betreff = "Ihre MK Business Karte – Mahboobs Kitchen";
-          if (mailBtn) {
-            mailBtn.href = mailZiel(firstPerson.email, t, betreff);
-            mailFenster(mailBtn);
-          }
-          // Sehr lange Texte werden im Link manchmal abgeschnitten.
-          if (hinweis) {
-            hinweis.textContent = t.length > 1800
-              ? t.length + " Zeichen – das ist lang. Falls die Mail abgeschnitten ankommt, "
-                + "Text hier markieren, kopieren und im Mailprogramm einfügen."
-              : t.length + " Zeichen";
-          }
-        }
-
-        if (feld) feld.addEventListener("input", zieleAktualisieren);
-        zieleAktualisieren();
-
-        conversionWhatsAppBtn.style.display = handy ? "" : "none";
-        conversionWhatsAppBtn.onclick = function () {
-          oeffneWhatsApp(waZiel(handy, aktuellerText()));
-        };
-        if (mailBtn) mailBtn.style.display = firstPerson.email ? "" : "none";
-        refreshDetailStatus();
-        loadProspects();
-      }).catch(function () {
-        window.alert("Anlegen fehlgeschlagen. Bitte erneut versuchen.");
       });
-    });
+    }
+
+    function bkSchreiben(p) {
+      bkOffenFuer = p.id;
+      var empfaenger = currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
+
+      bkInhalt.innerHTML =
+        '<div class="bk-kopfzeile">' + miniKarte(p) +
+        '<div class="bk-notiz"><span class="bk-notiz__titel">Notiz zum Gespr\u00e4ch</span><p>' +
+        (p.notes ? escapeHtml(p.notes) : '<span class="muted">Keine Notiz eingetragen.</span>') +
+        "</p></div></div>" +
+        '<div class="dk-felder">' +
+        '<label for="bkAn">An</label><select id="bkAn" autocomplete="off">' +
+        empfaenger.map(function (pe, i) {
+          return '<option value="' + i + '">' + escapeHtml(pe.name + " \u2013 " + (pe.email || "nur WhatsApp")) + "</option>";
+        }).join("") + "</select>" +
+        '<label for="bkBetreff">Betreff</label>' +
+        '<input type="text" id="bkBetreff" autocomplete="off" value="Ihre MK Business Karte \u2013 Mahboobs Kitchen">' +
+        '<label for="bkText">Ihr Text</label>' +
+        '<textarea id="bkText" rows="8" autocomplete="off" placeholder="Worauf beziehen Sie sich aus dem Gespr\u00e4ch?"></textarea>' +
+        "<label>Kommt automatisch dazu</label>" +
+        '<pre class="bk-anhang">' + escapeHtml(bkAnhang(p)) + "</pre>" +
+        "</div>" +
+        '<p class="bk-signatur">Die Signatur kommt aus Gmail.</p>' +
+        '<div class="bk-knoepfe">' +
+        '<a class="btn btn--primary" id="bkGmail" href="#">In Gmail \u00f6ffnen</a>' +
+        '<a class="btn btn--whatsapp" id="bkWhatsApp" href="#">Per WhatsApp</a>' +
+        '<button type="button" class="dk-knopf" id="bkAbbrechen">Abbrechen</button>' +
+        "</div>" +
+        '<div class="dk-rueckfrage" id="bkRueckfrage" hidden></div>';
+
+      var an = document.getElementById("bkAn");
+      var betreff = document.getElementById("bkBetreff");
+      var text = document.getElementById("bkText");
+      var gmail = document.getElementById("bkGmail");
+      var wa = document.getElementById("bkWhatsApp");
+
+      function person() { return empfaenger[+an.value] || empfaenger[0]; }
+      function anrede(pe) { return "Hallo " + (pe.name || "") + ","; }
+      function gesamt() { return text.value.replace(/\s+$/, "") + "\n\n" + bkAnhang(p); }
+
+      function ziele() {
+        var pe = person();
+        gmail.style.display = pe.email ? "" : "none";
+        gmail.href = mailZiel(pe.email, gesamt(), betreff.value);
+        mailFenster(gmail);
+        var handy = handyVon(pe);
+        wa.style.display = handy ? "" : "none";
+        wa.href = handy ? waZiel(handy, gesamt()) : "#";
+        if (amHandy) wa.setAttribute("target", "_blank");
+        else wa.removeAttribute("target");
+      }
+
+      var letzteAnrede = anrede(person());
+      text.value = letzteAnrede + "\n\n";
+      an.addEventListener("change", function () {
+        // Anrede mitziehen, solange sie nicht von Hand geaendert wurde
+        var neu = anrede(person());
+        if (text.value.indexOf(letzteAnrede) === 0) text.value = neu + text.value.slice(letzteAnrede.length);
+        letzteAnrede = neu;
+        ziele();
+      });
+      text.addEventListener("input", ziele);
+      betreff.addEventListener("input", ziele);
+      ziele();
+      text.focus();
+      text.setSelectionRange(text.value.length, text.value.length);
+
+      document.getElementById("bkAbbrechen").addEventListener("click", function () {
+        bkOffenFuer = null;
+        bkZeigen();
+      });
+
+      function nachfragen(weg) {
+        var pe = person();
+        var leiste = document.getElementById("bkRueckfrage");
+        leiste.innerHTML = '<span class="dk-rueckfrage__frage">Visitenkarte und Business Karte an ' +
+          escapeHtml(pe.name) + " verschickt?</span>" +
+          '<button type="button" class="dk-knopf dk-knopf--primaer" data-bk="ja">Ja</button>' +
+          '<button type="button" class="dk-knopf dk-rueckfrage__weg" data-bk="nein">Nein</button>';
+        leiste.hidden = false;
+
+        leiste.querySelector('[data-bk="nein"]').addEventListener("click", function () { leiste.hidden = true; });
+        leiste.querySelector('[data-bk="ja"]').addEventListener("click", function () {
+          leiste.innerHTML = '<span class="dk-rueckfrage__frage">Wird eingetragen \u2026</span>';
+          client.from("prospects").update({
+            status: "customer",
+            card_sent_at: new Date().toISOString(),
+            card_person: pe.name
+          }).eq("id", p.id).then(function (r) {
+            if (r && r.error) throw r.error;
+            return client.from("prospect_contacts").insert({
+              prospect_id: p.id,
+              contact_date: todayISO(),
+              notes: "Visitenkarte und Business Karte verschickt \u00b7 " + p.customer_no +
+                " \u00b7 per " + weg + " an " + pe.name
+            });
+          }).then(function (r) {
+            if (r && r.error) throw r.error;
+            bkOffenFuer = null;
+            loadDailyCounter();
+            loadHistory(p.id);
+            return loadProspects();
+          }).then(function () {
+            refreshDetailStatus();
+            bkZeigen();
+          }).catch(function (err) {
+            leiste.innerHTML = '<span class="dk-rueckfrage__fehler">Eintrag fehlgeschlagen: ' +
+              escapeHtml((err && err.message) || "unbekannter Fehler") + "</span>";
+          });
+        });
+      }
+
+      gmail.addEventListener("click", function () { nachfragen("E-Mail"); });
+      wa.addEventListener("click", function (e) {
+        if (!amHandy) { e.preventDefault(); oeffneWhatsApp(wa.href); }
+        nachfragen("WhatsApp");
+      });
+    }
 
     var notifiedThisSession = false;
     function checkDueNotifications() {

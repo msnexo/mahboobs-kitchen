@@ -92,6 +92,7 @@
     <div id="pipelineToday" style="margin-bottom:32px;"></div>
     <div id="pipelineTomorrow" style="margin-bottom:32px;"></div>
     <div id="pipelineDates" style="margin-bottom:32px;"></div>
+    <div id="pipelineStammkunden" style="margin-bottom:32px;"></div>
 
     <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
     <div id="pipelineArchive" style="margin-top:16px;" hidden></div>
@@ -161,7 +162,7 @@
         <select autocomplete="off" id="prospectStatusSelect">
           <option value="lead">Lead</option>
           <option value="contacted">Kontaktiert</option>
-          <option value="customer">Kunde</option>
+          <option value="customer" disabled>Stammkunde (&uuml;ber die Business Karte)</option>
           <option value="lost">Kein Interesse</option>
         </select>
 
@@ -175,7 +176,7 @@
 
     <div class="dk-block">
       <div class="dk-kopf">Ansprechpartner</div>
-      <p class="dk-hinweis">Karte verschicken: Knopf bei der jeweiligen Person &ndash;
+      <p class="dk-hinweis">Visitenkarte verschicken: Knopf bei der jeweiligen Person &ndash;
         <button type="button" id="copyCardLink" class="dk-mini-btn">Link kopieren</button>
         <span id="copyCardStatus"></span></p>
       <div id="prospectDetailPeople"></div>
@@ -196,31 +197,17 @@
       </div>
     </div>
 
+    <div class="dk-block bk-block" id="bkBlock">
+      <div class="dk-kopf">MK Business Karte</div>
+      <div id="bkInhalt"><p class="muted">Wird geladen &hellip;</p></div>
+    </div>
+
     <div id="logHeimat"></div>
 
     <div class="btn-row" style="margin-top:24px;flex-wrap:wrap;">
-      <a href="/business/?presenter=live" target="_blank" rel="noopener" class="btn btn--whatsapp">Live-Präsentation starten</a>
-      <button type="button" id="markCustomerBtn" class="btn btn--primary">Als Kunde markieren</button>
+      <a href="/business/?presenter=live" target="_blank" rel="noopener" class="btn btn--whatsapp">Live-Pr&auml;sentation starten</a>
       <button type="button" id="markLostBtn" class="btn btn--dark">Kein Interesse</button>
-      <button type="button" id="deleteProspectBtn" style="background:#c0392b;color:#fff;border:none;border-radius:100px;padding:10px 22px;font-weight:600;cursor:pointer;font-size:0.95rem;">Löschen</button>
-    </div>
-    <div id="conversionLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
-      <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="conversionCompanyName"></strong>:</p>
-      <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="conversionLink"></p>
-
-      <div id="conversionNoteBox" style="margin:0 0 10px;padding:10px 12px;background:#fff;border-left:3px solid var(--color-primary);border-radius:0 8px 8px 0;font-size:0.85rem;" hidden>
-        <strong>Ihre Notiz zum Gespr&auml;ch:</strong><br><span id="conversionNote"></span>
-      </div>
-
-      <label class="field-label" for="conversionMailText">Nachricht &ndash; hier anpassen, bevor Sie senden</label>
-      <textarea autocomplete="off" id="conversionMailText" rows="12" style="width:100%;font-size:16px;"></textarea>
-      <p class="muted" style="margin:6px 0 12px;font-size:0.78rem;" id="conversionLenHint"></p>
-
-      <div class="btn-row">
-        <button type="button" class="btn btn--dark" id="conversionCopyBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
-        <button type="button" class="btn btn--whatsapp" id="conversionWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
-        <a class="btn btn--primary" id="conversionMailBtn" href="#" style="padding:8px 16px;font-size:0.85rem;">Per E-Mail senden</a>
-      </div>
+      <button type="button" id="deleteProspectBtn" style="background:#c0392b;color:#fff;border:none;border-radius:100px;padding:10px 22px;font-weight:600;cursor:pointer;font-size:0.95rem;">L&ouml;schen</button>
     </div>
   </div>
 </div>
@@ -230,32 +217,6 @@
 
     <div id="tabKunden" hidden>
     <div class="grid grid--2" style="margin-bottom:40px;">
-      <div class="card">
-        <details><summary style="cursor:pointer;font-weight:700;">Kunde ohne Lead anlegen &ndash; Ausnahmefall</summary>
-        <h3 style="margin-top:14px;">Neuen Firmenkunden anlegen</h3>
-        <form class="lead-form" id="addCompanyForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
-          <label class="field-label" for="companyName">Firmenname</label>
-          <input autocomplete="off" type="text" id="companyName" name="companyName" required>
-          <label class="field-label" for="contactPerson">Ansprechpartner</label>
-          <input autocomplete="off" type="text" id="contactPerson" name="contactPerson">
-          <label class="field-label" for="addCompanyEmail">E-Mail</label>
-          <input autocomplete="off" type="email" id="addCompanyEmail" name="email">
-          <label class="field-label" for="phone">Telefon</label>
-          <input autocomplete="off" type="tel" id="phone" name="phone">
-          <label class="field-label" for="notes">Notizen</label>
-          <textarea autocomplete="off" id="notes" name="notes" rows="2"></textarea>
-          <p class="form-status" id="addCompanyStatus" role="status" aria-live="polite"></p>
-          <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Kunde anlegen</button></div>
-        </form>
-        <div id="newCompanyLinkBox" style="margin-top:16px;background:var(--color-bg-soft);border-radius:10px;padding:16px;" hidden>
-          <p class="muted" style="margin:0 0 10px;">Aktivierungs-Link für <strong id="newCompanyName"></strong>:</p>
-          <p style="word-break:break-all;font-size:0.85rem;margin:0 0 14px;" id="newCompanyLink"></p>
-          <div class="btn-row">
-            <button type="button" class="btn btn--dark" id="copyLinkBtn" style="padding:8px 16px;font-size:0.85rem;">Link kopieren</button>
-            <button type="button" class="btn btn--whatsapp" id="sendLinkWhatsAppBtn" style="padding:8px 16px;font-size:0.85rem;">Per WhatsApp senden</button>
-          </div>
-        </div>
-      </div>
       <div class="card">
         <h3>Punkte gutschreiben</h3>
         <form class="lead-form" id="addPointsForm" style="padding:0;box-shadow:none;max-width:none;margin:0;">
@@ -373,6 +334,15 @@
             <option value="Privatperson">Privatperson</option>
           </select>
 
+          <label for="prospectGespraech">Gespr&auml;ch am</label>
+          <div class="an-gespraech">
+            <input autocomplete="off" type="date" id="prospectGespraech">
+            <select autocomplete="off" id="prospectQuelle" aria-label="Wie war das Gespr&auml;ch?">
+              <option value="Vor Ort">vor Ort</option>
+              <option value="Telefon">am Telefon</option>
+            </select>
+          </div>
+
           <button type="button" class="an-weitere-knopf" id="anWeitereKnopf">+ Weitere Angaben</button>
 
           <label for="prospectWebsite" class="an-weitere">Webseite</label>
@@ -380,14 +350,6 @@
 
           <label for="prospectAddress" class="an-weitere">Adresse</label>
           <input autocomplete="off" type="text" id="prospectAddress" class="an-weitere" placeholder="Stra&szlig;e, PLZ Ort">
-
-          <label for="prospectStatus" class="an-weitere">Status</label>
-          <select autocomplete="off" id="prospectStatus" class="an-weitere">
-            <option value="lead">Lead</option>
-            <option value="contacted">Kontaktiert</option>
-            <option value="customer">Kunde</option>
-            <option value="lost">Kein Interesse</option>
-          </select>
 
           <label for="prospectNote">Notiz</label>
           <textarea autocomplete="off" id="prospectNote" rows="3" placeholder="Wor&uuml;ber gesprochen?"></textarea>
@@ -440,7 +402,7 @@
         </div>
         <label class="consent-line an-einwilligung">
           <input autocomplete="off" type="checkbox" id="prospectConsent">
-          <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
+          <span>Hat im Gespr&auml;ch Ja gesagt zu Business Karte und Angeboten</span>
         </label>
       </div>
 
@@ -448,26 +410,6 @@
       <div class="dk-fuss an-fuss"><button type="submit" class="btn btn--primary">Anlegen</button></div>
     </form>
 
-    <div id="prospectShare" hidden>
-      <p class="share-hint">Angelegt. Jetzt die Karte schicken:</p>
-      <div class="share-fix" id="shareMobileFix" hidden>
-        <p>Keine Handynummer erfasst &ndash; WhatsApp braucht eine. Jetzt nachtragen:</p>
-        <div class="share-fix__row">
-          <input autocomplete="off" type="tel" id="shareMobile" placeholder="z. B. 0170 1234567">
-          <button type="button" class="btn btn--dark" id="shareMobileSave">&Uuml;bernehmen</button>
-        </div>
-      </div>
-      <div class="share-row">
-        <a class="btn btn--primary" id="shareWa" href="#" target="_blank" rel="noopener">Per WhatsApp</a>
-        <a class="btn" id="shareMail" href="#">Per E-Mail</a>
-        <button type="button" class="btn" id="shareCopy">Link kopieren</button>
-      </div>
-      <p class="form-status" id="shareStatus" role="status" aria-live="polite"></p>
-      <div class="form-nav" style="gap:8px;">
-        <button type="button" class="btn btn--dark" id="shareDone">Fertig</button>
-        <button type="button" class="btn btn--primary" id="shareToCard">Weiter zur Business Karte &rarr;</button>
-      </div>
-    </div>
   </div>
 </div>
 <footer class="site-footer">
