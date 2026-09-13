@@ -73,7 +73,9 @@
     handy:    sym('<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>'),
     whatsapp: sym('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-5A8 8 0 1 1 21 12Z"/>'),
     mail:     sym('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
-    stift:    sym('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>')
+    stift:    sym('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>'),
+    kopieren: sym('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>'),
+    haken:    sym('<path d="m5 12 5 5L20 7"/>')
   };
 
   // Ort aus "Strasse, PLZ Ort" herausziehen, damit die Suche die richtige Firma trifft.
@@ -592,8 +594,17 @@
             '<span class="dk-marke dk-marke--in">in</span></a>' +
           '<button type="button" class="dk-sym" data-edit-person="' + person.id + '" title="Bearbeiten">' + SYM.stift + "</button>";
 
-        var zeile = function (bez, wert) {
-          return wert ? '<div class="dk-pz"><span>' + bez + "</span>" + escapeHtml(wert) + "</div>" : "";
+        // D: Nummern lassen sich mit einem Klick kopieren - z. B. fuer ein
+        // Telefonprogramm am Rechner, sobald der Laptop verbunden ist.
+        var zeile = function (bez, wert, kopierbar) {
+          if (!wert) return "";
+          return '<div class="dk-pz"><span class="dk-pz__bez">' + bez + "</span>" +
+            '<span class="dk-pz__wert">' + escapeHtml(wert) + "</span>" +
+            (kopierbar
+              ? '<button type="button" class="dk-kopieren" data-kopieren="' + escapeHtml(wert) +
+                '" title="' + bez + 'nummer kopieren">' + SYM.kopieren + "</button>"
+              : "") +
+            "</div>";
         };
 
         return (
@@ -603,7 +614,7 @@
           '<div class="dk-person__symbole">' + symbole + "</div>" +
           '<div class="dk-rueckfrage" data-rueckfrage="' + pid + '" hidden></div>' +
           '<div class="dk-person__daten">' +
-          zeile("Festnetz", person.phone) + zeile("Handy", person.mobile) + zeile("E-Mail", person.email) +
+          zeile("Festnetz", person.phone, true) + zeile("Handy", person.mobile, true) + zeile("E-Mail", person.email, false) +
           "</div>" +
           '<div class="dk-person__bearbeiten" data-edit-form="' + person.id + '" hidden>' +
           '<label>Name<input type="text" data-field="name" autocomplete="off" value="' + escapeHtml(person.name) + '"></label>' +
@@ -642,6 +653,40 @@
           Array.prototype.forEach.call(peopleListEl.querySelectorAll(".dk-menue"), function (m) { m.hidden = true; });
           var wer = people.filter(function (x) { return x.id === el.getAttribute("data-person"); })[0];
           if (wer) zeigeRueckfrage(wer, el.getAttribute("data-aktion"), el);
+        });
+      });
+
+      // D: Nummer kopieren - kurze Bestaetigung am Knopf, kein Logbuch-Eintrag
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll("[data-kopieren]"), function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var nummer = btn.getAttribute("data-kopieren");
+          var fertig = function () {
+            btn.classList.add("is-kopiert");
+            btn.innerHTML = SYM.haken;
+            btn.title = "Kopiert";
+            setTimeout(function () {
+              btn.classList.remove("is-kopiert");
+              btn.innerHTML = SYM.kopieren;
+              btn.title = "Nummer kopieren";
+            }, 1600);
+          };
+          var ersatzweg = function () {
+            var feld = document.createElement("textarea");
+            feld.value = nummer;
+            feld.setAttribute("readonly", "");
+            feld.style.position = "fixed";
+            feld.style.opacity = "0";
+            document.body.appendChild(feld);
+            feld.select();
+            try { document.execCommand("copy"); fertig(); } catch (err) {}
+            document.body.removeChild(feld);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(nummer).then(fertig, ersatzweg);
+          } else {
+            ersatzweg();
+          }
         });
       });
 

@@ -1072,3 +1072,18 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 }
 .dk-recherche .dk-knopf--g:hover { border-color: #4285f4; }
 .dk-recherche .dk-knopf--in:hover { border-color: #0a66c2; }
+
+/* D: Nummer kopieren - kleiner Knopf direkt neben der Nummer */
+.dk-pz { align-items: center; }
+.dk-pz > .dk-pz__bez { flex: 0 0 62px; color: #8a8a8a; }
+.dk-pz > .dk-pz__wert { flex: 0 1 auto; min-width: 0; color: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (min-width: 1100px) { .dk-pz > .dk-pz__bez { flex-basis: 50px; } }
+.dk-kopieren {
+  flex: none; width: 24px; height: 22px; margin-left: 2px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid transparent; border-radius: 6px; background: none;
+  color: #9a9a9a; cursor: pointer;
+}
+.dk-kopieren svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.dk-kopieren:hover { border-color: var(--color-border); color: var(--color-text); background: #fff; }
+.dk-kopieren.is-kopiert { color: var(--color-secondary); border-color: var(--color-secondary); }
