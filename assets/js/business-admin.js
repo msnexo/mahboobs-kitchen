@@ -59,8 +59,20 @@
     return "whatsapp://send?phone=" + digits + (text ? "&text=" + text : "");
   }
 
+  // Am Laptop Gmail mit dem Geschaeftskonto statt Outlook, am Handy die Mail-App.
   function buildMailtoLink(email, subject, body) {
-    return "mailto:" + encodeURIComponent(email) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    if (amHandy) {
+      return "mailto:" + encodeURIComponent(email) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    }
+    return "https://mail.google.com/mail/u/info@mahboobs-kitchen.com/?view=cm&fs=1" +
+      "&to=" + encodeURIComponent(email || "") +
+      "&su=" + encodeURIComponent(subject || "") +
+      "&body=" + encodeURIComponent(body || "");
+  }
+
+  function oeffneMail(url) {
+    if (amHandy) window.location.href = url;
+    else window.open(url, "_blank", "noopener");
   }
 
   function insertCompanyWithRetry(client, payload, attemptsLeft) {
@@ -145,7 +157,7 @@
           if (!company) return;
           var subject = personalize(emailSubjectTemplate.value.trim(), company);
           var body = personalize(emailTemplate.value.trim(), company);
-          window.location.href = buildMailtoLink(company.email, subject, body);
+          oeffneMail(buildMailtoLink(company.email, subject, body));
         });
       });
     }

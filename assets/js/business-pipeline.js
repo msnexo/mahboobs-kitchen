@@ -148,10 +148,30 @@
     ].join("\n");
   }
 
+  // Am Laptop oeffnet mailto Outlook - deshalb dort direkt Gmail mit dem
+  // Geschaeftskonto. Am Handy nimmt mailto die Mail-App (z. B. Gmail-App).
+  var MAIL_ABSENDER = "info@mahboobs-kitchen.com";
+
   function mailZiel(empfaenger, text, betreff) {
-    return "mailto:" + (empfaenger || "") +
-      "?subject=" + encodeURIComponent(betreff || "Mahboobs Kitchen – meine Visitenkarte") +
-      "&body=" + encodeURIComponent(text);
+    if (betreff === undefined) betreff = "Mahboobs Kitchen – meine Visitenkarte";
+    text = text || "";
+    if (amHandy) {
+      var teile = [];
+      if (betreff) teile.push("subject=" + encodeURIComponent(betreff));
+      if (text) teile.push("body=" + encodeURIComponent(text));
+      return "mailto:" + (empfaenger || "") + (teile.length ? "?" + teile.join("&") : "");
+    }
+    return "https://mail.google.com/mail/u/" + MAIL_ABSENDER + "/?view=cm&fs=1" +
+      "&to=" + encodeURIComponent(empfaenger || "") +
+      (betreff ? "&su=" + encodeURIComponent(betreff) : "") +
+      (text ? "&body=" + encodeURIComponent(text) : "");
+  }
+
+  // Gmail am Laptop in neuem Tab, mailto am Handy im selben Fenster.
+  function mailFenster(a) {
+    if (!a) return;
+    if (amHandy) { a.removeAttribute("target"); a.removeAttribute("rel"); }
+    else { a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener"); }
   }
 
   function buildWhatsAppLink(phone, message) {
@@ -593,7 +613,7 @@
           (person.mobile ? anruf(person.mobile, "Handy", SYM.handy) : "") +
           (handy ? menue("wa", SYM.whatsapp, "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, amHandy) : "") +
           (person.email ? menue("mail", SYM.mail, "E-Mail",
-            mailZiel(person.email, kartenText(person.name, false)), "mailto:" + person.email, false) : "") +
+            mailZiel(person.email, kartenText(person.name, false)), mailZiel(person.email, "", ""), !amHandy) : "") +
           // E: Person recherchieren - nichts wird gespeichert oder ins Logbuch geschrieben
           '<a class="dk-sym dk-sym--marke" href="' + escapeHtml(googleSuche(person.name + " " + firmaName)) +
             '" target="_blank" rel="noopener" title="' + escapeHtml(person.name) + ' bei Google suchen">' +
@@ -1098,19 +1118,8 @@
 
       var empfaenger = person && person.email ? person.email : "";
       var betreff = "Mahboobs Kitchen – meine Visitenkarte";
-      shareMail.href = "mailto:" + empfaenger +
-        "?subject=" + encodeURIComponent(betreff) +
-        "&body=" + encodeURIComponent(shareText);
-
-      // Wer am Rechner Gmail im Browser nutzt, bei dem tut mailto nichts.
-      var gmail = document.getElementById("shareGmail");
-      if (gmail) {
-        gmail.hidden = amHandy;
-        gmail.href = "https://mail.google.com/mail/?view=cm&fs=1" +
-          "&to=" + encodeURIComponent(empfaenger) +
-          "&su=" + encodeURIComponent(betreff) +
-          "&body=" + encodeURIComponent(shareText);
-      }
+      shareMail.href = mailZiel(empfaenger, shareText, betreff);
+      mailFenster(shareMail);
 
       shareStatus.textContent = "";
       shareStatus.className = "form-status";
@@ -1469,17 +1478,11 @@
         function zieleAktualisieren() {
           var t = aktuellerText();
           var betreff = "Ihre MK Business Karte – Mahboobs Kitchen";
-          if (mailBtn) mailBtn.href = mailZiel(firstPerson.email, t, betreff);
-          // Am Rechner tut mailto nichts, wenn kein Mailprogramm eingerichtet ist.
-          var gm = document.getElementById("conversionGmail");
-          if (gm) {
-            gm.hidden = amHandy || !firstPerson.email;
-            gm.href = "https://mail.google.com/mail/?view=cm&fs=1" +
-              "&to=" + encodeURIComponent(firstPerson.email || "") +
-              "&su=" + encodeURIComponent(betreff) +
-              "&body=" + encodeURIComponent(t);
+          if (mailBtn) {
+            mailBtn.href = mailZiel(firstPerson.email, t, betreff);
+            mailFenster(mailBtn);
           }
-          // Sehr lange Texte schneiden manche Mailprogramme im mailto ab.
+          // Sehr lange Texte werden im Link manchmal abgeschnitten.
           if (hinweis) {
             hinweis.textContent = t.length > 1800
               ? t.length + " Zeichen – das ist lang. Falls die Mail abgeschnitten ankommt, "
