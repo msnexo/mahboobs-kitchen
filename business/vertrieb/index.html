@@ -134,12 +134,11 @@
         <input autocomplete="off" type="text" id="prospectDetailNameInput">
 
         <label for="prospectDetailCategoryInput">Kategorie</label>
-        <input autocomplete="off" type="text" id="prospectDetailCategoryInput" list="detailCategoryOptions" placeholder="Firma">
-        <datalist id="detailCategoryOptions">
-          <option value="Firma"></option>
-          <option value="Schule"></option>
-          <option value="Verein"></option>
-        </datalist>
+        <select autocomplete="off" id="prospectDetailCategoryInput">
+          <option value="Firma">Firma</option>
+          <option value="Verein">Verein</option>
+          <option value="Privatperson">Privatperson</option>
+        </select>
 
         <label for="prospectDetailWebsite">Webseite</label>
         <div class="dk-mitknopf">
@@ -392,12 +391,11 @@
         <label class="field-label" for="prospectWebsite">Webseite</label>
         <input autocomplete="off" type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
         <label class="field-label" for="prospectCategory">Kategorie</label>
-        <input autocomplete="off" type="text" id="prospectCategory" list="categoryOptions" placeholder="Firma">
-        <datalist id="categoryOptions">
-          <option value="Firma"></option>
-          <option value="Schule"></option>
-          <option value="Verein"></option>
-        </datalist>
+        <select autocomplete="off" id="prospectCategory">
+          <option value="Firma">Firma</option>
+          <option value="Verein">Verein</option>
+          <option value="Privatperson">Privatperson</option>
+        </select>
         <label class="field-label" for="prospectStatus">Status</label>
         <select autocomplete="off" id="prospectStatus">
           <option value="lead">Lead</option>

@@ -682,7 +682,17 @@
       detailStatus.className = "status-pill status-pill--" + p.status;
       detailStatus.textContent = statusLabels[p.status];
       detailNameInput.value = p.name;
-      detailCategoryInput.value = p.category;
+      // Alte Werte (z. B. "Schule") nicht stillschweigend ueberschreiben:
+      // fehlt der Wert in der Auswahl, wird er als Option ergaenzt.
+      var kat = p.category || "Firma";
+      if (detailCategoryInput.tagName === "SELECT" &&
+          ![].some.call(detailCategoryInput.options, function (o) { return o.value === kat; })) {
+        var opt = document.createElement("option");
+        opt.value = kat;
+        opt.textContent = kat;
+        detailCategoryInput.appendChild(opt);
+      }
+      detailCategoryInput.value = kat;
       detailWebsite.value = p.website || "";
       detailAddress.value = p.address || "";
       detailWebsiteOpen.href = vollstaendigeAdresse(p.website) || "#";
