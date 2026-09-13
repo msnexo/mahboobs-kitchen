@@ -350,71 +350,93 @@
 <div class="modal-overlay" id="addProspectOverlay" hidden>
   <div class="modal-box">
     <button type="button" class="modal-close" id="addProspectClose" aria-label="Schließen">&times;</button>
-    <h3>Neue Firma anlegen</h3>
+    <div class="dk-titel"><h3>Neue Firma anlegen</h3></div>
     <form id="addProspectForm" class="lead-form" novalidate style="padding:0;box-shadow:none;max-width:none;margin:0;background:none;">
-      <label class="field-label" for="prospectName">Firma</label>
-      <input autocomplete="off" type="text" id="prospectName" placeholder="Firmenname" required>
 
-      <label class="field-label" for="prospectPersonName">Ansprechpartner</label>
-      <input autocomplete="off" type="text" id="prospectPersonName" placeholder="Name">
+      <div class="dk-block">
+        <div class="dk-kopf">Firma</div>
+        <div class="dk-felder">
+          <label for="prospectName">Name</label>
+          <input autocomplete="off" type="text" id="prospectName" placeholder="Firmenname" required>
 
-      <label class="field-label" for="prospectPersonMobile">Handy &ndash; f&uuml;r WhatsApp</label>
-      <input autocomplete="off" type="tel" id="prospectPersonMobile" placeholder="z. B. 0170 1234567">
+          <label for="prospectCategory">Kategorie</label>
+          <select autocomplete="off" id="prospectCategory">
+            <option value="Firma">Firma</option>
+            <option value="Verein">Verein</option>
+            <option value="Privatperson">Privatperson</option>
+          </select>
 
-      <label class="field-label" for="prospectPersonEmail">E-Mail</label>
-      <input autocomplete="off" type="email" id="prospectPersonEmail" placeholder="name@firma.de">
+          <label for="prospectWebsite">Webseite</label>
+          <input autocomplete="off" type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
 
-      <label class="field-label" for="prospectNote">Notiz &ndash; wor&uuml;ber gesprochen</label>
-      <textarea autocomplete="off" id="prospectNote" rows="3" placeholder="z. B. Kantine l&auml;uft &uuml;ber Fremdanbieter, Vertrag endet im Sommer"></textarea>
+          <label for="prospectAddress">Adresse</label>
+          <input autocomplete="off" type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
 
-      <label class="field-label" for="prospectFollowUp">Wiedervorlage</label>
-      <input autocomplete="off" type="date" id="prospectFollowUp">
-      <div class="quickdates" id="prospectQuickDates">
-        <button type="button" data-tage="7">1 Woche</button>
-        <button type="button" data-tage="30">1 Monat</button>
-        <button type="button" data-tage="90">3 Monate</button>
-        <button type="button" data-tage="180">6 Monate</button>
-        <button type="button" data-tage="">l&ouml;schen</button>
+          <label for="prospectStatus">Status</label>
+          <select autocomplete="off" id="prospectStatus">
+            <option value="lead">Lead</option>
+            <option value="contacted">Kontaktiert</option>
+            <option value="customer">Kunde</option>
+            <option value="lost">Kein Interesse</option>
+          </select>
+
+          <label for="prospectNote">Notiz</label>
+          <textarea autocomplete="off" id="prospectNote" rows="3" placeholder="Wor&uuml;ber gesprochen?"></textarea>
+        </div>
       </div>
 
-      <label class="consent-line">
-        <input autocomplete="off" type="checkbox" id="prospectConsent">
-        <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
-      </label>
+      <div class="dk-block">
+        <div class="dk-kopf">Ansprechpartner</div>
+        <div class="an-personen">
+          <div class="dk-person an-person">
+            <div class="dk-person__kopf"><strong>Ansprechpartner 1</strong></div>
+            <div class="dk-person__bearbeiten">
+              <label>Name<input autocomplete="off" type="text" id="prospectPersonName"></label>
+              <label>Position<input autocomplete="off" type="text" id="prospectPersonRole"></label>
+              <label>Festnetz<input autocomplete="off" type="tel" id="prospectPersonPhone"></label>
+              <label>Handy<input autocomplete="off" type="tel" id="prospectPersonMobile" placeholder="f&uuml;r WhatsApp"></label>
+              <label>E-Mail<input autocomplete="off" type="email" id="prospectPersonEmail"></label>
+            </div>
+          </div>
+          <div class="dk-person an-person" id="anPerson2" hidden>
+            <div class="dk-person__kopf"><strong>Ansprechpartner 2</strong><button type="button" class="an-entfernen" id="anPerson2Entfernen">entfernen</button></div>
+            <div class="dk-person__bearbeiten">
+              <label>Name<input autocomplete="off" type="text" id="prospectPersonName2"></label>
+              <label>Position<input autocomplete="off" type="text" id="prospectPersonRole2"></label>
+              <label>Festnetz<input autocomplete="off" type="tel" id="prospectPersonPhone2"></label>
+              <label>Handy<input autocomplete="off" type="tel" id="prospectPersonMobile2" placeholder="f&uuml;r WhatsApp"></label>
+              <label>E-Mail<input autocomplete="off" type="email" id="prospectPersonEmail2"></label>
+            </div>
+          </div>
+        </div>
+        <div class="dk-neueperson-bereich">
+          <button type="button" id="anPerson2Oeffnen" class="dk-knopf">+ Weiteren Ansprechpartner hinzuf&uuml;gen</button>
+        </div>
+      </div>
 
-      <details class="more-fields">
-        <summary>Weitere Angaben</summary>
-        <label class="field-label" for="prospectPersonPhone">Telefon / Zentrale</label>
-        <input autocomplete="off" type="tel" id="prospectPersonPhone" placeholder="z. B. 04193 123456">
-        <label class="field-label" for="prospectAddress">Adresse</label>
-        <input autocomplete="off" type="text" id="prospectAddress" placeholder="Stra&szlig;e, PLZ Ort">
-        <label class="field-label" for="prospectWebsite">Webseite</label>
-        <input autocomplete="off" type="text" id="prospectWebsite" inputmode="url" placeholder="z. B. firma.de">
-        <label class="field-label" for="prospectCategory">Kategorie</label>
-        <select autocomplete="off" id="prospectCategory">
-          <option value="Firma">Firma</option>
-          <option value="Verein">Verein</option>
-          <option value="Privatperson">Privatperson</option>
-        </select>
-        <label class="field-label" for="prospectStatus">Status</label>
-        <select autocomplete="off" id="prospectStatus">
-          <option value="lead">Lead</option>
-          <option value="contacted">Kontaktiert</option>
-          <option value="customer">Kunde</option>
-          <option value="lost">Kein Interesse</option>
-        </select>
-        <label class="field-label" for="prospectPersonName2">Zweiter Ansprechpartner</label>
-        <input autocomplete="off" type="text" id="prospectPersonName2" placeholder="Name">
-        <label class="field-label" for="prospectPersonMobile2">Handy 2</label>
-        <input autocomplete="off" type="tel" id="prospectPersonMobile2">
-        <label class="field-label" for="prospectPersonPhone2">Telefon 2</label>
-        <input autocomplete="off" type="tel" id="prospectPersonPhone2">
-        <label class="field-label" for="prospectPersonEmail2">E-Mail 2</label>
-        <input autocomplete="off" type="email" id="prospectPersonEmail2">
-      </details>
+      <div class="dk-block">
+        <div class="dk-kopf">N&auml;chster Schritt</div>
+        <div class="dk-felder">
+          <label for="prospectFollowUp">Wiedervorlage</label>
+          <div class="an-wiedervorlage">
+            <input autocomplete="off" type="date" id="prospectFollowUp">
+            <div class="quickdates" id="prospectQuickDates">
+              <button type="button" data-tage="7">1 Woche</button>
+              <button type="button" data-tage="30">1 Monat</button>
+              <button type="button" data-tage="90">3 Monate</button>
+              <button type="button" data-tage="180">6 Monate</button>
+              <button type="button" data-tage="">l&ouml;schen</button>
+            </div>
+          </div>
+        </div>
+        <label class="consent-line an-einwilligung">
+          <input autocomplete="off" type="checkbox" id="prospectConsent">
+          <span>Darf regelm&auml;&szlig;ig Angebote bekommen (im Gespr&auml;ch zugestimmt)</span>
+        </label>
+      </div>
 
       <p class="form-status" id="addProspectStatus" role="status" aria-live="polite"></p>
-      <div class="form-nav"><span></span><button type="submit" class="btn btn--primary">Anlegen</button></div>
+      <div class="dk-fuss an-fuss"><button type="submit" class="btn btn--primary">Anlegen</button></div>
     </form>
 
     <div id="prospectShare" hidden>

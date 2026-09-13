@@ -729,6 +729,7 @@
       // Immer mit dem Formular starten, nicht mit dem Teilen-Bereich des letzten Eintrags.
       var box = document.getElementById("prospectShare");
       if (box) { box.hidden = true; addProspectForm.hidden = false; }
+      zweitePersonZu();
       addProspectStatus.textContent = "";
       addProspectStatus.className = "form-status";
       addProspectOverlay.hidden = false;
@@ -773,6 +774,34 @@
         window.location.reload();
       });
     }
+
+    // ---------- Anlage-Dialog: zweite Person erst auf Klick ----------
+    function zweitePersonAuf() {
+      var karte = document.getElementById("anPerson2");
+      var knopf = document.getElementById("anPerson2Oeffnen");
+      if (!karte) return;
+      karte.hidden = false;
+      if (knopf) knopf.hidden = true;
+      var name = document.getElementById("prospectPersonName2");
+      if (name) name.focus();
+    }
+
+    function zweitePersonZu() {
+      var karte = document.getElementById("anPerson2");
+      var knopf = document.getElementById("anPerson2Oeffnen");
+      if (!karte) return;
+      karte.hidden = true;
+      if (knopf) knopf.hidden = false;
+      ["Name", "Role", "Phone", "Mobile", "Email"].forEach(function (f) {
+        var el = document.getElementById("prospectPerson" + f + "2");
+        if (el) el.value = "";
+      });
+    }
+
+    var anPerson2Oeffnen = document.getElementById("anPerson2Oeffnen");
+    if (anPerson2Oeffnen) anPerson2Oeffnen.addEventListener("click", zweitePersonAuf);
+    var anPerson2Entfernen = document.getElementById("anPerson2Entfernen");
+    if (anPerson2Entfernen) anPerson2Entfernen.addEventListener("click", zweitePersonZu);
 
     // ---------- Besuch erfassen: Schnellwahl fuer die Wiedervorlage ----------
     var followUpEl = document.getElementById("prospectFollowUp");
@@ -907,10 +936,17 @@
       var notiz = document.getElementById("prospectNote").value.trim();
       var wiedervorlage = followUpEl && followUpEl.value ? followUpEl.value : null;
       var einwilligung = !!document.getElementById("prospectConsent").checked;
-      var people = [
-        { name: document.getElementById("prospectPersonName").value.trim(), phone: document.getElementById("prospectPersonPhone").value.trim(), mobile: document.getElementById("prospectPersonMobile").value.trim(), email: document.getElementById("prospectPersonEmail").value.trim() },
-        { name: document.getElementById("prospectPersonName2").value.trim(), phone: document.getElementById("prospectPersonPhone2").value.trim(), mobile: document.getElementById("prospectPersonMobile2").value.trim(), email: document.getElementById("prospectPersonEmail2").value.trim() }
-      ].filter(function (person) { return person.name; });
+      function wert(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : "";
+      }
+      var people = ["", "2"].map(function (n) {
+        return {
+          name: wert("prospectPersonName" + n), role: wert("prospectPersonRole" + n),
+          phone: wert("prospectPersonPhone" + n), mobile: wert("prospectPersonMobile" + n),
+          email: wert("prospectPersonEmail" + n)
+        };
+      }).filter(function (person) { return person.name; });
       if (!name) {
         addProspectStatus.textContent = "Bitte einen Firmennamen eintragen.";
         addProspectStatus.className = "form-status form-status--error";
@@ -937,7 +973,7 @@
         if (people.length) {
           schritte.push(Promise.all(people.map(function (person) {
             return client.from("prospect_people").insert({
-              prospect_id: prospect.id, name: person.name,
+              prospect_id: prospect.id, name: person.name, role: person.role || null,
               phone: person.phone || null, mobile: person.mobile || null,
               email: person.email || null,
               marketing_consent: einwilligung,
@@ -961,6 +997,7 @@
         addProspectStatus.className = "form-status";
         zeigeTeilen(people[0]);
         addProspectForm.reset();
+        zweitePersonZu();
         if (quickDates) {
           Array.prototype.forEach.call(quickDates.querySelectorAll("button"), function (b) {
             b.setAttribute("aria-pressed", "false");

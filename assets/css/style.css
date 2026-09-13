@@ -983,3 +983,35 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .dk-neueperson[hidden] { display: none !important; }
 .dk-neueperson__aktionen { grid-column: 1 / -1; display: flex; gap: 6px; }
 .dk-neueperson #addPersonBtn { grid-column: auto; justify-self: auto; }
+
+/* ================= Anlage-Dialog im Stil der Detailspalte ================= */
+#addProspectOverlay .modal-box { max-width: 640px; padding: 22px; }
+#addProspectOverlay .dk-titel { margin-bottom: 14px; }
+#addProspectOverlay .dk-titel h3 { font-size: 1.15rem; }
+
+/* Die Formularvorgaben (grosse Felder, Abstand oben) hier aushebeln */
+#addProspectForm .dk-felder > input,
+#addProspectForm .dk-felder > select,
+#addProspectForm .dk-felder > textarea,
+#addProspectForm .an-wiedervorlage input[type="date"] {
+  margin: 0 !important; padding: 7px 10px !important;
+  border: 1.5px solid var(--color-border) !important; border-radius: 7px;
+}
+#addProspectForm .dk-felder { align-items: start; }
+#addProspectForm .dk-felder > label { padding-top: 8px; }
+#addProspectForm .an-wiedervorlage .quickdates { margin: 7px 0 0; }
+
+.an-personen { display: grid; gap: 10px; padding: 10px 12px 0; }
+@media (min-width: 640px) { .an-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.an-personen .dk-person { margin: 0; }
+.an-person[hidden] { display: none !important; }
+.an-personen .dk-person__kopf { justify-content: space-between; }
+.an-entfernen {
+  border: none; background: none; font: inherit; font-size: 0.74rem; font-weight: 600;
+  color: #c0392b; cursor: pointer; padding: 0;
+}
+#anPerson2Oeffnen[hidden] { display: none; }
+
+.an-einwilligung { margin: 0 !important; padding: 0 12px 12px; }
+.an-fuss { padding: 4px 0 0; }
+.an-fuss .btn { padding: 11px 28px; }
