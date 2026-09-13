@@ -563,13 +563,7 @@
 
       var frei = document.getElementById("zweitePersonAnlegen");
       if (frei) {
-        frei.addEventListener("click", function () {
-          var feld = document.getElementById("newPersonName");
-          if (feld) {
-            feld.scrollIntoView({ block: "center", behavior: "smooth" });
-            feld.focus();
-          }
-        });
+        frei.addEventListener("click", neuePersonOeffnen);
       }
 
       Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-edit-person]'), function (btn) {
@@ -680,6 +674,7 @@
       var p = allProspects.filter(function (x) { return x.id === id; })[0];
       if (!p) return;
       markiereAktiv(id);
+      neuePersonSchliessen();
       var titel = document.getElementById("prospectDetailTitel");
       if (titel) titel.textContent = p.name;
       // Angesehen heisst erledigt genug - das Pulsieren hoert auf.
@@ -1016,6 +1011,35 @@
       }
     });
 
+    // Die Felder fuer eine weitere Person bleiben zu, bis man sie braucht.
+    function neuePersonOeffnen() {
+      var felder = document.getElementById("neuePersonFelder");
+      var knopf = document.getElementById("neuePersonOeffnen");
+      if (!felder) return;
+      felder.hidden = false;
+      if (knopf) knopf.hidden = true;
+      var name = document.getElementById("newPersonName");
+      if (name) {
+        name.scrollIntoView({ block: "center", behavior: "smooth" });
+        name.focus();
+      }
+    }
+
+    function neuePersonSchliessen() {
+      var felder = document.getElementById("neuePersonFelder");
+      var knopf = document.getElementById("neuePersonOeffnen");
+      if (!felder) return;
+      felder.hidden = true;
+      if (knopf) knopf.hidden = false;
+      ["newPersonName", "newPersonRole", "newPersonPhone", "newPersonMobile", "newPersonEmail"]
+        .forEach(function (id) { var f = document.getElementById(id); if (f) f.value = ""; });
+    }
+
+    var neuePersonOeffnenBtn = document.getElementById("neuePersonOeffnen");
+    if (neuePersonOeffnenBtn) neuePersonOeffnenBtn.addEventListener("click", neuePersonOeffnen);
+    var neuePersonAbbrechenBtn = document.getElementById("neuePersonAbbrechen");
+    if (neuePersonAbbrechenBtn) neuePersonAbbrechenBtn.addEventListener("click", neuePersonSchliessen);
+
     addPersonBtn.addEventListener("click", function () {
       var name = newPersonName.value.trim();
       if (!name || !selectedProspectId) return;
@@ -1034,6 +1058,7 @@
         newPersonPhone.value = "";
         if (newPersonMobile) newPersonMobile.value = "";
         newPersonEmail.value = "";
+        neuePersonSchliessen();
         loadPeople(selectedProspectId);
         loadProspects();
       });

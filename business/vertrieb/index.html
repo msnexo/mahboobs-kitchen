@@ -172,14 +172,20 @@
         <button type="button" id="copyCardLink" class="dk-mini-btn">Link kopieren</button>
         <span id="copyCardStatus"></span></p>
       <div id="prospectDetailPeople"></div>
-      <div class="dk-neueperson">
-        <span class="dk-neueperson__titel">Weiteren Ansprechpartner hinzuf&uuml;gen</span>
-        <input autocomplete="off" type="text" id="newPersonName" placeholder="Name">
-        <input autocomplete="off" type="text" id="newPersonRole" placeholder="Position">
-        <input autocomplete="off" type="tel" id="newPersonPhone" placeholder="Festnetz">
-        <input autocomplete="off" type="tel" id="newPersonMobile" placeholder="Handy">
-        <input autocomplete="off" type="email" id="newPersonEmail" placeholder="E-Mail">
-        <button type="button" id="addPersonBtn" class="dk-knopf dk-knopf--primaer">+ Hinzuf&uuml;gen</button>
+      <div class="dk-neueperson-bereich">
+        <button type="button" id="neuePersonOeffnen" class="dk-knopf">+ Weiteren Ansprechpartner hinzuf&uuml;gen</button>
+        <div class="dk-neueperson" id="neuePersonFelder" hidden>
+          <span class="dk-neueperson__titel">Weiteren Ansprechpartner hinzuf&uuml;gen</span>
+          <input autocomplete="off" type="text" id="newPersonName" placeholder="Name">
+          <input autocomplete="off" type="text" id="newPersonRole" placeholder="Position">
+          <input autocomplete="off" type="tel" id="newPersonPhone" placeholder="Festnetz">
+          <input autocomplete="off" type="tel" id="newPersonMobile" placeholder="Handy">
+          <input autocomplete="off" type="email" id="newPersonEmail" placeholder="E-Mail">
+          <div class="dk-neueperson__aktionen">
+            <button type="button" id="addPersonBtn" class="dk-knopf dk-knopf--primaer">Hinzuf&uuml;gen</button>
+            <button type="button" id="neuePersonAbbrechen" class="dk-knopf">Abbrechen</button>
+          </div>
+        </div>
       </div>
     </div>
 

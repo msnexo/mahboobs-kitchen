@@ -975,3 +975,11 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 }
 .dk-neueperson #newPersonName { grid-column: 1 / -1; }
 .dk-neueperson #addPersonBtn { grid-column: 1 / -1; justify-self: start; }
+
+/* Weitere Person: erst auf Klick sichtbar */
+.dk-neueperson-bereich { padding: 12px; }
+.dk-neueperson-bereich > #neuePersonOeffnen[hidden] { display: none; }
+.dk-neueperson-bereich .dk-neueperson { padding: 0; }
+.dk-neueperson[hidden] { display: none !important; }
+.dk-neueperson__aktionen { grid-column: 1 / -1; display: flex; gap: 6px; }
+.dk-neueperson #addPersonBtn { grid-column: auto; justify-self: auto; }
