@@ -938,3 +938,40 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 }
 .dk-person--frei span { font-size: 1.5rem; line-height: 1; }
 .dk-person--frei:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+/* Ansprechpartner bearbeiten: Felder untereinander, beschriftet */
+.dk-person.is-bearbeiten .dk-person__symbole,
+.dk-person.is-bearbeiten .dk-person__daten { display: none; }
+.dk-person__bearbeiten[hidden] { display: none !important; }
+.dk-person__bearbeiten { display: grid; gap: 7px; padding: 10px 11px 11px; }
+.dk-person__bearbeiten label {
+  display: grid; gap: 3px; margin: 0; font-size: 0.72rem; font-weight: 600; color: #7a7a7a;
+}
+.dk-person__bearbeiten input,
+.dk-neueperson input {
+  width: 100%; margin: 0 !important; padding: 6px 9px !important;
+  border: 1.5px solid var(--color-border); border-radius: 7px;
+  font: inherit; font-size: 0.85rem !important; font-weight: 400; color: var(--color-text); background: #fff;
+}
+.dk-person__bearbeiten input:focus,
+.dk-neueperson input:focus { outline: none; border-color: var(--color-primary); }
+.dk-person__aktionen { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 3px; }
+
+/* Einheitliche kleine Knoepfe im Detail */
+.dk-knopf {
+  padding: 6px 12px; border: 1.5px solid var(--color-border); border-radius: 999px;
+  background: #fff; font: inherit; font-size: 0.78rem; font-weight: 700; color: #3a3a3a; cursor: pointer;
+}
+.dk-knopf:hover { border-color: #9a9a9a; }
+.dk-knopf--primaer { background: var(--color-bg-dark); border-color: var(--color-bg-dark); color: #fff; }
+.dk-knopf--loeschen { margin-left: auto; color: #c0392b; border-color: #f0c2bc; }
+.dk-knopf--loeschen:hover { background: #fdecea; border-color: #c0392b; }
+
+/* Neue Person */
+.dk-neueperson { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 12px; }
+.dk-neueperson__titel {
+  grid-column: 1 / -1; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: #8a8a8a;
+}
+.dk-neueperson #newPersonName { grid-column: 1 / -1; }
+.dk-neueperson #addPersonBtn { grid-column: 1 / -1; justify-self: start; }

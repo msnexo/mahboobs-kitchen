@@ -539,17 +539,18 @@
           (person.role ? "<span>" + escapeHtml(person.role) + "</span>" : "") + "</div>" +
           '<div class="dk-person__symbole">' + symbole + "</div>" +
           '<div class="dk-person__daten">' +
-          zeile("Telefon", person.phone) + zeile("Handy", person.mobile) + zeile("E-Mail", person.email) +
+          zeile("Festnetz", person.phone) + zeile("Handy", person.mobile) + zeile("E-Mail", person.email) +
           "</div>" +
-          '<div class="dk-person__bearbeiten" data-edit-form="' + person.id + '" style="display:none;">' +
-          '<input type="text" data-field="name" value="' + escapeHtml(person.name) + '" placeholder="Name">' +
-          '<input type="text" data-field="role" value="' + escapeHtml(person.role || '') + '" placeholder="Rolle">' +
-          '<input type="tel" data-field="phone" value="' + escapeHtml(person.phone || '') + '" placeholder="Telefon">' +
-          '<input type="tel" data-field="mobile" value="' + escapeHtml(person.mobile || '') + '" placeholder="Handy (WhatsApp)">' +
-          '<input type="email" data-field="email" value="' + escapeHtml(person.email || '') + '" placeholder="E-Mail">' +
+          '<div class="dk-person__bearbeiten" data-edit-form="' + person.id + '" hidden>' +
+          '<label>Name<input type="text" data-field="name" autocomplete="off" value="' + escapeHtml(person.name) + '"></label>' +
+          '<label>Position<input type="text" data-field="role" autocomplete="off" value="' + escapeHtml(person.role || '') + '"></label>' +
+          '<label>Festnetz<input type="tel" data-field="phone" autocomplete="off" value="' + escapeHtml(person.phone || '') + '"></label>' +
+          '<label>Handy<input type="tel" data-field="mobile" autocomplete="off" value="' + escapeHtml(person.mobile || '') + '"></label>' +
+          '<label>E-Mail<input type="email" data-field="email" autocomplete="off" value="' + escapeHtml(person.email || '') + '"></label>' +
           '<div class="dk-person__aktionen">' +
-          '<button type="button" data-save-person="' + person.id + '" class="btn btn--primary dk-mini-btn">Speichern</button>' +
-          '<button type="button" data-cancel-person="' + person.id + '" class="btn btn--dark dk-mini-btn">Abbrechen</button>' +
+          '<button type="button" data-save-person="' + person.id + '" class="dk-knopf dk-knopf--primaer">Speichern</button>' +
+          '<button type="button" data-cancel-person="' + person.id + '" class="dk-knopf">Abbrechen</button>' +
+          '<button type="button" data-delete-person="' + person.id + '" class="dk-knopf dk-knopf--loeschen">L&ouml;schen</button>' +
           "</div></div>" +
           "</div>"
         );
@@ -574,15 +575,36 @@
       Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-edit-person]'), function (btn) {
         btn.addEventListener('click', function () {
           var form = peopleListEl.querySelector('[data-edit-form="' + btn.getAttribute('data-edit-person') + '"]');
-          form.style.display = 'flex';
+          var karte = form.closest('.dk-person');
+          karte.classList.add('is-bearbeiten');
+          form.hidden = false;
+          var erstes = form.querySelector('input');
+          if (erstes) erstes.focus();
         });
       });
       Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-cancel-person]'), function (btn) {
         btn.addEventListener('click', function () {
           var form = peopleListEl.querySelector('[data-edit-form="' + btn.getAttribute('data-cancel-person') + '"]');
-          form.style.display = 'none';
+          form.hidden = true;
+          form.closest('.dk-person').classList.remove('is-bearbeiten');
         });
       });
+      Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-delete-person]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-delete-person');
+          var person = people.filter(function (x) { return x.id === id; })[0];
+          var wer = person ? person.name : 'diesen Ansprechpartner';
+          if (!window.confirm('"' + wer + '" wirklich löschen?')) return;
+          client.from('prospect_people').delete().eq('id', id).then(function (res) {
+            if (res && res.error) throw res.error;
+            loadPeople(selectedProspectId);
+            loadProspects();
+          }).catch(function (err) {
+            window.alert('Löschen fehlgeschlagen: ' + ((err && err.message) || 'unbekannter Fehler'));
+          });
+        });
+      });
+
       Array.prototype.forEach.call(peopleListEl.querySelectorAll('[data-save-person]'), function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.getAttribute('data-save-person');
@@ -595,6 +617,7 @@
           if (!name) return;
           client.from('prospect_people').update({ name: name, role: role || null, phone: phone || null, mobile: mobile || null, email: email || null }).eq('id', id).then(function () {
             loadPeople(selectedProspectId);
+            loadProspects();
           });
         });
       });
@@ -997,18 +1020,22 @@
       var name = newPersonName.value.trim();
       if (!name || !selectedProspectId) return;
       var newPersonMobile = document.getElementById("newPersonMobile");
+      var newPersonRole = document.getElementById("newPersonRole");
       client.from("prospect_people").insert({
         prospect_id: selectedProspectId,
         name: name,
+        role: newPersonRole ? (newPersonRole.value.trim() || null) : null,
         phone: newPersonPhone.value.trim() || null,
         mobile: newPersonMobile ? (newPersonMobile.value.trim() || null) : null,
         email: newPersonEmail.value.trim() || null
       }).then(function () {
         newPersonName.value = "";
+        if (newPersonRole) newPersonRole.value = "";
         newPersonPhone.value = "";
         if (newPersonMobile) newPersonMobile.value = "";
         newPersonEmail.value = "";
         loadPeople(selectedProspectId);
+        loadProspects();
       });
     });
 
