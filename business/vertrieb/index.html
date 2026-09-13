@@ -143,11 +143,19 @@
         <label for="prospectDetailWebsite">Webseite</label>
         <div class="dk-mitknopf">
           <input autocomplete="off" type="text" id="prospectDetailWebsite" inputmode="url" placeholder="z. B. firma.de">
-          <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="dk-mini" hidden>&#8599;</a>
+          <a id="prospectDetailWebsiteOpen" href="#" target="_blank" rel="noopener" class="dk-mini" title="Webseite öffnen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/></svg></a>
         </div>
 
         <label for="prospectDetailAddress">Adresse</label>
         <input autocomplete="off" type="text" id="prospectDetailAddress" placeholder="Stra&szlig;e, PLZ Ort">
+
+        <label>Recherche</label>
+        <div class="dk-recherche">
+          <a id="rechercheGoogle" class="dk-knopf dk-knopf--g" href="#" target="_blank" rel="noopener" title="Firma bei Google suchen">
+            <span class="dk-marke dk-marke--g">G</span>Firma bei Google</a>
+          <a id="rechercheLinkedin" class="dk-knopf dk-knopf--in" href="#" target="_blank" rel="noopener" title="Firma bei LinkedIn suchen">
+            <span class="dk-marke dk-marke--in">in</span>Firma bei LinkedIn</a>
+        </div>
 
         <label for="prospectStatusSelect">Status</label>
         <select autocomplete="off" id="prospectStatusSelect">

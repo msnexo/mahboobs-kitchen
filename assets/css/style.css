@@ -1043,3 +1043,32 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .dk-rueckfrage__fehler { font-size: 0.8rem; font-weight: 600; color: #c0392b; }
 .dk-rueckfrage__weg { margin-left: auto; }
 .dk-person.is-bearbeiten .dk-rueckfrage { display: none; }
+
+/* F: Strich-Symbole in den Knoepfen */
+.dk-sym svg, .dk-mini svg {
+  width: 17px; height: 17px; stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.dk-mini svg { width: 15px; height: 15px; }
+.dk-sym { color: #2e2e2e; }
+
+/* E: Marken-Kuerzel fuer Google und LinkedIn */
+.dk-marke {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif; font-weight: 800; line-height: 1;
+}
+.dk-marke--g { color: #4285f4; font-size: 15px; }
+.dk-marke--in {
+  background: #0a66c2; color: #fff; border-radius: 3px;
+  font-size: 11px; padding: 2px 3px 3px;
+}
+.dk-sym--marke:hover { border-color: #9a9a9a; }
+
+/* E: Recherche-Zeile im Firmenblock */
+.dk-recherche { display: flex; flex-wrap: wrap; gap: 6px; }
+.dk-recherche .dk-knopf {
+  display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+  padding: 6px 12px 6px 9px;
+}
+.dk-recherche .dk-knopf--g:hover { border-color: #4285f4; }
+.dk-recherche .dk-knopf--in:hover { border-color: #0a66c2; }

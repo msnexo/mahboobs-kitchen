@@ -64,6 +64,37 @@
   // Zwischenseite ("Continue to Chat") dazwischen - web.whatsapp.com nicht.
   var amHandy = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+  // Einheitliche Strich-Symbole statt Emojis - sehen auf jedem Geraet gleich aus.
+  function sym(pfad) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true">' + pfad + "</svg>";
+  }
+  var SYM = {
+    festnetz: sym('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>'),
+    handy:    sym('<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>'),
+    whatsapp: sym('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-5A8 8 0 1 1 21 12Z"/>'),
+    mail:     sym('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
+    stift:    sym('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>')
+  };
+
+  // Ort aus "Strasse, PLZ Ort" herausziehen, damit die Suche die richtige Firma trifft.
+  function ortAus(adresse) {
+    var teil = (adresse || "").split(",").pop().trim();
+    return teil.replace(/^\d{4,5}\s*/, "");
+  }
+
+  function googleSuche(text) {
+    return "https://www.google.com/search?q=" + encodeURIComponent(text.trim());
+  }
+
+  function linkedinFirma(name) {
+    return "https://www.linkedin.com/search/results/companies/?keywords=" + encodeURIComponent(name.trim());
+  }
+
+  function linkedinPerson(person, firma) {
+    return "https://www.linkedin.com/search/results/people/?keywords=" +
+      encodeURIComponent((person + " " + (firma || "")).trim());
+  }
+
   // frisch = direkt nach dem Besuch, sonst der neutrale Text fuer spaeter.
   function kartenText(name, frisch) {
     var anrede = name ? "Hallo " + name + ", " : "Hallo, ";
@@ -518,6 +549,7 @@
         peopleListEl.innerHTML = '<p class="muted">Noch keine Ansprechpartner.</p>';
         return;
       }
+      var firmaName = ((allProspects.filter(function (x) { return x.id === selectedProspectId; })[0]) || {}).name || "";
       peopleListEl.innerHTML = people.map(function (person) {
         var handy = handyVon(person);
         var pid = escapeHtml(person.id);
@@ -546,12 +578,19 @@
           : "";
 
         var symbole =
-          (person.phone ? anruf(person.phone, "Festnetz", "&#9742;") : "") +
-          (person.mobile ? anruf(person.mobile, "Handy", "&#128241;") : "") +
-          (handy ? menue("wa", "&#128172;", "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, true) : "") +
-          (person.email ? menue("mail", "&#9993;", "E-Mail",
+          (person.phone ? anruf(person.phone, "Festnetz", SYM.festnetz) : "") +
+          (person.mobile ? anruf(person.mobile, "Handy", SYM.handy) : "") +
+          (handy ? menue("wa", SYM.whatsapp, "WhatsApp", waZiel(handy, kartenText(person.name, false)), waLeer, true) : "") +
+          (person.email ? menue("mail", SYM.mail, "E-Mail",
             mailZiel(person.email, kartenText(person.name, false)), "mailto:" + person.email, false) : "") +
-          '<button type="button" class="dk-sym" data-edit-person="' + person.id + '" title="Bearbeiten">&#9998;</button>';
+          // E: Person recherchieren - nichts wird gespeichert oder ins Logbuch geschrieben
+          '<a class="dk-sym dk-sym--marke" href="' + escapeHtml(googleSuche(person.name + " " + firmaName)) +
+            '" target="_blank" rel="noopener" title="' + escapeHtml(person.name) + ' bei Google suchen">' +
+            '<span class="dk-marke dk-marke--g">G</span></a>' +
+          '<a class="dk-sym dk-sym--marke" href="' + escapeHtml(linkedinPerson(person.name, firmaName)) +
+            '" target="_blank" rel="noopener" title="' + escapeHtml(person.name) + ' bei LinkedIn suchen">' +
+            '<span class="dk-marke dk-marke--in">in</span></a>' +
+          '<button type="button" class="dk-sym" data-edit-person="' + person.id + '" title="Bearbeiten">' + SYM.stift + "</button>";
 
         var zeile = function (bez, wert) {
           return wert ? '<div class="dk-pz"><span>' + bez + "</span>" + escapeHtml(wert) + "</div>" : "";
@@ -823,6 +862,12 @@
       detailAddress.value = p.address || "";
       detailWebsiteOpen.href = vollstaendigeAdresse(p.website) || "#";
       detailWebsiteOpen.hidden = !p.website;
+
+      // E: Firma recherchieren - vor allem, um die Groesse einzuschaetzen
+      var rG = document.getElementById("rechercheGoogle");
+      var rIn = document.getElementById("rechercheLinkedin");
+      if (rG) rG.href = googleSuche(p.name + " " + ortAus(p.address));
+      if (rIn) rIn.href = linkedinFirma(p.name);
       detailNotes.value = p.notes || "";
       statusSelect.value = p.status;
       nextContactDate.value = toDatetimeLocalValue(p.next_contact_date);
