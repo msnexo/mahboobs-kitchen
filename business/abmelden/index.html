@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Ihre MK Business Karte | Mahboobs Kitchen</title>
-  <meta name="description" content="Ihre persönliche MK Business Karte von Mahboobs Kitchen.">
-  <link rel="canonical" href="https://mahboobs-kitchen.com/business/meine-karte/">
+  <title>Abmelden | MK Business Karte | Mahboobs Kitchen</title>
+  <meta name="description" content="Keine Angebote von Mahboobs Kitchen mehr per E-Mail erhalten.">
+  <link rel="canonical" href="https://mahboobs-kitchen.com/business/abmelden/">
   <meta name="robots" content="noindex, nofollow">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Ihre MK Business Karte | Mahboobs Kitchen">
-  <meta property="og:description" content="Ihre persönliche MK Business Karte von Mahboobs Kitchen.">
-  <meta property="og:url" content="https://mahboobs-kitchen.com/business/meine-karte/">
+  <meta property="og:title" content="Abmelden | MK Business Karte | Mahboobs Kitchen">
+  <meta property="og:description" content="Keine Angebote von Mahboobs Kitchen mehr per E-Mail erhalten.">
+  <meta property="og:url" content="https://mahboobs-kitchen.com/business/abmelden/">
   <meta property="og:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
   <meta property="og:site_name" content="Mahboobs Kitchen">
   <meta property="og:locale" content="de_DE">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ihre MK Business Karte | Mahboobs Kitchen">
-  <meta name="twitter:description" content="Ihre persönliche MK Business Karte von Mahboobs Kitchen.">
+  <meta name="twitter:title" content="Abmelden | MK Business Karte | Mahboobs Kitchen">
+  <meta name="twitter:description" content="Keine Angebote von Mahboobs Kitchen mehr per E-Mail erhalten.">
   <meta name="twitter:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,87 +63,29 @@
     <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
   </div>
 </header>
-
-<section class="mk-landing-hero mk-meinekarte">
-  <div class="mk-landing-hero__bg" style="background-image:url('/assets/img/buffet-2.webp');"></div>
-  <div class="container" style="position:relative;z-index:1;">
-    <p class="mk-meinekarte__laden" id="mkKarteLaden">Ihre Karte wird geladen &hellip;</p>
-    <div id="mkKarteFehler" hidden>
-      <div class="mk-meinekarte__fehler">
-        <h1>Karte nicht gefunden</h1>
-        <p class="lead">Bitte pr&uuml;fen Sie den Link aus Ihrer Nachricht &ndash; oder rufen Sie mich kurz an: <a href="tel:+491772019889">0177 201 9889</a></p>
+<section class="section" style="padding-top:150px;">
+  <div class="container" style="max-width:640px;text-align:center;">
+    <span class="eyebrow">MK Business Karte</span>
+    <div id="abFrage">
+      <h1>Keine Angebote mehr erhalten?</h1>
+      <p class="lead">Wenn Sie sich abmelden, schicken wir Ihnen keine Angebote mehr per E-Mail. Ihre Business Karte bleibt trotzdem g&uuml;ltig.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <button type="button" class="btn btn--primary" id="abBtn">Ja, abmelden</button>
+        <a class="btn btn--dark" id="abZurueck" href="/">Doch nicht</a>
       </div>
+      <p class="form-status" id="abStatus" role="status" aria-live="polite"></p>
     </div>
-    <div id="mkKarteInhalt" hidden>
-      <div class="mk-landing-hero__grid">
-        <div class="mk-hero__heading">
-          <span class="eyebrow">Ihre MK Business Karte</span>
-          <h1 id="mkKarteGruss">Willkommen</h1>
-        </div>
-        <div class="mk-hero__card-wrap">
-          <div class="mk-card mk-card--hero">
-            <div class="mk-card__shine"></div>
-            <div class="mk-card__top">
-              <img src="/assets/img/logo.webp" alt="" class="mk-card__logo">
-              <span class="mk-card__label">Business Karte</span>
-            </div>
-            <div class="mk-card__number" id="mkKarteNummer">&nbsp;</div>
-            <div class="mk-card__bottom">
-              <div>
-                <span class="mk-card__field-label">Inhaber</span>
-                <div class="mk-card__name" id="mkKarteInhaber">&nbsp;</div>
-              </div>
-              <div class="mk-card__points">
-                <span class="mk-card__field-label">Kunde seit</span>
-                <div class="mk-card__points-value" id="mkKarteSeit" style="font-size:1.1rem;">&nbsp;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mk-hero__body">
-          <p class="lead">Sch&ouml;n, dass Sie dabei sind. Mit Ihrer Karte erfahren Sie als Erste von unseren Angeboten &ndash; und haben mit mir einen festen Ansprechpartner f&uuml;r Ihr Catering.</p>
-          <p class="mk-hero__note">Bei jeder Anfrage einfach Ihre Kundennummer nennen: <strong id="mkKarteNummer2"></strong></p>
-          <div class="mk-meinekarte__kontakt">
-            <a class="btn btn--whatsapp" id="mkKarteWhatsApp" href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="btn btn--primary" href="tel:+491772019889">Anrufen</a>
-            <a class="btn btn--dark" id="mkKarteMail" href="mailto:info@mahboobs-kitchen.com">E-Mail</a>
-          </div>
-        </div>
-      </div>
+    <div id="abFertig" hidden>
+      <h1>Sie sind abgemeldet</h1>
+      <p class="lead">Sie erhalten keine Angebote mehr von uns. Falls Sie es sich anders &uuml;berlegen, gen&uuml;gt eine kurze Nachricht an info@mahboobs-kitchen.com.</p>
+      <div class="btn-row" style="justify-content:center;"><a class="btn btn--dark" id="abKarte" href="/">Zu Ihrer Business Karte</a></div>
+    </div>
+    <div id="abFehler" hidden>
+      <h1>Link ung&uuml;ltig</h1>
+      <p class="lead">Bitte schreiben Sie uns kurz an info@mahboobs-kitchen.com &ndash; wir tragen Sie sofort aus.</p>
     </div>
   </div>
 </section>
-
-<div id="mkKarteMehr" hidden>
-<div id="mkAngebote" hidden>
-<section class="section" id="angebote" style="padding-bottom:0;">
-  <div class="container">
-    <span class="eyebrow">Nur f&uuml;r Karteninhaber</span>
-    <h2>Aktuelle Angebote</h2>
-    <div class="mk-angebote-raster" id="mkAngeboteListe"></div>
-  </div>
-</section>
-</div>
-<section class="section">
-  <div class="container">
-    <div class="grid grid--2" style="align-items:start;">
-      <div class="card">
-        <h3>Ihre Vorteile</h3>
-        <ul class="perk-list"><li><span class="icon-badge icon-badge--sm">🤝</span><span>Fester Ansprechpartner</span></li><li><span class="icon-badge icon-badge--sm">📋</span><span>Individuelle Menüs</span></li><li><span class="icon-badge icon-badge--sm">🏷️</span><span>Essen mit Firmenlogo</span></li><li><span class="icon-badge icon-badge--sm">🚚</span><span>Lieferung & Aufbau</span></li><li><span class="icon-badge icon-badge--sm">✅</span><span>Komplettservice</span></li><li><span class="icon-badge icon-badge--sm">📍</span><span>VIP Locations</span></li><li><span class="icon-badge icon-badge--sm">💰</span><span>Bis zu 20 % Rabatt pro Bestellung</span></li><li><span class="icon-badge icon-badge--sm">🔔</span><span>Neueste Updates</span></li><li><span class="icon-badge icon-badge--sm">👥</span><span>Persönliches Personal</span></li></ul>
-      </div>
-      <div class="card">
-        <h3>Ihr Ansprechpartner</h3>
-        <p><strong>Reyyan Ahmad</strong><br>Mahboobs Kitchen</p>
-        <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
-        <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
-        <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
-        <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei.</p>
-        <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -194,6 +136,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};</script>
 <script src="/assets/js/business-auth.js" defer></script>
-<script src="/assets/js/business-meine-karte.js" defer></script>
+<script src="/assets/js/business-abmelden.js" defer></script>
 </body>
 </html>

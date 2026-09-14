@@ -1141,3 +1141,55 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .bk-anleitung--warnung { background: #fdecea; color: #8a2a1e; }
 .bk-an { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-size: 0.85rem; }
 .bk-an select { width: auto; margin: 0; padding: 6px 10px; }
+
+/* ===== Werbebereich ===== */
+.hand { display: inline-block; margin-right: 6px; font-size: 1rem; transform-origin: 70% 90%; animation: handWinken 2.2s ease-in-out infinite; }
+@keyframes handWinken { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(16deg); } 80% { transform: rotate(-8deg); } 90% { transform: rotate(12deg); } }
+@media (prefers-reduced-motion: reduce) { .hand { animation: none; } }
+.abgemeldet-pill { font-size: 0.68rem; padding: 2px 8px; border-radius: 100px; background: #ececec; color: #777; margin-right: 6px; white-space: nowrap; }
+.pl-bereich__hand { margin-left: auto; background: #fff; color: #0f5c3c; border-radius: 100px; padding: 1px 9px; letter-spacing: 0; }
+.bk-signal { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: #eaf7f0; font-size: 0.88rem; }
+.bk-signal small { color: var(--color-text-soft); margin-left: 4px; }
+.bk-signal .dk-knopf { margin-left: auto; }
+.bk-signal--ab { background: #f1f1f1; color: #666; }
+.wb-kopf { margin: 8px 0 16px; }
+.wb-titel { margin: 0 0 4px; font-size: 1.5rem; }
+.wb-block { max-width: 920px; }
+.wb-inhalt { padding: 14px; }
+.wb-felder { padding: 0; }
+.wb-leer { margin: 0; font-size: 0.9rem; }
+.wb-schritt { font-weight: 700; font-size: 0.85rem; margin: 16px 0 8px; }
+.wb-inhalt > .wb-schritt:first-child { margin-top: 0; }
+.wb-zeile { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 9px 0; border-bottom: 1px solid var(--color-border); font-size: 0.9rem; }
+.wb-zeile:last-child { border-bottom: 0; }
+.wb-zeile__knoepfe { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.wb-angebote { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 14px; }
+.wb-angebot { border: 1px solid var(--color-border); border-radius: 10px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+.wb-angebot img { width: 100%; height: 130px; object-fit: cover; display: block; }
+.wb-angebot__text { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.wb-angebot__text strong { font-size: 0.95rem; }
+.wb-angebot__text p { margin: 0; font-size: 0.82rem; color: var(--color-text-soft); }
+.wb-angebot .bk-knoepfe { margin-top: auto; padding-top: 8px; }
+.wb-status { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.wb-status--aktiv { color: #0f7a4f; }
+.wb-status--pausiert { color: #999; }
+.wb-status--abgelaufen { color: #c0392b; }
+.wb-check { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; font-size: 0.9rem; margin: 0; }
+.wb-check small { color: var(--color-text-soft); }
+.wb-hinweis { display: block; background: #fff6e5; color: #7a5200; border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; }
+#wbVorschauFrame { width: 100%; height: 680px; border: 1px solid var(--color-border); border-radius: 10px; background: #f4f1ec; margin-top: 12px; }
+
+/* Kartenseite: Angebote und Rueckmeldung */
+.mk-angebote-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 18px; }
+.mk-angebot { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.mk-angebot img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.mk-angebot__text { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.mk-angebot__text h3 { margin: 0; }
+.mk-angebot__text p { margin: 0; }
+.mk-angebot__bis { font-size: 0.8rem; color: var(--color-text-soft); }
+.mk-angebot__knoepfe { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 8px; }
+.mk-angebot__knoepfe .btn { padding: 10px 18px; font-size: 0.9rem; }
+.mk-danke { margin: 8px 0 0; color: #0f7a4f; font-weight: 600; font-size: 0.9rem; }
+.mk-danke--fehler { color: #c0392b; }
+.mk-abmelden-link { margin-top: 14px; font-size: 0.78rem; color: var(--color-text-soft); }
+.mk-abmelden-link a { color: inherit; }

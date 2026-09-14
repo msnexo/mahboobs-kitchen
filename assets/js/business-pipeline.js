@@ -360,11 +360,12 @@
       return (
         '<div class="card prospect-card" data-prospect-id="' + p.id + '" style="cursor:pointer;margin-bottom:10px;padding:16px 20px;">' +
         '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
-        "<div>" + glockeHtml(reminderZustand(p.id)) + "<strong>" + escapeHtml(p.name) +
+        "<div>" + glockeHtml(reminderZustand(p.id)) + handHtml(p.id) + "<strong>" + escapeHtml(p.name) +
         '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         (p.status === "customer" && p.customer_no
-          ? '<span class="kundennr" title="Kundennummer">' + escapeHtml(p.customer_no) + "</span>"
+          ? (p.werbung_abgemeldet_at ? '<span class="abgemeldet-pill" title="Bekommt keine Werbung mehr">abgemeldet</span>' : "") +
+            '<span class="kundennr" title="Kundennummer">' + escapeHtml(p.customer_no) + "</span>"
           : '<span class="status-pill status-pill--' + p.status + '">' + statusLabels[p.status] + "</span>") +
         "</div>" +
         "</div>" +
@@ -457,6 +458,16 @@
       if (!container) return;
       var zahl = document.getElementById("stammZahl");
       if (zahl) zahl.textContent = prospects.length;
+      // Wer sich gemeldet hat, steht oben
+      prospects = prospects.slice().sort(function (a, b) {
+        return (offeneSignale[b.id] ? 1 : 0) - (offeneSignale[a.id] ? 1 : 0);
+      });
+      var gemeldet = prospects.filter(function (p) { return offeneSignale[p.id]; }).length;
+      var hand = document.getElementById("stammHand");
+      if (hand) {
+        hand.hidden = !gemeldet;
+        hand.innerHTML = "&#9995; " + gemeldet;
+      }
       container.innerHTML = prospects.length
         ? prospects.map(function (p) { return renderProspectCard(p, 0, 1); }).join("")
         : '<p class="muted pl-leer">Noch keine Stammkunden &ndash; sie kommen hierher, sobald die Business Karte zugeschickt ist.</p>';
@@ -553,10 +564,34 @@
         .catch(function () { erstePersonen = {}; });
     }
 
+    // Offene Rueckmeldungen (Interesse, Rueckruf) von der Business Karte.
+    var offeneSignale = {};
+
+    function ladeSignale() {
+      return client.from("prospect_signals")
+        .select("id, prospect_id, art, offer_title, created_at")
+        .is("erledigt_at", null)
+        .neq("art", "abmeldung")
+        .order("created_at", { ascending: false })
+        .then(function (res) {
+          offeneSignale = {};
+          (res.data || []).forEach(function (sig) {
+            (offeneSignale[sig.prospect_id] = offeneSignale[sig.prospect_id] || []).push(sig);
+          });
+        });
+    }
+
+    // Hand = "hier hat sich jemand gemeldet". Die Glocke bleibt fuer die Wiedervorlage.
+    function handHtml(id) {
+      var sig = offeneSignale[id];
+      if (!sig || !sig.length) return "";
+      return '<span class="hand" title="' + sig.length + " offene R\u00fcckmeldung" + (sig.length > 1 ? "en" : "") + '">&#9995;</span>';
+    }
+
     function loadProspects() {
       return client.from("prospects").select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false }).then(function (res) {
         allProspects = res.data || [];
-        return loadErstePersonen();
+        return Promise.all([loadErstePersonen(), ladeSignale()]);
       }).then(function () {
         renderPipeline();
       });
@@ -1439,6 +1474,22 @@
       return currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
     }
 
+    function bkSignaleHtml(p) {
+      var html = (offeneSignale[p.id] || []).map(function (sig) {
+        return '<div class="bk-signal"><span class="hand">&#9995;</span><span>' +
+          (sig.art === "rueckruf" ? "Bitte um R\u00fcckruf" : "Interesse") +
+          (sig.offer_title ? " an \u201e" + escapeHtml(sig.offer_title) + "\u201c" : "") +
+          " <small>" + escapeHtml(formatDateTime(sig.created_at)) + "</small></span>" +
+          '<button type="button" class="dk-knopf" data-signal-erledigt="' + escapeHtml(sig.id) + '">Erledigt</button></div>';
+      }).join("");
+      if (p.werbung_abgemeldet_at) {
+        html += '<div class="bk-signal bk-signal--ab"><span>Bekommt keine Werbung mehr \u2013 abgemeldet am ' +
+          escapeHtml(formatDateOnly(p.werbung_abgemeldet_at)) + "</span>" +
+          '<button type="button" class="dk-knopf" id="bkWiederAnmelden">Wieder anmelden</button></div>';
+      }
+      return html;
+    }
+
     function bkZeigen() {
       var p = aktuellerKontakt();
       if (!p || !bkInhalt) return;
@@ -1458,12 +1509,49 @@
           '<div class="bk-stamm__text"><strong>Stammkunde</strong>' +
           "<span>seit " + escapeHtml(formatDateOnly(p.card_sent_at)) +
           (p.card_person ? " \u00b7 Karte an " + escapeHtml(p.card_person) : "") + "</span>" +
-          anleitung +
+          anleitung + bkSignaleHtml(p) +
           '<div class="bk-knoepfe">' +
           '<button type="button" class="dk-knopf dk-knopf--primaer" id="bkKopieren">Karten kopieren</button>' +
           (an ? '<a class="dk-knopf" id="bkGmail" href="#">Gmail \u00f6ffnen</a>' : "") +
           '<a class="dk-knopf" href="' + escapeHtml(karteLink(p.card_token)) + '" target="_blank" rel="noopener">Karte ansehen</a>' +
           "</div></div></div>";
+
+        Array.prototype.forEach.call(bkInhalt.querySelectorAll("[data-signal-erledigt]"), function (b) {
+          b.addEventListener("click", function () {
+            b.disabled = true;
+            client.from("prospect_signals").update({ erledigt_at: new Date().toISOString() })
+              .eq("id", b.getAttribute("data-signal-erledigt"))
+              .then(function (r) {
+                if (r && r.error) throw r.error;
+                return loadProspects();
+              })
+              .then(function () {
+                bkZeigen();
+                document.dispatchEvent(new CustomEvent("mk-signale-geaendert"));
+              })
+              .catch(function () { b.disabled = false; });
+          });
+        });
+        var wieder = document.getElementById("bkWiederAnmelden");
+        if (wieder) {
+          wieder.addEventListener("click", function () {
+            if (!window.confirm(p.name + " wieder f\u00fcr Angebote anmelden? Nur, wenn der Kunde das ausdr\u00fccklich m\u00f6chte.")) return;
+            client.from("prospects").update({ werbung_abgemeldet_at: null }).eq("id", p.id).then(function (r) {
+              if (r && r.error) throw r.error;
+              return client.from("prospect_contacts").insert({
+                prospect_id: p.id,
+                contact_date: todayISO(),
+                notes: "Wieder f\u00fcr Angebote angemeldet (auf Wunsch des Kunden)"
+              });
+            }).then(function () {
+              loadHistory(p.id);
+              return loadProspects();
+            }).then(function () {
+              bkZeigen();
+              document.dispatchEvent(new CustomEvent("mk-signale-geaendert"));
+            });
+          });
+        }
 
         var kopierKnopf = document.getElementById("bkKopieren");
         kopierKnopf.addEventListener("click", function () {
@@ -1620,6 +1708,19 @@
     loadDailyCounter();
     loadProspects().then(function () { checkDueNotifications(); });
 
+    // Der Werbebereich nutzt dieselbe Anmeldung und springt von dort in einen Kontakt.
+    window.mkVertrieb = {
+      client: client,
+      oeffneKontakt: function (id) {
+        var reiter = document.querySelector('[data-tab="tabPipeline"]');
+        if (reiter) reiter.click();
+        loadProspects().then(function () { openDetail(id); });
+      },
+      neuLaden: function () { return loadProspects(); }
+    };
+    document.dispatchEvent(new CustomEvent("mk-vertrieb-bereit"));
+    document.addEventListener("mk-signale-geaendert", function () { loadProspects(); });
+
     // Bleibt die Seite ueber Nacht offen, stimmt die Einteilung sonst nicht mehr.
     var zuletztGesehenerTag = todayISO();
     setInterval(function () {
@@ -1629,7 +1730,7 @@
         loadDailyCounter();
         loadProspects();
       } else {
-        renderPipeline();   // haelt die Markierung "Termin vorbei" aktuell
+        ladeSignale().then(renderPipeline);   // neue Rueckmeldungen und "Termin vorbei" aktuell halten
       }
     }, 60000);
   } // end startPipeline
