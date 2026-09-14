@@ -1105,7 +1105,6 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 
 /* ===== MK Business Karte im Vertrieb (Teil 1 MK Plan) ===== */
 .kundennr { font-family: var(--ff-head); font-size: 0.72rem; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 100px; background: #161616; color: #fff; white-space: nowrap; }
-.bucket--stamm > summary { color: var(--color-primary); }
 .an-gespraech { display: flex; gap: 8px; }
 .an-gespraech input, .an-gespraech select { flex: 1; min-width: 0; }
 .bk-karte { max-width: 240px; width: 100%; padding: 14px 16px; border-radius: 12px; }
@@ -1123,13 +1122,6 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .bk-zustimmung { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.9rem; }
 .bk-zustimmung label { display: flex; gap: 8px; align-items: center; margin: 0; }
 .bk-zustimmung input[type="date"] { width: auto; padding: 4px 8px; margin: 0; }
-.bk-kopfzeile { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; margin-bottom: 14px; }
-.bk-notiz { background: var(--color-bg-soft); border-left: 3px solid var(--color-primary); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 0.85rem; }
-.bk-notiz__titel { display: block; font-weight: 700; margin-bottom: 4px; }
-.bk-notiz p { margin: 0; white-space: pre-wrap; }
-.bk-anhang { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: inherit; font-size: 0.8rem; color: var(--color-text-soft); background: var(--color-bg-soft); border-radius: 8px; padding: 10px 12px; }
-.bk-signatur { font-size: 0.78rem; color: var(--color-text-soft); margin: 8px 0 0; }
-@media (max-width: 699px) { .bk-kopfzeile { grid-template-columns: 1fr; } }
 
 /* ===== Kartenseite des Kunden (/business/meine-karte/) ===== */
 .mk-meinekarte__laden { color: rgba(255,255,255,0.75); text-align: center; margin: 40px 0; }
@@ -1141,3 +1133,11 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .bk-block #bkInhalt { padding: 12px; }
 .bk-block .dk-felder { padding: 12px 0 0; }
 .bk-block .dk-hinweis { margin: 0; }
+.pl-bereich { display: flex; align-items: center; gap: 8px; background: var(--color-bg-dark); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin: 4px 0 12px; }
+.pl-bereich--stamm { background: var(--color-primary); }
+.pl-bereich__zahl { background: rgba(255,255,255,0.22); border-radius: 100px; padding: 1px 8px; font-size: 0.72rem; letter-spacing: 0; }
+.pl-leer { font-size: 0.85rem; margin: 0 0 8px; }
+.bk-anleitung { margin: 6px 0 0; padding: 8px 10px; background: #eaf7f0; color: #0f5c3c; border-radius: 8px; font-size: 0.85rem; }
+.bk-anleitung--warnung { background: #fdecea; color: #8a2a1e; }
+.bk-an { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-size: 0.85rem; }
+.bk-an select { width: auto; margin: 0; padding: 6px 10px; }

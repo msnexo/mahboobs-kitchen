@@ -452,6 +452,19 @@
       });
     }
 
+    // Stammkunden haben einen eigenen Bereich - offen, alphabetisch, ohne Datumsgruppen.
+    function renderStammkunden(container, prospects) {
+      if (!container) return;
+      var zahl = document.getElementById("stammZahl");
+      if (zahl) zahl.textContent = prospects.length;
+      container.innerHTML = prospects.length
+        ? prospects.map(function (p) { return renderProspectCard(p, 0, 1); }).join("")
+        : '<p class="muted pl-leer">Noch keine Stammkunden &ndash; sie kommen hierher, sobald die Business Karte zugeschickt ist.</p>';
+      Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
+        card.addEventListener("click", function () { openDetail(card.getAttribute("data-prospect-id")); });
+      });
+    }
+
     function byDate(a, b) { return new Date(a.next_contact_date) - new Date(b.next_contact_date); }
     function byCreated(a, b) { return new Date(b.created_at) - new Date(a.created_at); }
 
@@ -514,7 +527,9 @@
       renderBucket(pipelineToday, "Heute", dueToday, "bucket--heute");
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
       renderLaterBuckets(pipelineDates, later);
-      renderBucket(pipelineStammkunden, "Stammkunden", stammkunden, "bucket--stamm");
+      renderStammkunden(pipelineStammkunden, stammkunden);
+      var leadZahl = document.getElementById("leadZahl");
+      if (leadZahl) leadZahl.textContent = active.length;
       renderBucket(pipelineArchive, "Archiv", archived);
 
       if (liste) liste.scrollTop = scrollStand;
@@ -920,7 +935,7 @@
       nextContactNotes.value = "";
       reminderStatus.textContent = "";
       reminderBellBtn.style.opacity = hasReminder(id) ? "1" : "0.5";
-      bkOffenFuer = null;
+      bkHinweisFuer = null;
       if (bkInhalt) bkInhalt.innerHTML = '<p class="muted">Wird geladen &hellip;</p>';
       var xferStatus = document.getElementById("transferStatus");
       if (xferStatus) xferStatus.textContent = "Aktuell: " + (p.assigned_to || "REA");
@@ -1306,26 +1321,17 @@
       });
     });
 
-    // ---------- MK Business Karte: der eine Weg zum Stammkunden ----------
-    // Karte erstellen -> persoenliche Nachricht mit Kartenlink und Visitenkarte ->
-    // "Verschickt?" Ja -> Stammkunde. Automatisch verschickt wird nichts.
-    var bkOffenFuer = null;   // solange geschrieben wird, nicht neu zeichnen
+    // ---------- MK Business Karte: ein Knopf, ein Schwung ----------
+    // "Business Karte zuschicken" macht alles auf einmal: Kundennummer, Karten
+    // kopieren, Gmail oeffnen, Logbuch, Wechsel zu den Stammkunden.
+    var bkHinweisFuer = null;     // direkt nach dem Zuschicken die Anleitung zeigen
+    var bkGmailBlockiert = false;
+    var MAIL_BILD = SEITE + "/assets/img/mail/";
+    var MAIL_BETREFF = "Ihre MK Business Karte \u2013 Mahboobs Kitchen";
+    var STRG_V_ZEILE = "\u25b6 Diese Zeile markieren und Strg + V dr\u00fccken \u2013 hier kommen Visitenkarte und Business Karte rein";
 
     function aktuellerKontakt() {
       return allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
-    }
-
-    function kopiere(text, btn) {
-      var alt = btn.textContent;
-      var fertig = function () {
-        btn.textContent = "Kopiert \u2713";
-        setTimeout(function () { btn.textContent = alt; }, 1600);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(fertig, function () { window.prompt("Link kopieren:", text); });
-      } else {
-        window.prompt("Link kopieren:", text);
-      }
     }
 
     function miniKarte(p) {
@@ -1337,44 +1343,147 @@
         '<div class="mk-card__name">' + escapeHtml(p.name) + "</div></div></div></div>";
     }
 
-    // Steht unter jedem persoenlichen Text - so fehlt nie ein Link.
-    function bkAnhang(p) {
+    // Die zwei kleinen Karten fuer die Mail. Tabellen mit festen Farben -
+    // so sehen sie in Gmail, Outlook und am Handy gleich aus.
+    function kartenHtml(p) {
+      var schrift = "font-family:Arial,Helvetica,sans-serif;";
+      var knopf = function (href, text) {
+        return '<a href="' + escapeHtml(href) + '" style="' + schrift + 'display:inline-block;padding:9px 18px;' +
+          'border-radius:999px;background:#e8590c;color:#ffffff;font-size:13px;font-weight:bold;text-decoration:none;">' +
+          text + "</a>";
+      };
+      var visitenkarte =
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:340px;max-width:100%;' +
+        'border:1px solid #e6e2dc;border-radius:14px;background:#ffffff;border-collapse:separate;">' +
+        '<tr><td style="padding:16px 18px;">' +
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>' +
+        '<td style="vertical-align:middle;padding-right:14px;">' +
+        '<img src="' + MAIL_BILD + 'reyyan.jpg" width="64" height="64" alt="Reyyan Ahmad" ' +
+        'style="display:block;width:64px;height:64px;border-radius:50%;"></td>' +
+        '<td style="vertical-align:middle;' + schrift + '">' +
+        '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#e8590c;font-weight:bold;">Meine Visitenkarte</div>' +
+        '<div style="font-size:17px;font-weight:bold;color:#161616;margin-top:2px;">Reyyan Ahmad</div>' +
+        '<div style="font-size:13px;color:#6a6a6a;">Mahboobs Kitchen &middot; 0177 201 9889</div>' +
+        "</td></tr></table>" +
+        '<div style="margin-top:12px;">' + knopf(KARTE_URL, "Visitenkarte ansehen") + "</div>" +
+        "</td></tr></table>";
+      var businesskarte =
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:340px;max-width:100%;' +
+        'border-radius:14px;background:#161616;border-collapse:separate;">' +
+        '<tr><td style="padding:18px 20px;' + schrift + 'color:#ffffff;">' +
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>' +
+        '<td><img src="' + MAIL_BILD + 'logo.png" width="110" alt="Mahboobs Kitchen" style="display:block;width:110px;height:auto;"></td>' +
+        '<td style="text-align:right;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#e8590c;font-weight:bold;' + schrift + '">Business Karte</td>' +
+        "</tr></table>" +
+        '<div style="font-size:22px;letter-spacing:3px;margin-top:16px;color:#ffffff;">' + escapeHtml(p.customer_no) + "</div>" +
+        '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a9a9a;margin-top:14px;">Inhaber</div>' +
+        '<div style="font-size:14px;font-weight:bold;text-transform:uppercase;color:#ffffff;">' + escapeHtml(p.name) + "</div>" +
+        '<div style="margin-top:14px;">' + knopf(karteLink(p.card_token), "Business Karte \u00f6ffnen") + "</div>" +
+        "</td></tr></table>";
+      return "<div>" + visitenkarte +
+        '<div style="height:12px;line-height:12px;font-size:12px;">&nbsp;</div>' + businesskarte +
+        '<p style="' + schrift + 'font-size:11px;color:#9a9a9a;margin:14px 0 0;">Wie besprochen informieren wir Sie ab jetzt ' +
+        "\u00fcber unsere Angebote. Wenn Sie das nicht m\u00f6chten, gen\u00fcgt eine kurze Antwort auf diese E-Mail.</p></div>";
+    }
+
+    // Dasselbe als reiner Text - fuer WhatsApp, das Handy und als Ersatz.
+    function kartenReinText(p) {
       return [
-        "Ihre MK Business Karte (Kundennummer " + p.customer_no + "):",
-        karteLink(p.card_token),
-        "",
-        "Meine Visitenkarte mit allen Kontaktdaten:",
+        "Meine Visitenkarte:",
         KARTE_URL,
         "",
-        "Wie besprochen informieren wir Sie ab jetzt über unsere Angebote. " +
-          "Wenn Sie das nicht möchten, genügt eine kurze Antwort auf diese Nachricht."
+        "Ihre MK Business Karte (" + p.customer_no + "):",
+        karteLink(p.card_token),
+        "",
+        "Wie besprochen informieren wir Sie ab jetzt \u00fcber unsere Angebote. " +
+          "Wenn Sie das nicht m\u00f6chten, gen\u00fcgt eine kurze Antwort."
       ].join("\n");
+    }
+
+    function kopiereKartenAlt(html) {
+      var box = document.createElement("div");
+      box.contentEditable = "true";
+      box.innerHTML = html;
+      box.style.position = "fixed";
+      box.style.left = "-9999px";
+      document.body.appendChild(box);
+      var bereich = document.createRange();
+      bereich.selectNodeContents(box);
+      var auswahl = window.getSelection();
+      auswahl.removeAllRanges();
+      auswahl.addRange(bereich);
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) {}
+      auswahl.removeAllRanges();
+      document.body.removeChild(box);
+      return ok ? Promise.resolve() : Promise.reject(new Error("kopieren"));
+    }
+
+    function kopiereKarten(p) {
+      var html = kartenHtml(p);
+      if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+        return navigator.clipboard.write([new window.ClipboardItem({
+          "text/html": new Blob([html], { type: "text/html" }),
+          "text/plain": new Blob([kartenReinText(p)], { type: "text/plain" })
+        })]).catch(function () { return kopiereKartenAlt(html); });
+      }
+      return kopiereKartenAlt(html);
+    }
+
+    function bkMailLink(p, pe) {
+      var text = "Hallo " + (pe.name || "") + ",\n\n\n\n" + (amHandy ? kartenReinText(p) : STRG_V_ZEILE) + "\n";
+      return mailZiel(pe.email, text, MAIL_BETREFF);
+    }
+
+    function bkEmpfaenger() {
+      return currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
     }
 
     function bkZeigen() {
       var p = aktuellerKontakt();
       if (!p || !bkInhalt) return;
-      if (bkOffenFuer === p.id) return;
 
-      // Schon Stammkunde: Karte zeigen, fertig.
+      // Schon Stammkunde: Karte, kurze Anleitung, Karten jederzeit neu kopieren.
       if (p.status === "customer" && p.card_token) {
-        var link = karteLink(p.card_token);
+        var an = bkEmpfaenger().filter(function (pe) { return pe.name === p.card_person && pe.email; })[0] ||
+                 bkEmpfaenger().filter(function (pe) { return pe.email; })[0];
+        var anleitung = "";
+        if (bkHinweisFuer === p.id) {
+          anleitung = bkGmailBlockiert
+            ? '<p class="bk-anleitung bk-anleitung--warnung">Die Karten sind kopiert, Gmail wurde aber blockiert. Klick auf <strong>Gmail \u00f6ffnen</strong>.</p>'
+            : '<p class="bk-anleitung">\u2713 Gmail ist offen und die Karten sind kopiert. In Gmail die Zeile mit \u201eStrg + V\u201c markieren und <strong>Strg + V</strong> dr\u00fccken.</p>';
+        }
         bkInhalt.innerHTML =
           '<div class="bk-stamm">' + miniKarte(p) +
           '<div class="bk-stamm__text"><strong>Stammkunde</strong>' +
           "<span>seit " + escapeHtml(formatDateOnly(p.card_sent_at)) +
           (p.card_person ? " \u00b7 Karte an " + escapeHtml(p.card_person) : "") + "</span>" +
+          anleitung +
           '<div class="bk-knoepfe">' +
-          '<a class="dk-knopf" href="' + escapeHtml(link) + '" target="_blank" rel="noopener">Karte ansehen</a>' +
-          '<button type="button" class="dk-knopf" id="bkLinkKopieren">Link kopieren</button>' +
+          '<button type="button" class="dk-knopf dk-knopf--primaer" id="bkKopieren">Karten kopieren</button>' +
+          (an ? '<a class="dk-knopf" id="bkGmail" href="#">Gmail \u00f6ffnen</a>' : "") +
+          '<a class="dk-knopf" href="' + escapeHtml(karteLink(p.card_token)) + '" target="_blank" rel="noopener">Karte ansehen</a>' +
           "</div></div></div>";
-        var kopierKnopf = document.getElementById("bkLinkKopieren");
-        kopierKnopf.addEventListener("click", function () { kopiere(link, kopierKnopf); });
+
+        var kopierKnopf = document.getElementById("bkKopieren");
+        kopierKnopf.addEventListener("click", function () {
+          kopiereKarten(p).then(function () {
+            kopierKnopf.textContent = "Kopiert \u2713 \u2013 in Gmail Strg + V";
+            setTimeout(function () { kopierKnopf.textContent = "Karten kopieren"; }, 2500);
+          }, function () {
+            kopierKnopf.textContent = "Kopieren ging nicht";
+          });
+        });
+        var gm = document.getElementById("bkGmail");
+        if (gm) {
+          gm.href = bkMailLink(p, an);
+          mailFenster(gm);
+        }
         return;
       }
 
-      var erreichbar = currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
-      if (!erreichbar.length) {
+      var empfaenger = bkEmpfaenger();
+      if (!empfaenger.length) {
         bkInhalt.innerHTML = '<p class="dk-hinweis">F\u00fcr die Karte braucht es einen Ansprechpartner mit E-Mail oder Handynummer.</p>';
         return;
       }
@@ -1388,176 +1497,95 @@
             '<label><input type="checkbox" id="bkZustimmung"> Hat im Gespr\u00e4ch Ja gesagt zu Business Karte und Angeboten</label>' +
             '<span>am <input type="date" id="bkZustimmungDatum" autocomplete="off" value="' +
             escapeHtml(p.conversation_date || heuteLokal()) + '"></span></div>') +
-        '<div class="bk-knoepfe"><button type="button" class="btn btn--primary" id="bkErstellen"' +
-        (zugestimmt ? "" : " disabled") + ">" +
-        (p.customer_no ? "Weiter mit Karte " + escapeHtml(p.customer_no) : "Business Karte erstellen") +
-        "</button></div>" +
+        (empfaenger.length > 1
+          ? '<div class="bk-an"><label for="bkAn">An</label><select id="bkAn" autocomplete="off">' +
+            empfaenger.map(function (pe, i) {
+              return '<option value="' + i + '">' + escapeHtml(pe.name + " \u2013 " + (pe.email || "nur WhatsApp")) + "</option>";
+            }).join("") + "</select></div>"
+          : "") +
+        '<div class="bk-knoepfe"><button type="button" class="btn btn--primary" id="bkZuschicken"' +
+        (zugestimmt ? "" : " disabled") + "></button></div>" +
         '<p class="form-status" id="bkStatus" role="status" aria-live="polite"></p>';
 
-      var knopf = document.getElementById("bkErstellen");
+      var knopf = document.getElementById("bkZuschicken");
       var haken = document.getElementById("bkZustimmung");
+      var auswahl = document.getElementById("bkAn");
+
+      function person() { return empfaenger[auswahl ? +auswahl.value : 0] || empfaenger[0]; }
+      function beschriften() {
+        knopf.textContent = person().email ? "Business Karte zuschicken" : "Business Karte per WhatsApp zuschicken";
+      }
+      beschriften();
+      if (auswahl) auswahl.addEventListener("change", beschriften);
       if (haken) haken.addEventListener("change", function () { knopf.disabled = !haken.checked; });
 
       knopf.addEventListener("click", function () {
+        var pe = person();
         var status = document.getElementById("bkStatus");
+        var weg = pe.email ? "E-Mail" : "WhatsApp";
+        var zustimmungAm = zugestimmt ? null : (document.getElementById("bkZustimmungDatum").value || heuteLokal());
         knopf.disabled = true;
-        status.textContent = "Karte wird erstellt \u2026";
+        status.textContent = "Wird vorbereitet \u2026";
         status.className = "form-status";
 
-        // Zustimmung nachtragen und im Logbuch festhalten - das ist der Nachweis.
-        var vorher = Promise.resolve();
-        if (!zugestimmt) {
-          var tag = document.getElementById("bkZustimmungDatum").value || heuteLokal();
-          vorher = client.from("prospect_people")
-            .update({ marketing_consent: true, consent_at: new Date(tag + "T12:00:00").toISOString() })
+        var vorher = zugestimmt ? Promise.resolve() :
+          client.from("prospect_people")
+            .update({ marketing_consent: true, consent_at: new Date(zustimmungAm + "T12:00:00").toISOString() })
             .eq("prospect_id", p.id)
             .then(function (r) {
               if (r && r.error) throw r.error;
-              currentPeople.forEach(function (pe) { pe.marketing_consent = true; });
-              return client.from("prospect_contacts").insert({
-                prospect_id: p.id,
-                contact_date: tag,
-                notes: "Ja zu Business Karte und Angeboten (im Gespr\u00e4ch am " + formatSimpleDate(tag) + ")"
-              });
-            })
-            .then(function (r) { if (r && r.error) throw r.error; });
-        }
+              currentPeople.forEach(function (x) { x.marketing_consent = true; });
+            });
 
         vorher.then(function () {
+          if (p.card_token) return { data: { customer_no: p.customer_no, card_token: p.card_token } };
           return client.rpc("business_karte_erstellen", { p_prospect: p.id });
         }).then(function (res) {
           if (res.error) throw res.error;
           p.customer_no = res.data.customer_no;
           p.card_token = res.data.card_token;
+
+          // Erst kopieren (die Seite hat noch den Fokus), dann Gmail oeffnen.
+          var kopiert = pe.email && !amHandy ? kopiereKarten(p).catch(function () {}) : Promise.resolve();
+          return kopiert.then(function () {
+            bkGmailBlockiert = false;
+            if (pe.email) {
+              var url = bkMailLink(p, pe);
+              if (amHandy) window.location.href = url;
+              else bkGmailBlockiert = !window.open(url, "_blank");
+            } else {
+              oeffneWhatsApp(waZiel(handyVon(pe), "Hallo " + (pe.name || "") + ",\n\n" + kartenReinText(p)));
+            }
+            return client.from("prospects").update({
+              status: "customer",
+              card_sent_at: new Date().toISOString(),
+              card_person: pe.name
+            }).eq("id", p.id);
+          });
+        }).then(function (r) {
+          if (r && r.error) throw r.error;
+          return client.from("prospect_contacts").insert({
+            prospect_id: p.id,
+            contact_date: todayISO(),
+            notes: "Visitenkarte und Business Karte zugeschickt \u00b7 " + p.customer_no +
+              " \u00b7 per " + weg + " an " + pe.name +
+              (zustimmungAm ? " \u00b7 Ja zu Angeboten im Gespr\u00e4ch am " + formatSimpleDate(zustimmungAm) : "")
+          });
+        }).then(function (r) {
+          if (r && r.error) throw r.error;
+          bkHinweisFuer = p.id;
+          loadDailyCounter();
           loadHistory(p.id);
-          bkSchreiben(p);
+          return loadProspects();
+        }).then(function () {
+          refreshDetailStatus();
+          bkZeigen();
         }).catch(function (err) {
           knopf.disabled = false;
           var grund = (err && err.message) || "unbekannter Fehler";
-          if (/business_karte_erstellen|function|column/i.test(grund)) {
-            grund = "Die Datenbank-Erweiterung (SQL 014) fehlt noch.";
-          }
-          status.textContent = "Karte konnte nicht erstellt werden: " + grund;
+          status.textContent = "Das hat nicht geklappt: " + grund;
           status.className = "form-status form-status--error";
         });
-      });
-    }
-
-    function bkSchreiben(p) {
-      bkOffenFuer = p.id;
-      var empfaenger = currentPeople.filter(function (pe) { return pe.email || handyVon(pe); });
-
-      bkInhalt.innerHTML =
-        '<div class="bk-kopfzeile">' + miniKarte(p) +
-        '<div class="bk-notiz"><span class="bk-notiz__titel">Notiz zum Gespr\u00e4ch</span><p>' +
-        (p.notes ? escapeHtml(p.notes) : '<span class="muted">Keine Notiz eingetragen.</span>') +
-        "</p></div></div>" +
-        '<div class="dk-felder">' +
-        '<label for="bkAn">An</label><select id="bkAn" autocomplete="off">' +
-        empfaenger.map(function (pe, i) {
-          return '<option value="' + i + '">' + escapeHtml(pe.name + " \u2013 " + (pe.email || "nur WhatsApp")) + "</option>";
-        }).join("") + "</select>" +
-        '<label for="bkBetreff">Betreff</label>' +
-        '<input type="text" id="bkBetreff" autocomplete="off" value="Ihre MK Business Karte \u2013 Mahboobs Kitchen">' +
-        '<label for="bkText">Ihr Text</label>' +
-        '<textarea id="bkText" rows="8" autocomplete="off" placeholder="Worauf beziehen Sie sich aus dem Gespr\u00e4ch?"></textarea>' +
-        "<label>Kommt automatisch dazu</label>" +
-        '<pre class="bk-anhang">' + escapeHtml(bkAnhang(p)) + "</pre>" +
-        "</div>" +
-        '<p class="bk-signatur">Die Signatur kommt aus Gmail.</p>' +
-        '<div class="bk-knoepfe">' +
-        '<a class="btn btn--primary" id="bkGmail" href="#">In Gmail \u00f6ffnen</a>' +
-        '<a class="btn btn--whatsapp" id="bkWhatsApp" href="#">Per WhatsApp</a>' +
-        '<button type="button" class="dk-knopf" id="bkAbbrechen">Abbrechen</button>' +
-        "</div>" +
-        '<div class="dk-rueckfrage" id="bkRueckfrage" hidden></div>';
-
-      var an = document.getElementById("bkAn");
-      var betreff = document.getElementById("bkBetreff");
-      var text = document.getElementById("bkText");
-      var gmail = document.getElementById("bkGmail");
-      var wa = document.getElementById("bkWhatsApp");
-
-      function person() { return empfaenger[+an.value] || empfaenger[0]; }
-      function anrede(pe) { return "Hallo " + (pe.name || "") + ","; }
-      function gesamt() { return text.value.replace(/\s+$/, "") + "\n\n" + bkAnhang(p); }
-
-      function ziele() {
-        var pe = person();
-        gmail.style.display = pe.email ? "" : "none";
-        gmail.href = mailZiel(pe.email, gesamt(), betreff.value);
-        mailFenster(gmail);
-        var handy = handyVon(pe);
-        wa.style.display = handy ? "" : "none";
-        wa.href = handy ? waZiel(handy, gesamt()) : "#";
-        if (amHandy) wa.setAttribute("target", "_blank");
-        else wa.removeAttribute("target");
-      }
-
-      var letzteAnrede = anrede(person());
-      text.value = letzteAnrede + "\n\n";
-      an.addEventListener("change", function () {
-        // Anrede mitziehen, solange sie nicht von Hand geaendert wurde
-        var neu = anrede(person());
-        if (text.value.indexOf(letzteAnrede) === 0) text.value = neu + text.value.slice(letzteAnrede.length);
-        letzteAnrede = neu;
-        ziele();
-      });
-      text.addEventListener("input", ziele);
-      betreff.addEventListener("input", ziele);
-      ziele();
-      text.focus();
-      text.setSelectionRange(text.value.length, text.value.length);
-
-      document.getElementById("bkAbbrechen").addEventListener("click", function () {
-        bkOffenFuer = null;
-        bkZeigen();
-      });
-
-      function nachfragen(weg) {
-        var pe = person();
-        var leiste = document.getElementById("bkRueckfrage");
-        leiste.innerHTML = '<span class="dk-rueckfrage__frage">Visitenkarte und Business Karte an ' +
-          escapeHtml(pe.name) + " verschickt?</span>" +
-          '<button type="button" class="dk-knopf dk-knopf--primaer" data-bk="ja">Ja</button>' +
-          '<button type="button" class="dk-knopf dk-rueckfrage__weg" data-bk="nein">Nein</button>';
-        leiste.hidden = false;
-
-        leiste.querySelector('[data-bk="nein"]').addEventListener("click", function () { leiste.hidden = true; });
-        leiste.querySelector('[data-bk="ja"]').addEventListener("click", function () {
-          leiste.innerHTML = '<span class="dk-rueckfrage__frage">Wird eingetragen \u2026</span>';
-          client.from("prospects").update({
-            status: "customer",
-            card_sent_at: new Date().toISOString(),
-            card_person: pe.name
-          }).eq("id", p.id).then(function (r) {
-            if (r && r.error) throw r.error;
-            return client.from("prospect_contacts").insert({
-              prospect_id: p.id,
-              contact_date: todayISO(),
-              notes: "Visitenkarte und Business Karte verschickt \u00b7 " + p.customer_no +
-                " \u00b7 per " + weg + " an " + pe.name
-            });
-          }).then(function (r) {
-            if (r && r.error) throw r.error;
-            bkOffenFuer = null;
-            loadDailyCounter();
-            loadHistory(p.id);
-            return loadProspects();
-          }).then(function () {
-            refreshDetailStatus();
-            bkZeigen();
-          }).catch(function (err) {
-            leiste.innerHTML = '<span class="dk-rueckfrage__fehler">Eintrag fehlgeschlagen: ' +
-              escapeHtml((err && err.message) || "unbekannter Fehler") + "</span>";
-          });
-        });
-      }
-
-      gmail.addEventListener("click", function () { nachfragen("E-Mail"); });
-      wa.addEventListener("click", function (e) {
-        if (!amHandy) { e.preventDefault(); oeffneWhatsApp(wa.href); }
-        nachfragen("WhatsApp");
       });
     }
 

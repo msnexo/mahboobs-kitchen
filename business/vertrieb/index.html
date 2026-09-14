@@ -87,11 +87,13 @@
     <p class="muted" id="dailyCounter" style="margin-bottom:12px;font-size:1.05rem;">Wird geladen …</p>
     <input type="text" id="pipelineSearch" placeholder="Firma suchen …" readonly autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="width:100%;max-width:400px;margin-bottom:24px;padding:10px 14px;border:2px solid var(--color-border);border-radius:10px;font-size:0.95rem;background:var(--color-card-bg);">
 
+    <div class="pl-bereich">Leads <span class="pl-bereich__zahl" id="leadZahl">0</span></div>
     <div id="pipelineLeads" style="margin-bottom:32px;"></div>
     <div id="pipelineOverdue" style="margin-bottom:32px;"></div>
     <div id="pipelineToday" style="margin-bottom:32px;"></div>
     <div id="pipelineTomorrow" style="margin-bottom:32px;"></div>
     <div id="pipelineDates" style="margin-bottom:32px;"></div>
+    <div class="pl-bereich pl-bereich--stamm">Stammkunden <span class="pl-bereich__zahl" id="stammZahl">0</span></div>
     <div id="pipelineStammkunden" style="margin-bottom:32px;"></div>
 
     <button type="button" id="toggleArchiveBtn" class="btn btn--dark" style="padding:8px 16px;font-size:0.85rem;">Archiv anzeigen</button>
