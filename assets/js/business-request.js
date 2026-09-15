@@ -20,7 +20,7 @@
       body: new FormData(form),
     }).then(function (response) {
       if (!response.ok) throw new Error("send failed");
-      statusEl.textContent = "Danke! Wir melden uns in Kürze bei Ihnen und richten Ihren Zugang ein.";
+      statusEl.textContent = "Danke! Wir melden uns in Kürze persönlich bei Ihnen.";
       statusEl.className = "form-status form-status--ok";
       form.reset();
       btn.textContent = "Anfrage gesendet ✓";
