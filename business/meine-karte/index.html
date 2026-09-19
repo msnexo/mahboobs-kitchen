@@ -121,11 +121,11 @@
     <div class="mk-xmas__box">
       <span class="eyebrow">Jetzt planen</span>
       <h2>Ihre Weihnachtsfeier</h2>
-      <p class="lead">Die guten Termine im Dezember sind früh vergeben. Merken Sie sich Ihren Wunschtermin unverbindlich vor &ndash; ich melde mich bei Ihnen und wir stimmen alles in Ruhe ab.</p>
+      <p class="lead">Die guten Termine im Dezember sind früh vergeben. Sagen Sie mir Ihren Wunschtermin und wie viele Sie sind &ndash; ich melde mich mit einem festen Angebot. Alles unverbindlich.</p>
       <ul class="mk-xmas__punkte">
         <li>Bei Ihnen im Haus oder au&szlig;er Haus</li>
         <li>Probeessen vorab m&ouml;glich</li>
-        <li>Men&uuml; nach Ihren W&uuml;nschen</li>
+        <li>Vegetarisch, vegan und halal m&ouml;glich</li>
       </ul>
       <div class="mk-xmas__form">
         <div class="mk-xmas__feld">
@@ -136,7 +136,41 @@
           <label for="mkXmasGaeste">Personen</label>
           <input type="number" id="mkXmasGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 25" autocomplete="off">
         </div>
-        <button type="button" class="btn btn--primary" id="mkXmasBtn">Termin vormerken</button>
+        <div class="mk-xmas__feld">
+          <label for="mkXmasOrt">Wo feiern Sie?</label>
+          <select id="mkXmasOrt" autocomplete="off">
+            <option value="Bei uns im Haus">Bei uns im Haus</option>
+            <option value="Außer Haus – Raum gesucht">Au&szlig;er Haus &ndash; Raum gesucht</option>
+            <option value="Noch offen">Wei&szlig; ich noch nicht</option>
+          </select>
+        </div>
+      </div>
+      <p class="mk-xmas__hinweis">W&auml;hlen Sie unten ein Paket &ndash; oder merken Sie sich erst einmal nur den Termin vor.</p>
+      <div class="mk-xpaket-raster"><article class="mk-xpaket">
+          <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
+          <h3>Weihnachtsbuffet Klassisch</h3>
+          <p class="mk-xpaket__preis">ab 29 € pro Person <small>&middot; ab 20 Personen</small></p>
+          <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Pakora &amp; Bruschetta al Pomodoro</dd><dt>Hauptgerichte</dt><dd>Butter Chicken &amp; Lasagne al Forno</dd><dt>Beilagen</dt><dd>Basmati-Reis, Rosmarin-Kartoffeln, gemischter Salat</dd><dt>Dessert</dt><dd>Apfelstrudel mit Vanillesoße</dd></dl>
+          <p class="mk-xpaket__dabei">Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs</p>
+          <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsbuffet Klassisch">Dieses Paket vormerken</button>
+        </article><article class="mk-xpaket">
+          <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
+          <h3>Festtags-Buffet Premium</h3>
+          <p class="mk-xpaket__preis">ab 39 € pro Person <small>&middot; ab 20 Personen</small></p>
+          <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Samosas, Caprese &amp; kleine Sushi-Auswahl</dd><dt>Hauptgerichte</dt><dd>Lamm Rogan Josh, Pollo alla Parmigiana &amp; Gemüse-Curry</dd><dt>Beilagen</dt><dd>Knoblauch-Naan, Basmati-Reis, gegrilltes Gemüse</dd><dt>Dessert</dt><dd>Tiramisu &amp; Gulab Jamun</dd></dl>
+          <p class="mk-xpaket__dabei">Lieferung, Aufbau, Service-Personal auf Wunsch und Absprache der Tischdeko</p>
+          <button type="button" class="btn btn--primary" data-xpaket="Festtags-Buffet Premium">Dieses Paket vormerken</button>
+        </article><article class="mk-xpaket">
+          <span class="mk-xpaket__tag">Außer Haus</span>
+          <h3>Weihnachtsfeier außer Haus</h3>
+          <p class="mk-xpaket__preis">ab 55 € pro Person <small>&middot; Raum inklusive</small></p>
+          <dl class="mk-xpaket__menue"><dt>Der Ort</dt><dd>Wir organisieren den passenden Raum in der Umgebung mit</dd><dt>Das Essen</dt><dd>Ihr Wunschmenü aus indisch, italienisch und Sushi</dd><dt>Der Service</dt><dd>Personal vor Ort, Auf- und Abbau, Absprache mit der Location</dd><dt>Für Sie</dt><dd>Ein Ansprechpartner für alles – Sie müssen nur kommen</dd></dl>
+          <p class="mk-xpaket__dabei">Der Preis hängt vom Ort und der Gästezahl ab – Sie bekommen vorher eine feste Zahl</p>
+          <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsfeier außer Haus">Dieses Paket vormerken</button>
+        </article></div>
+      <div class="mk-xmas__unten">
+        <button type="button" class="btn btn--dark" id="mkXmasBtn">Nur den Termin vormerken</button>
+        <span>Jedes Men&uuml; l&auml;sst sich &auml;ndern &ndash; die Pakete sind nur ein Vorschlag.</span>
       </div>
       <p class="mk-danke" id="mkXmasDanke" hidden></p>
     </div>

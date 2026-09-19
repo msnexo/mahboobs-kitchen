@@ -126,21 +126,31 @@
 
     var datum = document.getElementById("mkXmasDatum");
     var gaeste = document.getElementById("mkXmasGaeste");
+    var ort = document.getElementById("mkXmasOrt");
     var danke = document.getElementById("mkXmasDanke");
     if (datum) datum.min = heute();
 
-    btn.addEventListener("click", function () {
+    // Termin, Personenzahl und Ort stehen einmal oben - jedes Paket schickt sie mit.
+    function anfragen(knopf, paket) {
       var wann = datum && datum.value;
       if (!wann) {
-        danke.textContent = "Bitte tragen Sie noch Ihren Wunschtermin ein.";
+        danke.textContent = "Bitte tragen Sie oben noch Ihren Wunschtermin ein.";
         danke.className = "mk-danke mk-danke--fehler";
         danke.hidden = false;
+        if (datum) datum.focus();
         return;
       }
       var wieViele = gaeste && parseInt(gaeste.value, 10);
-      melden("interesse", null, btn, danke,
-        "Weihnachtsfeier · Wunschtermin " + datumDeutsch(wann) +
-        (wieViele > 0 ? " · " + wieViele + " Personen" : ""));
+      melden("interesse", null, knopf, danke,
+        "Weihnachtsfeier" + (paket ? " · " + paket : "") +
+        " · " + datumDeutsch(wann) +
+        (wieViele > 0 ? " · " + wieViele + " Personen" : "") +
+        (ort && ort.value ? " · " + ort.value : ""));
+    }
+
+    btn.addEventListener("click", function () { anfragen(btn, ""); });
+    Array.prototype.forEach.call(box.querySelectorAll("[data-xpaket]"), function (b) {
+      b.addEventListener("click", function () { anfragen(b, b.getAttribute("data-xpaket")); });
     });
   }
 
