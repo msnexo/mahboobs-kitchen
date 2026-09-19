@@ -134,6 +134,8 @@
   // Geschaeftskonto. Am Handy nimmt mailto die Mail-App (z. B. Gmail-App).
   var MAIL_ABSENDER = "info@mahboobs-kitchen.com";
 
+  // Gmail laesst die Signatur weg, sobald der Link einen Text mitbringt.
+  // Am Laptop geht die Mail deshalb leer auf, der Text kommt per Strg + V.
   function mailZiel(empfaenger, text, betreff) {
     if (betreff === undefined) betreff = "Mahboobs Kitchen – meine Visitenkarte";
     text = text || "";
@@ -145,8 +147,7 @@
     }
     return "https://mail.google.com/mail/u/" + MAIL_ABSENDER + "/?view=cm&fs=1" +
       "&to=" + encodeURIComponent(empfaenger || "") +
-      (betreff ? "&su=" + encodeURIComponent(betreff) : "") +
-      (text ? "&body=" + encodeURIComponent(text) : "");
+      (betreff ? "&su=" + encodeURIComponent(betreff) : "");
   }
 
   // Gmail am Laptop in neuem Tab, mailto am Handy im selben Fenster.
@@ -702,6 +703,10 @@
         el.addEventListener("click", function () {
           Array.prototype.forEach.call(peopleListEl.querySelectorAll(".dk-menue"), function (m) { m.hidden = true; });
           var wer = people.filter(function (x) { return x.id === el.getAttribute("data-person"); })[0];
+          // Gmail geht am Laptop leer auf (wegen der Signatur) - den Text kopieren
+          if (wer && !amHandy && el.getAttribute("data-aktion") === "mail-karte" && navigator.clipboard) {
+            navigator.clipboard.writeText(kartenText(wer.name, false)).catch(function () {});
+          }
           if (wer) zeigeRueckfrage(wer, el.getAttribute("data-aktion"), el);
         });
       });
@@ -874,7 +879,8 @@
         var texte = {
           "wa-karte":    ["Visitenkarte per WhatsApp an " + name + " verschickt?", "Visitenkarte per WhatsApp an " + name],
           "wa-normal":   ["WhatsApp an " + name + " geschrieben?", "WhatsApp an " + name + " geschrieben"],
-          "mail-karte":  ["Visitenkarte per E-Mail an " + name + " verschickt?", "Visitenkarte per E-Mail an " + name],
+          "mail-karte":  [(amHandy ? "" : "Text ist kopiert – in Gmail Strg + V. ") +
+                          "Visitenkarte per E-Mail an " + name + " verschickt?", "Visitenkarte per E-Mail an " + name],
           "mail-normal": ["E-Mail an " + name + " geschrieben?", "E-Mail an " + name + " geschrieben"]
         }[aktion];
         if (!texte) return;
@@ -1363,7 +1369,6 @@
     var bkGmailBlockiert = false;
     var MAIL_BILD = SEITE + "/assets/img/mail/";
     var MAIL_BETREFF = "Ihre MK Business Karte \u2013 Mahboobs Kitchen";
-    var STRG_V_ZEILE = "\u25b6 Diese Zeile markieren und Strg + V dr\u00fccken \u2013 hier kommen Visitenkarte und Business Karte rein";
 
     function aktuellerKontakt() {
       return allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
@@ -1378,10 +1383,12 @@
         '<div class="mk-card__name">' + escapeHtml(p.name) + "</div></div></div></div>";
     }
 
-    // Die zwei kleinen Karten fuer die Mail. Tabellen mit festen Farben -
-    // so sehen sie in Gmail, Outlook und am Handy gleich aus.
-    function kartenHtml(p) {
+    // Die Anrede und die zwei kleinen Karten fuer die Mail. Tabellen mit
+    // festen Farben - so sehen sie in Gmail, Outlook und am Handy gleich aus.
+    function kartenHtml(p, name) {
       var schrift = "font-family:Arial,Helvetica,sans-serif;";
+      var anrede = '<div style="' + schrift + 'font-size:14px;">Hallo ' + escapeHtml(name || "") + ",</div>" +
+        "<div><br></div><div><br></div>";
       var knopf = function (href, text) {
         return '<a href="' + escapeHtml(href) + '" style="' + schrift + 'display:inline-block;padding:9px 18px;' +
           'border-radius:999px;background:#e8590c;color:#ffffff;font-size:13px;font-weight:bold;text-decoration:none;">' +
@@ -1415,7 +1422,7 @@
         '<div style="font-size:14px;font-weight:bold;text-transform:uppercase;color:#ffffff;">' + escapeHtml(p.name) + "</div>" +
         '<div style="margin-top:14px;">' + knopf(karteLink(p.card_token), "Business Karte \u00f6ffnen") + "</div>" +
         "</td></tr></table>";
-      return "<div>" + visitenkarte +
+      return "<div>" + anrede + visitenkarte +
         '<div style="height:12px;line-height:12px;font-size:12px;">&nbsp;</div>' + businesskarte +
         '<p style="' + schrift + 'font-size:11px;color:#9a9a9a;margin:14px 0 0;">Wie besprochen informieren wir Sie ab jetzt ' +
         "\u00fcber unsere Angebote. Wenn Sie das nicht m\u00f6chten, gen\u00fcgt eine kurze Antwort auf diese E-Mail.</p></div>";
@@ -1454,20 +1461,20 @@
       return ok ? Promise.resolve() : Promise.reject(new Error("kopieren"));
     }
 
-    function kopiereKarten(p) {
-      var html = kartenHtml(p);
+    function kopiereKarten(p, name) {
+      var html = kartenHtml(p, name);
       if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
         return navigator.clipboard.write([new window.ClipboardItem({
           "text/html": new Blob([html], { type: "text/html" }),
-          "text/plain": new Blob([kartenReinText(p)], { type: "text/plain" })
+          "text/plain": new Blob(["Hallo " + (name || "") + ",\n\n\n" + kartenReinText(p)], { type: "text/plain" })
         })]).catch(function () { return kopiereKartenAlt(html); });
       }
       return kopiereKartenAlt(html);
     }
 
+    // Am Laptop bringt mailZiel keinen Text mit - Anrede und Karten kommen per Strg + V.
     function bkMailLink(p, pe) {
-      var text = "Hallo " + (pe.name || "") + ",\n\n\n\n" + (amHandy ? kartenReinText(p) : STRG_V_ZEILE) + "\n";
-      return mailZiel(pe.email, text, MAIL_BETREFF);
+      return mailZiel(pe.email, "Hallo " + (pe.name || "") + ",\n\n\n\n" + kartenReinText(p) + "\n", MAIL_BETREFF);
     }
 
     function bkEmpfaenger() {
@@ -1502,7 +1509,7 @@
         if (bkHinweisFuer === p.id) {
           anleitung = bkGmailBlockiert
             ? '<p class="bk-anleitung bk-anleitung--warnung">Die Karten sind kopiert, Gmail wurde aber blockiert. Klick auf <strong>Gmail \u00f6ffnen</strong>.</p>'
-            : '<p class="bk-anleitung">\u2713 Gmail ist offen und die Karten sind kopiert. In Gmail die Zeile mit \u201eStrg + V\u201c markieren und <strong>Strg + V</strong> dr\u00fccken.</p>';
+            : '<p class="bk-anleitung">\u2713 Gmail ist offen, Anrede und Karten sind kopiert. In Gmail oben in die leere Mail klicken (\u00fcber der Signatur) und <strong>Strg + V</strong> dr\u00fccken.</p>';
         }
         bkInhalt.innerHTML =
           '<div class="bk-stamm">' + miniKarte(p) +
@@ -1555,7 +1562,7 @@
 
         var kopierKnopf = document.getElementById("bkKopieren");
         kopierKnopf.addEventListener("click", function () {
-          kopiereKarten(p).then(function () {
+          kopiereKarten(p, an ? an.name : p.card_person).then(function () {
             kopierKnopf.textContent = "Kopiert \u2713 \u2013 in Gmail Strg + V";
             setTimeout(function () { kopierKnopf.textContent = "Karten kopieren"; }, 2500);
           }, function () {
@@ -1634,7 +1641,7 @@
           p.card_token = res.data.card_token;
 
           // Erst kopieren (die Seite hat noch den Fokus), dann Gmail oeffnen.
-          var kopiert = pe.email && !amHandy ? kopiereKarten(p).catch(function () {}) : Promise.resolve();
+          var kopiert = pe.email && !amHandy ? kopiereKarten(p, pe.name).catch(function () {}) : Promise.resolve();
           return kopiert.then(function () {
             bkGmailBlockiert = false;
             if (pe.email) {
