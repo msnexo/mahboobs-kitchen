@@ -43,10 +43,22 @@
   var client = window.mkBusiness.client;
 
   // "Interesse" oder "Bitte um Rueckruf" - landet mit einer Hand im Vertrieb.
-  function melden(art, angebotId, knopf, danke) {
+  // p_text ist ein kurzer Zusatz wie "Weihnachtsfeier · 12.12.2026 · 25 Personen"
+  // (braucht SQL 016; ohne sie kommt die Meldung ohne den Text an).
+  function melden(art, angebotId, knopf, danke, zusatz) {
     var gruppe = knopf.parentNode.querySelectorAll("button");
     Array.prototype.forEach.call(gruppe, function (b) { b.disabled = true; });
-    client.rpc("karte_reaktion", { p_token: schluessel, p_offer: angebotId || null, p_art: art }).then(function (res) {
+    var daten = { p_token: schluessel, p_offer: angebotId || null, p_art: art };
+    client.rpc("karte_reaktion", {
+      p_token: daten.p_token, p_offer: daten.p_offer, p_art: art, p_text: zusatz || null
+    }).then(function (res) {
+      // Solange SQL 016 nicht eingespielt ist, kennt die Datenbank p_text nicht -
+      // dann geht die Meldung wenigstens ohne den Zusatztext raus.
+      if (res.error && /PGRST202|p_text|function/i.test(res.error.message || "")) {
+        return client.rpc("karte_reaktion", daten);
+      }
+      return res;
+    }).then(function (res) {
       if (res.error) throw res.error;
       knopf.textContent = "Gesendet ✓";
       danke.textContent = art === "rueckruf"
@@ -98,6 +110,56 @@
     });
   }
 
+  function datumDeutsch(iso) {
+    return new Date(iso + "T12:00:00").toLocaleDateString("de-DE");
+  }
+
+  // Weihnachtsfeier: Wunschtermin unverbindlich vormerken. Der Block steht nur
+  // von September bis Dezember auf der Karte.
+  function weihnachtenZeigen() {
+    var box = document.getElementById("mkWeihnachten");
+    var btn = document.getElementById("mkXmasBtn");
+    if (!box || !btn) return;
+    var monat = new Date().getMonth();          // 0 = Januar
+    if (monat < 8) return;                      // erst ab September
+    box.hidden = false;
+
+    var datum = document.getElementById("mkXmasDatum");
+    var gaeste = document.getElementById("mkXmasGaeste");
+    var danke = document.getElementById("mkXmasDanke");
+    if (datum) datum.min = heute();
+
+    btn.addEventListener("click", function () {
+      var wann = datum && datum.value;
+      if (!wann) {
+        danke.textContent = "Bitte tragen Sie noch Ihren Wunschtermin ein.";
+        danke.className = "mk-danke mk-danke--fehler";
+        danke.hidden = false;
+        return;
+      }
+      var wieViele = gaeste && parseInt(gaeste.value, 10);
+      melden("interesse", null, btn, danke,
+        "Weihnachtsfeier · Wunschtermin " + datumDeutsch(wann) +
+        (wieViele > 0 ? " · " + wieViele + " Personen" : ""));
+    });
+  }
+
+  // Tagesgeschaeft: bestellen per WhatsApp oder kurz nachfragen
+  function paketeAnschalten(vorstellung) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-paket-wa]"), function (a) {
+      var name = a.getAttribute("data-paket-wa");
+      a.href = "https://wa.me/" + TELEFON_WA + "?text=" +
+        encodeURIComponent(vorstellung + "\n\nIch hätte gern: " + name + "\nFür wie viele Personen: \nWann: ");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-paket-frage]"), function (b) {
+      b.addEventListener("click", function () {
+        var karte = b.closest(".mk-paket");
+        melden("interesse", null, b, karte.querySelector(".mk-danke"),
+          "Zwischendurch: " + b.getAttribute("data-paket-frage"));
+      });
+    });
+  }
+
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -132,8 +194,26 @@
         melden("rueckruf", null, rueckruf, document.getElementById("mkRueckrufDanke"));
       });
     }
+    var location_ = document.getElementById("mkLocation");
+    if (location_) {
+      location_.addEventListener("click", function () {
+        melden("interesse", null, location_, document.getElementById("mkLocationDanke"),
+          "Sucht eine Location");
+      });
+    }
     var abmelden = document.getElementById("mkAbmelden");
     if (abmelden) abmelden.href = "/business/abmelden/?k=" + schluessel;
+
+    // Der Rechner weiss dann schon, wer da rechnet
+    var rechner = document.getElementById("mkRechnerLink");
+    if (rechner) {
+      rechner.href = "/business/catering-angebot/?firma=" + encodeURIComponent(k.firma || "") +
+        (k.ansprechpartner ? "&person=" + encodeURIComponent(k.ansprechpartner) : "") +
+        "&code=" + encodeURIComponent(nr);
+    }
+
+    weihnachtenZeigen();
+    paketeAnschalten(vorstellung);
 
     if (laden) laden.hidden = true;
     inhalt.hidden = false;

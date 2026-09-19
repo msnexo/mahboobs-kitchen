@@ -115,6 +115,34 @@
 </section>
 
 <div id="mkKarteMehr" hidden>
+<div id="mkWeihnachten" hidden>
+<section class="section mk-xmas" id="weihnachten">
+  <div class="container">
+    <div class="mk-xmas__box">
+      <span class="eyebrow">Jetzt planen</span>
+      <h2>Ihre Weihnachtsfeier</h2>
+      <p class="lead">Die guten Termine im Dezember sind früh vergeben. Merken Sie sich Ihren Wunschtermin unverbindlich vor &ndash; ich melde mich bei Ihnen und wir stimmen alles in Ruhe ab.</p>
+      <ul class="mk-xmas__punkte">
+        <li>Bei Ihnen im Haus oder au&szlig;er Haus</li>
+        <li>Probeessen vorab m&ouml;glich</li>
+        <li>Men&uuml; nach Ihren W&uuml;nschen</li>
+      </ul>
+      <div class="mk-xmas__form">
+        <div class="mk-xmas__feld">
+          <label for="mkXmasDatum">Wunschtermin</label>
+          <input type="date" id="mkXmasDatum" autocomplete="off">
+        </div>
+        <div class="mk-xmas__feld">
+          <label for="mkXmasGaeste">Personen</label>
+          <input type="number" id="mkXmasGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 25" autocomplete="off">
+        </div>
+        <button type="button" class="btn btn--primary" id="mkXmasBtn">Termin vormerken</button>
+      </div>
+      <p class="mk-danke" id="mkXmasDanke" hidden></p>
+    </div>
+  </div>
+</section>
+</div>
 <div id="mkAngebote" hidden>
 <section class="section" id="angebote" style="padding-bottom:0;">
   <div class="container">
@@ -124,6 +152,56 @@
   </div>
 </section>
 </div>
+<section class="section" id="zwischendurch">
+  <div class="container">
+    <span class="eyebrow">Ohne Planung, ohne Angebot</span>
+    <h2>F&uuml;r zwischendurch</h2>
+    <p class="lead" style="max-width:640px;">Nicht jede Bestellung braucht ein Angebot. Das hier k&ouml;nnen Sie einfach bestellen &ndash; am besten zwei Tage vorher, kurzfristiger gern telefonisch.</p>
+    <div class="mk-paket-raster"><article class="mk-paket">
+          <span class="mk-paket__icon">🍛</span>
+          <h3>Mittagstisch fürs Team</h3>
+          <p class="mk-paket__preis">ab 12 € pro Person <small>&middot; ab 10 Personen</small></p>
+          <p>Ein warmes Hauptgericht mit Beilage und kleinem Salat. Geliefert in Warmhaltebehältern, fertig zum Aufmachen.</p>
+          <div class="mk-paket__knoepfe">
+            <a class="btn btn--whatsapp" data-paket-wa="Mittagstisch fürs Team" href="https://wa.me/491772019889" target="_blank" rel="noopener">Per WhatsApp bestellen</a>
+            <button type="button" class="btn btn--dark" data-paket-frage="Mittagstisch fürs Team">Mehr erfahren</button>
+          </div>
+          <p class="mk-danke" hidden></p>
+        </article><article class="mk-paket">
+          <span class="mk-paket__icon">🥪</span>
+          <h3>Besprechungs-Buffet</h3>
+          <p class="mk-paket__preis">ab 15 € pro Person <small>&middot; ab 8 Personen</small></p>
+          <p>Fingerfood, belegte Brote, frisches Obst und Süßes – für Meetings, Schulungen und Besuch im Haus.</p>
+          <div class="mk-paket__knoepfe">
+            <a class="btn btn--whatsapp" data-paket-wa="Besprechungs-Buffet" href="https://wa.me/491772019889" target="_blank" rel="noopener">Per WhatsApp bestellen</a>
+            <button type="button" class="btn btn--dark" data-paket-frage="Besprechungs-Buffet">Mehr erfahren</button>
+          </div>
+          <p class="mk-danke" hidden></p>
+        </article><article class="mk-paket">
+          <span class="mk-paket__icon">🍣</span>
+          <h3>Sushi-Platte fürs Büro</h3>
+          <p class="mk-paket__preis">ab 18 € pro Person <small>&middot; ab 6 Personen</small></p>
+          <p>Gemischte Platte mit Maki, Nigiri und California Rolls, dazu Sojasauce, Ingwer und Wasabi.</p>
+          <div class="mk-paket__knoepfe">
+            <a class="btn btn--whatsapp" data-paket-wa="Sushi-Platte fürs Büro" href="https://wa.me/491772019889" target="_blank" rel="noopener">Per WhatsApp bestellen</a>
+            <button type="button" class="btn btn--dark" data-paket-frage="Sushi-Platte fürs Büro">Mehr erfahren</button>
+          </div>
+          <p class="mk-danke" hidden></p>
+        </article></div>
+    <p class="mk-paket__hinweis">Alle Preise gelten f&uuml;r Karteninhaber, inklusive Lieferung im Umkreis. Sonderw&uuml;nsche, Allergien und vegetarisch oder halal gehen immer.</p>
+  </div>
+</section>
+<section class="section mk-rechner-band">
+  <div class="container">
+    <div class="mk-rechner-band__inner">
+      <div>
+        <h2>Buffet selbst zusammenstellen</h2>
+        <p>Gerichte antippen und sofort sehen, was es pro Person kostet &ndash; zu Ihren Karten-Konditionen. Ohne Anruf, ohne Warten auf ein Angebot.</p>
+      </div>
+      <a class="btn btn--primary" id="mkRechnerLink" href="/business/catering-angebot/">Preis berechnen</a>
+    </div>
+  </div>
+</section>
 <section class="section">
   <div class="container">
     <div class="grid grid--2" style="align-items:start;">
@@ -137,6 +215,11 @@
         <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
         <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
         <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
+        <div class="mk-location">
+          <p><strong>Kein Platz bei Ihnen?</strong> Wir richten auch au&szlig;er Haus aus und helfen bei der Suche nach dem passenden Raum.</p>
+          <button type="button" class="btn btn--dark" id="mkLocation">Location gesucht</button>
+          <p class="mk-danke" id="mkLocationDanke" hidden></p>
+        </div>
         <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei.</p>
         <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
       </div>

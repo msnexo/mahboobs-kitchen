@@ -51,7 +51,9 @@
     ]
   };
   var P = { vorspeise: 3, hauptgericht: 6, beilage: 2, nachtisch: 3 };
-  var SHOW_MULT = 1.35;
+  // Karteninhaber zahlen 20 % weniger als der regulaere Preis (1 / 0.8 = 1.25) -
+  // dieselben 20 %, mit denen die Business Karte beworben wird.
+  var SHOW_MULT = 1.25;
 
   var sel = { vorspeise: [], hauptgericht: [], beilage: [], nachtisch: [] };
 
@@ -322,8 +324,8 @@
     var section = document.getElementById("menuSection");
     section.innerHTML =
       renderCategory("vorspeise", "Vorspeise", "🥗", false, "3 €/Person · jede Vorspeise zählt einzeln", true) +
-      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "Basispaket: 2 Gerichte · jedes weitere +7 €/P · weniger = günstiger", false) +
-      renderCategory("beilage", "Beilagen", "🥘", false, "Basispaket: 2 Beilagen · jede weitere +2 €/P · weniger = günstiger", false) +
+      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "6 €/Person je Hauptgericht · zwei sind üblich", false) +
+      renderCategory("beilage", "Beilagen", "🥘", false, "2 €/Person je Beilage · zwei sind üblich", false) +
       renderCategory("nachtisch", "Nachtisch", "🍮", false, "3 €/Person · jeder Nachtisch zählt einzeln", false);
 
     Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
@@ -406,7 +408,7 @@
 
       if (!date) { statusEl.textContent = "Bitte ein Veranstaltungsdatum wählen."; statusEl.className = "form-status form-status--error"; return; }
       if (!name) { statusEl.textContent = "Bitte Ihren Namen eingeben."; statusEl.className = "form-status form-status--error"; return; }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { statusEl.textContent = "Bitte eine g�ltige E-Mail-Adresse eingeben."; statusEl.className = "form-status form-status--error"; return; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { statusEl.textContent = "Bitte eine g�ltige E-Mail-Adresse eingeben."; statusEl.className = "form-status form-status--error"; return; }
       if (!sel.hauptgericht.length) { statusEl.textContent = "Bitte mindestens ein Hauptgericht wählen."; statusEl.className = "form-status form-status--error"; return; }
 
       var mk = getPrice();
