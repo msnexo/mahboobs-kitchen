@@ -152,6 +152,13 @@
     Array.prototype.forEach.call(box.querySelectorAll("[data-xpaket]"), function (b) {
       b.addEventListener("click", function () { anfragen(b, b.getAttribute("data-xpaket")); });
     });
+    // Ein Ort ausser Haus - der Kunde bekommt keinen Kontakt zur Location
+    Array.prototype.forEach.call(box.querySelectorAll("[data-xort]"), function (b) {
+      b.addEventListener("click", function () {
+        if (ort) ort.value = "Außer Haus – Raum gesucht";
+        anfragen(b, "Ort: " + b.getAttribute("data-xort"));
+      });
+    });
   }
 
   // Tagesgeschaeft: bestellen per WhatsApp oder kurz nachfragen
