@@ -1246,7 +1246,9 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-chip.is-an { border-color: var(--color-primary); background: rgba(232,89,12,0.22); font-weight: 600; }
 .mk-chip span { font-size: 1.05rem; line-height: 1; }
 .mk-xmas__unten { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; }
-.mk-xmas__unten span { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+.mk-xmas__zusage { display: flex; align-items: center; gap: 12px; margin: 16px 0 0; padding: 14px 18px; border-radius: 14px; background: rgba(232,89,12,0.16); border: 1px solid rgba(232,89,12,0.45); color: #fff; font-size: 0.98rem; line-height: 1.45; }
+.mk-xmas__zusage strong { color: var(--color-primary); }
+.mk-xmas__zusage-zeichen { font-size: 1.25rem; line-height: 1; }
 
 /* Die drei Weihnachts-Pakete */
 .mk-xpaket-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 16px; }
