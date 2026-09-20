@@ -202,6 +202,12 @@
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape" && !grosseAnsicht.hidden) zu();
       });
+      // Klick daneben - also irgendwo sonst auf die Seite - klappt auch zu
+      document.addEventListener("click", function (e) {
+        if (grosseAnsicht.hidden || laeuft) return;
+        if (grosseAnsicht.contains(e.target) || kachel.contains(e.target)) return;
+        zu();
+      });
     }
 
     var datum = document.getElementById("mkXmasDatum");
