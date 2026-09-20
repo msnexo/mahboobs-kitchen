@@ -1245,6 +1245,11 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-chip:hover { border-color: rgba(232,89,12,0.7); }
 .mk-chip.is-an { border-color: var(--color-primary); background: rgba(232,89,12,0.22); font-weight: 600; }
 .mk-chip span { font-size: 1.05rem; line-height: 1; }
+
+/* Eigene Nachricht des Kunden */
+.mk-xmas__notiz { width: 100%; max-width: 640px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; border-radius: 12px; padding: 14px 16px; font: inherit; font-size: 0.95rem; resize: vertical; }
+.mk-xmas__notiz::placeholder { color: rgba(255,255,255,0.45); }
+.mk-xmas__notiz:focus { outline: none; border-color: var(--color-primary); }
 .mk-xmas__unten { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; }
 .mk-xmas__zusage { display: flex; align-items: center; gap: 14px; width: 100%; margin: 22px 0 0; padding: 16px 20px; border-radius: 14px; background: rgba(232,89,12,0.16); border: 1px solid rgba(232,89,12,0.45); color: #fff; }
 .mk-xmas__zusage-knopf { order: -1; flex-shrink: 0; }

@@ -217,6 +217,7 @@
 
     var datum = document.getElementById("mkXmasDatum");
     var gaeste = document.getElementById("mkXmasGaeste");
+    var notiz = document.getElementById("mkXmasNotiz");
     var danke = document.getElementById("mkXmasDanke");
     if (datum) datum.min = heute();
 
@@ -290,9 +291,14 @@
       schreib("mkZusTermin", wann
         ? datumDeutsch(wann) + (wieViele > 0 ? " · " + wieViele + " Personen" : "")
         : "Bitte oben eintragen");
+      var eigenes = notiz && notiz.value.trim();
+      var notizZeile = document.getElementById("mkZusNotizZeile");
+      if (notizZeile) notizZeile.hidden = !eigenes;
+      schreib("mkZusNotiz", eigenes || "");
     }
     if (datum) datum.addEventListener("change", zusammenfassung);
     if (gaeste) gaeste.addEventListener("input", zusammenfassung);
+    if (notiz) notiz.addEventListener("input", zusammenfassung);
     zusammenfassung();
 
     // Termin, Personenzahl und Ort stehen einmal oben - jedes Paket schickt sie mit.
@@ -307,13 +313,17 @@
       }
       var wieViele = gaeste && parseInt(gaeste.value, 10);
       var lust = richtungen();
-      melden("interesse", null, knopf, danke,
-        "Weihnachtsfeier" + (paket ? " · " + paket : "") +
+      // Vor dem senkrechten Strich steht, was im Vertrieb an der Meldung steht,
+      // dahinter die Einzelheiten fuers Logbuch.
+      var kurz = "Weihnachtsfeier" + (paket ? " · " + paket : "") +
         " · " + datumDeutsch(wann) +
-        (wieViele > 0 ? " · " + wieViele + " Personen" : "") +
-        " · " + WO[wahl].text +
+        (wieViele > 0 ? " · " + wieViele + " Personen" : "");
+      var mehr = WO[wahl].text +
         (WO[wahl].aussen ? " · " + (gewaehlterOrt || "Ort noch offen") : "") +
-        (lust.length ? " · " + lust.join(", ") : ""));
+        (lust.length ? " · " + lust.join(", ") : "");
+      var text = notiz && notiz.value.trim();
+      melden("interesse", null, knopf, danke,
+        kurz + " | " + mehr + (text ? " | Nachricht: " + text.replace(/\s+/g, " ") : ""));
     }
 
     btn.addEventListener("click", function () { anfragen(btn, ""); });
