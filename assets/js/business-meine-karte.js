@@ -46,8 +46,12 @@
   // p_text ist ein kurzer Zusatz wie "Weihnachtsfeier · 12.12.2026 · 25 Personen"
   // (braucht SQL 016; ohne sie kommt die Meldung ohne den Text an).
   function melden(art, angebotId, knopf, danke, zusatz) {
-    var gruppe = knopf.parentNode.querySelectorAll("button");
-    Array.prototype.forEach.call(gruppe, function (b) { b.disabled = true; });
+    // Nur die Knöpfe direkt daneben sperren, nicht alles im Block
+    var gruppe = Array.prototype.filter.call(knopf.parentNode.children, function (c) {
+      return c.tagName === "BUTTON";
+    });
+    if (gruppe.indexOf(knopf) === -1) gruppe = [knopf];
+    gruppe.forEach(function (b) { b.disabled = true; });
     var daten = { p_token: schluessel, p_offer: angebotId || null, p_art: art };
     client.rpc("karte_reaktion", {
       p_token: daten.p_token, p_offer: daten.p_offer, p_art: art, p_text: zusatz || null
@@ -60,7 +64,8 @@
       return res;
     }).then(function (res) {
       if (res.error) throw res.error;
-      knopf.textContent = "Gesendet ✓";
+      // Bei mehrzeiligen Knöpfen nur die Überschrift austauschen
+      (knopf.querySelector(".mk-xmas__zusage-gross") || knopf).textContent = "Gesendet ✓";
       danke.textContent = art === "rueckruf"
         ? "Danke! Reyyan ruft Sie zeitnah zurück."
         : "Danke! Reyyan meldet sich persönlich bei Ihnen.";
