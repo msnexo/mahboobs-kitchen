@@ -1247,7 +1247,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-chip span { font-size: 1.05rem; line-height: 1; }
 .mk-xmas__unten { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; }
 .mk-xmas__zusage { display: flex; align-items: center; gap: 14px; width: 100%; margin: 22px 0 0; padding: 16px 20px; border-radius: 14px; background: rgba(232,89,12,0.16); border: 1px solid rgba(232,89,12,0.45); color: #fff; }
-.mk-xmas__zusage-knopf { margin-left: auto; flex-shrink: 0; }
+.mk-xmas__zusage-knopf { order: -1; flex-shrink: 0; }
 .mk-xmas__zusage-zeichen { font-size: 1.4rem; line-height: 1; color: var(--color-primary); }
 .mk-xmas__zusage-text { display: flex; flex-direction: column; gap: 3px; }
 .mk-xmas__zusage-gross { font-family: var(--ff-head); font-weight: 700; font-size: 1.05rem; }
@@ -1318,7 +1318,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .mk-xmas__form { flex-direction: column; align-items: stretch; }
   .mk-xmas__feld input, .mk-xmas__feld select, .mk-xmas__unten .btn, .mk-xpaket .btn, .mk-loc__text .btn { width: 100%; text-align: center; }
   .mk-xmas__zusage { flex-wrap: wrap; }
-  .mk-xmas__zusage-knopf { width: 100%; margin-left: 0; text-align: center; }
+  .mk-xmas__zusage-knopf { width: 100%; text-align: center; }
   .mk-rechner-band__inner { padding: 24px 20px; }
   .mk-rechner-band__inner .btn { width: 100%; text-align: center; }
 }
