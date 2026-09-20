@@ -247,8 +247,29 @@
       }).map(function (c) { return c.getAttribute("data-richtung"); });
     }
     Array.prototype.forEach.call(box.querySelectorAll("[data-richtung]"), function (c) {
-      c.addEventListener("click", function () { c.classList.toggle("is-an"); });
+      c.addEventListener("click", function () { c.classList.toggle("is-an"); zusammenfassung(); });
     });
+
+    // Die Karte "außer Haus" zeigt, was der Kunde bisher ausgesucht hat
+    function schreib(id, wert) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = wert;
+    }
+    function zusammenfassung() {
+      schreib("mkZusOrt", gewaehlterOrt || "Noch offen – ich schlage Ihnen etwas Passendes vor");
+      var lust = richtungen();
+      schreib("mkZusEssen", lust.length
+        ? lust.join(", ")
+        : "Ihr Wunschmenü – indisch, italienisch, Sushi oder gemischt");
+      var wann = datum && datum.value;
+      var wieViele = gaeste && parseInt(gaeste.value, 10);
+      schreib("mkZusTermin", wann
+        ? datumDeutsch(wann) + (wieViele > 0 ? " · " + wieViele + " Personen" : "")
+        : "Bitte oben eintragen");
+    }
+    if (datum) datum.addEventListener("change", zusammenfassung);
+    if (gaeste) gaeste.addEventListener("input", zusammenfassung);
+    zusammenfassung();
 
     // Termin, Personenzahl und Ort stehen einmal oben - jedes Paket schickt sie mit.
     function anfragen(knopf, paket) {
@@ -283,6 +304,7 @@
         Array.prototype.forEach.call(box.querySelectorAll("[data-xort]"), function (x) {
           x.classList.toggle("is-an", x.getAttribute("data-xort") === gewaehlterOrt);
         });
+        zusammenfassung();
       });
     });
   }
