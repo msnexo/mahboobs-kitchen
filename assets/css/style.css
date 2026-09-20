@@ -1253,14 +1253,18 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-xmas__orte h3 { color: #fff; margin-bottom: 8px; }
 .mk-xmas__orte > p { color: rgba(255,255,255,0.78); max-width: 680px; margin: 0; }
 .mk-xmas__orte > p strong { color: #fff; }
-.mk-loc-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
-.mk-loc { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+.mk-loc-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+.mk-loc { font: inherit; text-align: left; cursor: pointer; padding: 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s ease, transform 0.2s ease; }
+.mk-loc:hover { border-color: rgba(232,89,12,0.7); transform: translateY(-2px); }
+.mk-loc.is-an { border-color: var(--color-primary); background: rgba(232,89,12,0.16); }
+.mk-loc__bild { position: relative; display: block; }
 .mk-loc img { width: 100%; height: 150px; object-fit: cover; display: block; }
+.mk-loc__haken { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 0.95rem; display: none; align-items: center; justify-content: center; }
+.mk-loc.is-an .mk-loc__haken { display: flex; }
 .mk-loc__text { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-.mk-loc__text h4 { margin: 0; color: #fff; font-family: var(--ff-head); font-size: 1rem; }
+.mk-loc__name { color: #fff; font-family: var(--ff-head); font-weight: 700; font-size: 1rem; }
 .mk-loc__groesse { font-size: 0.78rem; font-weight: 700; color: var(--color-primary); }
-.mk-loc__text p { margin: 0; font-size: 0.88rem; color: rgba(255,255,255,0.72); }
-.mk-loc__text .btn { margin-top: auto; align-self: flex-start; padding: 9px 16px; font-size: 0.84rem; }
+.mk-loc__info { font-size: 0.88rem; color: rgba(255,255,255,0.72); }
 .mk-loc__hinweis { margin-top: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.55); }
 .mk-xmas .mk-danke { color: #7cc224; }
 .mk-xmas .mk-danke--fehler { color: #ff9a8a; }

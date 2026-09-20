@@ -132,17 +132,20 @@
     // Erst "wo", dann passt sich an, was darunter steht
     var WO = {
       haus:   { text: "Bei uns im Haus",          haus: true,  aussen: false },
-      aussen: { text: "Außer Haus – Ort gesucht", haus: false, aussen: true },
+      aussen: { text: "Außer Haus", haus: false, aussen: true },
       offen:  { text: "Wo noch offen",            haus: true,  aussen: true }
     };
     var wahl = "haus";
+    var gewaehlterOrt = "";
     var teilHaus = document.getElementById("mkXmasHaus");
     var teilAussen = document.getElementById("mkXmasAussen");
+    var teilPaketAussen = document.getElementById("mkXmasPaketAussen");
 
     function zeigeWahl(neu) {
       wahl = neu;
       if (teilHaus) teilHaus.hidden = !WO[wahl].haus;
       if (teilAussen) teilAussen.hidden = !WO[wahl].aussen;
+      if (teilPaketAussen) teilPaketAussen.hidden = !WO[wahl].aussen;
       Array.prototype.forEach.call(box.querySelectorAll("[data-wahl]"), function (b) {
         b.classList.toggle("is-an", b.getAttribute("data-wahl") === wahl);
       });
@@ -178,6 +181,7 @@
         " · " + datumDeutsch(wann) +
         (wieViele > 0 ? " · " + wieViele + " Personen" : "") +
         " · " + WO[wahl].text +
+        (WO[wahl].aussen ? " · " + (gewaehlterOrt || "Ort noch offen") : "") +
         (lust.length ? " · " + lust.join(", ") : ""));
     }
 
@@ -185,11 +189,14 @@
     Array.prototype.forEach.call(box.querySelectorAll("[data-xpaket]"), function (b) {
       b.addEventListener("click", function () { anfragen(b, b.getAttribute("data-xpaket")); });
     });
-    // Ein Ort ausser Haus - der Kunde bekommt keinen Kontakt zur Location
+    // Ort aussuchen: nur anhaken, verschickt wird erst mit dem Paket oder dem Termin
     Array.prototype.forEach.call(box.querySelectorAll("[data-xort]"), function (b) {
       b.addEventListener("click", function () {
-        wahl = "aussen";
-        anfragen(b, "Ort: " + b.getAttribute("data-xort"));
+        var name = b.getAttribute("data-xort");
+        gewaehlterOrt = gewaehlterOrt === name ? "" : name;
+        Array.prototype.forEach.call(box.querySelectorAll("[data-xort]"), function (x) {
+          x.classList.toggle("is-an", x.getAttribute("data-xort") === gewaehlterOrt);
+        });
       });
     });
   }
