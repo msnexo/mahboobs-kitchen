@@ -222,24 +222,36 @@
 
     // Erst "wo", dann passt sich an, was darunter steht
     var WO = {
-      haus:   { text: "Bei uns im Haus",          haus: true,  aussen: false },
-      aussen: { text: "Außer Haus", haus: false, aussen: true },
-      offen:  { text: "Wo noch offen",            haus: true,  aussen: true }
+      haus: {
+        text: "Bei uns im Haus", aussen: false,
+        titel: "Weihnachtsfeier bei Ihnen im Haus",
+        preis: "ab 29 € pro Person", zusatz: "· Buffet, geliefert und aufgebaut",
+        dabei: "Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs"
+      },
+      aussen: {
+        text: "Außer Haus", aussen: true,
+        titel: "Weihnachtsfeier außer Haus",
+        preis: "ab 25 € pro Person", zusatz: "· Raum, Essen und Service",
+        dabei: "Personal vor Ort, Auf- und Abbau, alle Absprachen mit dem Haus"
+      },
+      offen: {
+        text: "Wo noch offen", aussen: true,
+        titel: "Ihre Weihnachtsfeier",
+        preis: "ab 25 € pro Person", zusatz: "· je nachdem, wo Sie feiern",
+        dabei: "Lieferung, Aufbau und alles, was sonst dazugehört"
+      }
     };
     var wahl = "haus";
     var gewaehlterOrt = "";
-    var teilHaus = document.getElementById("mkXmasHaus");
     var teilAussen = document.getElementById("mkXmasAussen");
-    var teilPaketAussen = document.getElementById("mkXmasPaketAussen");
 
     function zeigeWahl(neu) {
       wahl = neu;
-      if (teilHaus) teilHaus.hidden = !WO[wahl].haus;
       if (teilAussen) teilAussen.hidden = !WO[wahl].aussen;
-      if (teilPaketAussen) teilPaketAussen.hidden = !WO[wahl].aussen;
       Array.prototype.forEach.call(box.querySelectorAll("[data-wahl]"), function (b) {
         b.classList.toggle("is-an", b.getAttribute("data-wahl") === wahl);
       });
+      zusammenfassung();
     }
     Array.prototype.forEach.call(box.querySelectorAll("[data-wahl]"), function (b) {
       b.addEventListener("click", function () { zeigeWahl(b.getAttribute("data-wahl")); });
@@ -261,6 +273,13 @@
       if (el) el.textContent = wert;
     }
     function zusammenfassung() {
+      var w = WO[wahl];
+      schreib("mkZusTitel", w.titel);
+      schreib("mkZusPreis", w.preis);
+      schreib("mkZusPreisZusatz", w.zusatz);
+      schreib("mkZusDabei", w.dabei);
+      var ortZeile = document.getElementById("mkZusOrtZeile");
+      if (ortZeile) ortZeile.hidden = !w.aussen;
       schreib("mkZusOrt", gewaehlterOrt || "Noch offen – ich schlage Ihnen etwas Passendes vor");
       var lust = richtungen();
       schreib("mkZusEssen", lust.length

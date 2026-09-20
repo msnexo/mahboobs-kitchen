@@ -236,41 +236,19 @@
         <div class="mk-chips"><button type="button" class="mk-chip" data-richtung="Indisch"><span>🍛</span>Indisch</button><button type="button" class="mk-chip" data-richtung="Italienisch"><span>🍝</span>Italienisch</button><button type="button" class="mk-chip" data-richtung="Sushi"><span>🍣</span>Sushi</button><button type="button" class="mk-chip" data-richtung="Deutsch &amp; Klassisch"><span>🥩</span>Deutsch &amp; Klassisch</button><button type="button" class="mk-chip" data-richtung="Vegetarisch im Mittelpunkt"><span>🥗</span>Vegetarisch im Mittelpunkt</button><button type="button" class="mk-chip" data-richtung="Fingerfood statt Buffet"><span>🥟</span>Fingerfood statt Buffet</button><button type="button" class="mk-chip" data-richtung="Querbeet – überraschen Sie uns"><span>🎲</span>Querbeet – überraschen Sie uns</button></div>
       </div>
 
-      <div id="mkXmasHaus">
-        <p class="mk-xmas__hinweis">Das Buffet kommt fertig zu Ihnen &ndash; in die Kantine, ins B&uuml;ro oder in Ihren eigenen Raum.</p>
-        <div class="mk-xpaket-raster"><article class="mk-xpaket">
-              <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
-              <h3>Weihnachtsbuffet Klassisch</h3>
-              <p class="mk-xpaket__preis">ab 29 € pro Person <small>&middot; ab 20 Personen</small></p>
-              <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Pakora &amp; Bruschetta al Pomodoro</dd><dt>Hauptgerichte</dt><dd>Butter Chicken &amp; Lasagne al Forno</dd><dt>Beilagen</dt><dd>Basmati-Reis, Rosmarin-Kartoffeln, gemischter Salat</dd><dt>Dessert</dt><dd>Apfelstrudel mit Vanillesoße</dd></dl>
-              <p class="mk-xpaket__dabei">Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs</p>
-              <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsbuffet Klassisch">Angebot dazu anfordern</button>
-            </article><article class="mk-xpaket">
-              <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
-              <h3>Festtags-Buffet Premium</h3>
-              <p class="mk-xpaket__preis">ab 39 € pro Person <small>&middot; ab 20 Personen</small></p>
-              <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Samosas, Caprese &amp; kleine Sushi-Auswahl</dd><dt>Hauptgerichte</dt><dd>Lamm Rogan Josh, Pollo alla Parmigiana &amp; Gemüse-Curry</dd><dt>Beilagen</dt><dd>Knoblauch-Naan, Basmati-Reis, gegrilltes Gemüse</dd><dt>Dessert</dt><dd>Tiramisu &amp; Gulab Jamun</dd></dl>
-              <p class="mk-xpaket__dabei">Lieferung, Aufbau, Service-Personal auf Wunsch und Absprache der Tischdeko</p>
-              <button type="button" class="btn btn--primary" data-xpaket="Festtags-Buffet Premium">Angebot dazu anfordern</button>
-            </article></div>
-      </div>
-
-      <div id="mkXmasPaketAussen" hidden>
-        <div class="mk-xpaket-raster">
-          <article class="mk-xpaket">
-            <span class="mk-xpaket__tag">Ihre Auswahl</span>
-            <h3>Weihnachtsfeier au&szlig;er Haus</h3>
-            <p class="mk-xpaket__preis">ab 25 &euro; pro Person <small>&middot; Raum, Essen und Service</small></p>
-            <dl class="mk-xpaket__menue">
-              <dt>Der Ort</dt><dd id="mkZusOrt">Noch offen &ndash; ich schlage Ihnen etwas Passendes vor</dd>
-              <dt>Das Essen</dt><dd id="mkZusEssen">Ihr Wunschmen&uuml; &ndash; indisch, italienisch, Sushi oder gemischt</dd>
-              <dt>Termin</dt><dd id="mkZusTermin">Bitte oben eintragen</dd>
-              <dt>Dabei</dt><dd>Personal vor Ort, Auf- und Abbau, alle Absprachen mit dem Haus</dd>
-            </dl>
-            <p class="mk-xpaket__dabei">Der Endpreis h&auml;ngt vom Ort und der G&auml;stezahl ab &ndash; Sie bekommen vorher eine feste Zahl</p>
-            <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsfeier au&szlig;er Haus">Angebot dazu anfordern</button>
-          </article>
-        </div>
+      <div class="mk-xpaket-raster mk-zus-raster">
+        <article class="mk-xpaket">
+          <span class="mk-xpaket__tag">Ihre Auswahl</span>
+          <h3 id="mkZusTitel">Ihre Weihnachtsfeier</h3>
+          <p class="mk-xpaket__preis"><span id="mkZusPreis">ab 25 &euro; pro Person</span> <small id="mkZusPreisZusatz">&middot; Raum, Essen und Service</small></p>
+          <dl class="mk-xpaket__menue">
+            <div id="mkZusOrtZeile"><dt>Der Ort</dt><dd id="mkZusOrt">Noch offen &ndash; ich schlage Ihnen etwas Passendes vor</dd></div>
+            <div><dt>Das Essen</dt><dd id="mkZusEssen">Ihr Wunschmen&uuml; &ndash; indisch, italienisch, Sushi oder gemischt</dd></div>
+            <div><dt>Termin</dt><dd id="mkZusTermin">Bitte oben eintragen</dd></div>
+            <div><dt>Dabei</dt><dd id="mkZusDabei">Lieferung, Aufbau und alles, was dazugeh&ouml;rt</dd></div>
+          </dl>
+          <p class="mk-xpaket__dabei">Der Endpreis h&auml;ngt von Men&uuml;, Ort und G&auml;stezahl ab &ndash; Sie bekommen vorher eine feste Zahl</p>
+        </article>
       </div>
       <button type="button" class="mk-xmas__zusage" id="mkXmasBtn">
         <span class="mk-xmas__zusage-zeichen">&#9993;</span>

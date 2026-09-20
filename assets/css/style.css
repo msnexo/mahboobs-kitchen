@@ -1255,8 +1255,10 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 
 /* Die drei Weihnachts-Pakete */
 .mk-xpaket-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 16px; }
-/* Ausser Haus steht allein da - sonst wird die Karte unnoetig breit */
-#mkXmasAussen .mk-xpaket-raster { grid-template-columns: repeat(auto-fit, minmax(260px, 380px)); justify-content: start; }
+/* Die eine Karte mit der Auswahl - nicht ueber die ganze Breite ziehen */
+.mk-zus-raster { grid-template-columns: minmax(260px, 560px); margin-top: 24px; }
+.mk-xpaket__menue > div { display: contents; }
+.mk-xpaket__menue > div[hidden] { display: none; }
 .mk-xpaket { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
 .mk-xpaket__tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--color-primary); }
 .mk-xpaket h3 { margin: 0; color: #fff; font-size: 1.15rem; }
