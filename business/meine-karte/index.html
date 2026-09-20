@@ -136,75 +136,107 @@
           <label for="mkXmasGaeste">Personen</label>
           <input type="number" id="mkXmasGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 25" autocomplete="off">
         </div>
-        <div class="mk-xmas__feld">
-          <label for="mkXmasOrt">Wo feiern Sie?</label>
-          <select id="mkXmasOrt" autocomplete="off">
-            <option value="Bei uns im Haus">Bei uns im Haus</option>
-            <option value="Außer Haus – Raum gesucht">Au&szlig;er Haus &ndash; Raum gesucht</option>
-            <option value="Noch offen">Wei&szlig; ich noch nicht</option>
-          </select>
-        </div>
       </div>
-      <p class="mk-xmas__hinweis">W&auml;hlen Sie unten ein Paket &ndash; oder merken Sie sich erst einmal nur den Termin vor.</p>
-      <div class="mk-xpaket-raster"><article class="mk-xpaket">
-          <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
-          <h3>Weihnachtsbuffet Klassisch</h3>
-          <p class="mk-xpaket__preis">ab 29 € pro Person <small>&middot; ab 20 Personen</small></p>
-          <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Pakora &amp; Bruschetta al Pomodoro</dd><dt>Hauptgerichte</dt><dd>Butter Chicken &amp; Lasagne al Forno</dd><dt>Beilagen</dt><dd>Basmati-Reis, Rosmarin-Kartoffeln, gemischter Salat</dd><dt>Dessert</dt><dd>Apfelstrudel mit Vanillesoße</dd></dl>
-          <p class="mk-xpaket__dabei">Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs</p>
-          <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsbuffet Klassisch">Dieses Paket vormerken</button>
-        </article><article class="mk-xpaket">
-          <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
-          <h3>Festtags-Buffet Premium</h3>
-          <p class="mk-xpaket__preis">ab 39 € pro Person <small>&middot; ab 20 Personen</small></p>
-          <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Samosas, Caprese &amp; kleine Sushi-Auswahl</dd><dt>Hauptgerichte</dt><dd>Lamm Rogan Josh, Pollo alla Parmigiana &amp; Gemüse-Curry</dd><dt>Beilagen</dt><dd>Knoblauch-Naan, Basmati-Reis, gegrilltes Gemüse</dd><dt>Dessert</dt><dd>Tiramisu &amp; Gulab Jamun</dd></dl>
-          <p class="mk-xpaket__dabei">Lieferung, Aufbau, Service-Personal auf Wunsch und Absprache der Tischdeko</p>
-          <button type="button" class="btn btn--primary" data-xpaket="Festtags-Buffet Premium">Dieses Paket vormerken</button>
-        </article><article class="mk-xpaket">
-          <span class="mk-xpaket__tag">Außer Haus</span>
-          <h3>Weihnachtsfeier außer Haus</h3>
-          <p class="mk-xpaket__preis">ab 55 € pro Person <small>&middot; Raum inklusive</small></p>
-          <dl class="mk-xpaket__menue"><dt>Der Ort</dt><dd>Wir organisieren den passenden Raum in der Umgebung mit</dd><dt>Das Essen</dt><dd>Ihr Wunschmenü aus indisch, italienisch und Sushi</dd><dt>Der Service</dt><dd>Personal vor Ort, Auf- und Abbau, Absprache mit der Location</dd><dt>Für Sie</dt><dd>Ein Ansprechpartner für alles – Sie müssen nur kommen</dd></dl>
-          <p class="mk-xpaket__dabei">Der Preis hängt vom Ort und der Gästezahl ab – Sie bekommen vorher eine feste Zahl</p>
-          <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsfeier außer Haus">Dieses Paket vormerken</button>
-        </article></div>
-      <div class="mk-xmas__orte">
-        <h3>Sie feiern lieber au&szlig;er Haus?</h3>
-        <p>Wir arbeiten mit Orten in Norderstedt und Hamburg zusammen und k&uuml;mmern uns um alles: Raum, Essen, Personal, Auf- und Abbau. <strong>Sie sprechen nur mit mir</strong> &ndash; um die Absprache mit dem Ort k&uuml;mmere ich mich.</p>
-        <div class="mk-loc-raster"><article class="mk-loc">
+
+      <p class="mk-xmas__frage">Wo soll gefeiert werden?</p>
+      <div class="mk-wahl" role="group" aria-label="Wo feiern Sie?">
+        <button type="button" class="mk-wahl__btn is-an" data-wahl="haus">
+          <span class="mk-wahl__gross">Bei uns im Haus</span>
+          <span class="mk-wahl__klein">Wir bringen das Buffet zu Ihnen</span>
+        </button>
+        <button type="button" class="mk-wahl__btn" data-wahl="aussen">
+          <span class="mk-wahl__gross">Au&szlig;er Haus</span>
+          <span class="mk-wahl__klein">Wir organisieren auch den Ort</span>
+        </button>
+        <button type="button" class="mk-wahl__btn" data-wahl="offen">
+          <span class="mk-wahl__gross">Wei&szlig; ich noch nicht</span>
+          <span class="mk-wahl__klein">Zeigen Sie mir beides</span>
+        </button>
+      </div>
+
+      <div id="mkXmasHaus">
+        <p class="mk-xmas__hinweis">Das Buffet kommt fertig zu Ihnen &ndash; in die Kantine, ins B&uuml;ro oder in Ihren eigenen Raum.</p>
+        <div class="mk-xpaket-raster"><article class="mk-xpaket">
+              <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
+              <h3>Weihnachtsbuffet Klassisch</h3>
+              <p class="mk-xpaket__preis">ab 29 € pro Person <small>&middot; ab 20 Personen</small></p>
+              <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Pakora &amp; Bruschetta al Pomodoro</dd><dt>Hauptgerichte</dt><dd>Butter Chicken &amp; Lasagne al Forno</dd><dt>Beilagen</dt><dd>Basmati-Reis, Rosmarin-Kartoffeln, gemischter Salat</dd><dt>Dessert</dt><dd>Apfelstrudel mit Vanillesoße</dd></dl>
+              <p class="mk-xpaket__dabei">Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs</p>
+              <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsbuffet Klassisch">Dieses Paket vormerken</button>
+            </article><article class="mk-xpaket">
+              <span class="mk-xpaket__tag">Bei Ihnen im Haus</span>
+              <h3>Festtags-Buffet Premium</h3>
+              <p class="mk-xpaket__preis">ab 39 € pro Person <small>&middot; ab 20 Personen</small></p>
+              <dl class="mk-xpaket__menue"><dt>Vorspeisen</dt><dd>Samosas, Caprese &amp; kleine Sushi-Auswahl</dd><dt>Hauptgerichte</dt><dd>Lamm Rogan Josh, Pollo alla Parmigiana &amp; Gemüse-Curry</dd><dt>Beilagen</dt><dd>Knoblauch-Naan, Basmati-Reis, gegrilltes Gemüse</dd><dt>Dessert</dt><dd>Tiramisu &amp; Gulab Jamun</dd></dl>
+              <p class="mk-xpaket__dabei">Lieferung, Aufbau, Service-Personal auf Wunsch und Absprache der Tischdeko</p>
+              <button type="button" class="btn btn--primary" data-xpaket="Festtags-Buffet Premium">Dieses Paket vormerken</button>
+            </article></div>
+      </div>
+
+      <div id="mkXmasAussen" hidden>
+        <p class="mk-xmas__hinweis">Wir arbeiten mit S&auml;len, Lofts und Restaurants in Norderstedt und Hamburg zusammen. <strong>Sie sprechen nur mit mir</strong> &ndash; Raum, Essen, Personal und Absprachen laufen &uuml;ber einen Ansprechpartner.</p>
+        <div class="mk-xpaket-raster"><article class="mk-xpaket">
+              <span class="mk-xpaket__tag">Außer Haus</span>
+              <h3>Weihnachtsfeier außer Haus</h3>
+              <p class="mk-xpaket__preis">ab 55 € pro Person <small>&middot; Raum inklusive</small></p>
+              <dl class="mk-xpaket__menue"><dt>Der Ort</dt><dd>Wir organisieren den passenden Raum in der Umgebung mit</dd><dt>Das Essen</dt><dd>Ihr Wunschmenü aus indisch, italienisch und Sushi</dd><dt>Der Service</dt><dd>Personal vor Ort, Auf- und Abbau, Absprache mit der Location</dd><dt>Für Sie</dt><dd>Ein Ansprechpartner für alles – Sie müssen nur kommen</dd></dl>
+              <p class="mk-xpaket__dabei">Der Preis hängt vom Ort und der Gästezahl ab – Sie bekommen vorher eine feste Zahl</p>
+              <button type="button" class="btn btn--primary" data-xpaket="Weihnachtsfeier außer Haus">Dieses Paket vormerken</button>
+            </article></div>
+        <div class="mk-xmas__orte">
+          <h3>Orte, die wir vorschlagen</h3>
+          <p>Bei „Essen von uns“ kochen wir selbst, bei „K&uuml;che vor Ort“ kommt das Essen aus dem Haus &ndash; ich stimme in beiden F&auml;llen alles f&uuml;r Sie ab.</p>
+          <div class="mk-loc-raster"><article class="mk-loc">
           <img src="/assets/img/gedeckter-tisch.webp" alt="" width="400" height="260" loading="lazy">
           <div class="mk-loc__text">
             <h4>Großer Saal in Norderstedt</h4>
-            <span class="mk-loc__groesse">20 bis 450 Gäste</span>
-            <p>Mehrere Säle, die sich teilen lassen, Bühne und Tanzfläche, viele Parkplätze direkt davor.</p>
+            <span class="mk-loc__groesse">20 bis 450 Gäste &middot; Essen von uns</span>
+            <p>Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</p>
             <button type="button" class="btn btn--dark" data-xort="Großer Saal in Norderstedt">Diesen Ort vormerken</button>
           </div>
         </article><article class="mk-loc">
           <img src="/assets/img/buffet-3.webp" alt="" width="400" height="260" loading="lazy">
           <div class="mk-loc__text">
             <h4>Industrie-Loft in Hamburg-Nord</h4>
-            <span class="mk-loc__groesse">60 bis 150 Gäste</span>
-            <p>Hohe Decken, Klinker und Stahl, moderne Technik. Gut zu erreichen über die A7, eigene Parkplätze.</p>
+            <span class="mk-loc__groesse">60 bis 150 Gäste &middot; Essen von uns</span>
+            <p>Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</p>
             <button type="button" class="btn btn--dark" data-xort="Industrie-Loft in Hamburg-Nord">Diesen Ort vormerken</button>
           </div>
         </article><article class="mk-loc">
           <img src="/assets/img/buffet-8.webp" alt="" width="400" height="260" loading="lazy">
           <div class="mk-loc__text">
-            <h4>Historische Halle in Barmbek</h4>
-            <span class="mk-loc__groesse">50 bis 200 Gäste</span>
-            <p>Alte Fabrikhalle mit Charakter, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</p>
-            <button type="button" class="btn btn--dark" data-xort="Historische Halle in Barmbek">Diesen Ort vormerken</button>
+            <h4>Historische Fabrikhalle in Barmbek</h4>
+            <span class="mk-loc__groesse">50 bis 200 Gäste &middot; Essen von uns</span>
+            <p>Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</p>
+            <button type="button" class="btn btn--dark" data-xort="Historische Fabrikhalle in Barmbek">Diesen Ort vormerken</button>
+          </div>
+        </article><article class="mk-loc">
+          <img src="/assets/img/tisch-gedeckt-2.webp" alt="" width="400" height="260" loading="lazy">
+          <div class="mk-loc__text">
+            <h4>Gasthof mit Festsaal vor den Toren</h4>
+            <span class="mk-loc__groesse">bis 250 Gäste &middot; Küche vor Ort</span>
+            <p>Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</p>
+            <button type="button" class="btn btn--dark" data-xort="Gasthof mit Festsaal vor den Toren">Diesen Ort vormerken</button>
           </div>
         </article><article class="mk-loc">
           <img src="/assets/img/catering-tisch-draussen.webp" alt="" width="400" height="260" loading="lazy">
           <div class="mk-loc__text">
-            <h4>Kleiner Salon mit Garten</h4>
-            <span class="mk-loc__groesse">bis 70 Gäste</span>
-            <p>Für die kleinere Feier im Hamburger Norden: eigener Garten, Tanzfläche, gemütlich statt groß.</p>
-            <button type="button" class="btn btn--dark" data-xort="Kleiner Salon mit Garten">Diesen Ort vormerken</button>
+            <h4>Haus am Wasser in Norderstedt</h4>
+            <span class="mk-loc__groesse">bis 160 Gäste &middot; Küche vor Ort</span>
+            <p>Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</p>
+            <button type="button" class="btn btn--dark" data-xort="Haus am Wasser in Norderstedt">Diesen Ort vormerken</button>
+          </div>
+        </article><article class="mk-loc">
+          <img src="/assets/img/grill.webp" alt="" width="400" height="260" loading="lazy">
+          <div class="mk-loc__text">
+            <h4>Golfclub im Grünen</h4>
+            <span class="mk-loc__groesse">kleinere Runden &middot; Küche vor Ort</span>
+            <p>Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</p>
+            <button type="button" class="btn btn--dark" data-xort="Golfclub im Grünen">Diesen Ort vormerken</button>
           </div>
         </article></div>
-        <p class="mk-loc__hinweis">Die Bilder zeigen unsere eigenen Veranstaltungen. Welcher Ort am besten passt, h&auml;ngt von Termin, G&auml;stezahl und Budget ab &ndash; das kl&auml;ren wir im Gespr&auml;ch.</p>
+          <p class="mk-loc__hinweis">Die Bilder zeigen unsere eigenen Veranstaltungen. Welcher Ort am besten passt, h&auml;ngt von Termin, G&auml;stezahl und Budget ab &ndash; das kl&auml;ren wir im Gespr&auml;ch.</p>
+        </div>
       </div>
       <div class="mk-xmas__unten">
         <button type="button" class="btn btn--dark" id="mkXmasBtn">Nur den Termin vormerken</button>

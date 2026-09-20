@@ -126,9 +126,30 @@
 
     var datum = document.getElementById("mkXmasDatum");
     var gaeste = document.getElementById("mkXmasGaeste");
-    var ort = document.getElementById("mkXmasOrt");
     var danke = document.getElementById("mkXmasDanke");
     if (datum) datum.min = heute();
+
+    // Erst "wo", dann passt sich an, was darunter steht
+    var WO = {
+      haus:   { text: "Bei uns im Haus",          haus: true,  aussen: false },
+      aussen: { text: "Außer Haus – Ort gesucht", haus: false, aussen: true },
+      offen:  { text: "Wo noch offen",            haus: true,  aussen: true }
+    };
+    var wahl = "haus";
+    var teilHaus = document.getElementById("mkXmasHaus");
+    var teilAussen = document.getElementById("mkXmasAussen");
+
+    function zeigeWahl(neu) {
+      wahl = neu;
+      if (teilHaus) teilHaus.hidden = !WO[wahl].haus;
+      if (teilAussen) teilAussen.hidden = !WO[wahl].aussen;
+      Array.prototype.forEach.call(box.querySelectorAll("[data-wahl]"), function (b) {
+        b.classList.toggle("is-an", b.getAttribute("data-wahl") === wahl);
+      });
+    }
+    Array.prototype.forEach.call(box.querySelectorAll("[data-wahl]"), function (b) {
+      b.addEventListener("click", function () { zeigeWahl(b.getAttribute("data-wahl")); });
+    });
 
     // Termin, Personenzahl und Ort stehen einmal oben - jedes Paket schickt sie mit.
     function anfragen(knopf, paket) {
@@ -145,7 +166,7 @@
         "Weihnachtsfeier" + (paket ? " · " + paket : "") +
         " · " + datumDeutsch(wann) +
         (wieViele > 0 ? " · " + wieViele + " Personen" : "") +
-        (ort && ort.value ? " · " + ort.value : ""));
+        " · " + WO[wahl].text);
     }
 
     btn.addEventListener("click", function () { anfragen(btn, ""); });
@@ -155,7 +176,7 @@
     // Ein Ort ausser Haus - der Kunde bekommt keinen Kontakt zur Location
     Array.prototype.forEach.call(box.querySelectorAll("[data-xort]"), function (b) {
       b.addEventListener("click", function () {
-        if (ort) ort.value = "Außer Haus – Raum gesucht";
+        wahl = "aussen";
         anfragen(b, "Ort: " + b.getAttribute("data-xort"));
       });
     });
