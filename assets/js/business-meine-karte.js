@@ -128,19 +128,27 @@
     // dieselbe Seite, nur groesser (Technik: erst messen, dann zurueckrechnen).
     var kachel = document.getElementById("mkXmasKachel");
     var grosseAnsicht = document.getElementById("mkXmasBox");
+    var zuKnopf = document.getElementById("mkXmasZu");
     if (kachel && grosseAnsicht) {
-      kachel.addEventListener("click", function () {
+      var ruckelfrei = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var laeuft = false;
+
+      function skaliert(klein, gross) {
+        return "scale(" + (klein.width / gross.width) + "," + (klein.height / gross.height) + ")";
+      }
+
+      function auf() {
+        if (laeuft) return;
+        laeuft = true;
         var klein = kachel.getBoundingClientRect();
         kachel.style.position = "absolute";
         kachel.style.top = "0";
         kachel.style.left = "0";
         grosseAnsicht.hidden = false;
         var gross = grosseAnsicht.getBoundingClientRect();
-        var ruckelfrei = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (!ruckelfrei && gross.width && gross.height) {
           grosseAnsicht.style.transformOrigin = "top left";
-          grosseAnsicht.style.transform = "scale(" + (klein.width / gross.width) +
-            "," + (klein.height / gross.height) + ")";
+          grosseAnsicht.style.transform = skaliert(klein, gross);
           grosseAnsicht.style.opacity = "0.25";
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
@@ -156,7 +164,43 @@
           grosseAnsicht.style.transition = "";
           grosseAnsicht.style.transform = "";
           grosseAnsicht.style.transformOrigin = "";
-        }, 600);
+          laeuft = false;
+          if (zuKnopf) zuKnopf.focus();
+        }, ruckelfrei ? 0 : 600);
+      }
+
+      // Wieder klein machen: die grosse Ansicht schrumpft zurueck in die Kachel
+      function zu() {
+        if (laeuft) return;
+        laeuft = true;
+        kachel.style.display = "";
+        var klein = kachel.getBoundingClientRect();
+        var gross = grosseAnsicht.getBoundingClientRect();
+        var fertig = function () {
+          grosseAnsicht.hidden = true;
+          grosseAnsicht.style.transition = "";
+          grosseAnsicht.style.transform = "";
+          grosseAnsicht.style.transformOrigin = "";
+          grosseAnsicht.style.opacity = "";
+          kachel.style.position = "";
+          kachel.style.top = "";
+          kachel.style.left = "";
+          kachel.classList.remove("is-weg");
+          laeuft = false;
+          kachel.focus();
+        };
+        if (ruckelfrei || !gross.width) { fertig(); return; }
+        grosseAnsicht.style.transformOrigin = "top left";
+        grosseAnsicht.style.transition = "transform .45s cubic-bezier(.4,0,.6,1), opacity .35s ease";
+        grosseAnsicht.style.transform = skaliert(klein, gross);
+        grosseAnsicht.style.opacity = "0.2";
+        setTimeout(fertig, 460);
+      }
+
+      kachel.addEventListener("click", auf);
+      if (zuKnopf) zuKnopf.addEventListener("click", zu);
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !grosseAnsicht.hidden) zu();
       });
     }
 
