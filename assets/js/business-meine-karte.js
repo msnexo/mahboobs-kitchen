@@ -124,6 +124,42 @@
     if (monat < 8) return;                      // erst ab September
     box.hidden = false;
 
+    // Erst die kleine Kachel. Beim Klick waechst sie zur ganzen Ansicht -
+    // dieselbe Seite, nur groesser (Technik: erst messen, dann zurueckrechnen).
+    var kachel = document.getElementById("mkXmasKachel");
+    var grosseAnsicht = document.getElementById("mkXmasBox");
+    if (kachel && grosseAnsicht) {
+      kachel.addEventListener("click", function () {
+        var klein = kachel.getBoundingClientRect();
+        kachel.style.position = "absolute";
+        kachel.style.top = "0";
+        kachel.style.left = "0";
+        grosseAnsicht.hidden = false;
+        var gross = grosseAnsicht.getBoundingClientRect();
+        var ruckelfrei = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!ruckelfrei && gross.width && gross.height) {
+          grosseAnsicht.style.transformOrigin = "top left";
+          grosseAnsicht.style.transform = "scale(" + (klein.width / gross.width) +
+            "," + (klein.height / gross.height) + ")";
+          grosseAnsicht.style.opacity = "0.25";
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              grosseAnsicht.style.transition = "transform .55s cubic-bezier(.22,.7,.3,1), opacity .4s ease";
+              grosseAnsicht.style.transform = "none";
+              grosseAnsicht.style.opacity = "1";
+            });
+          });
+        }
+        kachel.classList.add("is-weg");
+        setTimeout(function () {
+          kachel.style.display = "none";
+          grosseAnsicht.style.transition = "";
+          grosseAnsicht.style.transform = "";
+          grosseAnsicht.style.transformOrigin = "";
+        }, 600);
+      });
+    }
+
     var datum = document.getElementById("mkXmasDatum");
     var gaeste = document.getElementById("mkXmasGaeste");
     var danke = document.getElementById("mkXmasDanke");
