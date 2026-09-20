@@ -1222,6 +1222,14 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-wahl__gross { font-family: var(--ff-head); font-weight: 700; font-size: 1rem; }
 .mk-wahl__klein { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
 .mk-wahl__btn.is-an .mk-wahl__klein { color: rgba(255,255,255,0.8); }
+.mk-xmas__frage small { display: block; font-family: var(--ff-body); font-weight: 400; font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 3px; }
+
+/* Geschmacksrichtung antippen - mehrere gehen */
+.mk-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.mk-chip { cursor: pointer; font: inherit; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; transition: border-color 0.2s ease, background 0.2s ease; }
+.mk-chip:hover { border-color: rgba(232,89,12,0.7); }
+.mk-chip.is-an { border-color: var(--color-primary); background: rgba(232,89,12,0.22); font-weight: 600; }
+.mk-chip span { font-size: 1.05rem; line-height: 1; }
 .mk-xmas__unten { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; }
 .mk-xmas__unten span { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
 

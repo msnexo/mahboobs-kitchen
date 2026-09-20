@@ -151,6 +151,16 @@
       b.addEventListener("click", function () { zeigeWahl(b.getAttribute("data-wahl")); });
     });
 
+    // Geschmacksrichtung: mehrere moeglich, nichts ist auch in Ordnung
+    function richtungen() {
+      return Array.prototype.filter.call(box.querySelectorAll("[data-richtung]"), function (c) {
+        return c.classList.contains("is-an");
+      }).map(function (c) { return c.getAttribute("data-richtung"); });
+    }
+    Array.prototype.forEach.call(box.querySelectorAll("[data-richtung]"), function (c) {
+      c.addEventListener("click", function () { c.classList.toggle("is-an"); });
+    });
+
     // Termin, Personenzahl und Ort stehen einmal oben - jedes Paket schickt sie mit.
     function anfragen(knopf, paket) {
       var wann = datum && datum.value;
@@ -162,11 +172,13 @@
         return;
       }
       var wieViele = gaeste && parseInt(gaeste.value, 10);
+      var lust = richtungen();
       melden("interesse", null, knopf, danke,
         "Weihnachtsfeier" + (paket ? " · " + paket : "") +
         " · " + datumDeutsch(wann) +
         (wieViele > 0 ? " · " + wieViele + " Personen" : "") +
-        " · " + WO[wahl].text);
+        " · " + WO[wahl].text +
+        (lust.length ? " · " + lust.join(", ") : ""));
     }
 
     btn.addEventListener("click", function () { anfragen(btn, ""); });
