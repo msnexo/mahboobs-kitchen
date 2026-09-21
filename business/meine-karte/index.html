@@ -280,6 +280,162 @@
     </div>
     </div>
 
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelFeier">
+    <button type="button" class="mk-xmas__kachel">
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/catering-tisch-draussen.webp');"></span>
+      <span class="mk-xmas__kachel-inhalt">
+        <span class="mk-xmas__kachel-label">Jubil&auml;um &middot; Sommerfest &middot; Geburtstag</span>
+        <span class="mk-xmas__kachel-titel">Feiern &amp; Anl&auml;sse</span>
+        <span class="mk-xmas__kachel-text">Ihre Firmenfeier &ndash; unverbindlich planen</span>
+        <span class="mk-xmas__kachel-cta">Feier planen &rarr;</span>
+      </span>
+    </button>
+    <div class="mk-xmas__box" hidden>
+      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
+      <span class="eyebrow">Jetzt planen</span>
+      <h2>Feiern &amp; Anl&auml;sse</h2>
+      <p class="lead">Firmenjubil&auml;um, Sommerfest oder der runde Geburtstag im B&uuml;ro: Sagen Sie mir den Anlass, Ihren Wunschtermin und wie viele Sie sind &ndash; ich melde mich mit einem festen Angebot. Alles unverbindlich.</p>
+      <ul class="mk-xmas__punkte">
+        <li>Bei Ihnen im Haus oder au&szlig;er Haus</li>
+        <li>Probeessen vorab m&ouml;glich</li>
+        <li>Vegetarisch, vegan und halal m&ouml;glich</li>
+      </ul>
+
+      <p class="mk-xmas__frage">Was feiern Sie?</p>
+      <div class="mk-chips"><button type="button" class="mk-chip" data-fanlass="Firmenjubiläum" data-titel="Ihr Firmenjubiläum"><span>🏆</span>Firmenjubiläum</button><button type="button" class="mk-chip" data-fanlass="Sommerfest" data-titel="Ihr Sommerfest"><span>☀️</span>Sommerfest</button><button type="button" class="mk-chip" data-fanlass="Geburtstag im Büro" data-titel="Ihr Geburtstag im Büro"><span>🎂</span>Geburtstag im Büro</button><button type="button" class="mk-chip" data-fanlass="Einweihung &amp; Richtfest" data-titel="Ihre Einweihung"><span>🏗️</span>Einweihung &amp; Richtfest</button><button type="button" class="mk-chip" data-fanlass="Verabschiedung" data-titel="Ihre Verabschiedung"><span>👋</span>Verabschiedung</button><button type="button" class="mk-chip" data-fanlass="Etwas anderes" data-titel="Ihre Feier"><span>🎉</span>Etwas anderes</button></div>
+
+      <div class="mk-xmas__form" style="margin-top:18px;">
+        <div class="mk-xmas__feld">
+          <label for="mkFeierDatum">Wunschtermin</label>
+          <input type="date" id="mkFeierDatum" autocomplete="off">
+        </div>
+        <div class="mk-xmas__feld">
+          <label for="mkFeierGaeste">Personen</label>
+          <input type="number" id="mkFeierGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 40" autocomplete="off">
+        </div>
+      </div>
+
+      <p class="mk-xmas__frage">Wo soll gefeiert werden?</p>
+      <div class="mk-wahl" role="group" aria-label="Wo feiern Sie?">
+        <button type="button" class="mk-wahl__btn is-an" data-fwahl="haus">
+          <span class="mk-wahl__gross">Bei uns im Haus</span>
+          <span class="mk-wahl__klein">Wir bringen das Buffet zu Ihnen</span>
+        </button>
+        <button type="button" class="mk-wahl__btn" data-fwahl="aussen">
+          <span class="mk-wahl__gross">Au&szlig;er Haus</span>
+          <span class="mk-wahl__klein">In einer unserer Partner-Locations</span>
+        </button>
+        <button type="button" class="mk-wahl__btn" data-fwahl="offen">
+          <span class="mk-wahl__gross">Wei&szlig; ich noch nicht</span>
+          <span class="mk-wahl__klein">Zeigen Sie mir beides</span>
+        </button>
+      </div>
+
+      <div id="mkFeierAussen" hidden>
+        <p class="mk-xmas__frage">In welcher unserer Locations? <small>Antippen, was Ihnen gef&auml;llt &ndash; alles Weitere l&auml;uft &uuml;ber mich</small></p>
+        <div class="mk-loc-raster"><button type="button" class="mk-loc" data-fort="Großer Saal in Norderstedt">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/saal-norderstedt.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Großer Saal in Norderstedt</span>
+            <span class="mk-loc__groesse">20 bis 450 Gäste</span>
+            <span class="mk-loc__info">Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</span>
+          </span>
+        </button><button type="button" class="mk-loc" data-fort="Industrie-Loft in Hamburg-Nord">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/loft-hamburg.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Industrie-Loft in Hamburg-Nord</span>
+            <span class="mk-loc__groesse">60 bis 150 Gäste</span>
+            <span class="mk-loc__info">Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</span>
+          </span>
+        </button><button type="button" class="mk-loc" data-fort="Historische Fabrikhalle in Barmbek">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/fabrikhalle.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Historische Fabrikhalle in Barmbek</span>
+            <span class="mk-loc__groesse">50 bis 200 Gäste</span>
+            <span class="mk-loc__info">Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</span>
+          </span>
+        </button><button type="button" class="mk-loc" data-fort="Gasthof mit Festsaal vor den Toren">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/gasthof.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Gasthof mit Festsaal vor den Toren</span>
+            <span class="mk-loc__groesse">bis 250 Gäste</span>
+            <span class="mk-loc__info">Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</span>
+          </span>
+        </button><button type="button" class="mk-loc" data-fort="Haus am Wasser in Norderstedt">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/am-wasser.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Haus am Wasser in Norderstedt</span>
+            <span class="mk-loc__groesse">bis 160 Gäste</span>
+            <span class="mk-loc__info">Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</span>
+          </span>
+        </button><button type="button" class="mk-loc" data-fort="Golfclub im Grünen">
+          <span class="mk-loc__bild">
+            <img src="/assets/img/locations/im-gruenen.webp" alt="" width="400" height="260" loading="lazy">
+            <span class="mk-loc__haken">&#10003;</span>
+          </span>
+          <span class="mk-loc__text">
+            <span class="mk-loc__name">Golfclub im Grünen</span>
+            <span class="mk-loc__groesse">kleinere Runden</span>
+            <span class="mk-loc__info">Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</span>
+          </span>
+        </button></div>
+        <p class="mk-loc__hinweis">Die Bilder zeigen die Art der R&auml;ume. Welcher Ort am Ende der richtige ist, h&auml;ngt von Termin, G&auml;stezahl und Budget ab &ndash; das kl&auml;ren wir im Gespr&auml;ch.</p>
+      </div>
+
+      <p class="mk-xmas__frage">Worauf haben Sie Lust? <small>Mehrfach m&ouml;glich, alles nur eine Richtung</small></p>
+      <div class="mk-chips"><button type="button" class="mk-chip" data-frichtung="Indisch"><span>🍛</span>Indisch</button><button type="button" class="mk-chip" data-frichtung="Italienisch"><span>🍝</span>Italienisch</button><button type="button" class="mk-chip" data-frichtung="Sushi"><span>🍣</span>Sushi</button><button type="button" class="mk-chip" data-frichtung="Deutsch &amp; Klassisch"><span>🥩</span>Deutsch &amp; Klassisch</button><button type="button" class="mk-chip" data-frichtung="Vegetarisch im Mittelpunkt"><span>🥗</span>Vegetarisch im Mittelpunkt</button><button type="button" class="mk-chip" data-frichtung="Fingerfood statt Buffet"><span>🥟</span>Fingerfood statt Buffet</button><button type="button" class="mk-chip" data-frichtung="Querbeet – überraschen Sie uns"><span>🎲</span>Querbeet – überraschen Sie uns</button></div>
+
+      <a class="mk-xmas__rechner" id="mkFeierRechner" href="/business/catering-angebot/">
+        <span>Lieber Gerichte selbst aussuchen?</span>
+        <strong>Buffet-Rechner &ouml;ffnen &rarr;</strong>
+        <small>Gleiche Preise &ndash; ab 23 &euro; pro Person, Sie sehen den Preis sofort</small>
+      </a>
+
+      <p class="mk-xmas__frage">Gibt es noch etwas, das ich wissen sollte? <small>Freiwillig &ndash; ich lese jede Zeile selbst</small></p>
+      <textarea id="mkFeierNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
+                placeholder="Zum Beispiel: Allergien, Budget, Ablauf, halal, Getr&auml;nke, Deko &hellip;"></textarea>
+
+      <div class="mk-xpaket-raster mk-zus-raster">
+        <article class="mk-xpaket">
+          <span class="mk-xpaket__tag">Ihre Auswahl</span>
+          <h3 id="mkFeierTitel">Ihre Feier</h3>
+          <p class="mk-xpaket__preis">ab 23 &euro; pro Person <small id="mkFeierZusatz">&middot; Buffet, geliefert und aufgebaut</small></p>
+          <dl class="mk-xpaket__menue">
+            <div id="mkFeierOrtZeile" hidden><dt>Der Ort</dt><dd id="mkFeierOrt">Noch offen &ndash; ich schlage Ihnen etwas Passendes vor</dd></div>
+            <div><dt>Das Essen</dt><dd id="mkFeierEssen">Ihr Wunschmen&uuml; &ndash; indisch, italienisch, Sushi oder gemischt</dd></div>
+            <div><dt>Termin</dt><dd id="mkFeierTermin">Bitte oben eintragen</dd></div>
+            <div id="mkFeierNotizZeile" hidden><dt>Ihre Nachricht</dt><dd id="mkFeierNotizText"></dd></div>
+            <div><dt>Dabei</dt><dd id="mkFeierDabei">Lieferung, Aufbau und alles, was dazugeh&ouml;rt</dd></div>
+          </dl>
+          <p class="mk-xpaket__dabei">Der Endpreis h&auml;ngt von Men&uuml;, Ort und G&auml;stezahl ab &ndash; Sie bekommen vorher eine feste Zahl</p>
+        </article>
+      </div>
+      <div class="mk-xmas__zusage">
+        <span class="mk-xmas__zusage-zeichen">&#9993;</span>
+        <span class="mk-xmas__zusage-text">
+          <span class="mk-xmas__zusage-gross">Sie m&ouml;chten es genauer wissen?</span>
+          <span class="mk-xmas__zusage-klein">Unverbindlich &ndash; ich melde mich pers&ouml;nlich bei Ihnen, meist noch am selben Tag.</span>
+        </span>
+        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkFeierBtn">Jetzt beraten lassen</button>
+      </div>
+      <p class="mk-danke" id="mkFeierDanke" hidden></p>
+    </div>
+    </div>
     <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelMittag">
     <button type="button" class="mk-xmas__kachel">
       <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/mittag/margherita.webp');"></span>

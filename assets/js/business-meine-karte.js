@@ -238,6 +238,7 @@
       var text = notiz && notiz.value.trim();
       melden("interesse", null, knopf, danke,
         kurz + " | " + mehr + (text ? " | Nachricht: " + text.replace(/\s+/g, " ") : ""));
+      mailSenden("Weihnachtsfeier-Anfrage: " + kurz, { Anfrage: kurz, Einzelheiten: mehr, Nachricht: text || "—" });
     }
 
     btn.addEventListener("click", function () { anfragen(btn, ""); });
@@ -765,6 +766,140 @@
     if (window.ResizeObserver) new ResizeObserver(strecke).observe(bereich);
   }
 
+  // Daten der Karte (Firma, Ansprechpartner, Nummer) fuer Mails aus den Kacheln
+  var KARTE = {};
+  var RECHNER_BASIS = "/business/catering-angebot/";
+
+  function mailSenden(betreff, felder) {
+    if (!window.MK_FORMSPREE) return Promise.resolve(false);
+    var daten = {
+      _subject: betreff + " – " + (KARTE.firma || ""),
+      Firma: KARTE.firma || "—",
+      Ansprechpartner: KARTE.ansprechpartner || "—",
+      Kundennummer: KARTE.kundennummer || "—"
+    };
+    Object.keys(felder).forEach(function (k) { daten[k] = felder[k]; });
+    return fetch(window.MK_FORMSPREE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(daten)
+    }).then(function (r) { return r.ok; }, function () { return false; });
+  }
+
+  // Feiern & Anlaesse: wie die Weihnachtsfeier, nur fuer alle anderen Anlaesse
+  function feiernAnschalten() {
+    var box = document.getElementById("mkKachelFeier");
+    var btn = document.getElementById("mkFeierBtn");
+    if (!box || !btn) return;
+    var datum = document.getElementById("mkFeierDatum");
+    var gaeste = document.getElementById("mkFeierGaeste");
+    var notiz = document.getElementById("mkFeierNotiz");
+    var danke = document.getElementById("mkFeierDanke");
+    var teilAussen = document.getElementById("mkFeierAussen");
+    var rechnerLink = document.getElementById("mkFeierRechner");
+    if (datum) datum.min = heute();
+
+    var WO = {
+      haus: { text: "Bei uns im Haus", aussen: false, zusatz: "· Buffet, geliefert und aufgebaut",
+              dabei: "Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs" },
+      aussen: { text: "Außer Haus", aussen: true, zusatz: "· fürs Essen, der Raum je nach Location",
+                dabei: "Personal vor Ort, Auf- und Abbau, alle Absprachen mit dem Haus" },
+      offen: { text: "Wo noch offen", aussen: true, zusatz: "· fürs Essen, je nachdem, wo Sie feiern",
+               dabei: "Lieferung, Aufbau und alles, was sonst dazugehört" }
+    };
+    var anlass = "";
+    var titel = "Ihre Feier";
+    var wahl = "haus";
+    var ort = "";
+
+    function jede(sel, fn) { Array.prototype.forEach.call(box.querySelectorAll(sel), fn); }
+    function lust() {
+      return Array.prototype.filter.call(box.querySelectorAll("[data-frichtung]"), function (c) {
+        return c.classList.contains("is-an");
+      }).map(function (c) { return c.getAttribute("data-frichtung"); });
+    }
+
+    function zusammenfassung() {
+      var w = WO[wahl];
+      text("mkFeierTitel", titel);
+      text("mkFeierZusatz", w.zusatz);
+      text("mkFeierDabei", w.dabei);
+      document.getElementById("mkFeierOrtZeile").hidden = !w.aussen;
+      text("mkFeierOrt", ort || "Noch offen – ich schlage Ihnen etwas Passendes vor");
+      var l = lust();
+      text("mkFeierEssen", l.length ? l.join(", ") : "Ihr Wunschmenü – indisch, italienisch, Sushi oder gemischt");
+      var n = gaeste && parseInt(gaeste.value, 10);
+      text("mkFeierTermin", datum && datum.value
+        ? datumDeutsch(datum.value) + (n > 0 ? " · " + n + " Personen" : "")
+        : "Bitte oben eintragen");
+      var eigenes = notiz && notiz.value.trim();
+      document.getElementById("mkFeierNotizZeile").hidden = !eigenes;
+      text("mkFeierNotizText", eigenes || "");
+      // Der Rechner soll wissen, worum es geht
+      if (rechnerLink) {
+        rechnerLink.href = RECHNER_BASIS + (RECHNER_BASIS.indexOf("?") >= 0 ? "&" : "?") +
+          "anlass=" + encodeURIComponent(anlass && anlass !== "Etwas anderes" ? anlass : "Firmenfeier");
+      }
+    }
+
+    jede("[data-fanlass]", function (b) {
+      b.addEventListener("click", function () {
+        var neu = b.getAttribute("data-fanlass");
+        anlass = anlass === neu ? "" : neu;
+        titel = anlass ? b.getAttribute("data-titel") : "Ihre Feier";
+        jede("[data-fanlass]", function (x) { x.classList.toggle("is-an", x.getAttribute("data-fanlass") === anlass); });
+        zusammenfassung();
+      });
+    });
+    jede("[data-fwahl]", function (b) {
+      b.addEventListener("click", function () {
+        wahl = b.getAttribute("data-fwahl");
+        teilAussen.hidden = !WO[wahl].aussen;
+        jede("[data-fwahl]", function (x) { x.classList.toggle("is-an", x === b); });
+        zusammenfassung();
+      });
+    });
+    jede("[data-fort]", function (b) {
+      b.addEventListener("click", function () {
+        var name = b.getAttribute("data-fort");
+        ort = ort === name ? "" : name;
+        jede("[data-fort]", function (x) { x.classList.toggle("is-an", x.getAttribute("data-fort") === ort); });
+        zusammenfassung();
+      });
+    });
+    jede("[data-frichtung]", function (c) {
+      c.addEventListener("click", function () { c.classList.toggle("is-an"); zusammenfassung(); });
+    });
+    [datum, gaeste, notiz].forEach(function (f) { if (f) f.addEventListener("input", zusammenfassung); });
+    if (datum) datum.addEventListener("change", zusammenfassung);
+    // Alten Hinweis wegnehmen, sobald ein Termin da ist
+    if (datum) datum.addEventListener("input", function () {
+      if (datum.value && danke.classList.contains("mk-danke--fehler")) danke.hidden = true;
+    });
+    zusammenfassung();
+
+    btn.addEventListener("click", function () {
+      if (!datum.value) {
+        danke.textContent = "Bitte tragen Sie noch Ihren Wunschtermin ein.";
+        danke.className = "mk-danke mk-danke--fehler";
+        danke.hidden = false;
+        datum.focus();
+        return;
+      }
+      var n = parseInt(gaeste.value, 10);
+      var l = lust();
+      var name = anlass && anlass !== "Etwas anderes" ? anlass : "Feier";
+      // Vor dem senkrechten Strich: was im Vertrieb an der Meldung steht
+      var kurz = name + " · " + datumDeutsch(datum.value) + (n > 0 ? " · " + n + " Personen" : "");
+      var mehr = WO[wahl].text + (WO[wahl].aussen ? " · " + (ort || "Ort noch offen") : "") +
+        (l.length ? " · " + l.join(", ") : "");
+      var eigenes = notiz.value.trim();
+      melden("interesse", null, btn, danke,
+        kurz + " | " + mehr + (eigenes ? " | Nachricht: " + eigenes.replace(/\s+/g, " ") : ""));
+      mailSenden("Feier-Anfrage: " + kurz, { Anfrage: kurz, Einzelheiten: mehr, Nachricht: eigenes || "—" });
+    });
+  }
+
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -826,11 +961,14 @@
       // Aus der Weihnachtsfeier in denselben Rechner - er weiss dann den Anlass
       var xmasRechner = document.getElementById("mkXmasRechner");
       if (xmasRechner) xmasRechner.href = rechner.href + "&anlass=Weihnachtsfeier";
+      RECHNER_BASIS = rechner.href;
       var rdRechner = document.getElementById("mkRdRechner");
       if (rdRechner) rdRechner.href = rechner.href;
     }
 
+    KARTE = k;
     weihnachtenZeigen();
+    feiernAnschalten();
     Array.prototype.forEach.call(document.querySelectorAll(".mk-kachelwrap"), kachelAnschalten);
     mittagstischAnschalten(k);
     rundenAnschalten(k);
