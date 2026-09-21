@@ -1333,6 +1333,15 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-ort__text { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px 14px; font-size: 0.86rem; color: rgba(255,255,255,0.75); }
 .mk-ort__text strong { color: #fff; font-size: 0.95rem; }
 .mk-ort__text small { color: var(--color-primary); font-weight: 700; font-size: 0.78rem; }
-.mk-xmas__box .mk-vorteile { margin-top: 18px; }
-.mk-xmas__box .mk-vorteile li, .mk-xmas__box .mk-vorteile span { color: #fff; }
 .mk-ap__karte { max-width: 640px; }
+
+/* Kundenkarte: Vorteile im Kopf, drei Kacheln in einer Reihe, Orte antippbar */
+.mk-hero-vorteile { margin-top: 26px; }
+.mk-hero-vorteile__titel { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--color-primary); margin-bottom: 10px; }
+.mk-hero-vorteile ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.mk-hero-vorteile li { font-size: 0.82rem; color: rgba(255,255,255,0.88); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 100px; padding: 5px 12px; }
+@media (min-width: 900px) { .mk-kacheln { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mk-ort { position: relative; width: 100%; padding: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.mk-ort:hover { border-color: rgba(232,89,12,0.6); }
+.mk-ort.is-an { border-color: var(--color-primary); box-shadow: inset 0 0 0 2px var(--color-primary); }
+.mk-ort.is-an::after { content: "✓"; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: var(--color-primary); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; }

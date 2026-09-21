@@ -361,6 +361,25 @@
 
   }
 
+  // Kommt der Kunde von seiner Business Karte (?k=...), landet die Anfrage
+  // auch bei ihm im Vertrieb: Hand an der Karte, alle Einzelheiten im Logbuch.
+  function meldeAnKarte(schluessel, datum, gaeste, mk) {
+    if (!/^[0-9a-f]{32}$/.test(schluessel || "") || !window.supabase || !window.SUPABASE_ANON_KEY) {
+      return Promise.resolve(false);
+    }
+    var n = parseInt(gaeste, 10);
+    var kurz = "Buffet zusammengestellt · " + new Date(datum + "T12:00:00").toLocaleDateString("de-DE") +
+      (n > 0 ? " · " + n + " Personen" : "");
+    var mehr = formatEur(mk) + " pro Person" +
+      " · Hauptgerichte: " + (sel.hauptgericht.join(", ") || "—") +
+      (sel.vorspeise.length ? " · Vorspeise: " + sel.vorspeise.join(", ") : "") +
+      (sel.beilage.length ? " · Beilagen: " + sel.beilage.join(", ") : "") +
+      (sel.nachtisch.length ? " · Nachtisch: " + sel.nachtisch.join(", ") : "");
+    var client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    return client.rpc("karte_reaktion", { p_token: schluessel, p_offer: null, p_art: "interesse", p_text: kurz + " | " + mehr })
+      .then(function (res) { return !res.error; }, function () { return false; });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var params = getParams();
     var firma = params.firma || "Ihre Firma";
@@ -408,7 +427,7 @@
 
       if (!date) { statusEl.textContent = "Bitte ein Veranstaltungsdatum wählen."; statusEl.className = "form-status form-status--error"; return; }
       if (!name) { statusEl.textContent = "Bitte Ihren Namen eingeben."; statusEl.className = "form-status form-status--error"; return; }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { statusEl.textContent = "Bitte eine g�ltige E-Mail-Adresse eingeben."; statusEl.className = "form-status form-status--error"; return; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { statusEl.textContent = "Bitte eine gültige E-Mail-Adresse eingeben."; statusEl.className = "form-status form-status--error"; return; }
       if (!sel.hauptgericht.length) { statusEl.textContent = "Bitte mindestens ein Hauptgericht wählen."; statusEl.className = "form-status form-status--error"; return; }
 
       var mk = getPrice();
@@ -417,7 +436,8 @@
       statusEl.className = "form-status";
       document.getElementById("cateringSubmitBtn").disabled = true;
 
-      fetch(ENDPOINT, {
+      var anKarte = meldeAnKarte(params.k, date, guests, mk);
+      var perMail = fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -431,24 +451,24 @@
           "Anzahl Gäste": guests,
           "MK Preis / Person": mk.toFixed(2) + " €",
           Gesamtpreis: total.toFixed(2) + " €",
+          Kundennummer: code,
           Vorspeise: sel.vorspeise.join(", ") || "—",
           Hauptgerichte: sel.hauptgericht.join(", ") || "—",
           Beilagen: sel.beilage.join(", ") || "—",
           Nachtisch: sel.nachtisch.join(", ") || "—"
         })
-      }).then(function (res) {
-        if (res.ok) {
+      }).then(function (res) { return res.ok; }, function () { return false; });
+
+      // Angekommen ist die Anfrage, wenn sie per Mail oder im Vertrieb gelandet ist
+      Promise.all([perMail, anKarte]).then(function (r) {
+        if (r[0] || r[1]) {
           document.getElementById("cateringFormCard").style.display = "none";
           document.getElementById("cateringThanks").style.display = "block";
         } else {
-          statusEl.textContent = "Senden fehlgeschlagen. Bitte erneut versuchen.";
+          statusEl.textContent = "Senden fehlgeschlagen. Bitte erneut versuchen oder kurz anrufen: 0177 201 9889";
           statusEl.className = "form-status form-status--error";
           document.getElementById("cateringSubmitBtn").disabled = false;
         }
-      }).catch(function () {
-        statusEl.textContent = "Netzwerkfehler. Bitte erneut versuchen.";
-        statusEl.className = "form-status form-status--error";
-        document.getElementById("cateringSubmitBtn").disabled = false;
       });
     });
   });

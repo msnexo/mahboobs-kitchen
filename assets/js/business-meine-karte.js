@@ -140,19 +140,19 @@
       haus: {
         text: "Bei uns im Haus", aussen: false,
         titel: "Weihnachtsfeier bei Ihnen im Haus",
-        preis: "ab 29 € pro Person", zusatz: "· Buffet, geliefert und aufgebaut",
+        preis: "ab 20 € pro Person", zusatz: "· Buffet, geliefert und aufgebaut",
         dabei: "Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs"
       },
       aussen: {
         text: "Außer Haus", aussen: true,
         titel: "Weihnachtsfeier außer Haus",
-        preis: "ab 25 € pro Person", zusatz: "· Raum, Essen und Service",
+        preis: "ab 20 € pro Person", zusatz: "· fürs Essen, der Raum je nach Location",
         dabei: "Personal vor Ort, Auf- und Abbau, alle Absprachen mit dem Haus"
       },
       offen: {
         text: "Wo noch offen", aussen: true,
         titel: "Ihre Weihnachtsfeier",
-        preis: "ab 25 € pro Person", zusatz: "· je nachdem, wo Sie feiern",
+        preis: "ab 20 € pro Person", zusatz: "· fürs Essen, je nachdem, wo Sie feiern",
         dabei: "Lieferung, Aufbau und alles, was sonst dazugehört"
       }
     };
@@ -388,11 +388,19 @@
         melden("rueckruf", null, rueckruf, document.getElementById("mkRueckrufDanke"));
       });
     }
+    // Location: Orte antippen (mehrfach), dann "Location gesucht" - die Auswahl
+    // steht im Vertrieb an der Meldung und im Logbuch.
+    Array.prototype.forEach.call(document.querySelectorAll("[data-lort]"), function (b) {
+      b.addEventListener("click", function () { b.classList.toggle("is-an"); });
+    });
     var location_ = document.getElementById("mkLocation");
     if (location_) {
       location_.addEventListener("click", function () {
+        var orte = Array.prototype.map.call(document.querySelectorAll("[data-lort].is-an"), function (b) {
+          return b.getAttribute("data-lort");
+        });
         melden("interesse", null, location_, document.getElementById("mkLocationDanke"),
-          "Sucht eine Location");
+          "Sucht eine Location" + (orte.length ? " | Gefällt: " + orte.join(", ") : ""));
       });
     }
     var abmelden = document.getElementById("mkAbmelden");
@@ -403,7 +411,7 @@
     if (rechner) {
       rechner.href = "/business/catering-angebot/?firma=" + encodeURIComponent(k.firma || "") +
         (k.ansprechpartner ? "&person=" + encodeURIComponent(k.ansprechpartner) : "") +
-        "&code=" + encodeURIComponent(nr);
+        "&code=" + encodeURIComponent(nr) + "&k=" + schluessel;
     }
 
     weihnachtenZeigen();
