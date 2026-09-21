@@ -280,6 +280,78 @@
     </div>
     </div>
 
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelMittag">
+    <button type="button" class="mk-xmas__kachel">
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/indische-gerichte.webp');"></span>
+      <span class="mk-xmas__kachel-inhalt">
+        <span class="mk-xmas__kachel-label">Mo&ndash;Fr &middot; 11:30&ndash;15:00 Uhr</span>
+        <span class="mk-xmas__kachel-titel">Mittagstisch</span>
+        <span class="mk-xmas__kachel-text">Warm ins B&uuml;ro geliefert, ab 3 Portionen</span>
+        <span class="mk-xmas__kachel-cta">Jetzt bestellen &rarr;</span>
+      </span>
+    </button>
+    <div class="mk-xmas__box" hidden>
+      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
+      <span class="eyebrow">Montag bis Freitag &middot; Lieferung 11:30&ndash;15:00 Uhr</span>
+      <h2>Mittagstisch f&uuml;rs B&uuml;ro</h2>
+      <p class="lead">Warm geliefert, fertig zum Essen. Bestellen Sie bis 1 Stunde vor Ihrer Wunschzeit &ndash; ab 3 Portionen, Lieferung inklusive.</p>
+      <div class="mk-mt-liste"><div class="mk-mt" data-mt="Butter Chicken mit Basmati-Reis" data-preis="13.90">
+          <span class="mk-mt__icon">🍛</span>
+          <span class="mk-mt__text"><strong>Butter Chicken</strong><small>mit Basmati-Reis &middot; Geflügel</small></span>
+          <span class="mk-mt__preis">13,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div><div class="mk-mt" data-mt="Chicken Tikka Masala mit Naan" data-preis="13.90">
+          <span class="mk-mt__icon">🍗</span>
+          <span class="mk-mt__text"><strong>Chicken Tikka Masala</strong><small>mit Naan &middot; Geflügel</small></span>
+          <span class="mk-mt__preis">13,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div><div class="mk-mt" data-mt="Palak Paneer mit Basmati-Reis" data-preis="12.90">
+          <span class="mk-mt__icon">🧀</span>
+          <span class="mk-mt__text"><strong>Palak Paneer</strong><small>mit Basmati-Reis &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div><div class="mk-mt" data-mt="Tortellini alla Panna in Schinken-Sahnesauce" data-preis="12.90">
+          <span class="mk-mt__icon">🥟</span>
+          <span class="mk-mt__text"><strong>Tortellini alla Panna</strong><small>in Schinken-Sahnesauce &middot; mit Schinken</small></span>
+          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div><div class="mk-mt" data-mt="Chana Masala mit Basmati-Reis" data-preis="11.90">
+          <span class="mk-mt__icon">🥬</span>
+          <span class="mk-mt__text"><strong>Chana Masala</strong><small>mit Basmati-Reis &middot; vegan</small></span>
+          <span class="mk-mt__preis">11,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div><div class="mk-mt" data-mt="Pasta Mista mit Champignons in Tomaten-Sahnesauce" data-preis="11.90">
+          <span class="mk-mt__icon">🍝</span>
+          <span class="mk-mt__text"><strong>Pasta Mista</strong><small>mit Champignons in Tomaten-Sahnesauce &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">11,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+        </div></div>
+
+      <p class="mk-xmas__frage">Wann d&uuml;rfen wir liefern?</p>
+      <div class="mk-xmas__form">
+        <div class="mk-xmas__feld">
+          <label for="mkMtTag">Tag</label>
+          <input type="date" id="mkMtTag" autocomplete="off">
+        </div>
+      </div>
+      <div class="mk-mt-zeiten" id="mkMtZeiten" role="group" aria-label="Wunschzeit"></div>
+
+      <p class="mk-xmas__frage">Notiz an mich <small>Freiwillig &ndash; Namen, W&uuml;nsche, Allergien oder einfach, was Sie mir sagen m&ouml;chten</small></p>
+      <textarea id="mkMtNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
+                placeholder="Zum Beispiel: 1&times; ohne Zwiebeln, bitte am Empfang abgeben &hellip;"></textarea>
+
+      <div class="mk-xmas__zusage">
+        <span class="mk-xmas__zusage-zeichen">&#127869;</span>
+        <span class="mk-xmas__zusage-text">
+          <span class="mk-xmas__zusage-gross" id="mkMtSumme">Noch nichts ausgew&auml;hlt</span>
+          <span class="mk-xmas__zusage-klein">Ich best&auml;tige Ihre Bestellung kurz per WhatsApp oder Anruf. Bezahlung bar, auf Rechnung oder per PayPal.</span>
+        </span>
+        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkMtBtn">Jetzt bestellen</button>
+      </div>
+      <p class="mk-danke" id="mkMtDanke" hidden></p>
+      <p class="mk-mt__hinweis">Zutaten und Allergene nenne ich Ihnen gern &ndash; fragen Sie einfach in der Notiz oder rufen Sie an: 0177 201 9889.</p>
+    </div>
+    </div>
     <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelBuffet">
     <button type="button" class="mk-xmas__kachel">
       <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/buffet-3.webp');"></span>
@@ -404,7 +476,7 @@
 </div>
 <script src="/assets/js/main.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};</script>
+<script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};window.MK_FORMSPREE="https://formspree.io/f/maqgnbwj";</script>
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-meine-karte.js" defer></script>
 </body>

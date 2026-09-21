@@ -349,8 +349,178 @@
     // Klick daneben - irgendwo sonst auf die Seite - klappt auch zu
     document.addEventListener("click", function (e) {
       if (gross.hidden || laeuft) return;
-      if (wrap.contains(e.target)) return;
+      // Knoepfe, die beim Klick neu gezeichnet werden (z. B. Uhrzeiten), haengen
+      // danach nicht mehr im Dokument - das ist kein Klick daneben
+      if (!e.target.isConnected || wrap.contains(e.target)) return;
       zu();
+    });
+  }
+
+  // Mittagstisch: feste Mittagskarte, Menge per -/+, Tag und Wunschzeit, Notiz.
+  // Die Bestellung kommt per Mail und mit Hand im Vertrieb an.
+  var MT_ZEITEN = ["11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
+  var MT_MINDEST = 3;
+
+  function isoTag(d) {
+    var pad = function (n) { return String(n).padStart(2, "0"); };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  function mittagstischAnschalten(karte) {
+    var box = document.getElementById("mkKachelMittag");
+    if (!box) return;
+    var tagFeld = document.getElementById("mkMtTag");
+    var zeitenBox = document.getElementById("mkMtZeiten");
+    var summeEl = document.getElementById("mkMtSumme");
+    var notiz = document.getElementById("mkMtNotiz");
+    var knopf = document.getElementById("mkMtBtn");
+    var danke = document.getElementById("mkMtDanke");
+    var zeit = "";
+
+    function euro(n) { return n.toFixed(2).replace(".", ",") + " €"; }
+
+    function eintraege() {
+      return Array.prototype.map.call(box.querySelectorAll(".mk-mt"), function (z) {
+        return {
+          name: z.getAttribute("data-mt"),
+          preis: parseFloat(z.getAttribute("data-preis")),
+          menge: parseInt(z.querySelector("output").textContent, 10) || 0
+        };
+      });
+    }
+
+    function summe() {
+      var n = 0;
+      var betrag = 0;
+      eintraege().forEach(function (e) { n += e.menge; betrag += e.menge * e.preis; });
+      summeEl.textContent = n
+        ? n + (n === 1 ? " Portion" : " Portionen") + " · " + euro(betrag) +
+          (n < MT_MINDEST ? " – ab " + MT_MINDEST + " Portionen liefern wir" : "")
+        : "Noch nichts ausgewählt";
+    }
+
+    Array.prototype.forEach.call(box.querySelectorAll("[data-mt-plus], [data-mt-minus]"), function (b) {
+      b.addEventListener("click", function () {
+        var zeile = b.closest(".mk-mt");
+        var feld = zeile.querySelector("output");
+        var n = (parseInt(feld.textContent, 10) || 0) + (b.hasAttribute("data-mt-plus") ? 1 : -1);
+        n = Math.max(0, Math.min(99, n));
+        feld.textContent = n;
+        zeile.classList.toggle("is-an", n > 0);
+        fehlerWeg();
+        summe();
+      });
+    });
+
+    // Sobald der Kunde etwas aendert, ist ein alter Hinweis ueberholt
+    function fehlerWeg() {
+      if (danke.classList.contains("mk-danke--fehler")) danke.hidden = true;
+    }
+
+    // Heute nur, wenn noch eine Zeit mit 1 Stunde Vorlauf geht (letzte: 15:00)
+    function naechsterTag() {
+      var d = new Date();
+      if (d.getHours() >= 14) d.setDate(d.getDate() + 1);
+      while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+      return isoTag(d);
+    }
+
+    function zeitMoeglich(tag, hhmm) {
+      if (tag !== isoTag(new Date())) return true;
+      var t = hhmm.split(":");
+      var z = new Date();
+      z.setHours(+t[0], +t[1], 0, 0);
+      return z.getTime() - Date.now() >= 60 * 60 * 1000;
+    }
+
+    function zeitenZeigen() {
+      var tag = tagFeld.value;
+      zeitenBox.innerHTML = MT_ZEITEN.map(function (z) {
+        var geht = zeitMoeglich(tag, z);
+        if (!geht && zeit === z) zeit = "";
+        return '<button type="button" class="mk-mt-zeit' + (zeit === z ? " is-an" : "") + '" data-zeit="' + z + '"' +
+          (geht ? "" : " disabled") + ">" + z + "</button>";
+      }).join("");
+      Array.prototype.forEach.call(zeitenBox.querySelectorAll("[data-zeit]"), function (b) {
+        b.addEventListener("click", function () {
+          zeit = b.getAttribute("data-zeit");
+          fehlerWeg();
+          zeitenZeigen();
+        });
+      });
+    }
+
+    tagFeld.min = isoTag(new Date());
+    tagFeld.value = naechsterTag();
+    tagFeld.addEventListener("change", zeitenZeigen);
+    zeitenZeigen();
+    summe();
+
+    function fehler(text) {
+      danke.textContent = text;
+      danke.className = "mk-danke mk-danke--fehler";
+      danke.hidden = false;
+    }
+
+    knopf.addEventListener("click", function () {
+      var gewaehlt = eintraege().filter(function (e) { return e.menge > 0; });
+      var n = 0;
+      var betrag = 0;
+      gewaehlt.forEach(function (e) { n += e.menge; betrag += e.menge * e.preis; });
+      var tag = tagFeld.value;
+      var datum = new Date(tag + "T12:00:00");
+      if (n < MT_MINDEST) { fehler("Bitte mindestens " + MT_MINDEST + " Portionen auswählen."); return; }
+      if (!tag || datum.getDay() === 0 || datum.getDay() === 6) {
+        fehler("Wir liefern montags bis freitags – bitte einen Werktag wählen.");
+        return;
+      }
+      if (!zeit || !zeitMoeglich(tag, zeit)) {
+        fehler("Bitte eine Wunschzeit wählen – mindestens 1 Stunde im Voraus.");
+        return;
+      }
+
+      var tagText = datum.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
+      var bestellung = gewaehlt.map(function (e) { return e.menge + "× " + e.name; }).join(", ");
+      var text = (notiz.value || "").trim();
+      // Vor dem senkrechten Strich: was im Vertrieb an der Meldung steht
+      var kurz = "Mittagstisch · " + tagText + " · " + zeit + " Uhr · " + n + " Portionen";
+      var mehr = bestellung + " · " + euro(betrag) + (text ? " | Notiz: " + text.replace(/\s+/g, " ") : "");
+
+      knopf.disabled = true;
+      danke.hidden = true;
+      var imVertrieb = client.rpc("karte_reaktion", {
+        p_token: schluessel, p_offer: null, p_art: "interesse", p_text: kurz + " | " + mehr
+      }).then(function (r) { return !r.error; }, function () { return false; });
+      var perMail = window.MK_FORMSPREE
+        ? fetch(window.MK_FORMSPREE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              _subject: "Mittagstisch-Bestellung: " + karte.firma + " – " + tagText + " " + zeit + " Uhr",
+              Firma: karte.firma,
+              Ansprechpartner: karte.ansprechpartner || "—",
+              Kundennummer: karte.kundennummer,
+              Tag: tagText,
+              Uhrzeit: zeit + " Uhr",
+              Bestellung: bestellung,
+              Portionen: n,
+              Summe: euro(betrag),
+              Notiz: text || "—"
+            })
+          }).then(function (r) { return r.ok; }, function () { return false; })
+        : Promise.resolve(false);
+
+      Promise.all([imVertrieb, perMail]).then(function (r) {
+        if (r[0] || r[1]) {
+          knopf.textContent = "Bestellt ✓";
+          danke.textContent = "Danke! Ihre Bestellung ist angekommen – ich bestätige sie Ihnen gleich per WhatsApp oder Anruf.";
+          danke.className = "mk-danke";
+          danke.hidden = false;
+        } else {
+          knopf.disabled = false;
+          fehler("Das hat leider nicht geklappt – bestellen Sie gern direkt telefonisch: 0177 201 9889");
+        }
+      });
     });
   }
 
@@ -419,6 +589,7 @@
 
     weihnachtenZeigen();
     Array.prototype.forEach.call(document.querySelectorAll(".mk-kachelwrap"), kachelAnschalten);
+    mittagstischAnschalten(k);
 
     if (laden) laden.hidden = true;
     inhalt.hidden = false;
