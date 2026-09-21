@@ -1348,3 +1348,8 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-hero-vorteile li { transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease; cursor: default; }
 .mk-hero-vorteile li:hover { transform: translateY(-2px) scale(1.04); background: rgba(232,89,12,0.18); border-color: rgba(232,89,12,0.7); }
 @media (prefers-reduced-motion: reduce) { .mk-hero-vorteile li, .mk-hero-vorteile li:hover { transition: none; transform: none; } }
+.mk-xmas__rechner { display: flex; flex-direction: column; gap: 2px; margin: 18px 0 0; padding: 14px 18px; max-width: 640px; border-radius: 14px; border: 1px dashed rgba(255,255,255,0.3); color: #fff; text-decoration: none; transition: border-color 0.2s ease, background 0.2s ease; }
+.mk-xmas__rechner:hover { border-color: var(--color-primary); background: rgba(232,89,12,0.12); }
+.mk-xmas__rechner span { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+.mk-xmas__rechner strong { color: var(--color-primary); }
+.mk-xmas__rechner small { font-size: 0.78rem; color: rgba(255,255,255,0.55); }

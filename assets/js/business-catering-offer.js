@@ -50,7 +50,13 @@
       ["🍒", "Rote Grütze mit Vanillesoße", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanillesoße", "🥚"]
     ]
   };
-  var P = { vorspeise: 3, hauptgericht: 6, beilage: 2, nachtisch: 3 };
+  // Preise pro Person fuer Karteninhaber. Das Hauptgericht ist das Teuerste.
+  // Die Empfehlung des Hauses (1 Vorspeise, 2 Hauptgerichte, 2 Beilagen,
+  // 1 Nachtisch) kostet genau 3 + 14 + 4 + 2 = 23 EUR.
+  var P = { vorspeise: 3, hauptgericht: 7, beilage: 2, nachtisch: 2 };
+  // Ein Buffet kostet mindestens 23 EUR pro Person - so steht es auch auf der
+  // Kundenkarte und der Startseite ("ab 23 EUR").
+  var MINDEST = 23;
   // Karteninhaber zahlen 20 % weniger als der regulaere Preis (1 / 0.8 = 1.25) -
   // dieselben 20 %, mit denen die Business Karte beworben wird.
   var SHOW_MULT = 1.25;
@@ -143,11 +149,17 @@
     return r;
   }
 
-  function getPrice() {
+  function summeGerichte() {
     return sel.vorspeise.length * P.vorspeise +
            sel.hauptgericht.length * P.hauptgericht +
            sel.beilage.length * P.beilage +
            sel.nachtisch.length * P.nachtisch;
+  }
+
+  // Unter dem Mindestpreis zaehlt der Mindestpreis
+  function getPrice() {
+    var summe = summeGerichte();
+    return summe ? Math.max(summe, MINDEST) : 0;
   }
 
   var CAT_META = [
@@ -242,6 +254,14 @@
     var guests = parseInt((document.getElementById("guestCount") || {}).value) || 0;
     var labelEl = document.getElementById("priceTotalLabel");
     if (labelEl) labelEl.textContent = guests ? "GESAMT FÜR " + guests + " PERSONEN" : "GESAMT";
+    // Liegt die Auswahl unter dem Mindestpreis: sagen, wie viel noch "frei" ist
+    var hinweis = document.getElementById("priceMindest");
+    if (hinweis) {
+      var roh = summeGerichte();
+      hinweis.style.display = roh > 0 && roh < MINDEST ? "" : "none";
+      hinweis.textContent = "Mindestpreis " + MINDEST + " € pro Person – Sie können noch Gerichte für " +
+        formatEur(MINDEST - roh) + " dazunehmen, ohne dass es teurer wird.";
+    }
     if (!hasSelection()) {
       document.getElementById("priceMK").textContent = "0,00 €";
       document.getElementById("priceRegular").textContent = "0,00 €";
@@ -324,9 +344,9 @@
     var section = document.getElementById("menuSection");
     section.innerHTML =
       renderCategory("vorspeise", "Vorspeise", "🥗", false, "3 €/Person · jede Vorspeise zählt einzeln", true) +
-      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "6 €/Person je Hauptgericht · zwei sind üblich", false) +
+      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "7 €/Person je Hauptgericht · zwei sind üblich", false) +
       renderCategory("beilage", "Beilagen", "🥘", false, "2 €/Person je Beilage · zwei sind üblich", false) +
-      renderCategory("nachtisch", "Nachtisch", "🍮", false, "3 €/Person · jeder Nachtisch zählt einzeln", false);
+      renderCategory("nachtisch", "Nachtisch", "🍮", false, "2 €/Person · jeder Nachtisch zählt einzeln", false);
 
     Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
       card.addEventListener("click", function () {
@@ -363,12 +383,12 @@
 
   // Kommt der Kunde von seiner Business Karte (?k=...), landet die Anfrage
   // auch bei ihm im Vertrieb: Hand an der Karte, alle Einzelheiten im Logbuch.
-  function meldeAnKarte(schluessel, datum, gaeste, mk) {
+  function meldeAnKarte(schluessel, datum, gaeste, mk, anlass) {
     if (!/^[0-9a-f]{32}$/.test(schluessel || "") || !window.supabase || !window.SUPABASE_ANON_KEY) {
       return Promise.resolve(false);
     }
     var n = parseInt(gaeste, 10);
-    var kurz = "Buffet zusammengestellt · " + new Date(datum + "T12:00:00").toLocaleDateString("de-DE") +
+    var kurz = (anlass ? anlass + " · " : "") + "Buffet zusammengestellt · " + new Date(datum + "T12:00:00").toLocaleDateString("de-DE") +
       (n > 0 ? " · " + n + " Personen" : "");
     var mehr = formatEur(mk) + " pro Person" +
       " · Hauptgerichte: " + (sel.hauptgericht.join(", ") || "—") +
@@ -398,6 +418,9 @@
     );
     document.getElementById("cateringMsg").textContent = displayMsg;
     document.getElementById("cateringMsgCard").hidden = false;
+    if (params.anlass) {
+      document.getElementById("cateringHeading").textContent = "Ihre " + params.anlass + " – Buffet zusammenstellen";
+    }
 
     // mobile sticky bottom bar
     var bar = document.createElement("div");
@@ -436,7 +459,7 @@
       statusEl.className = "form-status";
       document.getElementById("cateringSubmitBtn").disabled = true;
 
-      var anKarte = meldeAnKarte(params.k, date, guests, mk);
+      var anKarte = meldeAnKarte(params.k, date, guests, mk, params.anlass);
       var perMail = fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -452,6 +475,7 @@
           "MK Preis / Person": mk.toFixed(2) + " €",
           Gesamtpreis: total.toFixed(2) + " €",
           Kundennummer: code,
+          Anlass: params.anlass || "—",
           Vorspeise: sel.vorspeise.join(", ") || "—",
           Hauptgerichte: sel.hauptgericht.join(", ") || "—",
           Beilagen: sel.beilage.join(", ") || "—",
