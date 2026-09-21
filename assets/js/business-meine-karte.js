@@ -359,7 +359,7 @@
   // Mittagstisch: feste Mittagskarte, Menge per -/+, Tag und Wunschzeit, Notiz.
   // Die Bestellung kommt per Mail und mit Hand im Vertrieb an.
   var MT_ZEITEN = ["11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
-  var MT_MINDEST = 3;
+  var MT_MINDESTWERT = 25;   // Euro - darunter liefern wir nicht
 
   function isoTag(d) {
     var pad = function (n) { return String(n).padStart(2, "0"); };
@@ -377,12 +377,28 @@
     var danke = document.getElementById("mkMtDanke");
     var zeit = "";
 
+    // Reiter: zeigt nur die Gerichte einer Kategorie
+    var reiter = box.querySelectorAll("[data-mt-kat]");
+    function zeigeKategorie(kat) {
+      Array.prototype.forEach.call(reiter, function (r) {
+        r.classList.toggle("is-an", r.getAttribute("data-mt-kat") === kat);
+      });
+      Array.prototype.forEach.call(box.querySelectorAll(".mk-mt"), function (z) {
+        z.hidden = z.getAttribute("data-kat") !== kat;
+      });
+    }
+    Array.prototype.forEach.call(reiter, function (r) {
+      r.addEventListener("click", function () { zeigeKategorie(r.getAttribute("data-mt-kat")); });
+    });
+    if (reiter.length) zeigeKategorie(reiter[0].getAttribute("data-mt-kat"));
+
     function euro(n) { return n.toFixed(2).replace(".", ",") + " €"; }
 
     function eintraege() {
       return Array.prototype.map.call(box.querySelectorAll(".mk-mt"), function (z) {
         return {
           name: z.getAttribute("data-mt"),
+          kat: z.getAttribute("data-kat"),
           preis: parseFloat(z.getAttribute("data-preis")),
           menge: parseInt(z.querySelector("output").textContent, 10) || 0
         };
@@ -394,9 +410,16 @@
       var betrag = 0;
       eintraege().forEach(function (e) { n += e.menge; betrag += e.menge * e.preis; });
       summeEl.textContent = n
-        ? n + (n === 1 ? " Portion" : " Portionen") + " · " + euro(betrag) +
-          (n < MT_MINDEST ? " – ab " + MT_MINDEST + " Portionen liefern wir" : "")
+        ? n + " Artikel · " + euro(betrag) +
+          (betrag < MT_MINDESTWERT ? " – Mindestbestellwert " + MT_MINDESTWERT + " €" : "")
         : "Noch nichts ausgewählt";
+      // Am Reiter steht, wie viel aus der Kategorie schon gewaehlt ist
+      Array.prototype.forEach.call(box.querySelectorAll("[data-mt-kat]"), function (r) {
+        var k = r.getAttribute("data-mt-kat");
+        var anzahl = 0;
+        eintraege().forEach(function (e) { if (e.kat === k) anzahl += e.menge; });
+        r.querySelector("small").textContent = anzahl || "";
+      });
     }
 
     Array.prototype.forEach.call(box.querySelectorAll("[data-mt-plus], [data-mt-minus]"), function (b) {
@@ -469,7 +492,10 @@
       gewaehlt.forEach(function (e) { n += e.menge; betrag += e.menge * e.preis; });
       var tag = tagFeld.value;
       var datum = new Date(tag + "T12:00:00");
-      if (n < MT_MINDEST) { fehler("Bitte mindestens " + MT_MINDEST + " Portionen auswählen."); return; }
+      if (betrag < MT_MINDESTWERT) {
+        fehler("Der Mindestbestellwert liegt bei " + MT_MINDESTWERT + " € – bitte noch etwas dazunehmen.");
+        return;
+      }
       if (!tag || datum.getDay() === 0 || datum.getDay() === 6) {
         fehler("Wir liefern montags bis freitags – bitte einen Werktag wählen.");
         return;
@@ -483,7 +509,7 @@
       var bestellung = gewaehlt.map(function (e) { return e.menge + "× " + e.name; }).join(", ");
       var text = (notiz.value || "").trim();
       // Vor dem senkrechten Strich: was im Vertrieb an der Meldung steht
-      var kurz = "Mittagstisch · " + tagText + " · " + zeit + " Uhr · " + n + " Portionen";
+      var kurz = "Mittagstisch · " + tagText + " · " + zeit + " Uhr · " + n + " Artikel";
       var mehr = bestellung + " · " + euro(betrag) + (text ? " | Notiz: " + text.replace(/\s+/g, " ") : "");
 
       knopf.disabled = true;
@@ -503,7 +529,7 @@
               Tag: tagText,
               Uhrzeit: zeit + " Uhr",
               Bestellung: bestellung,
-              Portionen: n,
+              Artikel: n,
               Summe: euro(betrag),
               Notiz: text || "—"
             })

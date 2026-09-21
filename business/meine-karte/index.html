@@ -282,11 +282,11 @@
 
     <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelMittag">
     <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/indische-gerichte.webp');"></span>
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/mittag/margherita.webp');"></span>
       <span class="mk-xmas__kachel-inhalt">
         <span class="mk-xmas__kachel-label">Mo&ndash;Fr &middot; 11:30&ndash;15:00 Uhr</span>
         <span class="mk-xmas__kachel-titel">Mittagstisch</span>
-        <span class="mk-xmas__kachel-text">Warm ins B&uuml;ro geliefert, ab 3 Portionen</span>
+        <span class="mk-xmas__kachel-text">Pizza, Pasta, Curry &amp; mehr &ndash; warm geliefert</span>
         <span class="mk-xmas__kachel-cta">Jetzt bestellen &rarr;</span>
       </span>
     </button>
@@ -294,37 +294,138 @@
       <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
       <span class="eyebrow">Montag bis Freitag &middot; Lieferung 11:30&ndash;15:00 Uhr</span>
       <h2>Mittagstisch f&uuml;rs B&uuml;ro</h2>
-      <p class="lead">Warm geliefert, fertig zum Essen. Bestellen Sie bis 1 Stunde vor Ihrer Wunschzeit &ndash; ab 3 Portionen, Lieferung inklusive.</p>
-      <div class="mk-mt-liste"><div class="mk-mt" data-mt="Butter Chicken mit Basmati-Reis" data-preis="13.90">
-          <span class="mk-mt__icon">🍛</span>
-          <span class="mk-mt__text"><strong>Butter Chicken</strong><small>mit Basmati-Reis &middot; Geflügel</small></span>
-          <span class="mk-mt__preis">13,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
-        </div><div class="mk-mt" data-mt="Chicken Tikka Masala mit Naan" data-preis="13.90">
-          <span class="mk-mt__icon">🍗</span>
-          <span class="mk-mt__text"><strong>Chicken Tikka Masala</strong><small>mit Naan &middot; Geflügel</small></span>
-          <span class="mk-mt__preis">13,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
-        </div><div class="mk-mt" data-mt="Palak Paneer mit Basmati-Reis" data-preis="12.90">
-          <span class="mk-mt__icon">🧀</span>
-          <span class="mk-mt__text"><strong>Palak Paneer</strong><small>mit Basmati-Reis &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
-        </div><div class="mk-mt" data-mt="Tortellini alla Panna in Schinken-Sahnesauce" data-preis="12.90">
-          <span class="mk-mt__icon">🥟</span>
-          <span class="mk-mt__text"><strong>Tortellini alla Panna</strong><small>in Schinken-Sahnesauce &middot; mit Schinken</small></span>
-          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
-        </div><div class="mk-mt" data-mt="Chana Masala mit Basmati-Reis" data-preis="11.90">
-          <span class="mk-mt__icon">🥬</span>
-          <span class="mk-mt__text"><strong>Chana Masala</strong><small>mit Basmati-Reis &middot; vegan</small></span>
+      <p class="lead">Warm geliefert, fertig zum Essen. Bestellen Sie bis 1 Stunde vor Ihrer Wunschzeit &ndash; Lieferung frei ab 25&nbsp;&euro; Bestellwert.</p>
+      <div class="mk-mt-reiter" role="group" aria-label="Kategorie"><button type="button" class="mk-mt-reiter__btn" data-mt-kat="pizza">&#127829; Pizza<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="pasta">&#127837; Pasta<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="indisch">&#127835; Indisch<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="sushi">&#127843; Sushi<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="klein">&#129366; Kleinigkeiten<small></small></button></div>
+      <div class="mk-mt-liste"><div class="mk-mt" data-kat="pizza" data-mt="Pizza Margherita" data-preis="10.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/margherita.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizza Margherita</strong><small>Tomatensauce, Mozzarella &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">10,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Funghi" data-preis="11.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/funghi.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizza Funghi</strong><small>Mit frischen Champignons &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">11,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Salami" data-preis="11.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/salami.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizza Salami</strong><small>Mit Salami</small></span>
           <span class="mk-mt__preis">11,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
-        </div><div class="mk-mt" data-mt="Pasta Mista mit Champignons in Tomaten-Sahnesauce" data-preis="11.90">
-          <span class="mk-mt__icon">🍝</span>
-          <span class="mk-mt__text"><strong>Pasta Mista</strong><small>mit Champignons in Tomaten-Sahnesauce &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">11,90&nbsp;&euro;</span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eine Portion weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eine Portion mehr">+</button></span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Mr. Veggi" data-preis="12.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/veggi.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizza Mr. Veggi</strong><small>Bunter Gem&uuml;se-Mix &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">12,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Chicken Teriyaki" data-preis="13.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/teriyaki.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizza Chicken Teriyaki</strong><small>H&auml;hnchen, Brokkoli, Fr&uuml;hlingszwiebeln, Sesam</small></span>
+          <span class="mk-mt__preis">13,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pasta" data-mt="Pasta Mista" data-preis="11.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/mista.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pasta Mista</strong><small>Champignons in Tomaten-Sahnesauce &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">11,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pasta" data-mt="Tortellini alla Panna" data-preis="12.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/tortellini.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Tortellini alla Panna</strong><small>In Schinken-Sahnesauce</small></span>
+          <span class="mk-mt__preis">12,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pasta" data-mt="Spaghetti Carbonara" data-preis="12.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/carbonara.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Spaghetti Carbonara</strong><small>Mit Schinken, Ei und Sahnesauce</small></span>
+          <span class="mk-mt__preis">12,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="pasta" data-mt="Maccaroni al Forno" data-preis="12.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/forno.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Maccaroni al Forno</strong><small>Champignons, Schinken, Hackfleisch, mit K&auml;se &uuml;berbacken</small></span>
+          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Butter Chicken" data-preis="13.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/butterchicken.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Butter Chicken</strong><small>Mit Basmati-Reis &middot; mild und cremig</small></span>
+          <span class="mk-mt__preis">13,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Tikka Masala" data-preis="13.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/tikka.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Chicken Tikka Masala</strong><small>Mit Basmati-Reis &middot; w&uuml;rzig</small></span>
+          <span class="mk-mt__preis">13,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Korma" data-preis="13.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/korma.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Chicken Korma</strong><small>Mit Basmati-Reis &middot; mild, mit N&uuml;ssen</small></span>
+          <span class="mk-mt__preis">13,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Biryani" data-preis="13.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/biryani.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Chicken Biryani</strong><small>Gew&uuml;rzreis mit H&auml;hnchen und Raita</small></span>
+          <span class="mk-mt__preis">13,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Lamb Rogan Josh" data-preis="15.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/rogan.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Lamb Rogan Josh</strong><small>Mit Basmati-Reis &middot; Lamm-Curry</small></span>
+          <span class="mk-mt__preis">15,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Palak Paneer" data-preis="12.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/paneer.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Palak Paneer</strong><small>Mit Basmati-Reis &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Chana Masala" data-preis="11.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/chana.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Chana Masala</strong><small>Mit Basmati-Reis &middot; vegan</small></span>
+          <span class="mk-mt__preis">11,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="indisch" data-mt="Dal Tadka" data-preis="11.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/dal.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Dal Tadka</strong><small>Gelbe Linsen, mit Basmati-Reis &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">11,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="sushi" data-mt="Sushi-Box Klassik" data-preis="14.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/sushibox.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Sushi-Box Klassik</strong><small>6 Maki Lachs + 8 California Roll Lachs-Avocado</small></span>
+          <span class="mk-mt__preis">14,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="sushi" data-mt="Sushi-Box Veggie" data-preis="12.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/sushiveg.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Sushi-Box Veggie</strong><small>6 Maki Avocado + 8 Crispy Roll Gem&uuml;se &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">12,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Pommes" data-preis="4.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/pommes.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pommes</strong><small>Mit Ketchup und Mayo</small></span>
+          <span class="mk-mt__preis">4,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Knoblauchbrot" data-preis="4.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/knoblauch.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Knoblauchbrot</strong><small>Mit Knoblauchdip</small></span>
+          <span class="mk-mt__preis">4,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Pizzabr&ouml;tchen" data-preis="5.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/pizzabroetchen.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Pizzabr&ouml;tchen</strong><small>6 St&uuml;ck, mit K&auml;se und Knoblauchdip</small></span>
+          <span class="mk-mt__preis">5,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Samosa" data-preis="5.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/samosa.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Samosa</strong><small>2 St&uuml;ck, mit Minz-Chutney &middot; vegetarisch</small></span>
+          <span class="mk-mt__preis">5,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Rucola-Salat" data-preis="8.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/rucola.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Rucola-Salat</strong><small>Mit Parmesan und Balsamico</small></span>
+          <span class="mk-mt__preis">8,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Tiramisu" data-preis="4.90">
+          <img class="mk-mt__bild" src="/assets/img/mittag/tiramisu.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Tiramisu</strong><small>Hausgemacht</small></span>
+          <span class="mk-mt__preis">4,90&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
+        </div><div class="mk-mt" data-kat="klein" data-mt="Panna Cotta" data-preis="4.50">
+          <img class="mk-mt__bild" src="/assets/img/mittag/pannacotta.webp" alt="" loading="lazy" width="160" height="120">
+          <span class="mk-mt__text"><strong>Panna Cotta</strong><small>Mit Erdbeersauce</small></span>
+          <span class="mk-mt__preis">4,50&nbsp;&euro;</span>
+          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
         </div></div>
 
       <p class="mk-xmas__frage">Wann d&uuml;rfen wir liefern?</p>
@@ -349,7 +450,7 @@
         <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkMtBtn">Jetzt bestellen</button>
       </div>
       <p class="mk-danke" id="mkMtDanke" hidden></p>
-      <p class="mk-mt__hinweis">Zutaten und Allergene nenne ich Ihnen gern &ndash; fragen Sie einfach in der Notiz oder rufen Sie an: 0177 201 9889.</p>
+      <p class="mk-mt__hinweis">Pizzen &Oslash; 30&nbsp;cm &middot; Abbildungen &auml;hnlich &middot; Zutaten und Allergene nenne ich Ihnen gern &ndash; fragen Sie einfach in der Notiz oder rufen Sie an: 0177 201 9889.</p>
     </div>
     </div>
     <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelBuffet">

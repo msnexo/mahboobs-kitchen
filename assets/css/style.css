@@ -1423,3 +1423,14 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-mt__text strong { font-size: 1rem; }
 .mk-mt__preis { grid-area: preis; font-size: 1.05rem; }
 .mk-mt__menge { grid-area: menge; justify-self: end; }
+
+/* Mittagskarte: Reiter und Fotos */
+.mk-mt-reiter { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 4px; }
+.mk-mt-reiter__btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: #fff; font: inherit; font-weight: 600; font-size: 0.92rem; cursor: pointer; transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease; }
+.mk-mt-reiter__btn:hover { border-color: rgba(232,89,12,0.75); transform: translateY(-1px); }
+.mk-mt-reiter__btn.is-an { background: #fff; color: #161616; border-color: #fff; }
+.mk-mt-reiter__btn small { display: none; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--color-primary); color: #fff; font-size: 0.72rem; align-items: center; justify-content: center; }
+.mk-mt-reiter__btn small:not(:empty) { display: inline-flex; }
+.mk-mt[hidden] { display: none; }
+.mk-mt { grid-template-columns: 76px 1fr auto; grid-template-areas: "bild text text" "bild preis menge"; }
+.mk-mt__bild { grid-area: bild; width: 76px; height: 76px; border-radius: 12px; object-fit: cover; align-self: center; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
