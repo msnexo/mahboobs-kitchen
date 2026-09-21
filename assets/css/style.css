@@ -1195,7 +1195,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-abmelden-link a { color: inherit; }
 
 /* Weihnachtsfeier: Wunschtermin unverbindlich vormerken */
-.mk-xmas { padding-bottom: 0; }
+.mk-xmas { padding-bottom: 40px; }
 .mk-xmas__wrap { position: relative; }
 
 /* Kleine Kachel in Visitenkarten-Groesse - waechst beim Klick zur ganzen Ansicht */
