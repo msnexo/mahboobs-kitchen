@@ -343,22 +343,6 @@
     });
   }
 
-  // Tagesgeschaeft: bestellen per WhatsApp oder kurz nachfragen
-  function paketeAnschalten(vorstellung) {
-    Array.prototype.forEach.call(document.querySelectorAll("[data-paket-wa]"), function (a) {
-      var name = a.getAttribute("data-paket-wa");
-      a.href = "https://wa.me/" + TELEFON_WA + "?text=" +
-        encodeURIComponent(vorstellung + "\n\nIch hätte gern: " + name + "\nFür wie viele Personen: \nWann: ");
-    });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-paket-frage]"), function (b) {
-      b.addEventListener("click", function () {
-        var karte = b.closest(".mk-paket");
-        melden("interesse", null, b, karte.querySelector(".mk-danke"),
-          "Zwischendurch: " + b.getAttribute("data-paket-frage"));
-      });
-    });
-  }
-
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -412,7 +396,6 @@
     }
 
     weihnachtenZeigen();
-    paketeAnschalten(vorstellung);
 
     if (laden) laden.hidden = true;
     inhalt.hidden = false;
