@@ -552,7 +552,7 @@
 
   // Fuer Gaeste & Meetings: Paket fuer die Gruppe, ab 5 Personen, bis zum Vortag.
   var RD_MIN = 5;
-  var RD_SUESS = 4.5;
+  var RD_SUESS = 3.9;
 
   function naechsterWerktag(abMorgen) {
     var d = new Date();
