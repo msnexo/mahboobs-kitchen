@@ -689,7 +689,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
             body: JSON.stringify({
-              _subject: "Paket-Bestellung: " + paket.name + " – " + karte.firma + " – " + tagText + " " + zeit + " Uhr",
+              _subject: "Team-Paket: " + paket.name + " – " + karte.firma + " – " + tagText + " " + zeit + " Uhr",
               Firma: karte.firma,
               Ansprechpartner: karte.ansprechpartner || "—",
               Kundennummer: karte.kundennummer,
