@@ -550,6 +550,175 @@
     });
   }
 
+  // Fuer Gaeste & Meetings: Paket fuer die Gruppe, ab 5 Personen, bis zum Vortag.
+  var RD_MIN = 5;
+  var RD_SUESS = 4.5;
+
+  function naechsterWerktag(abMorgen) {
+    var d = new Date();
+    if (abMorgen) d.setDate(d.getDate() + 1);
+    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+    return isoTag(d);
+  }
+
+  function rundenAnschalten(karte) {
+    var box = document.getElementById("mkKachelRunde");
+    var datenEl = document.getElementById("mkRundenDaten");
+    if (!box || !datenEl) return;
+    var PAKETE = JSON.parse(datenEl.textContent);
+    var wahlBox = document.getElementById("mkRdWahl");
+    var personenEl = document.getElementById("mkRdPersonen");
+    var suessEl = document.getElementById("mkRdSuess");
+    var tagFeld = document.getElementById("mkRdTag");
+    var zeitenBox = document.getElementById("mkRdZeiten");
+    var notiz = document.getElementById("mkRdNotiz");
+    var summeEl = document.getElementById("mkRdSumme");
+    var knopf = document.getElementById("mkRdBtn");
+    var danke = document.getElementById("mkRdDanke");
+    var paket = null;
+    var gewaehlt = [];
+    var personen = 10;
+    var zeit = "";
+
+    function euro(n) { return n.toFixed(2).replace(".", ",") + " €"; }
+    function fehler(t) { danke.textContent = t; danke.className = "mk-danke mk-danke--fehler"; danke.hidden = false; }
+    function fehlerWeg() { if (danke.classList.contains("mk-danke--fehler")) danke.hidden = true; }
+
+    function proPerson() { return paket ? paket.preis + (suessEl.checked ? RD_SUESS : 0) : 0; }
+
+    function summe() {
+      if (!paket) { summeEl.textContent = "Bitte ein Paket wählen"; return; }
+      summeEl.textContent = paket.name + " · " + personen + " Personen · " + euro(personen * proPerson());
+    }
+
+    function wahlZeigen() {
+      if (!paket) { wahlBox.innerHTML = ""; return; }
+      if (!paket.wahl) {
+        wahlBox.innerHTML = '<p class="mk-rd-fest">Fester Inhalt – hier müssen Sie nichts weiter auswählen.</p>';
+        return;
+      }
+      var w = paket.wahl;
+      wahlBox.innerHTML = '<p class="mk-xmas__frage">' + esc(w.titel) + "</p>" +
+        '<div class="mk-mt-zeiten">' + w.optionen.map(function (o) {
+          return '<button type="button" class="mk-mt-zeit mk-rd-chip' + (gewaehlt.indexOf(o) >= 0 ? " is-an" : "") +
+            '" data-opt="' + esc(o) + '">' + esc(o) + "</button>";
+        }).join("") + "</div>";
+      Array.prototype.forEach.call(wahlBox.querySelectorAll("[data-opt]"), function (b) {
+        b.addEventListener("click", function () {
+          var o = b.getAttribute("data-opt");
+          var i = gewaehlt.indexOf(o);
+          if (w.typ === "eins") gewaehlt = [o];
+          else if (i >= 0) gewaehlt.splice(i, 1);
+          else {
+            // Ist das Limit erreicht, faellt die zuerst gewaehlte Sorte raus
+            if (gewaehlt.length >= w.anzahl) gewaehlt.shift();
+            gewaehlt.push(o);
+          }
+          fehlerWeg();
+          wahlZeigen();
+        });
+      });
+    }
+
+    Array.prototype.forEach.call(box.querySelectorAll("[data-paket]"), function (b) {
+      b.addEventListener("click", function () {
+        paket = PAKETE.filter(function (p) { return p.key === b.getAttribute("data-paket"); })[0];
+        gewaehlt = [];
+        Array.prototype.forEach.call(box.querySelectorAll("[data-paket]"), function (x) {
+          x.classList.toggle("is-an", x === b);
+        });
+        fehlerWeg();
+        wahlZeigen();
+        summe();
+      });
+    });
+
+    function personenSetzen(n) {
+      personen = Math.max(RD_MIN, Math.min(300, n));
+      personenEl.textContent = personen;
+      fehlerWeg();
+      summe();
+    }
+    box.querySelector("[data-rd-minus]").addEventListener("click", function () { personenSetzen(personen - 1); });
+    box.querySelector("[data-rd-plus]").addEventListener("click", function () { personenSetzen(personen + 1); });
+    suessEl.addEventListener("change", summe);
+
+    // Bestellen bis zum Vortag: fruehestens der naechste Werktag ab morgen
+    tagFeld.min = naechsterWerktag(true);
+    tagFeld.value = naechsterWerktag(true);
+    function zeitenZeigen() {
+      zeitenBox.innerHTML = MT_ZEITEN.map(function (z) {
+        return '<button type="button" class="mk-mt-zeit' + (zeit === z ? " is-an" : "") + '" data-zeit="' + z + '">' + z + "</button>";
+      }).join("");
+      Array.prototype.forEach.call(zeitenBox.querySelectorAll("[data-zeit]"), function (b) {
+        b.addEventListener("click", function () { zeit = b.getAttribute("data-zeit"); fehlerWeg(); zeitenZeigen(); });
+      });
+    }
+    zeitenZeigen();
+    summe();
+
+    knopf.addEventListener("click", function () {
+      if (!paket) { fehler("Bitte zuerst ein Paket wählen."); return; }
+      var w = paket.wahl;
+      if (w && (w.typ === "genau" ? gewaehlt.length !== w.anzahl : !gewaehlt.length)) {
+        fehler(w.typ === "genau" ? "Bitte genau " + w.anzahl + " auswählen: " + w.titel : "Bitte noch auswählen: " + w.titel);
+        return;
+      }
+      var tag = tagFeld.value;
+      var datum = new Date(tag + "T12:00:00");
+      if (!tag || tag < naechsterWerktag(true) || datum.getDay() === 0 || datum.getDay() === 6) {
+        fehler("Pakete bitte bis zum Vortag bestellen – frühestens für den nächsten Werktag.");
+        return;
+      }
+      if (!zeit) { fehler("Bitte eine Wunschzeit wählen."); return; }
+
+      var betrag = personen * proPerson();
+      var tagText = datum.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
+      var text = (notiz.value || "").trim();
+      var auswahl = (gewaehlt.length ? gewaehlt.join(", ") + " · " : "") + (suessEl.checked ? "mit Süßem · " : "");
+      var kurz = paket.name + " · " + tagText + " · " + zeit + " Uhr · " + personen + " Personen";
+      var mehr = auswahl + euro(betrag) + (text ? " | Notiz: " + text.replace(/\s+/g, " ") : "");
+
+      knopf.disabled = true;
+      danke.hidden = true;
+      var imVertrieb = client.rpc("karte_reaktion", {
+        p_token: schluessel, p_offer: null, p_art: "interesse", p_text: kurz + " | " + mehr
+      }).then(function (r) { return !r.error; }, function () { return false; });
+      var perMail = window.MK_FORMSPREE
+        ? fetch(window.MK_FORMSPREE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              _subject: "Paket-Bestellung: " + paket.name + " – " + karte.firma + " – " + tagText + " " + zeit + " Uhr",
+              Firma: karte.firma,
+              Ansprechpartner: karte.ansprechpartner || "—",
+              Kundennummer: karte.kundennummer,
+              Paket: paket.name,
+              Auswahl: gewaehlt.join(", ") || "—",
+              "Süßes dazu": suessEl.checked ? "ja" : "nein",
+              Personen: personen,
+              Tag: tagText,
+              Uhrzeit: zeit + " Uhr",
+              Summe: euro(betrag),
+              Notiz: text || "—"
+            })
+          }).then(function (r) { return r.ok; }, function () { return false; })
+        : Promise.resolve(false);
+
+      Promise.all([imVertrieb, perMail]).then(function (r) {
+        if (r[0] || r[1]) {
+          knopf.textContent = "Bestellt ✓";
+          danke.textContent = "Danke! Ihre Bestellung ist angekommen – ich bestätige sie Ihnen gleich per WhatsApp oder Anruf.";
+          danke.className = "mk-danke";
+          danke.hidden = false;
+        } else {
+          knopf.disabled = false;
+          fehler("Das hat leider nicht geklappt – bestellen Sie gern direkt telefonisch: 0177 201 9889");
+        }
+      });
+    });
+  }
+
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -611,11 +780,14 @@
       // Aus der Weihnachtsfeier in denselben Rechner - er weiss dann den Anlass
       var xmasRechner = document.getElementById("mkXmasRechner");
       if (xmasRechner) xmasRechner.href = rechner.href + "&anlass=Weihnachtsfeier";
+      var rdRechner = document.getElementById("mkRdRechner");
+      if (rdRechner) rdRechner.href = rechner.href;
     }
 
     weihnachtenZeigen();
     Array.prototype.forEach.call(document.querySelectorAll(".mk-kachelwrap"), kachelAnschalten);
     mittagstischAnschalten(k);
+    rundenAnschalten(k);
 
     if (laden) laden.hidden = true;
     inhalt.hidden = false;

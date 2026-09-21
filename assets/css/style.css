@@ -1434,3 +1434,26 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-mt[hidden] { display: none; }
 .mk-mt { grid-template-columns: 76px 1fr auto; grid-template-areas: "bild text text" "bild preis menge"; }
 .mk-mt__bild { grid-area: bild; width: 76px; height: 76px; border-radius: 12px; object-fit: cover; align-self: center; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+
+/* Kundenkarte: Fuer Gaeste & Meetings */
+.mk-rd-pakete { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; margin: 22px 0 4px; }
+.mk-rd-paket { display: grid; grid-template-columns: 76px 1fr; grid-template-areas: "bild text" "bild preis"; column-gap: 12px; row-gap: 6px; align-items: center; padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); color: #fff; font: inherit; text-align: left; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+.mk-rd-paket:hover { border-color: rgba(255,255,255,0.26); transform: translateY(-1px); }
+.mk-rd-paket.is-an { border-color: var(--color-primary); background: linear-gradient(180deg, rgba(232,89,12,0.22), rgba(232,89,12,0.08)); box-shadow: inset 3px 0 0 var(--color-primary); }
+.mk-rd-paket img { grid-area: bild; width: 76px; height: 76px; border-radius: 12px; object-fit: cover; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+.mk-rd-paket__text { grid-area: text; display: flex; flex-direction: column; gap: 2px; }
+.mk-rd-paket__text strong { font-size: 1rem; }
+.mk-rd-paket__text small { color: rgba(255,255,255,0.6); font-size: 0.78rem; line-height: 1.35; }
+.mk-rd-paket__preis { grid-area: preis; color: var(--color-primary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.mk-rd-paket__preis small { color: rgba(255,255,255,0.55); font-weight: 400; font-size: 0.75rem; }
+.mk-rd-personen { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.8); }
+.mk-rd-personen output { font-size: 1.1rem; }
+.mk-mt__menge button[data-rd-plus] { background: var(--color-primary); color: #fff; box-shadow: 0 4px 12px rgba(232,89,12,0.4); }
+.mk-mt__menge button[data-rd-plus]:hover { background: #ff6d1f; }
+.mk-rd-suess { display: flex; gap: 12px; align-items: center; max-width: 640px; margin: 18px 0 0; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; }
+.mk-rd-suess input { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--color-primary); }
+.mk-rd-suess strong { color: var(--color-primary); }
+.mk-rd-fest { margin: 14px 0 0; color: rgba(255,255,255,0.6); font-size: 0.88rem; }
+.mk-rd-chip { min-width: 0; }
+/* Fuenf Kacheln: am grossen Bildschirm 3 + 2 statt 2 + 2 + 1 */
+@media (min-width: 1100px) { .mk-kacheln { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
