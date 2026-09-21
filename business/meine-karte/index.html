@@ -115,10 +115,13 @@
 </section>
 
 <div id="mkKarteMehr" hidden>
-<div id="mkWeihnachten" hidden>
 <section class="section mk-xmas" id="weihnachten">
   <div class="container">
-    <div class="mk-xmas__wrap">
+    <span class="eyebrow">Ihre Karte</span>
+    <h2 class="mk-kacheln__titel">Alles auf einen Blick</h2>
+    <p class="mk-kacheln__lead">Antippen, was Sie interessiert.</p>
+    <div class="mk-kacheln">
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkWeihnachten" hidden>
     <button type="button" class="mk-xmas__kachel" id="mkXmasKachel">
       <span class="mk-xmas__kachel-bild"></span>
       <span class="mk-xmas__kachel-inhalt">
@@ -266,9 +269,77 @@
       <p class="mk-danke" id="mkXmasDanke" hidden></p>
     </div>
     </div>
+
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelBuffet">
+    <button type="button" class="mk-xmas__kachel">
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/buffet-3.webp');"></span>
+      <span class="mk-xmas__kachel-inhalt">
+        <span class="mk-xmas__kachel-label">Zu Ihren Konditionen</span>
+        <span class="mk-xmas__kachel-titel">Buffet selbst zusammenstellen</span>
+        <span class="mk-xmas__kachel-text">Gerichte antippen, Preis sofort sehen</span>
+        <span class="mk-xmas__kachel-cta">Ausprobieren &rarr;</span>
+      </span>
+    </button>
+    <div class="mk-xmas__box" hidden>
+      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
+      <span class="eyebrow">Ohne Warten auf ein Angebot</span>
+      <h2>Buffet selbst zusammenstellen</h2>
+      <p class="lead">Gerichte antippen und sofort sehen, was es pro Person kostet &ndash; zu Ihren Karten-Konditionen.</p>
+      <ul class="mk-xmas__punkte">
+        <li>Indisch, italienisch, Sushi oder gemischt</li>
+        <li>Preis pro Person sofort sichtbar</li>
+        <li>Anfrage mit einem Klick</li>
+      </ul>
+      <a class="btn btn--primary" id="mkRechnerLink" href="/business/catering-angebot/">Preis berechnen</a>
+    </div>
+    </div>
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelLocation">
+    <button type="button" class="mk-xmas__kachel">
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/locations/am-wasser.webp');"></span>
+      <span class="mk-xmas__kachel-inhalt">
+        <span class="mk-xmas__kachel-label">Au&szlig;er Haus feiern</span>
+        <span class="mk-xmas__kachel-titel">Location gesucht?</span>
+        <span class="mk-xmas__kachel-text">Wir finden den passenden Raum</span>
+        <span class="mk-xmas__kachel-cta">Orte ansehen &rarr;</span>
+      </span>
+    </button>
+    <div class="mk-xmas__box" hidden>
+      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
+      <span class="eyebrow">Kein Platz bei Ihnen?</span>
+      <h2>Wir richten auch au&szlig;er Haus aus</h2>
+      <p class="lead">Ob kleine Runde oder gro&szlig;e Feier &ndash; ich helfe bei der Suche nach dem passenden Raum und k&uuml;mmere mich um alle Absprachen.</p>
+      <div class="mk-orte"><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/saal-norderstedt.webp');"></span>
+          <span class="mk-ort__text"><strong>Großer Saal in Norderstedt</strong><small>20 bis 450 Gäste</small><span>Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</span></span></div><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/loft-hamburg.webp');"></span>
+          <span class="mk-ort__text"><strong>Industrie-Loft in Hamburg-Nord</strong><small>60 bis 150 Gäste</small><span>Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</span></span></div><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/fabrikhalle.webp');"></span>
+          <span class="mk-ort__text"><strong>Historische Fabrikhalle in Barmbek</strong><small>50 bis 200 Gäste</small><span>Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</span></span></div><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/gasthof.webp');"></span>
+          <span class="mk-ort__text"><strong>Gasthof mit Festsaal vor den Toren</strong><small>bis 250 Gäste</small><span>Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</span></span></div><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/am-wasser.webp');"></span>
+          <span class="mk-ort__text"><strong>Haus am Wasser in Norderstedt</strong><small>bis 160 Gäste</small><span>Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</span></span></div><div class="mk-ort"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/im-gruenen.webp');"></span>
+          <span class="mk-ort__text"><strong>Golfclub im Grünen</strong><small>kleinere Runden</small><span>Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</span></span></div></div>
+      <div class="mk-xmas__unten">
+        <button type="button" class="btn btn--primary" id="mkLocation">Location gesucht</button>
+      </div>
+      <p class="mk-danke" id="mkLocationDanke" hidden></p>
+    </div>
+    </div>
+    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelVorteile">
+    <button type="button" class="mk-xmas__kachel">
+      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/gedeckter-tisch.webp');"></span>
+      <span class="mk-xmas__kachel-inhalt">
+        <span class="mk-xmas__kachel-label">Ihre MK Business Karte</span>
+        <span class="mk-xmas__kachel-titel">Ihre Vorteile</span>
+        <span class="mk-xmas__kachel-text">Was Sie als Karteninhaber bekommen</span>
+        <span class="mk-xmas__kachel-cta">Alle Vorteile &rarr;</span>
+      </span>
+    </button>
+    <div class="mk-xmas__box" hidden>
+      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
+      <span class="eyebrow">Als Karteninhaber</span>
+      <h2>Ihre Vorteile</h2>
+      <ul class="perk-list mk-vorteile"><li><span class="icon-badge icon-badge--sm">🤝</span><span>Fester Ansprechpartner</span></li><li><span class="icon-badge icon-badge--sm">📋</span><span>Individuelle Menüs</span></li><li><span class="icon-badge icon-badge--sm">🏷️</span><span>Essen mit Firmenlogo</span></li><li><span class="icon-badge icon-badge--sm">🚚</span><span>Lieferung & Aufbau</span></li><li><span class="icon-badge icon-badge--sm">✅</span><span>Komplettservice</span></li><li><span class="icon-badge icon-badge--sm">📍</span><span>VIP Locations</span></li><li><span class="icon-badge icon-badge--sm">💰</span><span>Bis zu 20 % Rabatt pro Bestellung</span></li><li><span class="icon-badge icon-badge--sm">🔔</span><span>Neueste Updates</span></li><li><span class="icon-badge icon-badge--sm">👥</span><span>Persönliches Personal</span></li></ul>
+    </div>
+    </div></div>
   </div>
 </section>
-</div>
 <div id="mkAngebote" hidden>
 <section class="section" id="angebote" style="padding-bottom:0;">
   <div class="container">
@@ -278,38 +349,16 @@
   </div>
 </section>
 </div>
-<section class="section mk-rechner-band">
+<section class="section mk-ap">
   <div class="container">
-    <div class="mk-rechner-band__inner">
-      <div>
-        <h2>Buffet selbst zusammenstellen</h2>
-        <p>Gerichte antippen und sofort sehen, was es pro Person kostet &ndash; zu Ihren Karten-Konditionen. Ohne Anruf, ohne Warten auf ein Angebot.</p>
-      </div>
-      <a class="btn btn--primary" id="mkRechnerLink" href="/business/catering-angebot/">Preis berechnen</a>
-    </div>
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    <div class="grid grid--2" style="align-items:start;">
-      <div class="card">
-        <h3>Ihre Vorteile</h3>
-        <ul class="perk-list"><li><span class="icon-badge icon-badge--sm">🤝</span><span>Fester Ansprechpartner</span></li><li><span class="icon-badge icon-badge--sm">📋</span><span>Individuelle Menüs</span></li><li><span class="icon-badge icon-badge--sm">🏷️</span><span>Essen mit Firmenlogo</span></li><li><span class="icon-badge icon-badge--sm">🚚</span><span>Lieferung & Aufbau</span></li><li><span class="icon-badge icon-badge--sm">✅</span><span>Komplettservice</span></li><li><span class="icon-badge icon-badge--sm">📍</span><span>VIP Locations</span></li><li><span class="icon-badge icon-badge--sm">💰</span><span>Bis zu 20 % Rabatt pro Bestellung</span></li><li><span class="icon-badge icon-badge--sm">🔔</span><span>Neueste Updates</span></li><li><span class="icon-badge icon-badge--sm">👥</span><span>Persönliches Personal</span></li></ul>
-      </div>
-      <div class="card">
-        <h3>Ihr Ansprechpartner</h3>
-        <p><strong>Reyyan Ahmad</strong><br>Mahboobs Kitchen</p>
-        <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
-        <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
-        <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
-        <div class="mk-location">
-          <p><strong>Kein Platz bei Ihnen?</strong> Wir richten auch au&szlig;er Haus aus und helfen bei der Suche nach dem passenden Raum.</p>
-          <button type="button" class="btn btn--dark" id="mkLocation">Location gesucht</button>
-          <p class="mk-danke" id="mkLocationDanke" hidden></p>
-        </div>
-        <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei.</p>
-        <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
-      </div>
+    <div class="card mk-ap__karte">
+      <h3>Ihr Ansprechpartner</h3>
+      <p><strong>Reyyan Ahmad</strong><br>Mahboobs Kitchen</p>
+      <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
+      <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
+      <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
+      <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei.</p>
+      <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
     </div>
   </div>
 </section>

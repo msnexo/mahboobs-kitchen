@@ -1317,3 +1317,22 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   .mk-rechner-band__inner { padding: 24px 20px; }
   .mk-rechner-band__inner .btn { width: 100%; text-align: center; }
 }
+
+/* ===== Kundenkarte: Reihe aufklappbarer Kacheln ===== */
+.mk-kacheln__titel { margin: 0 0 6px; }
+.mk-kacheln__lead { color: var(--color-text-soft); margin: 0 0 22px; }
+.mk-kacheln { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 880px; align-items: start; }
+.mk-kachelwrap .mk-xmas__kachel { max-width: none; }
+.mk-kachelwrap.is-offen { grid-column: 1 / -1; }
+.mk-kacheln .mk-kachelwrap.is-offen .mk-xmas__box { width: 100%; }
+@media (min-width: 900px) { .mk-kacheln { max-width: none; } .mk-kachelwrap.is-offen { max-width: none; } }
+@media (max-width: 640px) { .mk-kacheln { grid-template-columns: 1fr; } }
+.mk-orte { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin: 20px 0 4px; }
+.mk-ort { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; overflow: hidden; }
+.mk-ort__bild { display: block; height: 120px; background: center/cover no-repeat; }
+.mk-ort__text { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px 14px; font-size: 0.86rem; color: rgba(255,255,255,0.75); }
+.mk-ort__text strong { color: #fff; font-size: 0.95rem; }
+.mk-ort__text small { color: var(--color-primary); font-weight: 700; font-size: 0.78rem; }
+.mk-xmas__box .mk-vorteile { margin-top: 18px; }
+.mk-xmas__box .mk-vorteile li, .mk-xmas__box .mk-vorteile span { color: #fff; }
+.mk-ap__karte { max-width: 640px; }

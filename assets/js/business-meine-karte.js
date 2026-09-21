@@ -129,92 +129,6 @@
     if (monat < 8) return;                      // erst ab September
     box.hidden = false;
 
-    // Erst die kleine Kachel. Beim Klick waechst sie zur ganzen Ansicht -
-    // dieselbe Seite, nur groesser (Technik: erst messen, dann zurueckrechnen).
-    var kachel = document.getElementById("mkXmasKachel");
-    var grosseAnsicht = document.getElementById("mkXmasBox");
-    var zuKnopf = document.getElementById("mkXmasZu");
-    if (kachel && grosseAnsicht) {
-      var ruckelfrei = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var laeuft = false;
-
-      function skaliert(klein, gross) {
-        return "scale(" + (klein.width / gross.width) + "," + (klein.height / gross.height) + ")";
-      }
-
-      function auf() {
-        if (laeuft) return;
-        laeuft = true;
-        var klein = kachel.getBoundingClientRect();
-        kachel.style.position = "absolute";
-        kachel.style.top = "0";
-        kachel.style.left = "0";
-        grosseAnsicht.hidden = false;
-        var gross = grosseAnsicht.getBoundingClientRect();
-        if (!ruckelfrei && gross.width && gross.height) {
-          grosseAnsicht.style.transformOrigin = "top left";
-          grosseAnsicht.style.transform = skaliert(klein, gross);
-          grosseAnsicht.style.opacity = "0.25";
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              grosseAnsicht.style.transition = "transform .55s cubic-bezier(.22,.7,.3,1), opacity .4s ease";
-              grosseAnsicht.style.transform = "none";
-              grosseAnsicht.style.opacity = "1";
-            });
-          });
-        }
-        kachel.classList.add("is-weg");
-        setTimeout(function () {
-          kachel.style.display = "none";
-          grosseAnsicht.style.transition = "";
-          grosseAnsicht.style.transform = "";
-          grosseAnsicht.style.transformOrigin = "";
-          laeuft = false;
-          if (zuKnopf) zuKnopf.focus();
-        }, ruckelfrei ? 0 : 600);
-      }
-
-      // Wieder klein machen: die grosse Ansicht schrumpft zurueck in die Kachel
-      function zu() {
-        if (laeuft) return;
-        laeuft = true;
-        kachel.style.display = "";
-        var klein = kachel.getBoundingClientRect();
-        var gross = grosseAnsicht.getBoundingClientRect();
-        var fertig = function () {
-          grosseAnsicht.hidden = true;
-          grosseAnsicht.style.transition = "";
-          grosseAnsicht.style.transform = "";
-          grosseAnsicht.style.transformOrigin = "";
-          grosseAnsicht.style.opacity = "";
-          kachel.style.position = "";
-          kachel.style.top = "";
-          kachel.style.left = "";
-          kachel.classList.remove("is-weg");
-          laeuft = false;
-          kachel.focus();
-        };
-        if (ruckelfrei || !gross.width) { fertig(); return; }
-        grosseAnsicht.style.transformOrigin = "top left";
-        grosseAnsicht.style.transition = "transform .45s cubic-bezier(.4,0,.6,1), opacity .35s ease";
-        grosseAnsicht.style.transform = skaliert(klein, gross);
-        grosseAnsicht.style.opacity = "0.2";
-        setTimeout(fertig, 460);
-      }
-
-      kachel.addEventListener("click", auf);
-      if (zuKnopf) zuKnopf.addEventListener("click", zu);
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && !grosseAnsicht.hidden) zu();
-      });
-      // Klick daneben - also irgendwo sonst auf die Seite - klappt auch zu
-      document.addEventListener("click", function (e) {
-        if (grosseAnsicht.hidden || laeuft) return;
-        if (grosseAnsicht.contains(e.target) || kachel.contains(e.target)) return;
-        zu();
-      });
-    }
-
     var datum = document.getElementById("mkXmasDatum");
     var gaeste = document.getElementById("mkXmasGaeste");
     var notiz = document.getElementById("mkXmasNotiz");
@@ -343,6 +257,103 @@
     });
   }
 
+  // Kacheln: klein im Format der Business Karte, beim Klick waechst die grosse
+  // Ansicht vom Platz der Kachel aus heraus (erst messen, dann zurueckrechnen).
+  // Es ist immer nur eine offen.
+  var ruckelfrei = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var offeneKachel = null;
+
+  function kachelAnschalten(wrap) {
+    var kachel = wrap.querySelector(".mk-xmas__kachel");
+    var gross = wrap.querySelector(".mk-xmas__box");
+    var zuKnopf = wrap.querySelector(".mk-xmas__zu");
+    if (!kachel || !gross) return;
+    var laeuft = false;
+    var kleinB = 0;
+    var kleinH = 0;
+    var steuerung = {};
+
+    function aufraeumen() {
+      gross.style.transition = "";
+      gross.style.transform = "";
+      gross.style.transformOrigin = "";
+      gross.style.opacity = "";
+    }
+
+    function auf() {
+      if (laeuft) return;
+      if (offeneKachel && offeneKachel !== steuerung) offeneKachel.zu(true);
+      laeuft = true;
+      var klein = kachel.getBoundingClientRect();
+      kleinB = klein.width;
+      kleinH = klein.height;
+      wrap.classList.add("is-offen");
+      kachel.style.display = "none";
+      gross.hidden = false;
+      offeneKachel = steuerung;
+      var ziel = gross.getBoundingClientRect();
+      if (!ruckelfrei && ziel.width && ziel.height) {
+        gross.style.transformOrigin = "top left";
+        gross.style.transform = "translate(" + (klein.left - ziel.left) + "px," + (klein.top - ziel.top) + "px) " +
+          "scale(" + (klein.width / ziel.width) + "," + (klein.height / ziel.height) + ")";
+        gross.style.opacity = "0.25";
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            gross.style.transition = "transform .55s cubic-bezier(.22,.7,.3,1), opacity .4s ease";
+            gross.style.transform = "none";
+            gross.style.opacity = "1";
+          });
+        });
+      }
+      setTimeout(function () {
+        aufraeumen();
+        laeuft = false;
+        // Liegt die grosse Ansicht halb ausserhalb, sanft hinscrollen
+        var oben = gross.getBoundingClientRect().top;
+        if (oben < 70 || oben > window.innerHeight * 0.5) {
+          window.scrollBy({ top: oben - 90, behavior: ruckelfrei ? "auto" : "smooth" });
+        }
+        if (zuKnopf) zuKnopf.focus({ preventScroll: true });
+      }, ruckelfrei ? 0 : 600);
+    }
+
+    // Wieder klein: die grosse Ansicht schrumpft zurueck auf Kachelgroesse
+    function zu(sofort) {
+      if (gross.hidden) return;
+      if (laeuft && !sofort) return;
+      laeuft = true;
+      var fertig = function () {
+        gross.hidden = true;
+        aufraeumen();
+        wrap.classList.remove("is-offen");
+        kachel.style.display = "";
+        laeuft = false;
+        if (offeneKachel === steuerung) offeneKachel = null;
+        if (!sofort) kachel.focus({ preventScroll: true });
+      };
+      var jetzt = gross.getBoundingClientRect();
+      if (sofort || ruckelfrei || !jetzt.width || !kleinB) { fertig(); return; }
+      gross.style.transformOrigin = "top left";
+      gross.style.transition = "transform .45s cubic-bezier(.4,0,.6,1), opacity .35s ease";
+      gross.style.transform = "scale(" + (kleinB / jetzt.width) + "," + (kleinH / jetzt.height) + ")";
+      gross.style.opacity = "0.2";
+      setTimeout(fertig, 460);
+    }
+    steuerung.zu = zu;
+
+    kachel.addEventListener("click", auf);
+    if (zuKnopf) zuKnopf.addEventListener("click", function () { zu(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") zu();
+    });
+    // Klick daneben - irgendwo sonst auf die Seite - klappt auch zu
+    document.addEventListener("click", function (e) {
+      if (gross.hidden || laeuft) return;
+      if (wrap.contains(e.target)) return;
+      zu();
+    });
+  }
+
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -396,6 +407,7 @@
     }
 
     weihnachtenZeigen();
+    Array.prototype.forEach.call(document.querySelectorAll(".mk-kachelwrap"), kachelAnschalten);
 
     if (laden) laden.hidden = true;
     inhalt.hidden = false;
