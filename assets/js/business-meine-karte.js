@@ -719,6 +719,52 @@
     });
   }
 
+  // Herbst: ein paar Blaetter fallen langsam hinter den Kacheln - nur September
+  // bis November und nicht, wenn das Geraet "Bewegung reduzieren" wuenscht.
+  var BLATT_FORMEN = [
+    '<path d="M12 1.5 13.9 6l3.1-1.6-.6 4.4 4.1-1-1.9 3.6 3.4 1.5-3.9 1.8 1 2.5-4-.8-.5 2.2-2.4-2.3.2 5.7h-1.8l.2-5.7-2.4 2.3-.5-2.2-4 .8 1-2.5-3.9-1.8 3.4-1.5L3.7 7.8l4.1 1-.6-4.4L10.1 6Z"/>',
+    '<path d="M20 4C11 4 5 9 4 19c0 .6.4 1 1 1 10-1 15-7 15-16Z"/><path d="M5 19 15 9" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1"/>'
+  ];
+  var BLATT_FARBEN = ["#d9480f", "#e8590c", "#f08c00", "#c92a2a", "#a0522d", "#f59f00"];
+
+  function herbstBlaetter() {
+    var bereich = document.getElementById("weihnachten");
+    if (!bereich || bereich.querySelector(".mk-herbst")) return;
+    var monat = new Date().getMonth();                       // 8 = September
+    if (monat < 8 || monat > 10) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var huelle = document.createElement("div");
+    huelle.className = "mk-herbst";
+    huelle.setAttribute("aria-hidden", "true");
+    var anzahl = window.innerWidth < 700 ? 10 : 22;
+    var zufall = function (von, bis) { return von + Math.random() * (bis - von); };
+    for (var i = 0; i < anzahl; i++) {
+      var blatt = document.createElement("span");
+      blatt.className = "mk-herbst__blatt";
+      var dauer = zufall(11, 20);
+      blatt.style.setProperty("--x", zufall(0, 97).toFixed(1) + "%");
+      blatt.style.setProperty("--groesse", Math.round(zufall(20, 40)) + "px");
+      blatt.style.setProperty("--farbe", BLATT_FARBEN[i % BLATT_FARBEN.length]);
+      blatt.style.setProperty("--deckkraft", zufall(0.55, 0.9).toFixed(2));
+      blatt.style.setProperty("--dauer", dauer.toFixed(1) + "s");
+      // Negative Verzoegerung: beim Oeffnen sind die Blaetter schon unterwegs
+      blatt.style.setProperty("--verzoegerung", (-zufall(0, dauer)).toFixed(1) + "s");
+      blatt.style.setProperty("--drift", Math.round(zufall(-120, 120)) + "px");
+      blatt.style.setProperty("--dreh", Math.round(zufall(180, 540)) * (Math.random() < 0.5 ? -1 : 1) + "deg");
+      blatt.style.setProperty("--pendel", zufall(2.2, 4).toFixed(1) + "s");
+      blatt.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor">' + BLATT_FORMEN[i % 2] + "</svg>";
+      huelle.appendChild(blatt);
+    }
+    bereich.insertBefore(huelle, bereich.firstChild);
+
+    // Die Fallstrecke haengt an der Hoehe des Bereichs (Kacheln klappen auf und zu)
+    function strecke() { huelle.style.setProperty("--weg", (bereich.offsetHeight + 120) + "px"); }
+    strecke();
+    window.addEventListener("resize", strecke);
+    if (window.ResizeObserver) new ResizeObserver(strecke).observe(bereich);
+  }
+
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");
     var k = res.data;
@@ -792,6 +838,7 @@
     if (laden) laden.hidden = true;
     inhalt.hidden = false;
     if (mehr) mehr.hidden = false;
+    herbstBlaetter();
     angeboteZeigen();
   }).catch(fehler);
 })();
