@@ -50,16 +50,17 @@
       ["🍒", "Rote Grütze mit Vanillesoße", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanillesoße", "🥚"]
     ]
   };
-  // Preise pro Person fuer Karteninhaber. Das Hauptgericht ist das Teuerste.
+  // Black-Card-Preise pro Person. Das Hauptgericht ist das Teuerste.
   // Die Empfehlung des Hauses (1 Vorspeise, 2 Hauptgerichte, 2 Beilagen,
-  // 1 Nachtisch) kostet genau 3 + 14 + 4 + 2 = 23 EUR.
-  var P = { vorspeise: 3, hauptgericht: 7, beilage: 2, nachtisch: 2 };
-  // Ein Buffet kostet mindestens 23 EUR pro Person - so steht es auch auf der
-  // Kundenkarte und der Startseite ("ab 23 EUR").
-  var MINDEST = 23;
-  // Karteninhaber zahlen 20 % weniger als der regulaere Preis (1 / 0.8 = 1.25) -
-  // dieselben 20 %, mit denen die Business Karte beworben wird.
-  var SHOW_MULT = 1.25;
+  // 1 Nachtisch) kostet genau 3,50 + 16 + 5 + 3 = 27,50 EUR (normal 31,90 EUR).
+  // Preiskonzept: Planung/MK-Preiskonzept-Black-Card.md
+  var P = { vorspeise: 3.5, hauptgericht: 8, beilage: 2.5, nachtisch: 3 };
+  // Ein Buffet kostet mit Black Card mindestens 27,50 EUR pro Person - so steht es
+  // auch auf der Kundenkarte und der Black-Card-Seite ("ab 27,50 EUR").
+  var MINDEST = 27.5;
+  // Normalpreis = Black-Card-Preis x 1,16 (27,50 -> 31,90). Weitere Rabatte
+  // vergibt Rey nur von Hand (max. 20 % auf den Normalpreis).
+  var SHOW_MULT = 31.9 / 27.5;
 
   var sel = { vorspeise: [], hauptgericht: [], beilage: [], nachtisch: [] };
 
@@ -259,7 +260,7 @@
     if (hinweis) {
       var roh = summeGerichte();
       hinweis.style.display = roh > 0 && roh < MINDEST ? "" : "none";
-      hinweis.textContent = "Mindestpreis " + MINDEST + " € pro Person – Sie können noch Gerichte für " +
+      hinweis.textContent = "Mindestpreis " + formatEur(MINDEST) + " pro Person – Sie können noch Gerichte für " +
         formatEur(MINDEST - roh) + " dazunehmen, ohne dass es teurer wird.";
     }
     if (!hasSelection()) {
@@ -343,10 +344,10 @@
   function initMenu() {
     var section = document.getElementById("menuSection");
     section.innerHTML =
-      renderCategory("vorspeise", "Vorspeise", "🥗", false, "3 €/Person · jede Vorspeise zählt einzeln", true) +
-      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "7 €/Person je Hauptgericht · zwei sind üblich", false) +
-      renderCategory("beilage", "Beilagen", "🥘", false, "2 €/Person je Beilage · zwei sind üblich", false) +
-      renderCategory("nachtisch", "Nachtisch", "🍮", false, "2 €/Person · jeder Nachtisch zählt einzeln", false);
+      renderCategory("vorspeise", "Vorspeise", "🥗", false, "3,50 €/Person · jede Vorspeise zählt einzeln", true) +
+      renderCategory("hauptgericht", "Hauptgerichte", "🍽️", false, "8 €/Person je Hauptgericht · zwei sind üblich", false) +
+      renderCategory("beilage", "Beilagen", "🥘", false, "2,50 €/Person je Beilage · zwei sind üblich", false) +
+      renderCategory("nachtisch", "Nachtisch", "🍮", false, "3 €/Person · jeder Nachtisch zählt einzeln", false);
 
     Array.prototype.forEach.call(section.querySelectorAll(".mki"), function (card) {
       card.addEventListener("click", function () {

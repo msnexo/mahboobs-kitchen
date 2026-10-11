@@ -140,19 +140,19 @@
       haus: {
         text: "Bei uns im Haus", aussen: false,
         titel: "Weihnachtsfeier bei Ihnen im Haus",
-        preis: "ab 23 € pro Person", zusatz: "· Buffet, geliefert und aufgebaut",
+        preis: "ab 27,50 € pro Person", zusatz: "· Buffet, geliefert und aufgebaut",
         dabei: "Lieferung, Aufbau, Warmhaltebehälter und Abholung des Geschirrs"
       },
       aussen: {
         text: "Außer Haus", aussen: true,
         titel: "Weihnachtsfeier außer Haus",
-        preis: "ab 23 € pro Person", zusatz: "· fürs Essen, der Raum je nach Location",
+        preis: "ab 27,50 € pro Person", zusatz: "· fürs Essen, der Raum je nach Location",
         dabei: "Personal vor Ort, Auf- und Abbau, alle Absprachen mit dem Haus"
       },
       offen: {
         text: "Wo noch offen", aussen: true,
         titel: "Ihre Weihnachtsfeier",
-        preis: "ab 23 € pro Person", zusatz: "· fürs Essen, je nachdem, wo Sie feiern",
+        preis: "ab 27,50 € pro Person", zusatz: "· fürs Essen, je nachdem, wo Sie feiern",
         dabei: "Lieferung, Aufbau und alles, was sonst dazugehört"
       }
     };
