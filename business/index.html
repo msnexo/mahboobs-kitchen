@@ -648,7 +648,7 @@
   <div class="wrap">
     <span class="kicker">So einfach geht's</span>
     <h2 id="stTitle">In drei Schritten<br>zu Ihrer Black Card.</h2>
-    <div class="st__capbar"><p class="st__cap" id="stCap" aria-live="polite">So einfach geht es – in weniger als einer Minute.</p><button type="button" class="st__replay" id="stReplay" hidden>↻ Nochmal ansehen</button></div>
+    <div class="st__capbar"><p class="st__cap" id="stCap" aria-live="polite">So einfach geht es – in weniger als einer Minute.</p></div>
     <ol class="st__row" id="stRow">
       <li class="st__line" aria-hidden="true"><span></span></li>
       <li class="st__step">
@@ -978,13 +978,13 @@ t.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropag
 t.querySelectorAll('.lc__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var seg=document.querySelector('.bc-seg button[data-where="'+a.dataset.where+'"]');if(seg)seg.click();var bar2=document.getElementById('bcBar');if(bar2)bar2.scrollIntoView({behavior:'smooth',block:'center'})})});})();
 </script>
 <script>
-(function(){var st=document.querySelector('.st');if(!st)return;var f=document.getElementById('stFirma'),an=document.getElementById('stAnlass'),cn=document.getElementById('stCardName'),cap=document.getElementById('stCap'),rp=document.getElementById('stReplay');
+(function(){var st=document.querySelector('.st');if(!st)return;var f=document.getElementById('stFirma'),an=document.getElementById('stAnlass'),cn=document.getElementById('stCardName'),cap=document.getElementById('stCap');
 var NAME='Nordlicht GmbH',timers=[],played=false;
 function say(t){cap.classList.add('is-out');setTimeout(function(){cap.textContent=t;cap.classList.remove('is-out')},300)}
 function done(){timers.forEach(clearTimeout);timers=[];st.classList.remove('is-anim','is-typing','is-press','is-cursor','is-aim');st.classList.add('is-picked');st.dataset.p='3';f.textContent=NAME;an.textContent='Weihnachtsfeier';cn.textContent=NAME.toUpperCase();cap.classList.remove('is-out');cap.textContent='So einfach geht es – in weniger als einer Minute.'}
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){done();return}
 function at(ms,fn){timers.push(setTimeout(fn,ms))}
-function play(){timers.forEach(clearTimeout);timers=[];rp.hidden=true;st.classList.add('is-anim');st.classList.remove('is-picked','is-press','is-cursor','is-aim');st.dataset.p='1';f.textContent='';an.textContent='Auswählen …';cn.textContent='';
+function play(){timers.forEach(clearTimeout);timers=[];st.classList.add('is-anim');st.classList.remove('is-picked','is-press','is-cursor','is-aim');st.dataset.p='1';f.textContent='';an.textContent='Auswählen …';cn.textContent='';
  say('1 · Sie tragen Ihre Firma und Ihren Anlass ein …');
  st.classList.add('is-typing');var t=900;
  for(var i=1;i<=NAME.length;i++){(function(n){at(t,function(){f.textContent=NAME.slice(0,n)})})(i);t+=110}
@@ -993,8 +993,7 @@ function play(){timers.forEach(clearTimeout);timers=[];rp.hidden=true;st.classLi
  at(t+1800,function(){st.classList.add('is-press')});
  at(t+2100,function(){st.classList.remove('is-press','is-cursor');st.dataset.p='2';cn.textContent=NAME.toUpperCase();say('2 · … und erhalten Ihre persönliche Black Card per E-Mail.')});
  at(t+5600,function(){st.dataset.p='3';say('3 · Ab jetzt bestellen Sie immer zum günstigeren Black-Card-Preis.')});
- at(t+9800,function(){st.classList.remove('is-anim','is-aim');rp.hidden=false})}
-rp.onclick=function(){play()};
+ at(t+9800,function(){st.classList.remove('is-anim','is-aim')})}
 done();
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!played){played=true;io.disconnect();play()}})},{threshold:.4});
 io.observe(st);})();
