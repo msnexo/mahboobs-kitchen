@@ -362,6 +362,40 @@
 @media (max-width:900px){.pz__grid{grid-template-columns:1fr;gap:40px}.pz__tile:nth-child(2),.pz__tile:nth-child(4){transform:none}}
 @media (max-width:420px){.pz__tiles{gap:10px}.pz__info{padding:14px}.pz__info strong{font-size:1.15rem}.pz__price b{font-size:1.25rem}}
 @media (prefers-reduced-motion:reduce){.pz__tile img{transition:none}}
+
+/* Orte-Karussell */
+.lx{background:#000;overflow:hidden}
+.lx__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.lx__head .lead{margin-top:6px}
+.lx__nav{display:flex;gap:10px}
+.lx__nav button{width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.lx__nav button:hover,.lx__nav button:focus-visible{background:#fff;border-color:#fff;outline:none}
+.lx__nav button:hover svg,.lx__nav button:focus-visible svg{stroke:#111}
+.lx__nav svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.lx__nav button:disabled{opacity:.3;cursor:default;background:transparent}
+.lx__nav button:disabled svg{stroke:#fff}
+.lx__track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;margin-top:40px;padding:6px max(20px,calc((100vw - 1120px)/2)) 10px;scroll-padding:0 max(20px,calc((100vw - 1120px)/2));scrollbar-width:none;cursor:grab}
+.lx__track::-webkit-scrollbar{display:none}
+.lx__track.is-drag{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.lx__track:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:4px}
+.lc{position:relative;flex:0 0 min(420px,78vw);aspect-ratio:4/5;border-radius:22px;overflow:hidden;scroll-snap-align:start;isolation:isolate;user-select:none}
+
+.lc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(.88) saturate(.82) contrast(1.06) sepia(.08);transition:transform 1.2s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.lc:hover img{transform:scale(1.07)}
+.lc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.92))}
+.lc__body{position:absolute;left:0;right:0;bottom:0;padding:26px;display:grid;gap:8px}
+.lc__kick{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.lc .lc__kick{color:var(--bc-gold-soft)}
+.lc h3{font-family:var(--bc-serif);font-weight:500;font-size:1.75rem;letter-spacing:-.03em;margin:0;color:#fff;line-height:1.1}
+.lc p{margin:0;color:rgba(255,255,255,.72);font-size:.95rem;line-height:1.5}
+.lc__foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px}
+.lc__cap{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:7px 13px}
+.lc__cap svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.7}
+.lc__go{background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:9px 18px;font-weight:500;font-size:.9rem}
+.lx__bar{height:2px;background:rgba(255,255,255,.12);border-radius:2px;margin-top:34px;overflow:hidden}
+.lx__bar span{display:block;height:100%;width:20%;background:var(--bc-gold);transition:transform .2s;transform-origin:left}
+@media (max-width:700px){.lx__nav{display:none}.lc h3{font-size:1.45rem}}
+@media (prefers-reduced-motion:reduce){.lc img{transition:none}.lx__track{scroll-behavior:auto}}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -495,6 +529,23 @@
     <div class="kx__panels"><div class="kx__panel is-on" role="tabpanel" id="kp-warm" aria-labelledby="kt-warm"><div class="kx__stage"><img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="Warmes Buffet in glänzenden Chafing Dishes" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für jede Feier</span><h3>Das warme Buffet</h3><p>Dampfend frisch in eleganten Chafing Dishes – Ihre Gäste bedienen sich, wir halten alles perfekt warm.</p><ul><li>Indisch, Italienisch oder gemischt</li><li>In Chafing Dishes warmgehalten</li><li>Inklusive Aufbau und Abbau</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-finger" aria-labelledby="kt-finger" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/fingerfood-tafel.webp" alt="Weiß eingedeckte Fingerfood-Tafel mit Canapés und Häppchen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für Empfang & Meeting</span><h3>Die Fingerfood-Tafel</h3><p>Kleine Häppchen, großer Eindruck – ideal für Empfänge, Meetings und lockere Runden im Stehen.</p><ul><li>Canapés, Samosas, Bruschetta</li><li>Auf Wunsch mit Ihrem Logo</li><li>Perfekt ab 10 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-sushi" aria-labelledby="kt-sushi" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/sushi-buffet.webp" alt="Sushi-Buffet in Holzschalen mit Maki und Nigiri" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Der Hingucker</span><h3>Das Sushi-Buffet</h3><p>Kunstvoll angerichtet und leicht – das Highlight für Meetings, Jubiläen und besondere Abende.</p><ul><li>Maki, Nigiri und vegetarische Rolls</li><li>Frisch zubereitet am Veranstaltungstag</li><li>Ab 6 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-tafel" aria-labelledby="kt-tafel" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="Festlich eingedeckte lange Tafel mit Kerzen und Blumen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für große Anlässe</span><h3>Die festliche Tafel</h3><p>Eingedeckt, dekoriert und betreut – für Weihnachtsfeiern, Galas und Jubiläen in unseren Partner-Locations.</p><ul><li>Location, Deko und Service aus einer Hand</li><li>Von 30 bis 400 Gästen</li><li>Persönliche Planung mit Reyyan</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div></div>
     <p class="kx__note">Frisch gekocht · vegetarisch, vegan und halal möglich · Allergene gekennzeichnet</p>
   </div>
+</section>
+
+<!-- Orte (Karussell) -->
+<section class="lx" aria-labelledby="lxTitle">
+  <div class="wrap lx__head">
+    <div>
+      <span class="kicker">Orte &amp; Anlässe</span>
+      <h2 id="lxTitle">Orte, die in<br>Erinnerung bleiben.</h2>
+      <p class="lead">Bei Ihnen im Haus oder in einer unserer Partner-Locations – wir bringen Küche, Service und Ablauf mit.</p>
+    </div>
+    <div class="lx__nav">
+      <button type="button" id="lxPrev" aria-label="Vorherige Orte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button type="button" id="lxNext" aria-label="Nächste Orte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+  <div class="lx__track" id="lxTrack" tabindex="0" aria-label="Orte und Anlässe, seitlich wischen"><article class="lc" role="group" aria-roledescription="Folie" aria-label="1 von 8: Großer Saal in Norderstedt"><img src="/assets/img/locations/saal-norderstedt.webp" alt="Großer Saal in Norderstedt" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Großer Saal in Norderstedt</h3><p>Mehrere Säle, Bühne, Tanzfläche – Parkplätze direkt vor der Tür.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>20 bis 450 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="2 von 8: Gala & Bühne"><img src="/assets/img/locations/stimmung-gala.webp" alt="Gala & Bühne" loading="lazy"><div class="lc__body"><span class="lc__kick">Event-Location</span><h3>Gala & Bühne</h3><p>Licht, Blumen, Bühne – für Jubiläen, Abibälle und Galas.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>ab 100 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="3 von 8: Haus am Wasser"><img src="/assets/img/locations/am-wasser.webp" alt="Haus am Wasser" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Haus am Wasser</h3><p>Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 160 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="4 von 8: Historische Fabrikhalle"><img src="/assets/img/locations/fabrikhalle.webp" alt="Historische Fabrikhalle" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Historische Fabrikhalle</h3><p>Backstein und Stahl von 1908 – direkt an der S-Bahn in Barmbek.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>50 bis 200 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="5 von 8: Golfclub im Grünen"><img src="/assets/img/locations/im-gruenen.webp" alt="Golfclub im Grünen" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Golfclub im Grünen</h3><p>Ruhig und gehoben – für die Feier, die etwas edler sein soll.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>kleinere Runden</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="6 von 8: Terrasse & Hof"><img src="/assets/img/locations/stimmung-terrasse.webp" alt="Terrasse & Hof" loading="lazy"><div class="lc__body"><span class="lc__kick">Event-Location</span><h3>Terrasse & Hof</h3><p>Zypressen, Kies und Sonne – für Empfänge und Sommerfeste.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 120 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="7 von 8: Industrie-Loft Hamburg-Nord"><img src="/assets/img/locations/loft-hamburg.webp" alt="Industrie-Loft Hamburg-Nord" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Industrie-Loft Hamburg-Nord</h3><p>Hohe Decken, Klinker und Stahl – über die A7 schnell erreichbar.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>60 bis 150 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="8 von 8: Gasthof mit Festsaal"><img src="/assets/img/locations/gasthof.webp" alt="Gasthof mit Festsaal" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Gasthof mit Festsaal</h3><p>Traditionell, mit Biergarten – und Hotelzimmern, falls es später wird.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 250 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article></div>
+  <div class="wrap"><div class="lx__bar"><span id="lxBar"></span></div></div>
 </section>
 
 <!-- 4 · Konditionen (Teaser, Preise auf der Karte) -->
@@ -801,6 +852,20 @@ document.querySelectorAll('.who__go').forEach(function(a){a.addEventListener('cl
 function sel(t){tabs.forEach(function(x){var on=x===t;x.classList.toggle('is-on',on);x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on})}
 tabs.forEach(function(t,i){t.onclick=function(){sel(t)};t.onkeydown=function(e){var n=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!n)return;e.preventDefault();var x=tabs[(i+n+tabs.length)%tabs.length];sel(x);x.focus()}});
 document.querySelectorAll('.kx__cta').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var bar=document.getElementById('bcBar');if(bar)bar.scrollIntoView({behavior:'smooth',block:'center'})})});})();
+</script>
+<script>
+(function(){var t=document.getElementById('lxTrack');if(!t)return;var bar=document.getElementById('lxBar'),prev=document.getElementById('lxPrev'),next=document.getElementById('lxNext');
+function step(){var c=t.querySelector('.lc');return c?c.getBoundingClientRect().width+22:400}
+function upd(){var max=t.scrollWidth-t.clientWidth,r=max>0?t.scrollLeft/max:0,vis=Math.min(1,t.clientWidth/t.scrollWidth);bar.style.width=(vis*100)+'%';bar.style.transform='translateX('+(r*(1/vis-1)*100)+'%)';prev.disabled=t.scrollLeft<5;next.disabled=t.scrollLeft>max-5}
+prev.onclick=function(){t.scrollBy({left:-step()*2})};next.onclick=function(){t.scrollBy({left:step()*2})};
+t.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();t.scrollBy({left:step()})}if(e.key==='ArrowLeft'){e.preventDefault();t.scrollBy({left:-step()})}});
+var down=false,sx=0,sl=0,moved=false;
+t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse'||e.target.closest('a,button'))return;down=true;moved=false;sx=e.clientX;sl=t.scrollLeft;t.classList.add('is-drag')});
+window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;t.scrollLeft=sl-dx});
+window.addEventListener('pointerup',function(){if(!down)return;down=false;t.classList.remove('is-drag');var w=step();t.scrollTo({left:Math.round(t.scrollLeft/w)*w,behavior:'smooth'})});
+t.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+t.querySelectorAll('.lc__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var seg=document.querySelector('.bc-seg button[data-where="'+a.dataset.where+'"]');if(seg)seg.click();var bar2=document.getElementById('bcBar');if(bar2)bar2.scrollIntoView({behavior:'smooth',block:'center'})})});})();
 </script>
 </body>
 </html>
