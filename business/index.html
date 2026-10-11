@@ -453,6 +453,25 @@
 .st.is-anim:not([data-p="3"]) .st__tag{transform:translateY(16px) scale(.7);opacity:0}
 @media (max-width:900px){.st__line{display:none}.st.is-anim .st__step{opacity:1}}
 @media (prefers-reduced-motion:reduce){.st__caret{animation:none}.st__step,.st__vis--card .mk-card,.st__vis--order img,.st__tag,.st__line span{transition:none}}
+
+/* Schritte: Erklärung */
+.st__capbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px;min-height:30px}
+.st__cap{margin:0;color:#fff;font-size:1.1rem;transition:opacity .35s}
+.st__cap.is-out{opacity:0}
+.st__cap::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bc-gold);margin-right:10px;vertical-align:2px;box-shadow:0 0 10px rgba(232,89,12,.9)}
+.st__replay{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);border-radius:999px;padding:7px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+.st__replay:hover,.st__replay:focus-visible{border-color:#fff;color:#fff;outline:none}
+.st__vis--form{position:relative}
+.st__cursor{position:absolute;width:26px;height:26px;fill:#fff;stroke:#111;stroke-width:1.2;left:78%;top:78%;opacity:0;transition:left 1s cubic-bezier(.5,0,.2,1),top 1s cubic-bezier(.5,0,.2,1),opacity .3s,transform .15s;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+.st.is-cursor .st__cursor{opacity:1}
+.st.is-aim .st__cursor{left:24%;top:72%}
+.st.is-press .st__cursor{transform:scale(.8)}
+.st__note{position:absolute;top:14px;left:50%;transform:translate(-50%,-14px);opacity:0;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border-radius:999px;padding:7px 14px;font-size:.82rem;font-weight:500;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5);transition:opacity .4s,transform .5s cubic-bezier(.2,1.3,.4,1);z-index:2}
+.st__note svg{width:15px;height:15px;stroke:#111;fill:none;stroke-width:2}
+.st.is-anim[data-p="2"] .st__note{opacity:1;transform:translate(-50%,0)}
+.st__vis--card .mk-card{margin-top:22px}
+.st__tag s{opacity:.7;font-weight:400}
+.st__tag b{font-weight:700}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -629,6 +648,7 @@
   <div class="wrap">
     <span class="kicker">So einfach geht's</span>
     <h2 id="stTitle">In drei Schritten<br>zu Ihrer Black Card.</h2>
+    <div class="st__capbar"><p class="st__cap" id="stCap" aria-live="polite">So einfach geht es – in weniger als einer Minute.</p><button type="button" class="st__replay" id="stReplay" hidden>↻ Nochmal ansehen</button></div>
     <ol class="st__row" id="stRow">
       <li class="st__line" aria-hidden="true"><span></span></li>
       <li class="st__step">
@@ -636,6 +656,7 @@
           <div class="st__f st__f--firma"><span>Firma</span><b><i id="stFirma"></i><em class="st__caret"></em></b></div>
                     <div class="st__f st__f--sel"><span>Anlass</span><b id="stAnlass">Auswählen …</b></div>
           <div class="st__btn">Karte anfordern</div>
+          <svg class="st__cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.4L10 19z"/></svg>
         </div>
         <span class="st__no">01</span>
         <h3>Karte anfordern</h3>
@@ -643,6 +664,7 @@
       </li>
       <li class="st__step">
         <div class="st__vis st__vis--card" aria-hidden="true">
+          <span class="st__note"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Ihre Black Card ist da</span>
           <div class="mk-card mk-card--hero">
             <div class="mk-card__shine"></div>
             <div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo"><span class="mk-card__label">Black Card</span></div>
@@ -657,7 +679,7 @@
       <li class="st__step">
         <div class="st__vis st__vis--order" aria-hidden="true">
           <img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="" loading="lazy">
-          <span class="st__tag"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Black-Card-Preis</span>
+          <span class="st__tag"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Buffet <s>31,90 €</s> <b>27,50 €</b> p. P.</span>
         </div>
         <span class="st__no">03</span>
         <h3>Bestellen &amp; sparen</h3>
@@ -956,21 +978,26 @@ t.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropag
 t.querySelectorAll('.lc__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var seg=document.querySelector('.bc-seg button[data-where="'+a.dataset.where+'"]');if(seg)seg.click();var bar2=document.getElementById('bcBar');if(bar2)bar2.scrollIntoView({behavior:'smooth',block:'center'})})});})();
 </script>
 <script>
-(function(){var st=document.querySelector('.st');if(!st)return;var f=document.getElementById('stFirma'),an=document.getElementById('stAnlass'),cn=document.getElementById('stCardName');
-var NAME='Nordlicht GmbH',timers=[],run=false;
-function done(){st.classList.remove('is-anim','is-typing','is-press');st.classList.add('is-picked');st.dataset.p='3';f.textContent=NAME;an.textContent='Weihnachtsfeier';cn.textContent=NAME.toUpperCase()}
+(function(){var st=document.querySelector('.st');if(!st)return;var f=document.getElementById('stFirma'),an=document.getElementById('stAnlass'),cn=document.getElementById('stCardName'),cap=document.getElementById('stCap'),rp=document.getElementById('stReplay');
+var NAME='Nordlicht GmbH',timers=[],played=false;
+function say(t){cap.classList.add('is-out');setTimeout(function(){cap.textContent=t;cap.classList.remove('is-out')},300)}
+function done(){timers.forEach(clearTimeout);timers=[];st.classList.remove('is-anim','is-typing','is-press','is-cursor','is-aim');st.classList.add('is-picked');st.dataset.p='3';f.textContent=NAME;an.textContent='Weihnachtsfeier';cn.textContent=NAME.toUpperCase();cap.classList.remove('is-out');cap.textContent='So einfach geht es – in weniger als einer Minute.'}
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){done();return}
 function at(ms,fn){timers.push(setTimeout(fn,ms))}
-function cycle(){timers.forEach(clearTimeout);timers=[];st.classList.add('is-anim');st.classList.remove('is-picked','is-press');st.dataset.p='1';f.textContent='';an.textContent='Auswählen …';cn.textContent='';
- st.classList.add('is-typing');var t=600;
+function play(){timers.forEach(clearTimeout);timers=[];rp.hidden=true;st.classList.add('is-anim');st.classList.remove('is-picked','is-press','is-cursor','is-aim');st.dataset.p='1';f.textContent='';an.textContent='Auswählen …';cn.textContent='';
+ say('1 · Sie tragen Ihre Firma und Ihren Anlass ein …');
+ st.classList.add('is-typing');var t=900;
  for(var i=1;i<=NAME.length;i++){(function(n){at(t,function(){f.textContent=NAME.slice(0,n)})})(i);t+=110}
- at(t+300,function(){st.classList.remove('is-typing');st.classList.add('is-picked');an.textContent='Weihnachtsfeier'});
- at(t+1200,function(){st.classList.add('is-press')});
- at(t+1500,function(){st.classList.remove('is-press');st.dataset.p='2';cn.textContent=NAME.toUpperCase()});
- at(t+4300,function(){st.dataset.p='3'});
- at(t+8300,function(){if(run)cycle()})}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!run){run=true;cycle()}else if(!e.isIntersecting&&run){run=false;timers.forEach(clearTimeout);done()}})},{threshold:.35});
-done();io.observe(st);})();
+ at(t+300,function(){st.classList.remove('is-typing');st.classList.add('is-picked');an.textContent='Weihnachtsfeier';st.classList.add('is-cursor')});
+ at(t+700,function(){st.classList.add('is-aim')});
+ at(t+1800,function(){st.classList.add('is-press')});
+ at(t+2100,function(){st.classList.remove('is-press','is-cursor');st.dataset.p='2';cn.textContent=NAME.toUpperCase();say('2 · … und erhalten Ihre persönliche Black Card per E-Mail.')});
+ at(t+5600,function(){st.dataset.p='3';say('3 · Ab jetzt bestellen Sie immer zum günstigeren Black-Card-Preis.')});
+ at(t+9800,function(){st.classList.remove('is-anim','is-aim');rp.hidden=false})}
+rp.onclick=function(){play()};
+done();
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!played){played=true;io.disconnect();play()}})},{threshold:.4});
+io.observe(st);})();
 </script>
 </body>
 </html>
