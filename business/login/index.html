@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Meine Black Card | Mahboobs Kitchen</title>
+  <title>Team-Login | Mahboobs Kitchen</title>
   <meta name="description" content="Login für Firmenkunden mit MK Business Karte.">
   <link rel="canonical" href="https://mahboobs-kitchen.com/business/login/">
   <meta name="robots" content="noindex, nofollow">
@@ -80,7 +80,6 @@ body{background:#000}
       <div class="dropdown-panel">
         <a href="/#black-card">So funktioniert’s</a>
         <a href="/business/antrag/">Black Card anfordern</a>
-        <a href="/business/login/">Meine Karte</a>
         <a href="/partner/">Für Location-Partner</a>
       </div>
     </div>
@@ -95,31 +94,10 @@ body{background:#000}
 </header>
 <main class="bl">
   <div class="bl__box">
-    <span class="bl__kick">MK Black Card</span>
-
-    <div id="blMerk" hidden>
-      <h1>Willkommen zurück.</h1>
-      <p class="bl__lead" id="blMerkText" style="margin-top:14px">Ihre Karte ist auf diesem Gerät gespeichert.</p>
-      <div class="bl__panel" style="margin-top:22px">
-        <a class="bl__btn" id="blOeffnen" href="/business/meine-karte/">Meine Karte öffnen</a>
-        <p class="bl__small">Nicht Ihre Karte? <button type="button" class="bl__link" id="blVergessen">Auf diesem Gerät vergessen</button></p>
-      </div>
-    </div>
-
-    <div id="blNeu">
-      <h1>Ihre Karte öffnen.</h1>
-      <p class="bl__lead" style="margin-top:14px">Ihre Black Card öffnen Sie über den persönlichen Link aus meiner Nachricht – er steht auch in jeder Angebots-Mail. Kein Passwort nötig.</p>
-      <div class="bl__panel" style="margin-top:22px">
-        <p class="bl__msg" style="margin:0">Link nicht zur Hand? Schreiben Sie mir kurz – ich schicke ihn Ihnen sofort.</p>
-        <a class="bl__btn" href="https://wa.me/491772019889?text=Hallo%20Reyyan%2C%20bitte%20schicken%20Sie%20mir%20den%20Link%20zu%20unserer%20Black%20Card." target="_blank" rel="noopener">Link per WhatsApp anfragen</a>
-        <a class="bl__btn bl__btn--line" href="tel:+491772019889">Anrufen: 0177 201 9889</a>
-      </div>
-      <p class="bl__small" style="margin-top:18px">Noch keine Karte? <a href="/business/antrag/">Jetzt kostenlos anfordern</a></p>
-    </div>
-
-    <div class="bl__team">
-      <button type="button" class="bl__link" id="blTeamBtn" aria-expanded="false">Team-Login</button>
-      <form class="lead-form" id="loginForm" hidden>
+    <span class="bl__kick">Mahboobs Kitchen</span>
+    <h1>Team-Login</h1>
+    <div class="bl__team" style="margin-top:8px;border:0;padding:0">
+      <form class="lead-form" id="loginForm" style="margin-top:0">
         <label class="field-label" for="email">E-Mail</label>
         <input type="email" id="email" name="email" required autocomplete="email">
         <label class="field-label" for="password">Passwort</label>
@@ -183,22 +161,6 @@ body{background:#000}
 <script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};</script>
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-login.js" defer></script>
-<script>
-(function(){
-var KEY_T='mkKarte',KEY_N='mkKarteName',t=null,n='';
-try{t=localStorage.getItem(KEY_T);n=localStorage.getItem(KEY_N)||''}catch(_){}
-var merk=document.getElementById('blMerk'),neu=document.getElementById('blNeu');
-if(t&&/^[0-9a-f]{32}$/.test(t)){
- merk.hidden=false;neu.hidden=true;
- document.getElementById('blOeffnen').href='/business/meine-karte/?k='+t;
- if(n)document.getElementById('blMerkText').textContent='Ihre Karte für '+n+' ist auf diesem Gerät gespeichert.';
- document.getElementById('blVergessen').onclick=function(){try{localStorage.removeItem(KEY_T);localStorage.removeItem(KEY_N)}catch(_){}merk.hidden=true;neu.hidden=false;document.getElementById('blEmail').focus()};
-}
-var tb=document.getElementById('blTeamBtn'),lf=document.getElementById('loginForm');
-function team(o){lf.hidden=!o;tb.setAttribute('aria-expanded',o)}
-tb.onclick=function(){team(lf.hidden);if(!lf.hidden)document.getElementById('email').focus()};
-if(/[?&]redirect=/.test(location.search)||location.hash==='#team')team(true);
-})();
-</script>
+
 </body>
 </html>

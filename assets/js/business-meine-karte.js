@@ -906,8 +906,6 @@
     var nr = k.kundennummer;
     var privat = k.kategorie === "Privatperson";
     var wer = k.ansprechpartner || k.firma;
-    // Auf diesem Geraet merken - der Kunden-Login fuehrt dann direkt hierher.
-    try { localStorage.setItem("mkKarte", schluessel); localStorage.setItem("mkKarteName", k.firma || ""); } catch (e) {}
 
     text("mkKarteNummer", nr);
     text("mkKarteNummer2", nr);
