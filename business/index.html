@@ -474,24 +474,21 @@
 .st__tag b{font-weight:700}
 
 
-/* Abschluss (Amalfi-Stil) */
-.fin{background:#000}
-.fin__box{position:relative;border-radius:28px;overflow:hidden;min-height:540px;display:flex;align-items:center;isolation:isolate}
-.fin__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:saturate(.9)}
-.fin__box::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.75) 38%,rgba(0,0,0,.15) 75%,rgba(0,0,0,.05))}
-.fin__body{padding:clamp(32px,6vw,80px);max-width:720px;display:grid;gap:18px}
-.fin__body h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.6rem,5.6vw,4.6rem);letter-spacing:-.045em;line-height:.98;margin:0;color:#fff}
-.fin__body p{margin:0;color:rgba(255,255,255,.75);font-size:1.08rem;line-height:1.65;max-width:46ch}
-.fin__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-.fin__go{background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:16px 32px;font-weight:500;font-size:1.05rem}
-.fin__go:hover,.fin__go:focus-visible{background:var(--bc-gold);color:#fff}
-.fin__tel{display:inline-flex;align-items:center;gap:9px;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:15px 24px;font-size:1rem;backdrop-filter:blur(6px);background:rgba(0,0,0,.25)}
-.fin__tel:hover,.fin__tel:focus-visible{border-color:#fff}
-.fin__tel svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linejoin:round}
-.fin__trust{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}
-.fin__trust li{color:rgba(255,255,255,.65);font-size:.9rem;display:inline-flex;align-items:center;gap:8px}
-.fin__trust li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--bc-gold)}
-@media (max-width:760px){.fin__box{min-height:0;border-radius:20px;align-items:flex-end}.fin__box::after{background:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.85) 45%,rgba(0,0,0,.95))}.fin__body{padding:180px 22px 28px}}
+/* Abschluss (Amalfi-Stil, Vollbild Himmel) */
+.bc section.fin{padding:0!important}
+.fin{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;isolation:isolate;display:flex;justify-content:center;
+ background:linear-gradient(180deg,#0f5fbf 0%,#2f7fd3 30%,#6aa8e0 58%,#b9d6ef 80%,#dfeaf3 100%)}
+.fin__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:56%;object-fit:cover;object-position:50% 72%;z-index:-1;
+ -webkit-mask-image:linear-gradient(to top,#000 62%,transparent 100%);mask-image:linear-gradient(to top,#000 62%,transparent 100%)}
+.fin__body{position:relative;text-align:center;padding:clamp(90px,14vh,150px) 20px 0;max-width:900px;display:grid;justify-items:center;gap:22px;align-content:start}
+.fin__body h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.8rem,6.4vw,5.4rem);letter-spacing:-.045em;line-height:1;margin:0;color:#fff;text-shadow:0 2px 30px rgba(0,40,100,.25)}
+.fin__body p{margin:0;color:#fff;font-size:clamp(1.05rem,1.6vw,1.35rem);line-height:1.5;max-width:46ch}
+.fin__btns{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:22px}
+.fin__go{background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:16px 32px;font-weight:500;font-size:1.1rem}
+.fin__go:hover,.fin__go:focus-visible{background:#111;color:#fff}
+.fin__tel{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.85);border-radius:999px;padding:15px 30px;font-size:1.1rem}
+.fin__tel:hover,.fin__tel:focus-visible{background:rgba(255,255,255,.15)}
+@media (max-width:760px){.fin__img{height:48%}}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -721,24 +718,15 @@
   </div>
 </section>
 
-<!-- 9 · Abschluss (Amalfi-Stil) -->
+<!-- 9 · Abschluss (Amalfi-Stil, Vollbild) -->
 <section class="fin" aria-labelledby="finTitle">
-  <div class="wrap">
-    <div class="fin__box">
-      <img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="" loading="lazy" class="fin__img">
-      <div class="fin__body">
-        <span class="kicker">Catering · Service · Erlebnis</span>
-        <h2 id="finTitle">Was feiern Sie<br>als Nächstes?</h2>
-        <p>Weihnachtsfeier, Meeting oder Vereinsfest – sagen Sie uns Anlass, Datum und Gästezahl. Wir melden uns innerhalb von 24 Stunden mit Ihrem persönlichen Angebot.</p>
-        <div class="fin__btns">
-          <a href="#bcBar" class="fin__go" id="finGo">Jetzt anfragen</a>
-          <a href="tel:+491772019889" class="fin__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>0177 201 9889</a>
-          <a href="https://wa.me/491772019889" class="fin__tel" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>WhatsApp</a>
-        </div>
-        <ul class="fin__trust">
-          <li>Antwort in 24 Stunden</li><li>Unverbindliches Angebot</li><li>Black Card kostenlos</li>
-        </ul>
-      </div>
+  <img src="/assets/img/buffet-szenen/abschluss-terrasse.webp" alt="Festlich eingedeckte Tafeln unter freiem Himmel" loading="lazy" class="fin__img">
+  <div class="fin__body">
+    <h2 id="finTitle">Was feiern Sie<br>als Nächstes?</h2>
+    <p>Catering für Firmen, Vereine und große Anlässe – frisch gekocht, geliefert und aufgebaut.</p>
+    <div class="fin__btns">
+      <a href="#bcBar" class="fin__go" id="finGo">Jetzt anfragen</a>
+      <a href="tel:+491772019889" class="fin__tel">Anrufen: 0177 201 9889</a>
     </div>
   </div>
 </section>
