@@ -184,7 +184,17 @@
   // ---------- Start ----------
   function start() {
     var wer = K.ansprechpartner || K.firma;
-    $("kxHallo").textContent = "Willkommen, " + wer + ".";
+    var std = new Date().getHours();
+    $("kxGruss").textContent = (std < 11 ? "Guten Morgen" : std < 18 ? "Guten Tag" : "Guten Abend") + ",";
+    // Der Name baut sich Buchstabe fuer Buchstabe auf - persoenlich begruesst
+    var nameEl = $("kxName"), voll = wer + ".";
+    if (bewegungAus) nameEl.textContent = voll;
+    else {
+      nameEl.innerHTML = voll.split("").map(function (z, i) {
+        return z === " " ? " " : '<i style="animation-delay:' + (0.45 + i * 0.035).toFixed(3) + 's">' + esc(z) + "</i>";
+      }).join("");
+      setTimeout(function () { nameEl.textContent = voll; nameEl.classList.add("is-fertig"); }, 450 + voll.length * 35 + 700);
+    }
     $("kxSub").innerHTML = (K.ansprechpartner && K.kategorie !== "Privatperson" ? "<strong>" + esc(K.firma) + "</strong><br>" : "") + '<span style="white-space:nowrap">Kundennummer <strong>' + esc(K.kundennummer) + "</strong></span>";
     $("kxKarteName").textContent = K.firma;
     $("kxKarteNr").textContent = K.kundennummer;

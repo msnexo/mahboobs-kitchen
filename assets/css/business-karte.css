@@ -41,6 +41,16 @@
 .kx-hero__card .mk-card::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.22) 48%,transparent 60%);transform:translateX(-120%);animation:kxShine 1.6s .9s ease both}
 @keyframes kxShine{to{transform:translateX(120%)}}
 .kx-hero__text h1{font-size:clamp(2.3rem,5vw,3.8rem);line-height:1.02;margin:12px 0 14px}
+.kx-gruss{display:block;font-size:.5em;color:var(--mute);letter-spacing:-.02em;margin-bottom:6px}
+.kx-name{display:block}
+.kx-name i{font-style:normal;display:inline-block;opacity:0;transform:translateY(.4em);filter:blur(6px);animation:kxBuchstabe .6s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes kxBuchstabe{to{opacity:1;transform:none;filter:none}}
+.kx-name.is-fertig{background:linear-gradient(100deg,#fff 40%,#ffd2b8 50%,#fff 60%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;animation:kxNameGlanz 2.2s ease .2s 1 both}
+@keyframes kxNameGlanz{from{background-position:100% 0}to{background-position:0 0}}
+.kx-notiz{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 18px;max-width:480px}
+.kx-notiz__bild{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(232,89,12,.6)}
+.kx-notiz p{margin:0 0 4px;color:rgba(255,255,255,.88);line-height:1.5;font-size:.95rem}
+.kx-notiz span{color:var(--mute);font-size:.8rem}
 .kx-sub{color:var(--mute);margin:0 0 20px;line-height:1.6}
 .kx-sub strong{color:#fff;font-weight:500}
 .kx-auf{opacity:0;animation:kxUp .7s cubic-bezier(.2,.8,.2,1) both}
@@ -258,3 +268,9 @@ textarea.kx-feld{min-height:96px;resize:vertical}
   .kx2 *,.kx2 *::before,.kx2 *::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
   .kx-auf{opacity:1}
 }
+
+.kx-hero__card .mk-card__bottom{right:34%}
+.kx-hero__card .mk-card__name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.kx-hero__card .mk-card--metal .mk-card__bottom{display:block;right:36%}
+.kx-hero__card .mk-card__bottom>div{min-width:0;max-width:100%}
+.kx-hero__card .mk-card__name{display:block}
