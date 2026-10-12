@@ -185,7 +185,7 @@
   function start() {
     var wer = K.ansprechpartner || K.firma;
     $("kxHallo").textContent = "Willkommen, " + wer + ".";
-    $("kxSub").innerHTML = (K.ansprechpartner && K.kategorie !== "Privatperson" ? "<strong>" + esc(K.firma) + "</strong> · " : "") + "Kundennummer <strong>" + esc(K.kundennummer) + "</strong>";
+    $("kxSub").innerHTML = (K.ansprechpartner && K.kategorie !== "Privatperson" ? "<strong>" + esc(K.firma) + "</strong><br>" : "") + '<span style="white-space:nowrap">Kundennummer <strong>' + esc(K.kundennummer) + "</strong></span>";
     $("kxKarteName").textContent = K.firma;
     $("kxKarteNr").textContent = K.kundennummer;
     document.title = "MK Black Card " + K.kundennummer + " | Mahboobs Kitchen";
