@@ -493,6 +493,38 @@
 .fin__tel{color:#fff;text-decoration:none;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.85);border-radius:999px;padding:15px 30px;font-size:1.1rem}
 .fin__tel:hover,.fin__tel:focus-visible{background:rgba(255,255,255,.15)}
 
+
+/* Weihnachten 2026 */
+.bc section.xm{padding-block:clamp(80px,12vw,140px)}
+.xm{position:relative;overflow:hidden;isolation:isolate;background:#000}
+.xm__bg{position:absolute;inset:0;z-index:-2;background:url('/assets/img/buffet-szenen/festliche-tafel.webp') center/cover;filter:brightness(.32) saturate(1.1)}
+.xm::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 70% at 85% 40%,rgba(232,89,12,.25),transparent 70%),linear-gradient(180deg,#000 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 70%,#000 100%)}
+.xm__lights{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle,rgba(255,206,140,.9) 0 1.2px,transparent 2px),radial-gradient(circle,rgba(255,180,110,.7) 0 1px,transparent 1.8px);background-size:140px 120px,90px 100px;background-position:0 0,40px 60px;opacity:.35;animation:xmTw 6s ease-in-out infinite alternate}
+@keyframes xmTw{to{opacity:.6;background-position:10px 6px,46px 52px}}
+.xm__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.xm__text h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.4rem,5vw,4rem);letter-spacing:-.045em;line-height:1;margin:6px 0 16px;color:#fff}
+.xm__count{display:flex;align-items:center;gap:16px;margin:28px 0 24px}
+.xm__count b{font-family:var(--bc-serif);font-weight:500;font-size:4.2rem;line-height:1;color:var(--bc-gold-soft);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.xm__count span{color:rgba(255,255,255,.7);line-height:1.35}
+.xm__facts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+.xm__facts li{display:grid;gap:2px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px);border-radius:14px;padding:12px 16px}
+.xm__facts strong{color:#fff;font-weight:500}
+.xm__facts span{color:rgba(255,255,255,.6);font-size:.88rem}
+.xm__pick{background:rgba(10,10,10,.78);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.xm__pick-title{margin:0 0 16px;color:#fff;font-size:1.15rem;font-weight:500}
+.xm__dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.xm__dates button{display:grid;gap:2px;text-align:left;background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;color:#fff;font:inherit;cursor:pointer;transition:border-color .2s,background .2s}
+.xm__dates button small{color:rgba(255,255,255,.55);font-size:.8rem}
+.xm__dates button b{font-weight:500;font-size:1.05rem}
+.xm__dates button:hover,.xm__dates button:focus-visible{border-color:rgba(255,255,255,.5);outline:none}
+.xm__dates button.is-on{background:#fff;color:#111;border-color:#fff}
+.xm__dates button.is-on small{color:#555}
+.xm__go{width:100%;margin-top:18px;border:0;border-radius:999px;background:var(--bc-gold);color:#fff;font:inherit;font-weight:500;font-size:1.05rem;padding:15px;cursor:pointer;transition:background .2s,opacity .2s}
+.xm__go:disabled{opacity:.45;cursor:not-allowed}
+.xm__go:not(:disabled):hover,.xm__go:not(:disabled):focus-visible{background:var(--bc-gold-soft)}
+.xm__hint{margin:12px 0 0;text-align:center;color:rgba(255,255,255,.5);font-size:.85rem}
+@media (max-width:900px){.xm__grid{grid-template-columns:1fr;gap:36px}}
+@media (prefers-reduced-motion:reduce){.xm__lights{animation:none}}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -711,14 +743,28 @@
   </div>
 </section>
 
-<!-- 8 · Weihnachten -->
-<section class="bc-xmas">
-  <div class="bc-xmas__bg" aria-hidden="true"></div>
-  <div class="wrap">
-    <span class="kicker">Weihnachten 2026</span>
-    <h2>Die besten Dezember-Termine<br>werden jetzt vergeben.</h2>
-    <p class="lead">Karteninhaber haben Vorrang – bei Ihnen im Haus oder in einer unserer Partner-Locations.</p>
-    <div class="btns"><a href="/business/antrag/" class="btn-gold">Termin sichern</a></div>
+<!-- 8 · Weihnachten 2026 -->
+<section class="xm" aria-labelledby="xmTitle">
+  <div class="xm__bg" aria-hidden="true"></div>
+  <div class="xm__lights" aria-hidden="true"></div>
+  <div class="wrap xm__grid">
+    <div class="xm__text">
+      <span class="kicker">Weihnachten 2026</span>
+      <h2 id="xmTitle">Ihre Weihnachtsfeier.<br>Ohne Stress.</h2>
+      <p class="lead">Die beliebten Freitage im Dezember sind schnell vergeben. Sichern Sie sich jetzt Ihren Wunschtermin – bei Ihnen im Haus oder in einer Partner-Location.</p>
+      <div class="xm__count" id="xmCount" aria-live="polite"><b id="xmWeeks">–</b><span>Wochen bis zur<br>ersten Dezember-Feier</span></div>
+      <ul class="xm__facts">
+        <li><strong>Festliches Buffet</strong><span>mit Black Card ab 27,50&nbsp;€ p.&nbsp;P.</span></li>
+        <li><strong>Probeessen</strong><span>vorab möglich</span></li>
+        <li><strong>Vegetarisch &amp; halal</strong><span>Allergene gekennzeichnet</span></li>
+      </ul>
+    </div>
+    <div class="xm__pick">
+      <p class="xm__pick-title">Wunschtermin wählen</p>
+      <div class="xm__dates" id="xmDates"></div>
+      <button type="button" class="xm__go" id="xmGo" disabled>Termin anfragen</button>
+      <p class="xm__hint">Unverbindlich · Antwort innerhalb von 24 Stunden</p>
+    </div>
   </div>
 </section>
 
@@ -896,7 +942,7 @@ document.getElementById('bcNext').onclick=function(){view=new Date(view.getFullY
 box.onclick=function(e){var b=e.target.closest('button[data-t]');if(!b||b.disabled)return;sel=new Date(+b.dataset.t);btn.textContent=fmt(sel);btn.classList.remove('is-empty');render()};
 cal.onclick=function(e){e.stopPropagation()};document.addEventListener('click',function(){if(!cal.hidden)open(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!cal.hidden){open(false);btn.focus()}});
-window.bcGetDate=function(){return sel?fmt(sel):''};})();
+window.bcGetDate=function(){return sel?fmt(sel):''};window.bcSetDate=function(d){sel=new Date(d.getFullYear(),d.getMonth(),d.getDate());view=new Date(sel.getFullYear(),sel.getMonth(),1);btn.textContent=fmt(sel);btn.classList.remove('is-empty')};})();
 </script>
 <script>
 (function(){var f=document.getElementById('bcBar');if(!f)return;var n=20,o=document.getElementById('bcPeople'),w='In eigenen Räumen (wir liefern hin)';
@@ -1004,6 +1050,18 @@ io.observe(st);})();
 </script>
 <script>
 (function(){var g=document.getElementById('finGo');if(!g)return;g.addEventListener('click',function(e){e.preventDefault();var b=document.getElementById('bcBar');if(b)b.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'})})})();
+</script>
+<script>
+(function(){var box=document.getElementById('xmDates');if(!box)return;var go=document.getElementById('xmGo'),wk=document.getElementById('xmWeeks'),pick=null;
+var today=new Date();today.setHours(0,0,0,0);var Y=today.getMonth()===11&&today.getDate()>24?today.getFullYear()+1:today.getFullYear();
+var first=new Date(Y,11,1);var w=Math.max(0,Math.round((first-today)/(7*864e5)));wk.textContent=w;
+var WD=['So','Mo','Di','Mi','Do','Fr','Sa'],days=[];
+for(var d=1;d<=23;d++){var x=new Date(Y,11,d);if((x.getDay()===4||x.getDay()===5)&&x>=today)days.push(x)}
+days.slice(0,8).forEach(function(x){var b=document.createElement('button');b.type='button';b.innerHTML='<small>'+(x.getDay()===5?'Freitag':'Donnerstag')+'</small><b>'+x.getDate()+'. Dezember</b>';b.setAttribute('aria-pressed','false');
+ b.onclick=function(){box.querySelectorAll('button').forEach(function(y){y.classList.remove('is-on');y.setAttribute('aria-pressed','false')});b.classList.add('is-on');b.setAttribute('aria-pressed','true');pick=x;go.disabled=false};box.appendChild(b)});
+go.onclick=function(){if(!pick)return;if(window.bcSetDate)window.bcSetDate(pick);
+ var pop=document.getElementById('bcAnlassPop'),ab=document.getElementById('bcAnlassBtn');if(pop&&ab){var o=pop.querySelector('button[data-v="Weihnachtsfeier"]');if(o){pop.querySelectorAll('button').forEach(function(z){z.classList.remove('is-sel')});o.classList.add('is-sel');ab.textContent='Weihnachtsfeier';window.bcAnlass='Weihnachtsfeier'}}
+ var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){var fi=document.getElementById('bcFirma');if(fi)fi.focus({preventScroll:true})},700)}};})();
 </script>
 </body>
 </html>
