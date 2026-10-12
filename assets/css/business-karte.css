@@ -172,6 +172,30 @@ textarea.kx-feld{min-height:96px;resize:vertical}
 .kx-zeiten .kx-chip{text-align:center;border-radius:14px}
 .kx-zeiten .kx-chip:disabled{opacity:.25;cursor:default}
 
+/* Kalender (wie auf der Startseite) */
+.kx-kal{margin-top:18px;background:#000;border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden;max-width:720px}
+.kx-kal__head{display:flex;justify-content:space-between;align-items:center;background:#161616;padding:16px 18px 16px 24px}
+.kx-kal__head span{display:block;font-size:.8rem;color:rgba(255,255,255,.55)}
+.kx-kal__head strong{font-weight:400;font-size:1.2rem;color:#fff}
+.kx-kal__nav{display:flex;gap:6px}
+.kx-kal__nav button{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;transition:background .2s}
+.kx-kal__nav button:hover:not(:disabled){background:rgba(255,255,255,.1)}
+.kx-kal__nav button:disabled{opacity:.25;cursor:default}
+.kx-kal__monate{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:22px 26px 10px}
+.kx-kal__m h4{margin:0 0 14px;font-weight:500;font-size:1.02rem;color:#eee;letter-spacing:-.01em}
+.kx-kal__g{display:grid;grid-template-columns:repeat(7,1fr);row-gap:4px;text-align:center;font-variant-numeric:tabular-nums}
+.kx-kal__g b{font-weight:500;font-size:.8rem;color:rgba(255,255,255,.45);padding-bottom:6px}
+.kx-kal__g button,.kx-kal__g i{position:relative;font-style:normal;font-size:.98rem;height:40px;border:0;background:transparent;color:#f2f2f2;border-radius:999px;font-family:inherit}
+.kx-kal__g button{cursor:pointer;transition:background .2s,color .2s}
+.kx-kal__g button:hover,.kx-kal__g button:focus-visible{background:rgba(255,255,255,.12);outline:none}
+.kx-kal__g button:disabled{color:rgba(255,255,255,.22);cursor:default;background:transparent}
+.kx-kal__g button.is-pop::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--g)}
+.kx-kal__g button.is-sel{background:#fff;color:#111;animation:kxPop .35s ease}
+.kx-kal__g button.is-sel::after{background:#111}
+.kx-kal__legende{display:flex;align-items:center;gap:8px;margin:0;padding:4px 26px 18px;font-size:.8rem;color:rgba(255,255,255,.45)}
+.kx-kal__legende i{width:5px;height:5px;border-radius:50%;background:var(--g)}
+.kx-kal.is-aus{opacity:.4;pointer-events:none;transition:opacity .3s}
+
 /* Zusammenfassung */
 .kx-summe{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px 22px;display:grid;gap:12px;margin-top:22px}
 .kx-summe__z{display:flex;justify-content:space-between;gap:16px;color:var(--mute)}
@@ -214,6 +238,8 @@ textarea.kx-feld{min-height:96px;resize:vertical}
 .mkd .sticky-cta{display:none!important}
 
 @media (max-width:860px){
+  .kx-kal__monate{grid-template-columns:1fr;padding:18px 16px 8px}
+  .kx-kal__m+.kx-kal__m{display:none}
   .kx2{padding-top:90px}
   .kx-hero{grid-template-columns:1fr;gap:26px;margin-bottom:30px}
   .kx-hero__card{order:-1}

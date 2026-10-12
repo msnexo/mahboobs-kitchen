@@ -463,10 +463,11 @@
     $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
     $("kxKuechen").innerHTML = KUECHEN.map(function (k) { return '<button type="button" class="kx-chip" data-kueche="' + esc(k) + '">' + esc(k) + "</button>"; }).join("");
-    var min = new Date(); min.setDate(min.getDate() + 3);
-    $("kxDatum").min = isoTag(min); $("kxDatum").value = "";
-    if (anlass === "Weihnachtsfeier") { $("kxDatum").value = ""; }
+    var heute = new Date();
+    var schmal = window.matchMedia("(max-width: 860px)").matches;
+    kalAnsicht = anlass === "Weihnachtsfeier" && heute.getMonth() < 11 ? new Date(heute.getFullYear(), schmal ? 11 : 10, 1) : new Date(heute.getFullYear(), heute.getMonth(), 1);
     $("kxOffen").checked = false;
+    kalender();
     $("kxFPers").value = S.f.personen;
     $("kxNachricht").value = "";
     if (anlass) { $("kxF2Titel").textContent = "Wann und für wie viele?"; geh("feier2"); }
@@ -478,8 +479,36 @@
     Array.prototype.forEach.call(this.children, function (x) { x.classList.toggle("is-on", x === b); });
     setTimeout(function () { geh("feier2"); }, bewegungAus ? 0 : 260);
   });
-  $("kxDatum").addEventListener("input", function () { S.f.datum = this.value; if (this.value) { S.f.offen = false; $("kxOffen").checked = false; } leiste(); });
-  $("kxOffen").addEventListener("change", function () { S.f.offen = this.checked; if (this.checked) { S.f.datum = ""; $("kxDatum").value = ""; } leiste(); });
+  // Kalender wie auf der Startseite: zwei Monate (Handy: einer), Do/Fr markiert, fruehestens in 3 Tagen
+  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  var kalAnsicht = new Date();
+  function kalMin() { var d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + 3); return d; }
+  function kalMonat(y, m) {
+    var h = '<div class="kx-kal__m"><h4>' + MONATE[m] + " " + y + '</h4><div class="kx-kal__g">' +
+      ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"].map(function (w) { return "<b>" + w + "</b>"; }).join("");
+    var off = (new Date(y, m, 1).getDay() + 6) % 7, n = new Date(y, m + 1, 0).getDate(), min = kalMin();
+    for (var i = 0; i < off; i++) h += "<i></i>";
+    for (var d = 1; d <= n; d++) {
+      var x = new Date(y, m, d), iso = isoTag(x), wd = x.getDay();
+      h += '<button type="button" data-d="' + iso + '"' + (x < min ? " disabled" : "") + ' class="' + ((wd === 4 || wd === 5) ? "is-pop" : "") + (S.f.datum === iso ? " is-sel" : "") +
+        '" aria-label="' + d + ". " + MONATE[m] + " " + y + '" aria-pressed="' + (S.f.datum === iso) + '">' + d + "</button>";
+    }
+    return h + "</div></div>";
+  }
+  function kalender() {
+    var y = kalAnsicht.getFullYear(), m = kalAnsicht.getMonth(), min = kalMin();
+    $("kxKalMonate").innerHTML = kalMonat(y, m) + kalMonat(m === 11 ? y + 1 : y, (m + 1) % 12);
+    $("kxKalVor").disabled = y < min.getFullYear() || (y === min.getFullYear() && m <= min.getMonth());
+    $("kxKalSel").textContent = S.f.datum ? new Date(S.f.datum + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long", year: "numeric" }) : (S.f.offen ? "Noch offen" : "Bitte wählen");
+    $("kxKal").classList.toggle("is-aus", S.f.offen);
+  }
+  $("kxKalVor").addEventListener("click", function () { kalAnsicht = new Date(kalAnsicht.getFullYear(), kalAnsicht.getMonth() - 1, 1); kalender(); });
+  $("kxKalNach").addEventListener("click", function () { kalAnsicht = new Date(kalAnsicht.getFullYear(), kalAnsicht.getMonth() + 1, 1); kalender(); });
+  $("kxKalMonate").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-d]"); if (!b || b.disabled) return;
+    S.f.datum = b.dataset.d; S.f.offen = false; $("kxOffen").checked = false; kalender(); leiste(); bump();
+  });
+  $("kxOffen").addEventListener("change", function () { S.f.offen = this.checked; if (this.checked) S.f.datum = ""; kalender(); leiste(); });
   zaehler($("kxFPers"), $("kxFMinus"), $("kxFPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
   $("kxWo").addEventListener("click", function (e) {
     var b = e.target.closest("[data-wo]"); if (!b) return;
