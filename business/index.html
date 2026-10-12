@@ -537,6 +537,31 @@
 .sxbg--right{left:auto;bottom:auto;width:55%;height:46%;opacity:.5;-webkit-mask-image:radial-gradient(75% 85% at 80% 30%,#000 15%,transparent 72%);mask-image:radial-gradient(75% 85% at 80% 30%,#000 15%,transparent 72%)}
 .sxbg--top{bottom:auto;height:72%;opacity:.3;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%)}
 @media (max-width:900px){.sxbg--right{width:100%;height:30%;opacity:.3}.sxbg--full{width:100%;height:45%;bottom:auto}}
+
+/* Weihnachten: Timer + freier Kalender */
+.xm__timer{margin:28px 0 24px}
+.xm__timer-lbl{margin:0 0 10px;color:rgba(255,255,255,.65);font-size:.9rem;letter-spacing:.06em}
+.xm__units{display:flex;gap:10px}
+.xm__units div{display:grid;justify-items:center;gap:4px;min-width:74px;padding:12px 8px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+.xm__units b{font-family:var(--bc-serif);font-weight:500;font-size:2.2rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.xm__units div:first-child b{color:var(--bc-gold-soft)}
+.xm__units span{font-size:.75rem;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase}
+.xm__pick-title{margin:0 0 4px!important}
+.xm__pick-sub{margin:0 0 16px;color:rgba(255,255,255,.55);font-size:.9rem}
+.xm__calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.xm__calhead strong{color:#fff;font-weight:500}
+.xm__calhead button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;font-size:1.3rem;cursor:pointer}
+.xm__calhead button:disabled{opacity:.25;cursor:default}
+.xm__grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.xm__grid7 em{font-style:normal;font-size:.72rem;color:rgba(255,255,255,.45);padding:4px 0}
+.xm__grid7 button{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:transparent;color:#eee;font:inherit;font-size:.95rem;cursor:pointer;font-variant-numeric:tabular-nums}
+.xm__grid7 button:hover,.xm__grid7 button:focus-visible{background:rgba(255,255,255,.1);outline:none}
+.xm__grid7 button.is-pop::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--bc-gold)}
+.xm__grid7 button.is-on{background:#fff;color:#111}
+.xm__grid7 button:disabled{color:rgba(255,255,255,.2);cursor:default;background:transparent}
+.xm__legend{margin:10px 0 0;font-size:.8rem;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
+.xm__legend i{width:6px;height:6px;border-radius:50%;background:var(--bc-gold);display:inline-block}
+@media (max-width:420px){.xm__units div{min-width:0;flex:1}.xm__units b{font-size:1.7rem}}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -766,17 +791,21 @@
     <div class="xm__text">
       <span class="kicker">Weihnachten 2026</span>
       <h2 id="xmTitle">Ihre Weihnachtsfeier.<br>Ohne Stress.</h2>
-      <p class="lead">Die beliebten Freitage im Dezember sind schnell vergeben. Sichern Sie sich jetzt Ihren Wunschtermin – bei Ihnen im Haus oder in einer Partner-Location.</p>
-      <div class="xm__count" id="xmCount" aria-live="polite"><b id="xmWeeks">–</b><span>Wochen bis zur<br>ersten Dezember-Feier</span></div>
+      <p class="lead">Die Feier-Saison beginnt bald – und die beliebten Termine sind schnell vergeben. Sichern Sie sich jetzt Ihren Wunschtermin, bei Ihnen im Haus oder in einer Partner-Location.</p>
+      <div class="xm__timer" aria-label="Countdown bis zum 1. Dezember">
+        <p class="xm__timer-lbl">Noch bis zur Feier-Saison</p>
+        <div class="xm__units" id="xmTimer"><div><b data-u="d">00</b><span>Tage</span></div><div><b data-u="h">00</b><span>Std.</span></div><div><b data-u="m">00</b><span>Min.</span></div><div><b data-u="s">00</b><span>Sek.</span></div></div>
+      </div>
       <ul class="xm__facts">
         <li><strong>Festliches Buffet</strong><span>mit Black Card ab 27,50&nbsp;€ p.&nbsp;P.</span></li>
         <li><strong>Probeessen</strong><span>vorab möglich</span></li>
-        <li><strong>Vegetarisch &amp; halal</strong><span>Allergene gekennzeichnet</span></li>
+        <li><strong>Für jeden Geschmack</strong><span>Fleisch, Fisch, vegetarisch &amp; vegan</span></li>
       </ul>
     </div>
     <div class="xm__pick">
-      <p class="xm__pick-title">Wunschtermin wählen</p>
-      <div class="xm__dates" id="xmDates"></div>
+      <p class="xm__pick-title">Ihr Wunschtermin</p>
+      <p class="xm__pick-sub">Jeder Tag ist möglich – auch im November oder Januar.</p>
+      <div class="xm__cal"><div class="xm__calhead"><button type="button" id="xmPrev" aria-label="Vorheriger Monat">‹</button><strong id="xmMonth"></strong><button type="button" id="xmNext" aria-label="Nächster Monat">›</button></div><div class="xm__grid7" id="xmDates"></div><p class="xm__legend"><i></i>Beliebt: Donnerstag &amp; Freitag</p></div>
       <button type="button" class="xm__go" id="xmGo" disabled>Termin anfragen</button>
       <p class="xm__hint">Unverbindlich · Antwort innerhalb von 24 Stunden</p>
     </div>
@@ -1067,16 +1096,26 @@ io.observe(st);})();
 (function(){var g=document.getElementById('finGo');if(!g)return;g.addEventListener('click',function(e){e.preventDefault();var b=document.getElementById('bcBar');if(b)b.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'})})})();
 </script>
 <script>
-(function(){var box=document.getElementById('xmDates');if(!box)return;var go=document.getElementById('xmGo'),wk=document.getElementById('xmWeeks'),pick=null;
+(function(){var box=document.getElementById('xmDates');if(!box)return;var go=document.getElementById('xmGo'),mon=document.getElementById('xmMonth'),pv=document.getElementById('xmPrev'),nx=document.getElementById('xmNext'),pick=null;
+var M=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],W=['Mo','Di','Mi','Do','Fr','Sa','So'];
 var today=new Date();today.setHours(0,0,0,0);var Y=today.getMonth()===11&&today.getDate()>24?today.getFullYear()+1:today.getFullYear();
-var first=new Date(Y,11,1);var w=Math.max(0,Math.round((first-today)/(7*864e5)));wk.textContent=w;
-var WD=['So','Mo','Di','Mi','Do','Fr','Sa'],days=[];
-for(var d=1;d<=23;d++){var x=new Date(Y,11,d);if((x.getDay()===4||x.getDay()===5)&&x>=today)days.push(x)}
-days.slice(0,8).forEach(function(x){var b=document.createElement('button');b.type='button';b.innerHTML='<small>'+(x.getDay()===5?'Freitag':'Donnerstag')+'</small><b>'+x.getDate()+'. Dezember</b>';b.setAttribute('aria-pressed','false');
- b.onclick=function(){box.querySelectorAll('button').forEach(function(y){y.classList.remove('is-on');y.setAttribute('aria-pressed','false')});b.classList.add('is-on');b.setAttribute('aria-pressed','true');pick=x;go.disabled=false};box.appendChild(b)});
+var view=new Date(Y,11,1),min=new Date(today.getFullYear(),today.getMonth(),1);
+function render(){var y=view.getFullYear(),m=view.getMonth();mon.textContent=M[m]+' '+y;pv.disabled=view<=min;
+ var h=W.map(function(w){return '<em>'+w+'</em>'}).join('');var off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+ for(var i=0;i<off;i++)h+='<span></span>';
+ for(var d=1;d<=n;d++){var x=new Date(y,m,d),wd=x.getDay(),past=x<today,on=pick&&x.getTime()===pick.getTime();
+  h+='<button type="button" data-t="'+x.getTime()+'"'+(past?' disabled':'')+' class="'+((wd===4||wd===5)?'is-pop':'')+(on?' is-on':'')+'" aria-label="'+d+'. '+M[m]+' '+y+'" aria-pressed="'+(on?'true':'false')+'">'+d+'</button>'}
+ box.innerHTML=h}
+pv.onclick=function(){view=new Date(view.getFullYear(),view.getMonth()-1,1);render()};nx.onclick=function(){view=new Date(view.getFullYear(),view.getMonth()+1,1);render()};
+box.onclick=function(e){var b=e.target.closest('button[data-t]');if(!b||b.disabled)return;pick=new Date(+b.dataset.t);go.disabled=false;render()};
+render();
 go.onclick=function(){if(!pick)return;if(window.bcSetDate)window.bcSetDate(pick);
  var pop=document.getElementById('bcAnlassPop'),ab=document.getElementById('bcAnlassBtn');if(pop&&ab){var o=pop.querySelector('button[data-v="Weihnachtsfeier"]');if(o){pop.querySelectorAll('button').forEach(function(z){z.classList.remove('is-sel')});o.classList.add('is-sel');ab.textContent='Weihnachtsfeier';window.bcAnlass='Weihnachtsfeier'}}
- var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){var fi=document.getElementById('bcFirma');if(fi)fi.focus({preventScroll:true})},700)}};})();
+ var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){var fi=document.getElementById('bcFirma');if(fi)fi.focus({preventScroll:true})},700)}};
+var T=document.getElementById('xmTimer'),target=new Date(Y,11,1,0,0,0);
+function tick(){var ms=Math.max(0,target-new Date()),s=Math.floor(ms/1000),v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
+ T.querySelectorAll('b').forEach(function(b){b.textContent=String(v[b.dataset.u]).padStart(2,'0')})}
+tick();setInterval(tick,1000);})();
 </script>
 </body>
 </html>
