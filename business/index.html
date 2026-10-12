@@ -146,7 +146,8 @@
 /* Weihnachten + Abschluss */
 .bc-xmas{position:relative;overflow:hidden;text-align:center}
 .bc-xmas__bg{position:absolute;inset:0;background:url('/assets/img/weihnachten.webp') center/cover;filter:brightness(.28)}
-.bc-xmas .wrap{position:relative}
+.bc-xmas .wrap{position:relative;z-index:1}
+.bc-xmas::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(180deg,transparent,#000);pointer-events:none}
 .bc-xmas .lead,.bc-final .lead{margin:0 auto}
 .bc-xmas .btns,.bc-final .btns{justify-content:center}
 .bc-final{text-align:center}
@@ -477,13 +478,13 @@
 /* Abschluss: Originalbild, oben weicher Übergang in blauen Himmel */
 .bc section.fin{padding:0!important}
 .fin{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;isolation:isolate;display:flex;justify-content:center;
- background:linear-gradient(180deg,#1a63b8 0%,#3f86cf 28%,#86b6e2 50%,#c4dcef 70%)}
+ background:linear-gradient(180deg,#000 0%,#000 8%,#0b2f5c 20%,#1a63b8 34%,#3f86cf 46%,#86b6e2 60%,#c4dcef 76%)}
 .fin__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;z-index:-2;
- -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 48%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 48%)}
+ -webkit-mask-image:linear-gradient(180deg,transparent 0%,transparent 12%,rgba(0,0,0,.35) 32%,#000 56%);mask-image:linear-gradient(180deg,transparent 0%,transparent 12%,rgba(0,0,0,.35) 32%,#000 56%)}
 .fin::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 50% at 50% 30%,rgba(0,30,70,.28),rgba(0,0,0,0) 75%)}
 .fin__kick{display:inline-flex;align-items:center;gap:10px;color:#fff;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
 .fin__kick::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
-.fin__body{position:relative;text-align:center;padding:clamp(90px,14vh,150px) 20px 0;max-width:900px;display:grid;justify-items:center;gap:22px;align-content:start}
+.fin__body{position:relative;text-align:center;padding:clamp(150px,22vh,230px) 20px 0;max-width:900px;display:grid;justify-items:center;gap:22px;align-content:start}
 .fin__body h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.8rem,6.4vw,5.4rem);letter-spacing:-.045em;line-height:1;margin:0;color:#fff;text-shadow:0 2px 30px rgba(0,40,100,.25)}
 .fin__body p{margin:0;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6);font-size:clamp(1.05rem,1.6vw,1.35rem);line-height:1.5;max-width:46ch}
 .fin__btns{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:22px}
