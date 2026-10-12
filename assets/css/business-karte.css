@@ -3,6 +3,19 @@
 .kx2{--g:#e8590c;--g2:#ff8a4c;--ink:#f3efe6;--mute:rgba(243,239,230,.62);--line:rgba(255,255,255,.09);--panel:#0d0d0d;
   background:#000;color:var(--ink);min-height:100vh;padding:112px 20px 150px;font-family:"Inter","Segoe UI",Arial,sans-serif;overflow-x:hidden}
 .kx2 *{box-sizing:border-box}
+.kx2{position:relative;isolation:isolate}
+.kx2>*:not(.kx-bg){position:relative;z-index:1}
+.kx2>.kx-bar{position:fixed;z-index:120}
+/* Essen im Hintergrund wie auf der Startseite - dezent, das Panel bleibt vorn */
+.kx-bg{position:absolute;left:0;right:0;top:0;height:min(1500px,100%);z-index:0;pointer-events:none;overflow:hidden}
+.kx-bg img{position:absolute;object-fit:contain;opacity:.42;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);animation:kxDrift 20s ease-in-out infinite alternate}
+.kx-bg__a{width:min(44vw,620px);left:-12%;top:2%}
+.kx-bg__b{width:min(36vw,520px);right:-10%;top:-4%;animation-delay:-7s!important}
+.kx-bg__c{width:min(38vw,540px);right:-12%;top:52%;animation-delay:-3s!important}
+.kx-bg__d{width:min(30vw,420px);left:-8%;top:60%;opacity:.3!important;animation-delay:-11s!important}
+@keyframes kxDrift{from{transform:translate(0,0) rotate(0)}to{transform:translate(18px,-22px) rotate(4deg)}}
+.kx-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 42% 60% at 50% 45%,#000 35%,rgba(0,0,0,.6) 70%,transparent),linear-gradient(180deg,rgba(0,0,0,.2),transparent 20%,transparent 75%,#000)}
+@media (max-width:860px){.kx-bg img{opacity:.3}.kx-bg__a{width:90vw;left:-45%;top:1%}.kx-bg__b{width:80vw;right:-45%;top:22%}.kx-bg__c{width:85vw;right:-45%;top:55%}.kx-bg__d{display:none}}
 .kx2 [hidden]{display:none!important}
 .kx2 h1,.kx2 h2,.kx2 h3{font-family:inherit;font-weight:500;letter-spacing:-.035em;color:#fff;margin:0}
 :where(.kx2) button{font:inherit;color:inherit}
@@ -303,6 +316,7 @@ textarea.kx-feld{min-height:96px;resize:vertical}
   .kx2 *,.kx2 *::before,.kx2 *::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
   .kx-tippen{display:none}
   .kx-auf{opacity:1}
+  .kx-bg img{animation:none}
 }
 
 .kx-hero__card .mk-card__bottom{right:34%}
