@@ -323,7 +323,7 @@
   var S = {            // Zustand
     modus: "einzeln", kat: "top", menge: {}, paket: null, personen: 10, suess: false, wahl: [],
     tag: null, zeit: null, notiz: "",
-    f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "wir", menu: [] }
+    f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "", menu: [] }
   };
 
   // ---------- Navigation: ein Bildschirm nach dem anderen, Zurueck-Taste geht ----------
@@ -418,6 +418,8 @@
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
       setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen),
         haupt ? "Weiter" : "Bitte 1 Hauptgericht", haupt > 0, function () { S.f.plan = "selbst"; if (!S.f.anlass) geh("feier1"); else { zusammenfassung(); geh("feier5"); } });
+    } else if (aktuell === "feier4" && S.f.plan !== "wir") {
+      setBar(false);
     } else if (aktuell === "feier4") {
       setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.kueche.length ? S.f.kueche.join(", ") : "Küche wählen – oder einfach weiter",
         "Weiter", true, function () { zusammenfassung(); geh("feier5"); });
@@ -721,8 +723,8 @@
     $("kxOffen").checked = false; $("kxFPers").value = S.f.personen; $("kxNachricht").value = ""; kalender();
   }
   function feierStart(anlass) {
-    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "wir", menu: EMPFEHLUNG.slice() };
-    planSetzen("wir");
+    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "", menu: EMPFEHLUNG.slice() };
+    planSetzen("");
     $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
     $("kxKuechen").innerHTML = KUECHEN.map(function (k) { return '<button type="button" class="kx-chip" data-kueche="' + esc(k) + '">' + esc(k) + "</button>"; }).join("");
@@ -837,6 +839,7 @@
     var b = e.target.closest("[data-plan]"); if (!b) return;
     planSetzen(b.dataset.plan);
     if (b.dataset.plan === "selbst") { menueStart(); }
+    else { leiste(); var box = $("kxWirBox"); setTimeout(function () { box.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "nearest" }); }, 120); }
   });
   function menueStart() {
     if (!S.f.menu || !S.f.menu.length) S.f.menu = EMPFEHLUNG.slice();

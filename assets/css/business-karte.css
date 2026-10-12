@@ -221,6 +221,7 @@
 .kx-plan__k span{color:var(--mute);font-size:.9rem;line-height:1.45}
 .kx-plan__k:hover{border-color:rgba(255,255,255,.4)}
 .kx-plan__k.is-on{border-color:var(--g);background:linear-gradient(160deg,rgba(232,89,12,.14),var(--panel) 60%)}
+.kx-wirbox{animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}
 /* Rechner */
 .kx-menue-gaeste{margin:0 0 20px;gap:14px}
 .kx-menue-info{color:var(--mute);font-size:.9rem;margin:-4px 0 14px}
