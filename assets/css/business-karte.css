@@ -249,6 +249,13 @@
 .kx-guide__liste li.is-ok .kx-guide__punkte::after{content:"✓";color:#9be7b0;font-size:.85rem;margin-left:4px}
 .kx-guide__fuss{margin:10px 0 0;color:rgba(255,255,255,.45);font-size:.8rem}
 @media (max-width:860px){.kx-guide__liste{grid-template-columns:1fr 1fr}.kx-guide__extra{grid-column:1/-1}}
+/* Gaestezahl - gut sichtbar, Pflicht */
+.kx-gaeste{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:18px 0 8px;transition:border-color .3s,box-shadow .3s}
+.kx-gaeste__frage{display:block;color:#fff;font-weight:500;font-size:1.1rem;margin-bottom:12px}
+.kx-gaeste.is-fehlt{border-color:var(--g);box-shadow:0 0 0 3px rgba(232,89,12,.18);animation:kxWackel .4s ease}
+@keyframes kxWackel{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.kx-zaehler--gross input{width:7ch;font-size:1.5rem}
+.kx-zaehler input::placeholder{color:rgba(255,255,255,.35);font-size:1rem;font-weight:400}
 /* Rechner */
 .kx-menue-gaeste{margin:0 0 20px;gap:14px}
 .kx-menue-info{color:var(--mute);font-size:.9rem;margin:-4px 0 14px}

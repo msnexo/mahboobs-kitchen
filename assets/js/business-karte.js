@@ -386,7 +386,7 @@
   }
   function ersparnisEinzeln() { var e = 0; GERICHTE.forEach(function (g) { var m = S.menge[g.name] || 0; if (m && g.statt) e += m * (g.statt - g.preis); }); return Math.round(e * 100) / 100; }
   function ersparnisPaket() { var p = paketObj(); return p ? Math.round(S.personen * (p.statt - p.preis) * 100) / 100 : 0; }
-  function ersparnisBuffet() { var p = buffetPreis(), n = Math.round(p * BUFFET_NORMAL / BUFFET * 10) / 10; return Math.round((n - p) * S.f.personen * 100) / 100; }
+  function ersparnisBuffet() { var p = buffetPreis(), n = Math.round(p * BUFFET_NORMAL / BUFFET * 10) / 10; return Math.round((n - p) * (S.f.personen || 0) * 100) / 100; }
   function sparText(e) { return e > 0 ? " · Sie sparen " + euro(e) : ""; }
   function paketObj() { return PAKETE.filter(function (p) { return p.key === S.paket; })[0] || null; }
   function paketSumme() { var p = paketObj(); return p ? S.personen * (p.preis + (S.suess ? SUESS : 0)) : 0; }
@@ -417,21 +417,27 @@
       var titel = S.modus === "einzeln" ? warenkorb().n + " Gerichte · " + euro(warenkorb().summe) : (paketObj().name + " · " + S.personen + " Pers. · " + euro(paketSumme()));
       setBar(true, titel, S.tag && S.zeit ? tagLang(S.tag) + " · " + S.zeit + " Uhr" : "Tag und Uhrzeit wählen", "Jetzt bestellen", !!(S.tag && S.zeit), bestellen);
     } else if (aktuell === "feier2") {
-      setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.datum ? new Date(S.f.datum + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" }) : (S.f.offen ? "Termin noch offen" : "Termin wählen – oder „steht noch nicht fest“ ankreuzen"),
-        "Weiter", !!(S.f.datum || S.f.offen), function () { geh("feier3"); });
+      var datumOk = !!(S.f.datum || S.f.offen);
+      setBar(true, S.f.anlass + (S.f.personen ? " · " + S.f.personen + " Personen" : ""),
+        !S.f.personen ? "Bitte Gästezahl angeben" : S.f.datum ? new Date(S.f.datum + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" }) : (S.f.offen ? "Termin noch offen" : "Termin wählen – oder „steht noch nicht fest“ ankreuzen"),
+        "Weiter", true, function () {
+          if (!S.f.personen) { var g = $("kxGaesteBox"); g.classList.remove("is-fehlt"); void g.offsetWidth; g.classList.add("is-fehlt"); g.scrollIntoView({ behavior: "smooth", block: "center" }); $("kxFPers").focus(); barFehler("Bitte zuerst die ungefähre Gästezahl angeben."); return; }
+          if (!datumOk) { $("kxKal").scrollIntoView({ behavior: "smooth", block: "center" }); barFehler("Bitte einen Wunschtermin wählen – oder „steht noch nicht fest“ ankreuzen."); return; }
+          geh("feier3");
+        });
     } else if (aktuell === "menue" && !S.f.menu.length) {
       setBar(true, "Noch nichts ausgewählt", "Gerichte antippen – der Preis erscheint sofort", "Weiter", false);
     } else if (aktuell === "menue") {
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
-      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen) + "" + sparText(ersparnisBuffet()),
+      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen ? S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen) + sparText(ersparnisBuffet()) : "Gästezahl eintragen für den Gesamtpreis",
         haupt ? "Weiter" : "Bitte 1 Hauptgericht", haupt > 0, function () { S.f.plan = "selbst"; if (!S.f.anlass) geh("feier1"); else { zusammenfassung(); geh("feier5"); } });
     } else if (aktuell === "feier4" && S.f.plan !== "wir") {
       setBar(false);
     } else if (aktuell === "feier4") {
-      setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.kueche.length ? S.f.kueche.join(", ") : "Küche wählen – oder einfach weiter",
+      setBar(true, S.f.anlass + (S.f.personen ? " · " + S.f.personen + " Personen" : ""), S.f.kueche.length ? S.f.kueche.join(", ") : "Küche wählen – oder einfach weiter",
         "Weiter", true, function () { zusammenfassung(); geh("feier5"); });
     } else if (aktuell === "feier5") {
-      setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", "Unverbindlich · Antwort meist am selben Tag", "Anfrage senden", true, feierSenden);
+      setBar(true, S.f.anlass + (S.f.personen ? " · " + S.f.personen + " Personen" : ""), "Unverbindlich · Antwort meist am selben Tag", "Anfrage senden", true, feierSenden);
     } else {
       setBar(false);
     }
@@ -631,23 +637,24 @@
   });
 
   function zaehler(input, minus, plus, min, max, setze) {
-    function set(v) { v = parseInt(v, 10); if (isNaN(v)) v = min; v = Math.max(min, Math.min(max, v)); input.value = v; setze(v); }
+    function set(v) { v = parseInt(v, 10); if (isNaN(v)) { if (input.value === "" && !input.dataset.start) { setze(null); return; } v = min; } v = Math.max(min, Math.min(max, v)); input.value = v; setze(v); }
     function halten(btn, d) {
       var t1, t2;
       function stop() { clearTimeout(t1); clearInterval(t2); }
       btn.addEventListener("pointerdown", function (e) {
-        e.preventDefault(); set(parseInt(input.value, 10) + d); var k = 0;
+        e.preventDefault(); set(input.value === "" ? (input.dataset.start ? +input.dataset.start : 20) : parseInt(input.value, 10) + d); var k = 0;
         t1 = setTimeout(function () { t2 = setInterval(function () { k++; set(parseInt(input.value, 10) + d * (k > 15 ? 5 : 1)); }, 80); }, 400);
       });
       ["pointerup", "pointerleave", "pointercancel"].forEach(function (ev) { btn.addEventListener(ev, stop); });
       btn.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); set(parseInt(input.value, 10) + d); } });
     }
     halten(minus, -1); halten(plus, 1);
-    input.addEventListener("change", function () { set(input.value); });
-    input.addEventListener("input", function () { var v = parseInt(input.value, 10); if (!isNaN(v) && v >= min && v <= max) setze(v); });
+    input.addEventListener("change", function () { if (input.value === "") return setze(null); set(input.value); });
+    input.addEventListener("input", function () { var v = parseInt(input.value, 10); if (input.value === "") setze(null); else if (!isNaN(v) && v >= min && v <= max) setze(v); });
     input.addEventListener("focus", function () { input.select(); });
   }
-  zaehler($("kxPersonen"), $("kxPersMinus"), $("kxPersPlus"), 5, 300, function (v) { S.personen = v; leiste(); });
+  $("kxPersonen").dataset.start = "10";
+  zaehler($("kxPersonen"), $("kxPersMinus"), $("kxPersPlus"), 5, 300, function (v) { S.personen = v || 10; leiste(); });
   $("kxSuess").addEventListener("change", function () { S.suess = this.checked; leiste(); });
 
   // ---------- Liefertag & Uhrzeit ----------
@@ -729,10 +736,10 @@
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
     $("kxKuechen").innerHTML = KUECHEN.map(function (k) { return '<button type="button" class="kx-chip" data-kueche="' + esc(k) + '">' + esc(k) + "</button>"; }).join("");
     var heute = new Date(); kalAnsicht = new Date(heute.getFullYear(), heute.getMonth(), 1);
-    $("kxOffen").checked = false; $("kxFPers").value = S.f.personen; $("kxNachricht").value = ""; kalender();
+    $("kxOffen").checked = false; $("kxFPers").value = S.f.personen || ""; $("kxNachricht").value = ""; kalender();
   }
   function feierStart(anlass) {
-    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "", menu: [] };
+    S.f = { anlass: anlass || "", datum: "", offen: false, personen: null, wo: "", kueche: [], nachricht: "", plan: "", menu: [] };
     planSetzen("");
     $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
@@ -742,7 +749,7 @@
     kalAnsicht = anlass === "Weihnachtsfeier" && heute.getMonth() < 11 ? new Date(heute.getFullYear(), schmal ? 11 : 10, 1) : new Date(heute.getFullYear(), heute.getMonth(), 1);
     $("kxOffen").checked = false;
     kalender();
-    $("kxFPers").value = S.f.personen;
+    $("kxFPers").value = S.f.personen || "";
     $("kxNachricht").value = "";
     if (anlass) { $("kxF2Titel").textContent = "Wann und für wie viele?"; geh("feier2"); }
     else geh("feier1");
@@ -783,7 +790,7 @@
     S.f.datum = b.dataset.d; S.f.offen = false; $("kxOffen").checked = false; kalender(); leiste(); bump();
   });
   $("kxOffen").addEventListener("change", function () { S.f.offen = this.checked; if (this.checked) S.f.datum = ""; kalender(); leiste(); });
-  zaehler($("kxFPers"), $("kxFMinus"), $("kxFPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
+  zaehler($("kxFPers"), $("kxFMinus"), $("kxFPlus"), 5, 1000, function (v) { S.f.personen = v; if (v) $("kxGaesteBox").classList.remove("is-fehlt"); leiste(); });
   $("kxWo").addEventListener("click", function (e) {
     var b = e.target.closest("[data-wo]"); if (!b) return;
     S.f.wo = b.dataset.wo;
@@ -854,7 +861,7 @@
   });
   function menueStart() {
     if (!S.f.menu) S.f.menu = [];
-    $("kxMPers").value = S.f.personen;
+    $("kxMPers").value = S.f.personen || "";
     bKat = "vorspeise"; bKategorien(); bListe(); geh("menue");
   }
   function bKategorien() {
@@ -895,7 +902,7 @@
   zaehler($("kxMPers"), $("kxMMinus"), $("kxMPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
   // "Nur mal schauen": Rechner direkt, ohne vorher Fragen
   function schauen() {
-    S.f = { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: [] };
+    S.f = { anlass: "", datum: "", offen: false, personen: null, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: [] };
     feierVorbereiten(); menueStart();
   }
 

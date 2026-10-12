@@ -254,14 +254,17 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
       <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <span class="kx-kick">Feier planen</span>
       <h2 class="kx-titel" id="kxF2Titel">Wann und für wie viele?</h2>
+      <div class="kx-gaeste" id="kxGaesteBox">
+        <label class="kx-gaeste__frage" for="kxFPers">Wie viele Gäste erwarten Sie?</label>
+        <div class="kx-zeile"><span class="kx-zaehler kx-zaehler--gross"><button type="button" id="kxFMinus" aria-label="Ein Gast weniger">−</button><input id="kxFPers" type="number" inputmode="numeric" min="5" max="1000" placeholder="Anzahl" aria-label="Anzahl Gäste"><button type="button" id="kxFPlus" aria-label="Ein Gast mehr">+</button></span><span style="color:var(--mute)">Personen · ungefähr reicht</span></div>
+      </div>
+      <p class="kx-unterfrage">Wann soll gefeiert werden?</p>
       <div class="kx-kal" id="kxKal" role="group" aria-label="Wunschtermin wählen">
         <div class="kx-kal__head"><div><span>Wunschtermin</span><strong id="kxKalSel">Bitte wählen</strong></div><div class="kx-kal__nav"><button type="button" id="kxKalVor" aria-label="Vorheriger Monat">‹</button><button type="button" id="kxKalNach" aria-label="Nächster Monat">›</button></div></div>
         <div class="kx-kal__monate" id="kxKalMonate"></div>
         <p class="kx-kal__legende"><i></i>Beliebt: Donnerstag &amp; Freitag</p>
       </div>
       <label class="kx-check"><input type="checkbox" id="kxOffen"><span>Termin steht noch nicht fest</span></label>
-      <p class="kx-unterfrage">Wie viele Gäste?</p>
-      <div class="kx-zeile"><span class="kx-zaehler"><button type="button" id="kxFMinus" aria-label="Ein Gast weniger">−</button><input id="kxFPers" type="number" inputmode="numeric" min="5" max="1000" value="30" aria-label="Gäste"><button type="button" id="kxFPlus" aria-label="Ein Gast mehr">+</button></span><span style="color:var(--mute)">Personen</span></div>
     </section>
 
     <!-- Feier 3: Wo -->
@@ -300,7 +303,7 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
         <p class="kx-guide__sub">Damit sind die meisten unserer Kunden bestens versorgt. Kein Muss – wählen Sie gern mehr oder weniger. Antippen, um die Gerichte zu sehen.</p>
         <ol class="kx-guide__liste" id="kxGuideListe"></ol>
       </div>
-      <div class="kx-zeile kx-menue-gaeste"><span style="color:var(--mute)">Gäste</span><span class="kx-zaehler"><button type="button" id="kxMMinus" aria-label="Ein Gast weniger">−</button><input id="kxMPers" type="number" inputmode="numeric" min="5" max="1000" value="30" aria-label="Gäste"><button type="button" id="kxMPlus" aria-label="Ein Gast mehr">+</button></span></div>
+      <div class="kx-zeile kx-menue-gaeste"><span style="color:var(--mute)">Gäste</span><span class="kx-zaehler"><button type="button" id="kxMMinus" aria-label="Ein Gast weniger">−</button><input id="kxMPers" type="number" inputmode="numeric" min="5" max="1000" placeholder="Anzahl" aria-label="Gäste"><button type="button" id="kxMPlus" aria-label="Ein Gast mehr">+</button></span></div>
       <div class="kx-chips" id="kxMKats" role="tablist" aria-label="Kategorie" hidden></div>
       <p class="kx-menue-info" id="kxMInfo"></p>
       <div class="kx-buffet" id="kxBuffet"></div>
