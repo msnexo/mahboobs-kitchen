@@ -26,8 +26,51 @@
 <link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 <style>.mk-mt__statt{display:block;font-size:.72em;font-weight:400;opacity:.55;text-decoration:line-through}.mk-mt__preis{text-align:right}</style>
+<style id="mkdDesign">
+/* Neues Design (wie Startseite): schwarz, Inter, weisse Pillen-Knoepfe */
+body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,230,.64);--mkd-line:rgba(255,255,255,.09);background:#000;color:#f3efe6}
+.mkd .section,.mkd .mk-landing-hero,.mkd .mk-xmas,.mkd .mk-ap{background:#000!important;color:#f3efe6}
+.mkd h1,.mkd h2,.mkd h3,.mkd h4{font-family:"Inter","Segoe UI",Arial,sans-serif;font-weight:500;letter-spacing:-.035em;color:#fff}
+.mkd .mk-meinekarte h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1}
+.mkd h2{font-size:clamp(2rem,4vw,3rem)}
+.mkd .eyebrow{color:#e8590c;letter-spacing:.24em;font-size:.72rem;font-weight:600}
+.mkd .lead,.mkd .muted,.mkd .mk-kacheln__lead,.mkd .mk-hero__note{color:var(--mkd-mute)!important}
+.mkd .mk-hero__note strong{color:#fff}
+/* Knoepfe */
+.mkd .btn{font-family:"Inter","Segoe UI",Arial,sans-serif;font-weight:500;letter-spacing:0;border-radius:999px;box-shadow:none!important;transition:background .2s,color .2s,border-color .2s}
+.mkd .btn--primary{background:#fff;color:#111;border:1px solid #fff}
+.mkd .btn--primary:hover,.mkd .btn--primary:focus-visible{background:#e8590c;border-color:#e8590c;color:#fff}
+.mkd .btn--whatsapp,.mkd .btn--dark{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28)}
+.mkd .btn--whatsapp:hover,.mkd .btn--dark:hover,.mkd .btn--whatsapp:focus-visible,.mkd .btn--dark:focus-visible{border-color:#fff;background:rgba(255,255,255,.06)}
+/* Vorteile */
+.mkd .mk-hero-vorteile__titel{color:#e8590c;letter-spacing:.2em;font-weight:600}
+.mkd .mk-hero-vorteile li{background:rgba(255,255,255,.06);border:1px solid var(--mkd-line);color:rgba(255,255,255,.85)}
+/* Kacheln und aufgeklappte Bereiche */
+.mkd .mk-xmas__kachel{border-radius:20px;border:1px solid var(--mkd-line);box-shadow:none}
+.mkd .mk-xmas__kachel-titel{font-family:"Inter","Segoe UI",Arial,sans-serif;font-weight:500;letter-spacing:-.03em}
+.mkd .mk-xmas__kachel-cta{color:#fff}
+.mkd .mk-xmas__box{background:linear-gradient(180deg,#121212,#0a0a0a)!important;border-radius:24px;border:1px solid var(--mkd-line);box-shadow:none}
+.mkd .mk-xmas__box h2,.mkd .mk-xmas__box h3{font-weight:500}
+.mkd .mk-herbst{display:none!important}
+.mkd .mk-xmas__box::after{background:radial-gradient(55% 45% at 0% 0%,rgba(232,89,12,.12),transparent 70%)}
+/* Ansprechpartner */
+.mkd .mk-ap__karte{background:#0d0d0d;border:1px solid var(--mkd-line);border-radius:24px;box-shadow:none;color:#f3efe6}
+.mkd .mk-ap__karte strong{color:#fff}
+.mkd .mk-meinekarte__tipp,.mkd .mk-abmelden-link{color:rgba(255,255,255,.5)}
+.mkd .mk-abmelden-link a{color:rgba(255,255,255,.7)}
+/* Teilen-Dialog dunkel */
+.mkd .mk-teilen__box{background:#0d0d0d;color:#fff;border:1px solid var(--mkd-line)}
+.mkd .mk-teilen__box h2{color:#fff}
+.mkd .mk-teilen__qr-text,.mkd .mk-teilen__oder{color:var(--mkd-mute)}
+.mkd .mk-teilen__qr{background:#fff;border-radius:14px;padding:10px;box-sizing:border-box}
+.mkd .mk-teilen__k{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+.mkd .mk-teilen__x{color:#bbb}
+.mkd .mk-teilen-btn{color:#fff;border-color:rgba(255,255,255,.28)}
+/* Fehler/Laden */
+.mkd .mk-meinekarte__fehler h1,.mkd .mk-meinekarte__laden{color:#fff}
+</style>
 </head>
-<body data-ga-id="G-E06KML0D74">
+<body class="mkd" data-ga-id="G-E06KML0D74">
 <div class="cookie-banner" id="cookieBanner" hidden>
   <div class="cookie-banner__text">
     <p>Diese Website verwendet Cookies, um die Nutzung zu analysieren und stetig zu verbessern. Weitere Infos in unserer <a href="/datenschutz/" style="color:#fff;text-decoration:underline;">Datenschutzerklärung</a>.</p>
