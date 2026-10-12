@@ -1496,3 +1496,8 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 
 /* Kundenkarte: Kundennummer dezent unten rechts */
 .mk-card--metal.mk-card--nr .mk-card__number{display:block;position:absolute;right:8%;bottom:13%;margin:0;font-family:"Inter",Arial,sans-serif;font-weight:400;font-size:.66rem;letter-spacing:.2em;color:rgba(240,238,232,.5);font-variant-numeric:tabular-nums}
+
+/* Vertrieb: Herkunft eines Kontakts */
+.herkunft { display: inline-block; vertical-align: middle; margin-left: 6px; font-size: 0.7rem; letter-spacing: 0.04em; padding: 2px 9px; border-radius: 100px; background: #efefef; color: #444; white-space: nowrap; }
+.herkunft--web { background: #fff1e8; color: #c2410c; }
+.herkunft-detail { align-self: center; color: var(--color-text, #222); }

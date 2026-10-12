@@ -430,6 +430,19 @@
         (faellig ? "Erinnerung f&auml;llig" : "Erinnerung gesetzt") + '">&#128276;</span>';
     }
 
+    // Herkunft eines Kontakts als kurzes Schild: wie ist der Kunde zu uns gekommen?
+    function herkunftText(source) {
+      if (!source) return "";
+      if (/^Black Card Antrag/.test(source)) return /Privat/.test(source) ? "Website (privat)" : "Website";
+      return source;
+    }
+    function herkunftHtml(source) {
+      var t = herkunftText(source);
+      if (!t) return "";
+      var web = /^Website/.test(t) ? " herkunft--web" : "";
+      return ' <span class="herkunft' + web + '" title="Herkunft: ' + escapeHtml(source) + '">' + escapeHtml(t) + "</span>";
+    }
+
     function renderProspectCard(p, index, total) {
       var moveBtnStyle = "background:none;border:1px solid var(--color-border);border-radius:6px;cursor:pointer;padding:2px 8px;font-size:0.8rem;color:var(--color-text-soft);";
       var upBtn = index > 0 ? '<button type="button" data-move="up" style="' + moveBtnStyle + '">▲</button>' : "";
@@ -438,7 +451,7 @@
         '<div class="card prospect-card" data-prospect-id="' + p.id + '" style="cursor:pointer;margin-bottom:10px;padding:16px 20px;">' +
         '<div class="btn-row" style="justify-content:space-between;align-items:center;">' +
         "<div>" + glockeHtml(reminderZustand(p.id)) + handHtml(p.id) + "<strong>" + escapeHtml(p.name) +
-        '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span></div>" +
+        '</strong> <span class="muted">(' + escapeHtml(p.category) + ")</span>" + herkunftHtml(p.source) + "</div>" +
         '<div style="display:flex;align-items:center;gap:8px;">' + upBtn + downBtn +
         (p.status === "customer" && p.customer_no
           ? (p.werbung_abgemeldet_at ? '<span class="abgemeldet-pill" title="Bekommt keine Werbung mehr">abgemeldet</span>' : "") +
@@ -1043,6 +1056,8 @@
         detailCategoryInput.appendChild(opt);
       }
       detailCategoryInput.value = kat;
+      var herkunftEl = document.getElementById("prospectDetailHerkunft");
+      if (herkunftEl) herkunftEl.textContent = herkunftText(p.source) || "nicht erfasst";
       detailWebsite.value = p.website || "";
       detailAddress.value = p.address || "";
       detailWebsiteOpen.href = vollstaendigeAdresse(p.website) || "#";
