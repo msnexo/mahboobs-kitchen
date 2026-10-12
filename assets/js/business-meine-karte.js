@@ -914,7 +914,7 @@
     text("mkKarteInhaber", k.firma);
     text("mkKarteSeit", String(new Date(k.seit).getFullYear()));
     text("mkKarteGruss", "Willkommen, " + wer);
-    document.title = "MK Business Karte " + nr + " | Mahboobs Kitchen";
+    document.title = "MK Black Card " + nr + " | Mahboobs Kitchen";
 
     // Die Kundennummer steht in jeder Anfrage schon drin.
     var vorstellung = "Hallo Reyyan, hier ist " + wer +

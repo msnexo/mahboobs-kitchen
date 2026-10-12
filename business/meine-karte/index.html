@@ -74,7 +74,7 @@
     <div id="mkKarteInhalt" hidden>
       <div class="mk-landing-hero__grid">
         <div class="mk-hero__heading">
-          <span class="eyebrow">Ihre MK Business Karte</span>
+          <span class="eyebrow">Ihre MK Black Card</span>
           <h1 id="mkKarteGruss">Willkommen</h1>
         </div>
         <div class="mk-hero__card-wrap">
@@ -96,6 +96,7 @@
               </div>
             </div>
           </div>
+  <button type="button" class="mk-teilen-btn" id="mkTeilenBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Auf anderem Gerät öffnen · teilen</button>
         </div>
         <div class="mk-hero__body">
           <p class="lead">Sch&ouml;n, dass Sie dabei sind. Mit Ihrer Karte erfahren Sie als Erste von unseren Angeboten &ndash; und haben mit mir einen festen Ansprechpartner f&uuml;r Ihr Catering.</p>
@@ -752,7 +753,7 @@
       <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
       <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
       <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
-      <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei.</p>
+      <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei. Auf ein anderes Ger&auml;t oder an Kollegen: <button type="button" class="mk-teilen-link" data-teilen>Karte teilen</button></p>
       <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
     </div>
   </div>
@@ -808,5 +809,69 @@
 <script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};window.MK_FORMSPREE="https://formspree.io/f/maqgnbwj";</script>
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-meine-karte.js" defer></script>
+
+<div class="mk-teilen" id="mkTeilen" role="dialog" aria-modal="true" aria-labelledby="mkTeilenTitel" hidden>
+  <div class="mk-teilen__box">
+    <button type="button" class="mk-teilen__x" id="mkTeilenX" aria-label="Schließen">×</button>
+    <h2 id="mkTeilenTitel">Ihre Karte auf einem anderen Gerät</h2>
+    <p class="mk-teilen__qr-text">Halten Sie die Kamera Ihres Handys auf den Code – Ihre Karte öffnet sich sofort.</p>
+    <div class="mk-teilen__qr" id="mkTeilenQr" aria-label="QR-Code zu Ihrer Karte"></div>
+    <p class="mk-teilen__oder">oder den Link schicken – an sich selbst oder an Kollegen:</p>
+    <div class="mk-teilen__knoepfe">
+      <button type="button" class="mk-teilen__k" id="mkTeilenNativ" hidden>Teilen …</button>
+      <a class="mk-teilen__k" id="mkTeilenWa" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mk-teilen__k" id="mkTeilenMail">E-Mail</a>
+      <button type="button" class="mk-teilen__k" id="mkTeilenKopie">Link kopieren</button>
+    </div>
+    <p class="mk-teilen__hinweis">Jeder mit diesem Link sieht Ihre Karte und Ihre Preise – teilen Sie ihn nur in Ihrem Team.</p>
+  </div>
+</div>
+<style>
+.mk-hero__card-wrap{flex-direction:column;align-items:center}
+.mk-teilen-btn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;flex:none;white-space:nowrap;background:transparent;border:1px solid rgba(127,127,127,.35);border-radius:999px;padding:9px 16px;font:inherit;font-size:.9rem;color:inherit;cursor:pointer}
+.mk-teilen-btn:hover,.mk-teilen-btn:focus-visible{border-color:#e8590c}
+.mk-teilen-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.mk-teilen-link{background:none;border:0;padding:0;font:inherit;color:#e8590c;text-decoration:underline;cursor:pointer}
+.mk-teilen{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}
+.mk-teilen[hidden]{display:none}
+.mk-teilen__box{position:relative;background:#fff;color:#111;border-radius:22px;max-width:420px;width:100%;padding:28px 24px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4);max-height:calc(100vh - 32px);overflow:auto}
+.mk-teilen__box h2{margin:0 0 6px;font-size:1.25rem}
+.mk-teilen__x{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;background:transparent;font-size:1.6rem;cursor:pointer;color:#555}
+.mk-teilen__qr-text,.mk-teilen__oder{margin:0;color:#555;font-size:.92rem}
+.mk-teilen__qr{width:220px;height:220px;margin:16px auto}
+.mk-teilen__qr svg{width:100%;height:100%;display:block}
+.mk-teilen__oder{margin-top:4px}
+.mk-teilen__knoepfe{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0 12px}
+.mk-teilen__k{border:1px solid #ddd;background:#fff;color:#111;border-radius:999px;padding:10px 16px;font:inherit;font-size:.92rem;cursor:pointer;text-decoration:none}
+.mk-teilen__k:hover,.mk-teilen__k:focus-visible{border-color:#e8590c}
+.mk-teilen__k[hidden]{display:none}
+.mk-teilen__hinweis{margin:0;color:#888;font-size:.78rem}
+@media (max-width:700px){.mk-teilen__qr{width:170px;height:170px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js" defer></script>
+<script>
+(function(){
+var dlg=document.getElementById('mkTeilen');if(!dlg)return;
+var k=new URLSearchParams(location.search).get('k')||'';
+var link=location.origin+'/business/meine-karte/?k='+k;
+var text='Unsere MK Black Card von Mahboobs Kitchen: ';
+var last=null;
+function zu(){dlg.hidden=true;document.documentElement.style.overflow='';if(last)last.focus()}
+function auf(e){last=e&&e.currentTarget||null;
+ var qr=document.getElementById('mkTeilenQr');
+ if(!qr.firstChild&&window.qrcode){var q=window.qrcode(0,'M');q.addData(link);q.make();qr.innerHTML=q.createSvgTag({cellSize:4,margin:2,scalable:true})}
+ document.getElementById('mkTeilenWa').href='https://wa.me/?text='+encodeURIComponent(text+link);
+ document.getElementById('mkTeilenMail').href='mailto:?subject='+encodeURIComponent('MK Black Card – Mahboobs Kitchen')+'&body='+encodeURIComponent('Hier ist der Link zu unserer MK Black Card:\n'+link);
+ document.getElementById('mkTeilenNativ').hidden=!navigator.share;
+ dlg.hidden=false;document.documentElement.style.overflow='hidden';document.getElementById('mkTeilenX').focus()}
+document.querySelectorAll('#mkTeilenBtn,[data-teilen]').forEach(function(b){b.addEventListener('click',auf)});
+document.getElementById('mkTeilenX').onclick=zu;
+dlg.addEventListener('click',function(e){if(e.target===dlg)zu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!dlg.hidden)zu()});
+document.getElementById('mkTeilenNativ').onclick=function(){navigator.share({title:'MK Black Card',text:text,url:link}).catch(function(){})};
+document.getElementById('mkTeilenKopie').onclick=function(){var b=this;function ok(){b.textContent='Kopiert ✓';setTimeout(function(){b.textContent='Link kopieren'},1800)}
+ if(navigator.clipboard)navigator.clipboard.writeText(link).then(ok,function(){prompt('Link kopieren:',link)});else prompt('Link kopieren:',link)};
+})();
+</script>
 </body>
 </html>
