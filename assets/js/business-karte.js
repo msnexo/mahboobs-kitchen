@@ -872,10 +872,10 @@
   $("kxEmpfehlung").addEventListener("click", function () { S.f.menu = EMPFEHLUNG.slice(); bKategorien(); bListe(); leiste(); bump(); });
   zaehler($("kxMPers"), $("kxMMinus"), $("kxMPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
   // "Nur mal schauen": Rechner direkt, ohne vorher Fragen
-  $("kxSchauen").addEventListener("click", function () {
+  function schauen() {
     S.f = { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: EMPFEHLUNG.slice() };
     feierVorbereiten(); menueStart();
-  });
+  }
 
   // ---------- Danke ----------
   function dankeZeigen(titel, text, zeilen) {
@@ -897,6 +897,6 @@
     app.hidden = false;
     if (location.hash === "#weihnachten") feierStart("Weihnachtsfeier");
     else if (location.hash === "#bestellen") essenStart();
-    else if (location.hash === "#rechner") $("kxSchauen").click();
+    else if (location.hash === "#rechner") schauen();
   }).catch(fehler);
 })();
