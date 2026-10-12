@@ -3,27 +3,566 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Catering Henstedt-Ulzburg & Umgebung | Mahboobs Kitchen</title>
-  <meta name="description" content="Individuelles Catering – indisch, italienisch & Sushi – für Feiern & Firmenevents in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt & Quickborn.">
-  <link rel="canonical" href="https://mahboobs-kitchen.com/">
-  <meta name="robots" content="index, follow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Catering Henstedt-Ulzburg & Umgebung | Mahboobs Kitchen">
-  <meta property="og:description" content="Individuelles Catering – indisch, italienisch & Sushi – für Feiern & Firmenevents in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt & Quickborn.">
-  <meta property="og:url" content="https://mahboobs-kitchen.com/">
-  <meta property="og:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
-  <meta property="og:site_name" content="Mahboobs Kitchen">
-  <meta property="og:locale" content="de_DE">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Catering Henstedt-Ulzburg & Umgebung | Mahboobs Kitchen">
-  <meta name="twitter:description" content="Individuelles Catering – indisch, italienisch & Sushi – für Feiern & Firmenevents in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt & Quickborn.">
-  <meta name="twitter:image" content="https://mahboobs-kitchen.com/assets/img/hero-poster.webp">
+<title>Mahboobs Kitchen | Catering für Firmen, Vereine &amp; Feiern in Norderstedt &amp; Umgebung</title>
+<meta name="description" content="Gastgeber sein, leicht gemacht: Catering für Firmen, Vereine und Großveranstaltungen in Norderstedt, Henstedt-Ulzburg und Umgebung – frisch gekocht, geliefert und aufgebaut. Mit der MK Black Card günstiger.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mahboobs-kitchen.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mahboobs Kitchen | Gastgeber sein. Leicht gemacht.">
+<meta property="og:description" content="Catering für Firmen, Vereine und Großveranstaltungen – frisch gekocht, geliefert und aufgebaut. Mit der MK Black Card günstiger.">
+<meta property="og:url" content="https://mahboobs-kitchen.com/">
+<meta property="og:image" content="https://mahboobs-kitchen.com/assets/img/catering-hero-poster.jpg">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
+<style>
+/* Black Card: schwarz + Gold, ruhige Serifen-Überschriften, klare Vorteile */
+.bc{--bc-bg:#0b0b0c;--bc-panel:#141416;--bc-line:rgba(255,255,255,.09);--bc-gold:#e8590c;--bc-gold-soft:#ff8a4c;--bc-ink:#f3efe6;--bc-mute:rgba(243,239,230,.66);--bc-serif:"Inter","Segoe UI",Arial,sans-serif;background:var(--bc-bg);color:var(--bc-ink)}
+.bc section{padding-block:clamp(56px,9vw,104px);padding-inline:20px}
+.bc .wrap{max-width:1120px;margin:0 auto}
+.bc h1,.bc h2,.bc h3{color:var(--bc-ink);text-wrap:balance}
+.bc h2{font-family:var(--bc-serif);font-weight:600;letter-spacing:-.035em;font-size:clamp(2rem,4.2vw,3rem);line-height:1.08;margin:0 0 14px;letter-spacing:.005em}
+.bc .kicker{display:inline-block;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--bc-gold);font-weight:600;margin-bottom:14px}
+.bc .lead{color:var(--bc-mute);font-size:1.08rem;line-height:1.7;max-width:58ch}
+.bc .rule{width:56px;height:1px;background:var(--bc-gold);margin:22px 0}
+.bc .btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--bc-gold);color:#fff;box-shadow:0 10px 30px rgba(232,89,12,.35);font-weight:600;padding:15px 28px;border-radius:999px;text-decoration:none;letter-spacing:.02em;transition:background .2s}
+.bc .btn-gold:hover,.bc .btn-gold:focus-visible{background:var(--bc-gold-soft)}
+.bc .btn-line{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--bc-line);color:var(--bc-ink);padding:14px 26px;border-radius:999px;text-decoration:none;transition:border-color .2s}
+.bc .btn-line:hover,.bc .btn-line:focus-visible{border-color:var(--bc-gold)}
+.bc a:focus-visible{outline:2px solid var(--bc-gold);outline-offset:3px}
+.bc .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.bc .fine{color:var(--bc-mute);font-size:.86rem;margin-top:16px;letter-spacing:.02em}
+/* Hero (Vollbild-Video, mittig, Leiste unten) */
+.bc-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:120px 20px 40px!important;overflow:hidden;text-align:center}
+.bc-hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bc-hero__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35) 40%,rgba(0,0,0,.75))}
+.bc-hero__center{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.bc-hero__kicker{font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600}
+.bc-hero h1{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.8rem,7vw,6rem);line-height:.96;letter-spacing:-.035em;margin:0;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.25)}
+.bc-hero__sub{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.6vw,1.2rem);max-width:46ch;margin:-6px 0 0;line-height:1.55}
+.bc-pill{background:#fff;color:#111;text-decoration:none;font-weight:500;padding:16px 32px;border-radius:999px;font-size:1.05rem;transition:transform .2s}
+.bc-pill:hover,.bc-pill:focus-visible{transform:translateY(-2px)}
+.bc-bar{position:relative;z-index:5;width:100%;max-width:1180px;margin-top:40px;text-align:left}
+.bc-bar__top{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.bc-seg,.bc-count{display:flex;align-items:center;gap:4px;background:rgba(10,10,10,.85);border-radius:999px;padding:5px;color:#fff}
+.bc-seg__lbl{color:rgba(255,255,255,.6);font-size:.9rem;padding:0 8px 0 14px}
+.bc-seg button{border:0;background:transparent;color:rgba(255,255,255,.75);padding:9px 18px;border-radius:999px;font:inherit;cursor:pointer}
+.bc-seg button.is-on{background:#fff;color:#111}
+.bc-count button{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.2rem;cursor:pointer}
+.bc-count output{min-width:34px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.bc-count span{color:rgba(255,255,255,.7);font-size:.9rem;margin-right:6px}
+.bc-bar__fields{position:relative;display:grid;grid-template-columns:1.1fr 1fr 1.2fr 64px;background:rgba(10,10,10,.88);border-radius:16px}
+.bc-field{display:grid;gap:4px;padding:16px 22px;border-right:1px solid rgba(255,255,255,.1);min-width:0}
+.bc-field span{font-size:.8rem;color:rgba(255,255,255,.6)}
+.bc-field select,.bc-field input{background:transparent;border:0;color:#fff;font:inherit;font-size:1.15rem;padding:0;outline:none;color-scheme:dark;min-width:0;width:100%}
+.bc-field select option{color:#111}
+.bc-field input::placeholder{color:rgba(255,255,255,.45)}
+.bc-field--date{position:static}
+.bc-field--date>button{background:transparent;border:0;color:#fff;font:inherit;font-size:1.15rem;text-align:left;padding:0;cursor:pointer}
+.bc-field--date>button.is-empty{color:rgba(255,255,255,.45)}
+.bc-cal{position:absolute;bottom:calc(100% + 64px);left:0;right:0;background:#000;border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);z-index:30;overflow:hidden;text-align:left}
+.bc-cal__head{display:flex;justify-content:space-between;align-items:center;background:#161616;padding:16px 20px 16px 28px}
+.bc-cal__head span{display:block;font-size:.8rem;color:rgba(255,255,255,.55)}
+.bc-cal__head strong{font-weight:400;font-size:1.25rem;color:#fff}
+.bc-cal__done{background:#e6e6e6;color:#111;border:0;border-radius:999px;padding:12px 24px;font:inherit;font-weight:500;cursor:pointer}
+.bc-cal__nav{position:absolute;right:24px;top:96px;display:flex;gap:18px}
+.bc-cal__nav button{background:transparent;border:0;color:#fff;font-size:2rem;line-height:1;cursor:pointer;padding:2px 6px}
+.bc-cal__nav button:disabled{opacity:.25;cursor:default}
+.bc-cal__months{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:26px 30px 30px}
+.bc-cal__m h4{margin:0 0 18px;font-family:var(--bc-serif);font-weight:500;font-size:1.05rem;color:#eee}
+.bc-cal__g{display:grid;grid-template-columns:repeat(7,1fr);row-gap:6px;text-align:center;font-variant-numeric:tabular-nums}
+.bc-cal__g b{font-weight:500;font-size:.85rem;color:rgba(255,255,255,.5);padding-bottom:8px}
+.bc-cal__g button,.bc-cal__g i{font-style:normal;font-size:1rem;height:42px;border:0;background:transparent;color:#f2f2f2;border-radius:999px;font-family:inherit}
+.bc-cal__g button{cursor:pointer}
+.bc-cal__g button:hover,.bc-cal__g button:focus-visible{background:rgba(255,255,255,.12);outline:none}
+.bc-cal__g button:disabled{color:rgba(255,255,255,.25);cursor:default;background:transparent}
+.bc-cal__g button.is-sel{background:#fff;color:#111}
+.bc-cal__g i{color:transparent}
+@media (max-width:760px){.bc-cal{left:0;width:100%;bottom:calc(100% + 8px)}.bc-cal__months{grid-template-columns:1fr;padding:20px}.bc-cal__m+.bc-cal__m{display:none}.bc-cal__nav{top:84px;right:16px}}
+.bc-field--pick{position:relative}
+.bc-field--pick>button{background:transparent;border:0;color:#fff;font:inherit;font-size:1.15rem;text-align:left;padding:0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bc-field--pick>button::after{content:"";width:8px;height:8px;border-right:1.5px solid rgba(255,255,255,.7);border-bottom:1.5px solid rgba(255,255,255,.7);transform:rotate(45deg) translateY(-3px);transition:transform .2s}
+.bc-field--pick>button[aria-expanded="true"]::after{transform:rotate(-135deg) translateY(-2px)}
+.bc-pop{position:absolute;bottom:calc(100% + 10px);left:0;width:max(100%,320px);background:#000;border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);z-index:30;padding:8px;text-align:left}
+.bc-pop__list{display:grid;gap:2px}
+.bc-pop__list button{display:flex;justify-content:space-between;align-items:center;background:transparent;border:0;color:rgba(255,255,255,.85);border-radius:10px;padding:13px 16px;font:inherit;font-size:1.02rem;cursor:pointer;text-align:left}
+.bc-pop__list button:hover,.bc-pop__list button:focus-visible{background:rgba(255,255,255,.08);color:#fff;outline:none}
+.bc-pop__list button.is-sel{background:rgba(255,255,255,.12);color:#fff}
+.bc-pop__list button.is-sel::after{content:"";width:6px;height:11px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg) translate(-2px,-2px)}
+@media (max-width:760px){.bc-pop{width:100%}}
+.bc-go{border:0;border-radius:0 16px 16px 0;background:var(--bc-gold);color:#fff;cursor:pointer;display:grid;place-items:center}
+.bc-go svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2}
+.bc-go:hover,.bc-go:focus-visible{background:var(--bc-gold-soft)}
+@media (max-width:760px){.bc-seg{flex-wrap:wrap;border-radius:18px}.bc-seg__lbl{width:100%;padding:6px 12px 2px}.bc-bar__fields{grid-template-columns:1fr}.bc-field{border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}.bc-go{height:56px}}
+@media (prefers-reduced-motion:reduce){.bc-hero__video{display:none}.bc-hero{background:url("/assets/img/catering-hero-poster.jpg") center/cover}}
+/* Vorteile (Amalfi-Raster: Icon-Kachel, leichte Titel, keine Linien) */
+.bc-benefits{background:#000;border:0}
+.bc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:64px 40px;margin-top:56px;background:none;border:0}
+.bc-benefit{background:none;padding:0;display:grid;gap:14px;align-content:start;min-width:0}
+.bc-benefit svg{width:56px;height:56px;padding:15px;box-sizing:border-box;border-radius:12px;background:#1f1f1f;stroke:var(--bc-gold);fill:none;stroke-width:1.6}
+.bc-benefit h3{font-family:var(--bc-serif);font-weight:400;font-size:1.45rem;line-height:1.2;letter-spacing:-.025em;margin:14px 0 0;color:#fff}
+.bc-benefit p{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.6;margin:0}
+/* Für wen */
+.bc-who__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:40px}
+.bc-who__item{position:relative;border-radius:14px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end}
+.bc-who__item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42)}
+.bc-who__item div{position:relative;padding:26px}
+.bc-who__item h3{font-family:var(--bc-serif);font-size:1.5rem;font-weight:600;letter-spacing:-.02em;margin:0 0 8px}
+.bc-who__item p{color:var(--bc-mute);margin:0;font-size:.95rem;line-height:1.55}
+/* Preise */
+.bc-prices{background:var(--bc-panel);border-block:1px solid var(--bc-line);text-align:center}
+.bc-prices .lead{margin:0 auto}
+.bc-price-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:44px}
+.bc-price{border:1px solid var(--bc-line);padding:30px 18px;border-radius:14px;display:grid;gap:8px}
+.bc-price span{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bc-mute)}
+.bc-price strong{font-family:var(--bc-serif);font-size:2.2rem;font-weight:600;letter-spacing:-.03em;color:var(--bc-gold-soft);line-height:1;font-variant-numeric:tabular-nums}
+.bc-price small{color:var(--bc-mute)}
+/* Concierge */
+.bc-concierge .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}
+.bc-portrait{position:relative;max-width:380px;width:100%;justify-self:center}
+.bc-portrait img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:1px solid var(--bc-line)}
+.bc-portrait--logo{aspect-ratio:1;display:grid;place-items:center;background:radial-gradient(circle,#1c1c1c,#0b0b0b 70%);border:1px solid rgba(255,255,255,.08);border-radius:24px}.bc-portrait--logo img{width:62%!important;aspect-ratio:auto!important;object-fit:contain!important;border:0!important;filter:none!important}
+.bc-portrait__note{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.7);color:var(--bc-gold-soft);font-size:.72rem;padding:4px 10px;border-radius:999px;letter-spacing:.06em}
+.bc-quote{font-family:var(--ff-body);font-size:clamp(1.2rem,2.2vw,1.5rem);line-height:1.5;font-style:normal;color:var(--bc-ink);margin:0}
+.bc-sign{color:var(--bc-gold);margin-top:18px;letter-spacing:.08em;font-size:.9rem;text-transform:uppercase}
+/* Schritte */
+.bc-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:40px;counter-reset:s}
+.bc-step{border-top:1px solid var(--bc-gold);padding-top:22px}
+.bc-step::before{counter-increment:s;content:"0" counter(s);font-family:var(--bc-serif);font-weight:600;color:var(--bc-gold);font-size:1.6rem;display:block;margin-bottom:10px}
+.bc-step h3{font-family:var(--bc-serif);font-size:1.05rem;margin:0 0 8px}
+.bc-step p{color:var(--bc-mute);margin:0;line-height:1.6}
+/* Menüs */
+.bc-menus__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:40px}
+.bc-menu{background:var(--bc-panel);border:1px solid var(--bc-line);border-radius:14px;overflow:hidden;min-width:0}
+.bc-menu img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:brightness(.82) saturate(.9)}
+.bc-menu div{padding:22px}
+.bc-menu span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bc-gold)}
+.bc-menu h3{font-family:var(--bc-serif);font-size:1.3rem;font-weight:600;letter-spacing:-.02em;margin:6px 0 8px}
+.bc-menu p{color:var(--bc-mute);margin:0;font-size:.93rem;line-height:1.55}
+/* Weihnachten + Abschluss */
+.bc-xmas{position:relative;overflow:hidden;text-align:center}
+.bc-xmas__bg{position:absolute;inset:0;background:url('/assets/img/weihnachten.webp') center/cover;filter:brightness(.28)}
+.bc-xmas .wrap{position:relative;z-index:1}
+.bc-xmas::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(180deg,transparent,#000);pointer-events:none}
+.bc-xmas .lead,.bc-final .lead{margin:0 auto}
+.bc-xmas .btns,.bc-final .btns{justify-content:center}
+.bc-final{text-align:center}
+.bc-final h2{font-size:clamp(2.4rem,5vw,3.6rem)}
+@media (max-width:900px){
+  .bc-hero .wrap,.bc-concierge .wrap{grid-template-columns:1fr}
+  .bc-grid,.bc-price-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bc-grid{gap:44px 28px}
+  .bc-who__grid,.bc-steps,.bc-menus__grid{grid-template-columns:1fr}
+  .bc-who__item{min-height:260px}
+}
+@media (max-width:520px){.bc-grid,.bc-price-row{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.bc *{transition:none!important}}
+
+/* Anfrage-Schritt 2 (Amalfi-Stil) */
+.rq{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:46fr 54fr;background:#000;color:#f2f2f2;font-family:var(--ff-body)}
+.rq[hidden]{display:none}
+.rq__left{background:#1a1a1a;padding:34px 64px;display:flex;flex-direction:column;gap:60px}
+.rq__logo{height:44px;width:auto;align-self:flex-start}
+.rq__left h2{font-family:"Inter","Segoe UI",Arial,sans-serif;font-weight:400;font-size:clamp(1.8rem,3.2vw,3rem);line-height:1.12;letter-spacing:-.035em;margin:0;color:#ececec;max-width:16ch}
+.rq__sig{color:rgba(255,255,255,.5);margin-top:auto}
+.rq__right{overflow-y:auto;padding:70px clamp(20px,6vw,110px) 50px}
+.rq__top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.rq__back{display:inline-flex;align-items:center;gap:10px;background:transparent;border:0;color:#fff;font:inherit;font-size:1.1rem;cursor:pointer;padding:6px 0}
+.rq__back svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.rq__sum{display:flex;flex-wrap:wrap;color:#fff;font-size:.95rem}
+.rq__sum span{padding:0 12px;border-left:1px solid rgba(255,255,255,.3)}
+.rq__sum span:first-child{border-left:0;padding-left:0}
+#rqForm{display:grid;gap:22px;max-width:780px}
+#rqForm[hidden],.rq__done[hidden]{display:none}
+.rq__row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rq__as{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.rq__as span{color:rgba(255,255,255,.6);margin-right:8px}.rq__as button{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);border-radius:999px;padding:10px 20px;font:inherit;cursor:pointer}.rq__as button.is-on{background:#fff;color:#111;border-color:#fff}.rq__in[hidden]{display:none}
+.rq__in{width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:18px 22px;color:#fff;font:inherit;font-size:1.05rem;outline:none;min-width:0}
+.rq__in::placeholder{color:rgba(255,255,255,.55)}
+.rq__in:focus{border-color:rgba(255,255,255,.6)}
+.rq__in.is-bad{border-color:#e8590c}
+.rq__ta{min-height:120px;resize:vertical;margin-top:16px}
+.rq__hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.rq-dd{position:relative}
+.rq-dd__btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:18px 22px;color:#fff;font:inherit;font-size:1.05rem;text-align:left;cursor:pointer}
+.rq-dd__btn::after{content:"";flex:none;width:8px;height:8px;border-right:1.5px solid rgba(255,255,255,.7);border-bottom:1.5px solid rgba(255,255,255,.7);transform:rotate(45deg) translateY(-3px);transition:transform .2s}
+.rq-dd__btn[aria-expanded="true"]::after{transform:rotate(-135deg) translateY(-2px)}
+.rq-dd__btn:focus-visible{border-color:rgba(255,255,255,.6);outline:none}
+.rq-dd__pop{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.7);padding:8px;z-index:5;display:grid;gap:2px}
+.rq-dd__pop[hidden]{display:none}
+.rq-dd__pop button{display:flex;justify-content:space-between;align-items:center;background:transparent;border:0;color:rgba(255,255,255,.85);border-radius:10px;padding:13px 16px;font:inherit;text-align:left;cursor:pointer}
+.rq-dd__pop button:hover,.rq-dd__pop button:focus-visible{background:rgba(255,255,255,.08);color:#fff;outline:none}
+.rq-dd__pop button.is-sel{background:rgba(255,255,255,.12);color:#fff}
+.rq-dd__pop button.is-sel::after{content:"";width:6px;height:11px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg) translate(-2px,-2px)}
+.rq__check{display:flex;gap:14px;align-items:flex-start;color:rgba(255,255,255,.65);font-size:.95rem;line-height:1.55;cursor:pointer}
+.rq__check input{width:20px;height:20px;margin-top:2px;accent-color:#e8590c;flex:none}
+.rq__legal{color:rgba(255,255,255,.45);font-size:.85rem;margin:0}
+.rq__legal a,.rq__alt a{color:#fff}
+.rq__err{color:#ff8a4c;margin:0}
+.rq__send{justify-self:start;background:#fff;color:#111;border:0;border-radius:999px;padding:16px 34px;font:inherit;font-weight:500;font-size:1.05rem;cursor:pointer}
+.rq__send:disabled{opacity:.6;cursor:wait}
+.rq__done{max-width:560px;display:grid;gap:14px;margin-top:40px}
+.rq__done h3{font-family:"Inter",Arial,sans-serif;font-weight:500;font-size:2.4rem;letter-spacing:-.03em;margin:0;color:#fff}
+.rq__done p{color:rgba(255,255,255,.75);margin:0;line-height:1.6}
+@media (max-width:900px){.rq{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow-y:auto}.rq__left{padding:24px 20px;gap:18px}.rq__left h2{font-size:1.6rem;max-width:none}.rq__sig{display:none}.rq__right{padding:28px 20px 40px;overflow:visible}.rq__row{grid-template-columns:1fr}}
+
+/* Chat-Hinweis (Amalfi-Stil) */
+.mkc{position:fixed;right:24px;bottom:24px;z-index:150;display:flex;flex-direction:column;align-items:flex-end;gap:14px;font-family:var(--ff-body)}
+.mkc__bubble{position:relative;cursor:pointer;background:#fff;color:#111;border-radius:14px;padding:30px 44px 20px 22px;max-width:300px;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:mkcIn .35s ease-out}
+.mkc__bubble[hidden]{display:none}
+.mkc__bubble p{margin:0;font-size:1rem;line-height:1.5}
+.mkc__avatar{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:#000;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.mkc__avatar img{width:28px;height:28px;object-fit:contain}
+.mkc__x{position:absolute;top:10px;right:10px;width:30px;height:30px;border:0;background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.mkc__x svg{width:16px;height:16px;stroke:#111;stroke-width:2}
+.mkc__x:hover,.mkc__x:focus-visible{background:#f0f0f0;outline:none}
+.mkc__btn{width:60px;height:60px;border-radius:50%;background:#000;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15);transition:transform .2s}
+.mkc__btn:hover,.mkc__btn:focus-visible{transform:scale(1.06)}
+.mkc__btn svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linejoin:round}
+@keyframes mkcIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (max-width:900px){.mkc{right:16px;bottom:84px}.mkc__bubble{max-width:250px}}
+@media (prefers-reduced-motion:reduce){.mkc__bubble{animation:none}}
+
+.mkc__btn{border:0;cursor:pointer}
+.mkc__ico-close{display:none}
+.mkc.is-open .mkc__ico-open{display:none}.mkc.is-open .mkc__ico-close{display:block}
+.mkc__panel{width:min(380px,calc(100vw - 32px));height:min(560px,calc(100vh - 140px));background:#0d0d0d;color:#f2f2f2;border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden;transform-origin:bottom right;animation:mkcPanel .28s cubic-bezier(.2,.8,.2,1)}
+.mkc__panel[hidden]{display:none}
+@keyframes mkcPanel{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.mkc__head{display:flex;align-items:center;gap:12px;padding:18px 18px;background:#161616;border-bottom:1px solid rgba(255,255,255,.07)}
+.mkc__head-av{width:42px;height:42px;border-radius:50%;background:#000;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;flex:none}
+.mkc__head-av img{width:24px;height:24px;object-fit:contain}
+.mkc__head div{display:grid;gap:2px;min-width:0}
+.mkc__head strong{font-weight:500;font-size:1rem;color:#fff}
+.mkc__head span{font-size:.82rem;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px}
+.mkc__dot{width:8px;height:8px;border-radius:50%;background:#3ccf6e;display:inline-block}
+.mkc__min{margin-left:auto;width:34px;height:34px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.mkc__min svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.mkc__min:hover,.mkc__min:focus-visible{background:rgba(255,255,255,.1);outline:none}
+.mkc__body{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.mkc__msg{align-self:flex-start;max-width:85%;background:#1c1c1c;border-radius:16px 16px 16px 4px;padding:12px 15px;font-size:.95rem;line-height:1.5;color:#eee}
+.mkc__msg--me{align-self:flex-end;background:#fff;color:#111;border-radius:16px 16px 4px 16px}
+.mkc__chips{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:6px}
+.mkc__chips button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:9px 16px;font:inherit;font-size:.9rem;cursor:pointer;text-align:left}
+.mkc__chips button:hover,.mkc__chips button:focus-visible{background:#fff;color:#111;outline:none}
+.mkc__foot{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07);background:#111}
+.mkc__foot input{flex:1;min-width:0;background:#1c1c1c;border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:12px 16px;color:#fff;font:inherit;font-size:.95rem;outline:none}
+.mkc__foot input:focus{border-color:rgba(255,255,255,.35)}
+.mkc__foot button{width:44px;height:44px;border-radius:50%;border:0;background:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+.mkc__foot button svg{width:20px;height:20px;fill:#111}
+.mkc__note{margin:0;padding:0 16px 12px;background:#111;font-size:.75rem;color:rgba(255,255,255,.4);text-align:center}
+.mkc__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mkc.is-open .mkc__bubble{display:none}
+@media (max-width:900px){.mkc__panel{height:min(520px,calc(100vh - 180px))}}
+@media (prefers-reduced-motion:reduce){.mkc__panel{animation:none}}
+
+/* Vorteile als Kreis um die Karte */
+.bc-orbit{position:relative;display:block;width:min(100%,980px);aspect-ratio:1/1;margin:30px auto 0;gap:0}
+.bc-orbit::before{content:"";position:absolute;inset:10%;border-radius:50%;border:1px dashed rgba(232,89,12,.35)}
+.bc-orbit::after{content:"";position:absolute;inset:27%;border-radius:50%;background:radial-gradient(circle,rgba(232,89,12,.16),transparent 70%)}
+.bc-orbit__core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(36%,340px);z-index:2}
+.bc-orbit__core .mk-card{max-width:100%}
+.bc-orbit .bc-benefit{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);width:200px;text-align:center;justify-items:center;gap:8px;z-index:3}
+.bc-orbit .bc-benefit svg{width:64px;height:64px;padding:18px;border-radius:50%;background:#141414;border:1px solid rgba(232,89,12,.45);box-shadow:0 0 0 6px #000,0 10px 30px rgba(232,89,12,.18);transition:transform .25s,background .25s}
+.bc-orbit .bc-benefit:hover svg{transform:scale(1.08);background:#1f1f1f}
+.bc-orbit .bc-benefit h3{font-size:1.12rem;margin:6px 0 0;line-height:1.25}
+.bc-orbit .bc-benefit p{font-size:.88rem;line-height:1.45}
+@media (max-width:1000px){
+  .bc-orbit{aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 24px;width:100%}
+  .bc-orbit::before,.bc-orbit::after{display:none}
+  .bc-orbit__core{position:static;transform:none;width:min(100%,360px);grid-column:1/-1;justify-self:center;margin-bottom:10px}
+  .bc-orbit .bc-benefit{position:static;transform:none;width:auto}
+}
+@media (max-width:520px){.bc-orbit{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.bc-orbit .bc-benefit svg{transition:none}}
+
+/* Für wen (Amalfi-Programmkarten) */
+.who__row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:46px}
+.who{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;background:#111;isolation:isolate}
+.who img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1);z-index:-2}
+.who::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.85));z-index:-1}
+.who:hover img{transform:scale(1.06)}
+.who__body{position:absolute;left:0;right:0;bottom:0;padding:24px;display:grid;gap:12px}
+.who__kick{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.who h3{font-family:var(--bc-serif);font-weight:500;font-size:clamp(1.35rem,1.7vw,1.75rem);hyphens:auto;overflow-wrap:anywhere;letter-spacing:-.03em;margin:0;color:#fff}
+.who ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.who li{font-size:.8rem;color:#fff;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);border-radius:999px;padding:6px 12px}
+.who__go{justify-self:start;display:inline-flex;align-items:center;gap:8px;margin-top:6px;background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:11px 20px;font-weight:500;font-size:.95rem;transition:gap .2s}
+.who__go svg{width:18px;height:18px;stroke:#111;fill:none;stroke-width:2}
+.who__go:hover,.who__go:focus-visible{gap:12px}
+@media (max-width:900px){.who__row{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:80%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}.who__row::-webkit-scrollbar{display:none}.who{scroll-snap-align:start}}
+@media (prefers-reduced-motion:reduce){.who img{transition:none}}
+
+/* Die Küche: Buffets inszeniert (Kinobild + Text-Overlay) */
+.kx{background:#000}
+.kx__tabs{display:inline-flex;flex-wrap:wrap;gap:4px;background:#141414;border-radius:999px;padding:5px;margin-top:34px}
+.kx__tabs button{border:0;background:transparent;color:rgba(255,255,255,.7);font:inherit;font-size:1rem;padding:11px 22px;border-radius:999px;cursor:pointer}
+.kx__tabs button.is-on{background:#fff;color:#111}
+.kx__tabs button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.kx__panels{position:relative;margin-top:30px}
+.kx__panel{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/8;min-height:460px;isolation:isolate;animation:kxIn .7s cubic-bezier(.2,.8,.2,1)}
+.kx__panel[hidden]{display:none}
+@keyframes kxIn{from{opacity:0}to{opacity:1}}
+.kx__stage{position:absolute;inset:0;z-index:-2}
+.kx__stage img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.05) brightness(.9);animation:kxZoom 14s ease-out both}
+@keyframes kxZoom{from{transform:scale(1.12)}to{transform:scale(1)}}
+.kx__panel::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.6) 34%,rgba(0,0,0,.05) 70%),linear-gradient(0deg,rgba(0,0,0,.45),transparent 40%)}
+.kx__text{position:absolute;left:0;top:0;bottom:0;width:min(480px,46%);padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center}
+.kx__cuisine{font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;color:var(--bc-gold)}
+.kx__text h3{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2rem,3.6vw,3.2rem);letter-spacing:-.04em;line-height:1.02;margin:12px 0 14px;color:#fff}
+.kx__text p{color:rgba(255,255,255,.75);font-size:1.02rem;line-height:1.6;margin:0 0 18px}
+.kx__text ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:9px}
+.kx__text li{display:flex;align-items:center;gap:10px;color:#fff;font-size:.98rem}
+.kx__text li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--bc-gold);flex:none}
+.kx__cta{align-self:flex-start;display:inline-flex;background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:14px 28px;font-weight:500}
+.kx__note{color:rgba(255,255,255,.45);font-size:.9rem;margin-top:22px}
+@media (max-width:900px){.kx__panel{aspect-ratio:auto;min-height:0;border-radius:18px;display:flex;flex-direction:column}.kx__stage{position:relative;aspect-ratio:16/10}.kx__panel::after{display:none}.kx__text{position:static;width:auto;padding:24px;background:#111}.kx__tabs{display:flex;width:100%;border-radius:18px}.kx__tabs button{flex:1 1 45%;padding:10px 8px;font-size:.92rem}}
+@media (prefers-reduced-motion:reduce){.kx__panel,.kx__stage img{animation:none}}
+
+/* Kreis-Bereich: Speisen weich aus dem Schwarz */
+.bc-benefits--food{position:relative;overflow:hidden;isolation:isolate}
+.bc-benefits--food .wrap{position:relative;z-index:1}
+.bc-food{position:absolute;inset:0;z-index:0;pointer-events:none}
+.bc-food img{position:absolute;object-fit:contain;opacity:.55;-webkit-mask-image:radial-gradient(closest-side,#000 45%,transparent 100%);mask-image:radial-gradient(closest-side,#000 45%,transparent 100%);animation:bcDrift 18s ease-in-out infinite alternate}
+.bc-food__a{width:min(46vw,640px);left:-8%;top:16%}
+.bc-food__b{width:min(38vw,540px);right:-8%;top:6%;animation-delay:-6s!important}
+.bc-food__c{width:min(40vw,560px);right:-6%;bottom:-4%;animation-delay:-3s!important}
+.bc-food__d{width:min(30vw,420px);left:-4%;bottom:-6%;opacity:.4!important;animation-delay:-9s!important}
+.bc-benefits--food::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 46% 52% at 50% 58%,#000 30%,rgba(0,0,0,.55) 70%,transparent),linear-gradient(180deg,#000,transparent 18%,transparent 82%,#000)}
+@keyframes bcDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(14px,-18px) scale(1.04)}}
+@media (max-width:1000px){.bc-food img{opacity:.35}.bc-food__a{width:80vw;left:-30%;top:4%}.bc-food__b{width:70vw;right:-30%;top:30%}.bc-food__c{width:75vw;right:-30%;bottom:2%}.bc-food__d{display:none}}
+@media (prefers-reduced-motion:reduce){.bc-food img{animation:none}}
+
+/* Konditionen-Teaser */
+.pz__fine{color:rgba(255,255,255,.45);font-size:.85rem;margin-top:16px;max-width:44ch}
+.pz{background:#000;position:relative;overflow:hidden}
+.pz__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+.pz__promise{list-style:none;margin:28px 0 32px;padding:0;display:grid;gap:18px}
+.pz__promise li{display:grid;gap:2px;padding-left:22px;position:relative}
+.pz__promise li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--bc-gold)}
+.pz__promise strong{color:#fff;font-weight:500;font-size:1.05rem}
+.pz__promise span{color:rgba(255,255,255,.55)}
+.pz__cta{text-decoration:none}
+.pz__tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pz__tile{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;isolation:isolate;border:1px solid rgba(255,255,255,.08)}
+.pz__tile:nth-child(2),.pz__tile:nth-child(4){transform:translateY(32px)}
+.pz__tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(.75) saturate(.9);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.pz__tile:hover img{transform:scale(1.06)}
+.pz__tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.1) 30%,rgba(0,0,0,.88))}
+.pz__info{position:absolute;left:0;right:0;bottom:0;padding:20px;display:grid;gap:4px}
+.pz__info>span{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.pz__info strong{font-family:var(--bc-serif);font-weight:500;font-size:1.4rem;letter-spacing:-.02em;color:#fff}
+.pz__reg{margin-top:6px;color:rgba(255,255,255,.75);font-size:.95rem;display:block;line-height:1.3}.pz__reg b{font-family:var(--bc-serif);font-weight:500;font-size:1.7rem;letter-spacing:-.02em;color:#fff}.pz__lbl{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:2px}.pz__info em b{font-weight:600}
+.pz__reg small{display:block;margin-top:4px;font-size:.78rem;color:rgba(255,255,255,.55)}
+.pz__price b{display:inline-block;font-family:var(--bc-serif);font-weight:500;font-size:1.6rem;color:#fff;filter:blur(7px);user-select:none;letter-spacing:.02em}
+.pz__info em{display:inline-flex;align-items:center;gap:7px;align-self:start;justify-self:start;font-style:normal;font-size:.8rem;color:#fff;background:rgba(232,89,12,.85);border-radius:999px;padding:6px 12px;margin-top:8px}
+.pz__info em svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+@media (max-width:900px){.pz__grid{grid-template-columns:1fr;gap:40px}.pz__tile:nth-child(2),.pz__tile:nth-child(4){transform:none}}
+@media (max-width:420px){.pz__tiles{gap:10px}.pz__info{padding:14px}.pz__info strong{font-size:1.15rem}.pz__price b{font-size:1.25rem}}
+@media (prefers-reduced-motion:reduce){.pz__tile img{transition:none}}
+
+/* Orte-Karussell */
+.lx{background:#000;overflow:hidden}
+.lx__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.lx__head .lead{margin-top:6px}
+.lx__nav{display:flex;gap:10px}
+.lx__nav button{width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.lx__nav button:hover,.lx__nav button:focus-visible{background:#fff;border-color:#fff;outline:none}
+.lx__nav button:hover svg,.lx__nav button:focus-visible svg{stroke:#111}
+.lx__nav svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.lx__nav button:disabled{opacity:.3;cursor:default;background:transparent}
+.lx__nav button:disabled svg{stroke:#fff}
+.lx__track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;margin-top:40px;padding:6px max(20px,calc((100vw - 1120px)/2)) 10px;scroll-padding:0 max(20px,calc((100vw - 1120px)/2));scrollbar-width:none;cursor:grab}
+.lx__track::-webkit-scrollbar{display:none}
+.lx__track.is-drag{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.lx__track:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:4px}
+.lc{position:relative;flex:0 0 min(420px,78vw);aspect-ratio:4/5;border-radius:22px;overflow:hidden;scroll-snap-align:start;isolation:isolate;user-select:none}
+
+.lc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(.88) saturate(.82) contrast(1.06) sepia(.08);transition:transform 1.2s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.lc:hover img{transform:scale(1.07)}
+.lc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.92))}
+.lc__body{position:absolute;left:0;right:0;bottom:0;padding:26px;display:grid;gap:8px}
+.lc__kick{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.lc .lc__kick{color:var(--bc-gold-soft)}
+.lc h3{font-family:var(--bc-serif);font-weight:500;font-size:1.75rem;letter-spacing:-.03em;margin:0;color:#fff;line-height:1.1}
+.lc p{margin:0;color:rgba(255,255,255,.72);font-size:.95rem;line-height:1.5}
+.lc__foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px}
+.lc__cap{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:7px 13px}
+.lc__cap svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.7}
+.lc__go{background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:9px 18px;font-weight:500;font-size:.9rem}
+.lx__bar{height:2px;background:rgba(255,255,255,.12);border-radius:2px;margin-top:34px;overflow:hidden}
+.lx__bar span{display:block;height:100%;width:20%;background:var(--bc-gold);transition:transform .2s;transform-origin:left}
+@media (max-width:700px){.lx__nav{display:none}.lc h3{font-size:1.45rem}}
+@media (prefers-reduced-motion:reduce){.lc img{transition:none}.lx__track{scroll-behavior:auto}}
+
+/* Schritte visuell */
+.st{background:#000}
+.st__row{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;position:relative}
+.st__row::before{content:"";position:absolute;left:16%;right:16%;top:calc(var(--vis-h) + 34px);height:1px;background:linear-gradient(90deg,transparent,rgba(232,89,12,.7) 12%,rgba(232,89,12,.7) 88%,transparent)}
+.st{--vis-h:230px}
+.st__step{display:grid;align-content:start;justify-items:center;text-align:center;gap:10px;min-width:0}
+.st__vis{box-sizing:border-box;height:var(--vis-h);width:100%;max-width:340px;border-radius:20px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#1b1b1b,#0b0b0b 75%);border:1px solid rgba(255,255,255,.07)}
+.st__vis--form{padding:18px 22px;display:grid;gap:8px;align-content:center;place-items:stretch}
+.st__f{display:grid;gap:1px;text-align:left;background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 12px}
+.st__f span{font-size:.7rem;color:rgba(255,255,255,.5)}
+.st__f b{font-weight:400;font-size:.9rem;color:#fff}
+.st__f--sel{border-color:rgba(232,89,12,.6)}
+.st__btn{justify-self:start;background:#fff;color:#111;border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:500;margin-top:2px}
+.st__vis--card .mk-card{width:84%;max-width:290px;transform:rotate(-6deg)}
+.st__vis--order img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
+.st__tag{position:absolute;left:16px;bottom:16px;display:inline-flex;align-items:center;gap:7px;background:rgba(232,89,12,.92);color:#fff;border-radius:999px;padding:8px 14px;font-size:.85rem;font-weight:500}
+.st__tag svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+.st__no{position:relative;z-index:1;margin-top:14px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#000;border:1px solid var(--bc-gold);color:var(--bc-gold-soft);font-family:var(--bc-serif);font-size:.95rem;font-variant-numeric:tabular-nums}
+.st__step h3{font-family:var(--bc-serif);font-weight:500;font-size:1.5rem;letter-spacing:-.025em;margin:6px 0 0;color:#fff}
+.st__step p{margin:0;color:rgba(255,255,255,.6);line-height:1.6;max-width:30ch}
+.st__cta{margin-top:56px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px;text-align:center}
+.st__cta span{color:rgba(255,255,255,.45);font-size:.9rem}
+@media (max-width:900px){.st__row{grid-template-columns:1fr;gap:48px}.st__row::before{display:none}}
+
+/* Schritte: Animation */
+.st__row::before{display:none}
+.st__line{position:absolute;left:16.6%;right:16.6%;top:calc(var(--vis-h) + 36px);height:1px;background:rgba(255,255,255,.12);list-style:none}
+.st__line span{display:block;height:100%;width:0;background:var(--bc-gold);box-shadow:0 0 12px rgba(232,89,12,.8);transition:width .9s cubic-bezier(.6,0,.2,1)}
+.st[data-p="2"] .st__line span{width:50%}.st[data-p="3"] .st__line span{width:100%}
+.st__step{transition:opacity .6s}
+.st.is-anim .st__step{opacity:.38}
+.st.is-anim[data-p="1"] .st__step:nth-of-type(2),.st.is-anim[data-p="2"] .st__step:nth-of-type(3),.st.is-anim[data-p="3"] .st__step:nth-of-type(4){opacity:1}
+.st.is-anim[data-p="2"] .st__step:nth-of-type(2),.st.is-anim[data-p="3"] .st__step:nth-of-type(2),.st.is-anim[data-p="3"] .st__step:nth-of-type(3){opacity:.75}
+.st__vis{transition:border-color .5s,box-shadow .5s}
+.st[data-p="1"] .st__step:nth-of-type(2) .st__vis,.st[data-p="2"] .st__step:nth-of-type(3) .st__vis,.st[data-p="3"] .st__step:nth-of-type(4) .st__vis{border-color:rgba(232,89,12,.55);box-shadow:0 0 40px rgba(232,89,12,.18)}
+.st__no{transition:background .4s,color .4s}
+.st[data-p="1"] .st__step:nth-of-type(2) .st__no,.st[data-p="2"] .st__step:nth-of-type(3) .st__no,.st[data-p="3"] .st__step:nth-of-type(4) .st__no{background:var(--bc-gold);color:#fff}
+#stFirma{font-style:normal}.st:not(.is-typing) .st__caret{display:none}
+.st__caret{display:inline-block;width:1px;height:1em;background:#fff;margin-left:2px;vertical-align:-2px;animation:stBlink 1s steps(1) infinite}
+@keyframes stBlink{50%{opacity:0}}
+.st__f--firma{border-color:rgba(255,255,255,.1)}
+.st.is-typing .st__f--firma{border-color:rgba(255,255,255,.55)}
+#stAnlass{transition:color .3s}
+.st__f--sel{transition:border-color .3s}
+.st:not(.is-picked) .st__f--sel{border-color:rgba(255,255,255,.1)}
+.st:not(.is-picked) #stAnlass{color:rgba(255,255,255,.45)}
+.st__btn{transition:transform .15s,background .2s}
+.st.is-press .st__btn{transform:scale(.92);background:var(--bc-gold);color:#fff}
+.st__vis--card .mk-card{transition:transform .9s cubic-bezier(.2,.9,.2,1.1),opacity .6s}
+.st.is-anim:not([data-p="2"]):not([data-p="3"]) .st__vis--card .mk-card{transform:translateY(60px) rotate(-14deg) scale(.85);opacity:0}
+.st__vis--order img{transition:transform 1.4s cubic-bezier(.2,.8,.2,1),filter .8s}
+.st.is-anim:not([data-p="3"]) .st__vis--order img{transform:scale(1.12);filter:brightness(.45)}
+.st__tag{transition:transform .5s cubic-bezier(.2,1.4,.4,1),opacity .4s}
+.st.is-anim:not([data-p="3"]) .st__tag{transform:translateY(16px) scale(.7);opacity:0}
+@media (max-width:900px){.st__line{display:none}.st.is-anim .st__step{opacity:1}}
+@media (prefers-reduced-motion:reduce){.st__caret{animation:none}.st__step,.st__vis--card .mk-card,.st__vis--order img,.st__tag,.st__line span{transition:none}}
+
+/* Schritte: Erklärung */
+.st__capbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px;min-height:30px}
+.st__cap{margin:0;color:#fff;font-size:1.1rem;transition:opacity .35s}
+.st__cap.is-out{opacity:0}
+.st__cap::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bc-gold);margin-right:10px;vertical-align:2px;box-shadow:0 0 10px rgba(232,89,12,.9)}
+.st__replay{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);border-radius:999px;padding:7px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+.st__replay:hover,.st__replay:focus-visible{border-color:#fff;color:#fff;outline:none}
+.st__vis--form{position:relative}
+.st__cursor{position:absolute;width:26px;height:26px;fill:#fff;stroke:#111;stroke-width:1.2;left:78%;top:78%;opacity:0;transition:left 1s cubic-bezier(.5,0,.2,1),top 1s cubic-bezier(.5,0,.2,1),opacity .3s,transform .15s;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+.st.is-cursor .st__cursor{opacity:1}
+.st.is-aim .st__cursor{left:24%;top:72%}
+.st.is-press .st__cursor{transform:scale(.8)}
+.st__note{position:absolute;top:14px;left:50%;transform:translate(-50%,-14px);opacity:0;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border-radius:999px;padding:7px 14px;font-size:.82rem;font-weight:500;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5);transition:opacity .4s,transform .5s cubic-bezier(.2,1.3,.4,1);z-index:2}
+.st__note svg{width:15px;height:15px;stroke:#111;fill:none;stroke-width:2}
+.st.is-anim[data-p="2"] .st__note{opacity:1;transform:translate(-50%,0)}
+.st__vis--card .mk-card{margin-top:22px}
+.st__tag s{opacity:.7;font-weight:400}
+.st__tag b{font-weight:700}
+
+
+/* Abschluss: Originalbild, oben weicher Übergang in blauen Himmel */
+.bc section.fin{padding:0!important}
+.fin{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;isolation:isolate;display:flex;justify-content:center;
+ background:linear-gradient(180deg,#000 0%,#000 8%,#0b2f5c 20%,#1a63b8 34%,#3f86cf 46%,#86b6e2 60%,#c4dcef 76%)}
+.fin__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;z-index:-2;
+ -webkit-mask-image:linear-gradient(180deg,transparent 0%,transparent 12%,rgba(0,0,0,.35) 32%,#000 56%);mask-image:linear-gradient(180deg,transparent 0%,transparent 12%,rgba(0,0,0,.35) 32%,#000 56%)}
+.fin::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 50% at 50% 30%,rgba(0,30,70,.28),rgba(0,0,0,0) 75%)}
+.fin__kick{display:inline-flex;align-items:center;gap:10px;color:#fff;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.fin__kick::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.fin__body{position:relative;text-align:center;padding:clamp(150px,22vh,230px) 20px 0;max-width:900px;display:grid;justify-items:center;gap:22px;align-content:start}
+.fin__body h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.8rem,6.4vw,5.4rem);letter-spacing:-.045em;line-height:1;margin:0;color:#fff;text-shadow:0 2px 30px rgba(0,40,100,.25)}
+.fin__body p{margin:0;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6);font-size:clamp(1.05rem,1.6vw,1.35rem);line-height:1.5;max-width:46ch}
+.fin__btns{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:22px}
+.fin__go{background:#fff;color:#111;text-decoration:none;border-radius:999px;padding:16px 32px;font-weight:500;font-size:1.1rem}
+.fin__go:hover,.fin__go:focus-visible{background:#111;color:#fff}
+.fin__tel{color:#fff;text-decoration:none;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.85);border-radius:999px;padding:15px 30px;font-size:1.1rem}
+.fin__tel:hover,.fin__tel:focus-visible{background:rgba(255,255,255,.15)}
+
+
+/* Weihnachten 2026 */
+.bc section.xm{padding-block:clamp(80px,12vw,140px)}
+.xm{position:relative;overflow:hidden;isolation:isolate;background:#000}
+.xm__bg{position:absolute;inset:0;z-index:-2;background:url('/assets/img/buffet-szenen/festliche-tafel.webp') center/cover;filter:brightness(.32) saturate(1.1)}
+.xm::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 70% at 85% 40%,rgba(232,89,12,.25),transparent 70%),linear-gradient(180deg,#000 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 70%,#000 100%)}
+.xm__lights{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle,rgba(255,206,140,.9) 0 1.2px,transparent 2px),radial-gradient(circle,rgba(255,180,110,.7) 0 1px,transparent 1.8px);background-size:140px 120px,90px 100px;background-position:0 0,40px 60px;opacity:.35;animation:xmTw 6s ease-in-out infinite alternate}
+@keyframes xmTw{to{opacity:.6;background-position:10px 6px,46px 52px}}
+.xm__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.xm__text h2{font-family:var(--bc-serif);font-weight:500;font-size:clamp(2.4rem,5vw,4rem);letter-spacing:-.045em;line-height:1;margin:6px 0 16px;color:#fff}
+.xm__count{display:flex;align-items:center;gap:16px;margin:28px 0 24px}
+.xm__count b{font-family:var(--bc-serif);font-weight:500;font-size:4.2rem;line-height:1;color:var(--bc-gold-soft);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.xm__count span{color:rgba(255,255,255,.7);line-height:1.35}
+.xm__facts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+.xm__facts li{display:grid;gap:2px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px);border-radius:14px;padding:12px 16px}
+.xm__facts strong{color:#fff;font-weight:500}
+.xm__facts span{color:rgba(255,255,255,.6);font-size:.88rem}
+.xm__pick{background:rgba(10,10,10,.78);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.xm__pick-title{margin:0 0 16px;color:#fff;font-size:1.15rem;font-weight:500}
+.xm__dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.xm__dates button{display:grid;gap:2px;text-align:left;background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;color:#fff;font:inherit;cursor:pointer;transition:border-color .2s,background .2s}
+.xm__dates button small{color:rgba(255,255,255,.55);font-size:.8rem}
+.xm__dates button b{font-weight:500;font-size:1.05rem}
+.xm__dates button:hover,.xm__dates button:focus-visible{border-color:rgba(255,255,255,.5);outline:none}
+.xm__dates button.is-on{background:#fff;color:#111;border-color:#fff}
+.xm__dates button.is-on small{color:#555}
+.xm__go{width:100%;margin-top:18px;border:0;border-radius:999px;background:var(--bc-gold);color:#fff;font:inherit;font-weight:500;font-size:1.05rem;padding:15px;cursor:pointer;transition:background .2s,opacity .2s}
+.xm__go:disabled{opacity:.45;cursor:not-allowed}
+.xm__go:not(:disabled):hover,.xm__go:not(:disabled):focus-visible{background:var(--bc-gold-soft)}
+.xm__hint{margin:12px 0 0;text-align:center;color:rgba(255,255,255,.5);font-size:.85rem}
+@media (max-width:900px){.xm__grid{grid-template-columns:1fr;gap:36px}}
+@media (prefers-reduced-motion:reduce){.xm__lights{animation:none}}
+
+/* Einheitlicher Seiten-Rhythmus: Schwarz + weich eingeblendete Bilder */
+.bc{background:#000}
+.bc > section{background-color:#000}
+.bc > section:not(.bc-hero):not(.fin):not(.xm){padding-block:clamp(84px,10vw,124px)}
+.bc-who,.kx,.pz,.lx,.st{position:relative;isolation:isolate}
+.sxbg{position:absolute;inset:0;z-index:-1;background-size:cover;background-repeat:no-repeat;pointer-events:none;filter:saturate(.9)}
+.sxbg--full{right:auto;width:58%;opacity:.38;filter:blur(2px) saturate(.9);-webkit-mask-image:linear-gradient(90deg,#000 0%,#000 35%,transparent 100%),linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 0%,#000 35%,transparent 100%),linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);mask-composite:intersect}
+.sxbg--full::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.sxbg--right{left:auto;bottom:auto;width:55%;height:46%;opacity:.5;-webkit-mask-image:radial-gradient(75% 85% at 80% 30%,#000 15%,transparent 72%);mask-image:radial-gradient(75% 85% at 80% 30%,#000 15%,transparent 72%)}
+.sxbg--top{bottom:auto;height:72%;opacity:.3;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%)}
+@media (max-width:900px){.sxbg--right{width:100%;height:30%;opacity:.3}.sxbg--full{width:100%;height:45%;bottom:auto}}
+
+/* Weihnachten: Timer + freier Kalender */
+.xm__timer{margin:28px 0 24px}
+.xm__timer-lbl{margin:0 0 10px;color:rgba(255,255,255,.65);font-size:.9rem;letter-spacing:.06em}
+.xm__units{display:flex;gap:10px}
+.xm__units div{display:grid;justify-items:center;gap:4px;min-width:74px;padding:12px 8px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+.xm__units b{font-family:var(--bc-serif);font-weight:500;font-size:2.2rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.xm__units div:first-child b{color:var(--bc-gold-soft)}
+.xm__units span{font-size:.75rem;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase}
+.xm__pick-title{margin:0 0 4px!important}
+.xm__pick-sub{margin:0 0 16px;color:rgba(255,255,255,.55);font-size:.9rem}
+.xm__calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.xm__calhead strong{color:#fff;font-weight:500}
+.xm__calhead button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;font-size:1.3rem;cursor:pointer}
+.xm__calhead button:disabled{opacity:.25;cursor:default}
+.xm__grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.xm__grid7 em{font-style:normal;font-size:.72rem;color:rgba(255,255,255,.45);padding:4px 0}
+.xm__grid7 button{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:transparent;color:#eee;font:inherit;font-size:.95rem;cursor:pointer;font-variant-numeric:tabular-nums}
+.xm__grid7 button:hover,.xm__grid7 button:focus-visible{background:rgba(255,255,255,.1);outline:none}
+.xm__grid7 button.is-pop::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--bc-gold)}
+.xm__grid7 button.is-on{background:#fff;color:#111}
+.xm__grid7 button:disabled{color:rgba(255,255,255,.2);cursor:default;background:transparent}
+.xm__legend{margin:10px 0 0;font-size:.8rem;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
+.xm__legend i{width:6px;height:6px;border-radius:50%;background:var(--bc-gold);display:inline-block}
+@media (max-width:420px){.xm__units div{min-width:0;flex:1}.xm__units b{font-size:1.7rem}}
+</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -47,177 +586,304 @@
 <a href="/catering/norderstedt/">Norderstedt</a>
 <a href="/catering/quickborn/">Quickborn</a></div>
     </div>
-    <div class="dropdown">
-      <a href="/privates-catering/" aria-haspopup="true">Leistungen ▾</a>
-      <div class="dropdown-panel"><a href="/privates-catering/">Privates Catering</a>
-<a href="/firmen-catering/">Firmen-Catering</a>
-<a href="/speisen/">Speisen</a></div>
-    </div>
-    <a href="/ueber-uns/">Über uns</a>
-<a href="/ablauf/">Ablauf</a>
-<a href="/faq/">FAQ</a>
-    <a href="/business/?viewer=live">Business Karte</a>
-    <a href="/kontakt/" class="btn btn--primary" style="margin-top:6px;">Catering Anfragen</a>
+    <a href="/#kueche">Küche</a>
+    <a href="/#orte">Locations</a>
+    <a href="/#preise">Preise</a>
+    <a href="/business/login/">Login</a>
+    <a href="/#bcBar" class="btn btn--primary" style="margin-top:6px;">Jetzt anfragen</a>
   </nav>
   <div class="header-actions">
     <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
   </div>
 </header>
-<section class="hero">
-  <div class="hero-media">
-    <video autoplay muted loop playsinline poster="/assets/img/hero-poster.webp">
-        <source src="/assets/video/hero.mp4" type="video/mp4">
-      </video>
+
+<main class="bc">
+
+<!-- 1 · Hero -->
+<section class="bc-hero" aria-label="MK Black Card">
+  <video class="bc-hero__video" autoplay muted loop playsinline poster="/assets/img/catering-hero-poster.jpg" aria-hidden="true">
+    <source src="/assets/video/catering-hero.mp4" type="video/mp4">
+  </video>
+  <div class="bc-hero__shade" aria-hidden="true"></div>
+  <div class="bc-hero__center">
+    <span class="bc-hero__kicker">Catering · Service · Erlebnis</span>
+    <h1>Gastgeber sein.<br>Leicht gemacht.</h1>
+    <a href="#bcBar" class="bc-pill">Jetzt anfragen</a>
   </div>
-  <div class="hero-overlay"></div>
-  <div class="container hero-content">
-    <span class="eyebrow">Catering Henstedt-Ulzburg & Umgebung</span>
-    <h1>Catering, das Ihre Gäste begeistert – indisch, italienisch &amp; Sushi</h1>
-    <p class="lead">Mahboobs Kitchen plant, kocht und liefert individuelles Buffet-Catering für private Feiern und Firmenevents in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt, Quickborn und Umgebung.</p>
-    <ul class="hero-points"><li>Über 30 Jahre Erfahrung</li>
-<li>Indisch · Italienisch · Sushi</li>
-<li>Buffet ab 31,90&nbsp;€ pro Person – mit Black Card günstiger</li></ul>
-    <div class="btn-row">
-      <a href="/kontakt/" class="btn btn--primary">Catering Anfragen</a>
-      <a href="/speisen/" class="btn btn--ghost">Speisen ansehen</a>
-    </div>
-    <p class="hero-locations">Aktiv in <a href="/catering/henstedt-ulzburg/">Henstedt-Ulzburg</a>, <a href="/catering/kaltenkirchen/">Kaltenkirchen</a>, <a href="/catering/norderstedt/">Norderstedt</a>, <a href="/catering/quickborn/">Quickborn</a> &amp; Umgebung</p>
-  </div>
-  <div class="scroll-cue"><span></span>Scroll</div>
-</section><section class="section" id="privat">
-  <div class="container split">
-    <div>
-      <span class="eyebrow">Privates Catering</span>
-      <h2>Privates Catering für Geburtstage, Familienfeiern &amp; besondere Anlässe</h2>
-      <p>Ob Geburtstag, Gartenparty oder Hochzeitstag – unser privates Catering bietet maßgeschneiderte kulinarische Lösungen für Ihre Veranstaltung, mit Fokus auf frische Zutaten und stressfreie Organisation.</p>
-      <ul class="check-list"><li>Geburtstagsfeiern</li><li>Gartenpartys & Sommerfeste</li><li>Hochzeitstage & Jubiläen</li><li>Familienfeiern</li><li>kleine und große private Veranstaltungen</li></ul>
-      <div class="btn-row" style="margin-top:24px;"><a href="/privates-catering/" class="btn btn--primary">Mehr zum privaten Catering</a></div>
-    </div>
-    <img src="/assets/img/catering-tisch-draussen.webp" alt="Liebevoll gedeckter Tisch für ein privates Catering von Mahboobs Kitchen" width="900" height="720" loading="lazy">
-  </div>
-</section><section class="section section--soft" id="firmen">
-  <div class="container split">
-    <img src="/assets/img/buffet-4.webp" alt="Aufgebautes Buffet bei einem Firmenevent von Mahboobs Kitchen" width="900" height="720" loading="lazy">
-    <div>
-      <span class="eyebrow">Firmen-Catering</span>
-      <h2>Firmen-Catering für Firmenfeiern &amp; Business-Events</h2>
-      <p>Ein erfolgreiches Firmenevent lebt auch von einem hochwertigen kulinarischen Konzept. Wir entwickeln individuelle Buffetkonzepte, die perfekt auf Ihre Veranstaltung und Ihre Gäste abgestimmt sind.</p>
-      <ul class="check-list"><li>Jubiläen und Firmenjubiläen</li><li>Weihnachtsfeiern im Unternehmen</li><li>Teamevents und Mitarbeiterevents</li><li>Sommerfeste und Betriebsausflüge</li><li>kleine und große Business-Events</li></ul>
-      <div class="btn-row" style="margin-top:24px;"><a href="/firmen-catering/" class="btn btn--primary">Mehr zum Firmen-Catering</a></div>
-    </div>
-  </div>
-</section><section class="section section--soft">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Speisen</span>
-      <h2>Drei Küchenwelten, ein Buffet</h2>
-      <p>Indisch, italienisch und Sushi – wir kombinieren drei Küchenwelten zu einem individuellen Catering-Buffet, das Ihre Gäste begeistert.</p>
-    </div>
-    <div class="grid grid--3"><a href="/speisen/" class="cuisine-tile">
-  <img src="/assets/img/indische-gerichte.webp" alt="Indische Gerichte von Mahboobs Kitchen für Catering-Buffets" width="600" height="750" loading="lazy">
-  <div class="tile-label"><span>Indisch</span><h3>Indische Gerichte</h3></div>
-</a><a href="/speisen/" class="cuisine-tile">
-  <img src="/assets/img/italienische-gerichte.webp" alt="Italienische Gerichte von Mahboobs Kitchen für Catering-Buffets" width="600" height="750" loading="lazy">
-  <div class="tile-label"><span>Italienisch</span><h3>Italienische Gerichte</h3></div>
-</a><a href="/speisen/" class="cuisine-tile">
-  <img src="/assets/img/sushi-gerichte.webp" alt="Sushi &amp; japanische Spezialitäten von Mahboobs Kitchen für Catering-Buffets" width="600" height="750" loading="lazy">
-  <div class="tile-label"><span>Sushi</span><h3>Sushi &amp; japanische Spezialitäten</h3></div>
-</a></div>
-    <div class="text-center" style="margin-top:32px;"><a href="/speisen/" class="btn btn--dark">Alle Speisen ansehen</a></div>
-  </div>
-</section><section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">So läuft unsere Planung ab</span>
-      <h2>Catering-Planung, die Ihnen Arbeit abnimmt</h2>
-      <p>Eine gute Planung ist die Basis für jedes gelungene Event – egal ob private Feier, Firmenveranstaltung oder größere Feierlichkeit.</p>
-    </div>
-    <div class="steps"><div class="step"><div class="num">1</div><h3>Erstgespräch</h3><p>Wir besprechen Anlass, Gästezahl, Menüwünsche und Ablauf Ihrer Veranstaltung.</p></div><div class="step"><div class="num">2</div><h3>Individuelle Planung</h3><p>Wir stellen Menü, Mengen und Logistik passend zu Ihrem Event zusammen.</p></div><div class="step"><div class="num">3</div><h3>Transparentes Angebot</h3><p>Sie erhalten ein klares, individuelles Angebot ohne versteckte Kosten.</p></div><div class="step"><div class="num">4</div><h3>Organisation</h3><p>Wir übernehmen Vorbereitung, Lieferung und bei Bedarf den Aufbau vor Ort.</p></div><div class="step"><div class="num">5</div><h3>Stressfreier Genuss</h3><p>Sie feiern entspannt – wir kümmern uns um das komplette Catering.</p></div></div>
-    <div class="text-center" style="margin-top:20px;"><a href="/ablauf/" class="btn btn--dark">Ablauf im Detail</a></div>
-  </div>
-</section><section class="section section--dark">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Warum Mahboobs Kitchen</span>
-      <h2>Erfahrung, Qualität und Zuverlässigkeit</h2>
-      <p>Unsere Kunden schätzen besonders die flexible Menügestaltung, die frischen Zutaten und unseren persönlichen Service. Jedes Catering wird individuell geplant und auf das jeweilige Event abgestimmt.</p>
-    </div>
-    <ul class="check-list" style="max-width:640px;margin:0 auto;background:rgba(255,255,255,0.04);border-radius:14px;padding:8px 28px;"><li>Über 30 Jahre Erfahrung in Gastronomie und Event-Catering</li><li>Zuverlässige Planung und reibungslose Umsetzung jedes Events</li><li>Flexible, individuelle Menügestaltung nach Ihren Wünschen</li><li>Frische Zutaten und hochwertige Zubereitung aller Speisen</li><li>Persönlicher Service für private Feiern und Firmenveranstaltungen</li></ul>
-  </div>
-</section><section class="section section--soft">
-  <div class="container split">
-    <div>
-      <span class="eyebrow">Für Firmenkunden</span>
-      <h2>Die MK Business Karte – Vorteile für Ihr Unternehmen</h2>
-      <p>Fester Ansprechpartner, individuelle Menüs und günstigere Black-Card-Preise bei jeder Bestellung. Als Karteninhaber erfahren Sie außerdem als Erste von neuen Angeboten – ganz ohne Login, Ihre persönliche Karte kommt einfach per E-Mail.</p>
-      <div class="btn-row" style="margin-top:24px;">
-        <a href="/business/?viewer=live" class="btn btn--primary">Mehr zur Business Karte</a>
+  <form class="bc-bar" id="bcBar" aria-label="Schnellanfrage">
+    <div class="bc-bar__top">
+      <div class="bc-seg" role="group" aria-label="Wo wird gefeiert?">
+        <button type="button" class="is-on" data-where="In eigenen Räumen (wir liefern hin)">In eigenen Räumen feiern</button>
+        <button type="button" data-where="Location + Essen gesucht">Location + Essen</button>
+        <button type="button" data-where="Weiß noch nicht">Weiß noch nicht</button>
+      </div>
+      <div class="bc-count" role="group" aria-label="Personen">
+        <button type="button" id="bcMinus" aria-label="Weniger Personen">−</button>
+        <output id="bcPeople" aria-live="polite">20</output>
+        <span>Personen</span>
+        <button type="button" id="bcPlus" aria-label="Mehr Personen">+</button>
       </div>
     </div>
-    <img src="/assets/img/business-card.webp" alt="MK Business Karte für Firmenkunden von Mahboobs Kitchen" width="900" height="720" loading="lazy">
-  </div>
-</section><section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Einblicke</span>
-      <h2>Das ist unsere Arbeit – Genuss in Bildern</h2>
+    <div class="bc-bar__fields">
+      <div class="bc-field bc-field--pick"><span id="bcAnlassLbl">Anlass</span><button type="button" id="bcAnlassBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="bcAnlassLbl bcAnlassBtn">Weihnachtsfeier</button>
+        <div class="bc-pop" id="bcAnlassPop" hidden>
+          <div class="bc-pop__list" role="listbox" aria-label="Anlass wählen"><button type="button" role="option" data-v="Weihnachtsfeier" class="is-sel" aria-selected="true">Weihnachtsfeier</button><button type="button" role="option" data-v="Meeting / Besprechung">Meeting / Besprechung</button><button type="button" role="option" data-v="Mittagstisch">Mittagstisch</button><button type="button" role="option" data-v="Firmenjubiläum">Firmenjubiläum</button><button type="button" role="option" data-v="Sommerfest">Sommerfest</button><button type="button" role="option" data-v="Vereinsfest">Vereinsfest</button><button type="button" role="option" data-v="Großveranstaltung">Großveranstaltung</button><button type="button" role="option" data-v="Private Feier">Private Feier</button><button type="button" role="option" data-v="Etwas anderes">Etwas anderes</button></div>
+        </div></div>
+      <div class="bc-field bc-field--date"><span id="bcDateLbl">Wunschtermin</span><button type="button" id="bcDateBtn" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="bcDateLbl bcDateBtn">Auswählen</button>
+        <div class="bc-cal" id="bcCal" role="dialog" aria-label="Wunschtermin wählen" hidden>
+          <div class="bc-cal__head"><div><span>Wunschtermin</span><strong id="bcCalSel">Auswählen</strong></div><button type="button" class="bc-cal__done" id="bcCalDone">Fertig</button></div>
+          <div class="bc-cal__nav"><button type="button" id="bcPrev" aria-label="Vorheriger Monat">‹</button><button type="button" id="bcNext" aria-label="Nächster Monat">›</button></div>
+          <div class="bc-cal__months" id="bcMonths"></div>
+        </div></div>
+      <label class="bc-field"><span>Gastgeber</span><input type="text" id="bcFirma" placeholder="Firma, Verein oder Ihr Name" autocomplete="organization"></label>
+      <button type="submit" class="bc-go" aria-label="Anfrage per WhatsApp senden"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
-    <div class="gallery"><a href="/assets/img/buffet-1.webp" target="_blank" rel="noopener"><img src="/assets/img/buffet-1.webp" alt="Aufgebautes Buffet mit verschiedenen Gerichten bei einem Catering von Mahboobs Kitchen" width="500" height="500" loading="lazy"></a><a href="/assets/img/buffet-3.webp" target="_blank" rel="noopener"><img src="/assets/img/buffet-3.webp" alt="Liebevoll angerichtetes Buffet für ein Catering-Event" width="500" height="500" loading="lazy"></a><a href="/assets/img/buffet-5.webp" target="_blank" rel="noopener"><img src="/assets/img/buffet-5.webp" alt="Buffetaufbau mit warmen Speisen für eine Veranstaltung" width="500" height="500" loading="lazy"></a><a href="/assets/img/gedeckter-tisch.webp" target="_blank" rel="noopener"><img src="/assets/img/gedeckter-tisch.webp" alt="Gedeckter Tisch für ein privates Catering-Event" width="500" height="500" loading="lazy"></a></div>
-    <div class="text-center" style="margin-top:24px;"><a href="https://www.instagram.com/mahboobs.kitchen/" target="_blank" rel="noopener" class="btn btn--dark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg> Folge uns auf Instagram</a></div>
-  </div>
-</section><section class="section">
-  <div class="container text-center">
-    <span class="eyebrow">Liefergebiet</span>
-    <h2>Unser Catering in Ihrer Nähe</h2>
-    <p style="max-width:640px;margin:0 auto 28px;">Wir liefern unser Catering in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt, Quickborn und die Orte dazwischen.</p>
-    <div class="location-pills"><a href="/catering/henstedt-ulzburg/">Henstedt-Ulzburg</a><a href="/catering/kaltenkirchen/">Kaltenkirchen</a><a href="/catering/norderstedt/">Norderstedt</a><a href="/catering/quickborn/">Quickborn</a></div>
-  </div>
-</section><section class="section section--soft">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">FAQ</span>
-      <h2>Häufige Fragen zu unserem Catering</h2>
-    </div>
-    <div style="max-width:760px;margin:0 auto;"><div class="faq-list"><div class="faq-item">
-  <button class="faq-q" aria-expanded="false">Gibt es eine Mindestbestellmenge oder Mindestpersonenzahl?<span class="plus">+</span></button>
-  <div class="faq-a"><p>In der Regel planen wir Catering ab einer kleinen Gruppe von Gästen. Die genaue Mindestmenge hängt vom gewünschten Menü ab – sprechen Sie uns einfach mit Ihrer Gästezahl an, wir finden eine passende Lösung.</p></div>
-</div><div class="faq-item">
-  <button class="faq-q" aria-expanded="false">In welchen Regionen liefert ihr Catering aus?<span class="plus">+</span></button>
-  <div class="faq-a"><p>Wir liefern Catering in Henstedt-Ulzburg, Kaltenkirchen, Norderstedt, Quickborn und den Orten dazwischen. Bei Unsicherheit zu Ihrem Ort fragen Sie uns einfach direkt – wir prüfen die Lieferung gerne individuell.</p></div>
-</div><div class="faq-item">
-  <button class="faq-q" aria-expanded="false">Können wir euch auch nur für das Essen buchen, ohne Servicepersonal?<span class="plus">+</span></button>
-  <div class="faq-a"><p>Ja, das ist möglich. Wir liefern das Buffet fertig zubereitet und Sie übernehmen Aufbau und Service selbst, oder Sie buchen optional unser Team für Aufbau und Betreuung vor Ort.</p></div>
-</div><div class="faq-item">
-  <button class="faq-q" aria-expanded="false">Wie läuft die Lieferung und der Aufbau ab?<span class="plus">+</span></button>
-  <div class="faq-a"><p>Wir liefern Ihr Catering pünktlich zum vereinbarten Zeitpunkt an den Veranstaltungsort und bauen das Buffet auf Wunsch fertig auf, sodass Sie sich um nichts weiter kümmern müssen.</p></div>
-</div></div></div>
-    <div class="text-center" style="margin-top:24px;"><a href="/faq/" class="btn btn--dark">Alle Fragen &amp; Antworten</a></div>
-  </div>
-</section><section class="section section--dark text-center">
-  <div class="container">
-    <h2>Bereit für stressfreies Catering?</h2>
-    <p class="muted" style="max-width:620px;margin:0 auto 28px;">Erzählen Sie uns von Ihrem Event – wir melden uns mit einem individuellen Angebot zurück.</p>
-    <div class="btn-row" style="justify-content:center;">
-      <a href="/kontakt/" class="btn btn--primary">Catering Anfragen</a>
-      <a href="tel:+491772019889" class="btn btn--ghost">Anrufen: 0177 201 9889</a>
+  </form>
+</section>
+
+<!-- 2 · Vorteile -->
+<section class="bc-benefits bc-benefits--food">
+  <div class="bc-food" aria-hidden="true"><img class="bc-food__a" src="/assets/img/indische-gerichte.webp" alt=""><img class="bc-food__b" src="/assets/img/italienische-gerichte.webp" alt=""><img class="bc-food__c" src="/assets/img/sushi-gerichte.webp" alt=""><img class="bc-food__d" src="/assets/img/kochtopf.webp" alt=""></div>
+  <div class="wrap">
+    <span class="kicker">Ihre Vorteile auf einen Blick</span>
+    <h2>Alles, was eine gute Feier braucht.<br>Aus einer Hand.</h2>
+    <div class="bc-grid bc-orbit">
+      <div class="bc-orbit__core" aria-hidden="true">
+        <div class="mk-card mk-card--metal mk-card--hero">
+          <div class="mk-card__shine"></div>
+          <div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo"><span class="mk-card__label">Black Card</span></div>
+          <div class="mk-card__number">MK-4821-07</div>
+          <div class="mk-card__bottom"><div><span class="mk-card__field-label">Inhaber</span><div class="mk-card__name">IHRE FIRMA</div></div><div class="mk-card__points"><span class="mk-card__field-label">Status</span><div class="mk-card__points-value"  style="font-size:1rem;">★ VIP</div></div></div>
+        </div>
+      </div>
+      <div class="bc-benefit" style="--x:50%;--y:10%"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><h3>Ihr persönlicher Ansprechpartner</h3><p>Ein Name, eine Nummer. Kein Warten, kein Erklären.</p></div>
+      <div class="bc-benefit" style="--x:78.3%;--y:21.7%"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M5 12a7 7 0 0 1 14 0M12 5V3M2 16h20"/></svg><h3>Menüs nach Ihrem Geschmack</h3><p>Indisch, Italienisch, Sushi – frisch gekocht und auf Ihren Anlass abgestimmt.</p></div>
+      <div class="bc-benefit" style="--x:90%;--y:50%"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h12v9H2zM14 10h4l4 3v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><h3>Lieferung, Aufbau, Abbau</h3><p>Sie sind Gastgeber, nicht Organisator.</p></div>
+      <div class="bc-benefit" style="--x:78.3%;--y:78.3%"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><h3>Exklusive Locations</h3><p>Zugang zu ausgewählten Orten – von der Fabrikhalle bis zum Saal am Wasser.</p></div>
+      <div class="bc-benefit" style="--x:50%;--y:90%"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-9h9v9l-9 9z"/><circle cx="16" cy="8" r="1.6"/></svg><h3>Karteninhaber-Konditionen</h3><p>Feste, faire Preise bei jeder Bestellung – ganz ohne Verhandeln.</p></div>
+      <div class="bc-benefit" style="--x:21.7%;--y:78.3%"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg><h3>Vorrang bei Terminen</h3><p>Karteninhaber bekommen die besten Termine zuerst – besonders im Dezember.</p></div>
+      <div class="bc-benefit" style="--x:10%;--y:50%"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg><h3>Ihr Logo auf dem Buffet</h3><p>Ihr Auftritt – bis ins Detail.</p></div>
+      <div class="bc-benefit" style="--x:21.7%;--y:21.7%"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><h3>Jederzeit, überall</h3><p>Vom Mittagstisch für 10 bis zur Feier für 400 Gäste.</p></div>
     </div>
   </div>
 </section>
+
+<!-- 3 · Für wen -->
+<section class="bc-who" id="fuer-wen">
+  <div class="sxbg sxbg--top" aria-hidden="true" style="background-image:url('/assets/img/buffet-9.webp');background-position:50% 40%"></div>
+  <div class="wrap">
+    <span class="kicker">Für wen</span>
+    <h2>Gemacht für alle,<br>die Gastgeber sind.</h2>
+    <div class="who__row">
+      <article class="who"><img src="/assets/img/buffet-6.webp" alt="Buffet für eine Firmenfeier" loading="lazy"><div class="who__body"><span class="who__kick">Firmen</span><h3>Unternehmen</h3><ul><li>Weihnachtsfeier</li><li>Meeting</li><li>Mittagstisch</li></ul><a href="#bcBar" class="who__go" data-anlass="Weihnachtsfeier">Anfragen <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+      <article class="who"><img src="/assets/img/catering-tisch-draussen.webp" alt="Catering im Freien für ein Vereinsfest" loading="lazy"><div class="who__body"><span class="who__kick">Vereine</span><h3>Vereine</h3><ul><li>Sommerfest</li><li>Jahresversammlung</li><li>Saisonabschluss</li></ul><a href="#bcBar" class="who__go" data-anlass="Vereinsfest">Anfragen <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+      <article class="who"><img src="/assets/img/locations/fabrikhalle.webp" alt="Historische Fabrikhalle für Großveranstaltungen" loading="lazy"><div class="who__body"><span class="who__kick">Ab 100 Gästen</span><h3>Groß&shy;veranstaltungen</h3><ul><li>Abiball</li><li>Gala</li><li>Firmenjubiläum</li></ul><a href="#bcBar" class="who__go" data-anlass="Großveranstaltung">Anfragen <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+      <article class="who"><img src="/assets/img/tisch-gedeckt-2.webp" alt="Festlich gedeckter Tisch für eine private Feier" loading="lazy"><div class="who__body"><span class="who__kick">Privat</span><h3>Private Feiern</h3><ul><li>Geburtstag</li><li>Hochzeit</li><li>Familienfeier</li></ul><a href="#bcBar" class="who__go" data-anlass="Private Feier">Anfragen <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- Die Küche (Inszenierung) -->
+<section class="kx" id="kueche">
+  <div class="sxbg sxbg--right" aria-hidden="true" style="background-image:url('/assets/img/kochtopf.webp');background-position:80% 30%"></div>
+  <div class="wrap">
+    <span class="kicker">Die Küche</span>
+    <h2>Angerichtet,<br>um zu beeindrucken.</h2>
+    <div class="kx__tabs" role="tablist" aria-label="Buffet-Art wählen"><button type="button" role="tab" id="kt-warm" aria-controls="kp-warm" aria-selected="true" class="is-on">Warmes Buffet</button><button type="button" role="tab" id="kt-finger" aria-controls="kp-finger" aria-selected="false" tabindex="-1">Fingerfood</button><button type="button" role="tab" id="kt-sushi" aria-controls="kp-sushi" aria-selected="false" tabindex="-1">Sushi-Buffet</button><button type="button" role="tab" id="kt-tafel" aria-controls="kp-tafel" aria-selected="false" tabindex="-1">Festliche Tafel</button></div>
+    <div class="kx__panels"><div class="kx__panel is-on" role="tabpanel" id="kp-warm" aria-labelledby="kt-warm"><div class="kx__stage"><img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="Warmes Buffet in glänzenden Chafing Dishes" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für jede Feier</span><h3>Das warme Buffet</h3><p>Dampfend frisch in eleganten Chafing Dishes – Ihre Gäste bedienen sich, wir halten alles perfekt warm.</p><ul><li>Indisch, Italienisch oder gemischt</li><li>In Chafing Dishes warmgehalten</li><li>Inklusive Aufbau und Abbau</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-finger" aria-labelledby="kt-finger" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/fingerfood-tafel.webp" alt="Weiß eingedeckte Fingerfood-Tafel mit Canapés und Häppchen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für Empfang & Meeting</span><h3>Die Fingerfood-Tafel</h3><p>Kleine Häppchen, großer Eindruck – ideal für Empfänge, Meetings und lockere Runden im Stehen.</p><ul><li>Canapés, Samosas, Bruschetta</li><li>Auf Wunsch mit Ihrem Logo</li><li>Perfekt ab 10 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-sushi" aria-labelledby="kt-sushi" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/sushi-buffet.webp" alt="Sushi-Buffet in Holzschalen mit Maki und Nigiri" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Der Hingucker</span><h3>Das Sushi-Buffet</h3><p>Kunstvoll angerichtet und leicht – das Highlight für Meetings, Jubiläen und besondere Abende.</p><ul><li>Maki, Nigiri und vegetarische Rolls</li><li>Frisch zubereitet am Veranstaltungstag</li><li>Ab 6 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-tafel" aria-labelledby="kt-tafel" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="Festlich eingedeckte lange Tafel mit Kerzen und Blumen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für große Anlässe</span><h3>Die festliche Tafel</h3><p>Eingedeckt, dekoriert und betreut – für Weihnachtsfeiern, Galas und Jubiläen in unseren Partner-Locations.</p><ul><li>Location, Deko und Service aus einer Hand</li><li>Von 30 bis 400 Gästen</li><li>Persönliche Planung mit Reyyan</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div></div>
+    <p class="kx__note">Frisch gekocht · vegetarisch, vegan und halal möglich · Allergene gekennzeichnet</p>
+  </div>
+</section>
+
+<!-- Orte (Karussell) -->
+<section class="lx" id="orte" aria-labelledby="lxTitle">
+  <div class="wrap lx__head">
+    <div>
+      <span class="kicker">Orte &amp; Anlässe</span>
+      <h2 id="lxTitle">Orte, die in<br>Erinnerung bleiben.</h2>
+      <p class="lead">Bei Ihnen im Haus oder in einer unserer Partner-Locations – wir bringen Küche, Service und Ablauf mit.</p>
+    </div>
+    <div class="lx__nav">
+      <button type="button" id="lxPrev" aria-label="Vorherige Orte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button type="button" id="lxNext" aria-label="Nächste Orte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+  <div class="lx__track" id="lxTrack" tabindex="0" aria-label="Orte und Anlässe, seitlich wischen"><article class="lc" role="group" aria-roledescription="Folie" aria-label="1 von 8: Großer Saal in Norderstedt"><img src="/assets/img/locations/saal-norderstedt.webp" alt="Großer Saal in Norderstedt" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Großer Saal in Norderstedt</h3><p>Mehrere Säle, Bühne, Tanzfläche – Parkplätze direkt vor der Tür.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>20 bis 450 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="2 von 8: Gala & Bühne"><img src="/assets/img/locations/stimmung-gala.webp" alt="Gala & Bühne" loading="lazy"><div class="lc__body"><span class="lc__kick">Event-Location</span><h3>Gala & Bühne</h3><p>Licht, Blumen, Bühne – für Jubiläen, Abibälle und Galas.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>ab 100 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="3 von 8: Haus am Wasser"><img src="/assets/img/locations/am-wasser.webp" alt="Haus am Wasser" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Haus am Wasser</h3><p>Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 160 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="4 von 8: Historische Fabrikhalle"><img src="/assets/img/locations/fabrikhalle.webp" alt="Historische Fabrikhalle" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Historische Fabrikhalle</h3><p>Backstein und Stahl von 1908 – direkt an der S-Bahn in Barmbek.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>50 bis 200 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="5 von 8: Golfclub im Grünen"><img src="/assets/img/locations/im-gruenen.webp" alt="Golfclub im Grünen" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Golfclub im Grünen</h3><p>Ruhig und gehoben – für die Feier, die etwas edler sein soll.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>kleinere Runden</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="6 von 8: Terrasse & Hof"><img src="/assets/img/locations/stimmung-terrasse.webp" alt="Terrasse & Hof" loading="lazy"><div class="lc__body"><span class="lc__kick">Event-Location</span><h3>Terrasse & Hof</h3><p>Zypressen, Kies und Sonne – für Empfänge und Sommerfeste.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 120 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="7 von 8: Industrie-Loft Hamburg-Nord"><img src="/assets/img/locations/loft-hamburg.webp" alt="Industrie-Loft Hamburg-Nord" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Industrie-Loft Hamburg-Nord</h3><p>Hohe Decken, Klinker und Stahl – über die A7 schnell erreichbar.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>60 bis 150 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article><article class="lc" role="group" aria-roledescription="Folie" aria-label="8 von 8: Gasthof mit Festsaal"><img src="/assets/img/locations/gasthof.webp" alt="Gasthof mit Festsaal" loading="lazy"><div class="lc__body"><span class="lc__kick">Partner-Location</span><h3>Gasthof mit Festsaal</h3><p>Traditionell, mit Biergarten – und Hotelzimmern, falls es später wird.</p><div class="lc__foot"><span class="lc__cap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 4 1.8 4.6 4.3"/></svg>bis 250 Gäste</span><a href="#bcBar" class="lc__go" data-where="Location + Essen gesucht">Anfragen</a></div></div></article></div>
+  <div class="wrap"><div class="lx__bar"><span id="lxBar"></span></div></div>
+</section>
+
+<!-- 4 · Konditionen (Teaser, Preise auf der Karte) -->
+<section class="pz" id="preise">
+  <div class="sxbg sxbg--full" aria-hidden="true" style="background-image:url('/assets/img/buffet-4.webp');background-position:30% 50%"></div>
+  <div class="wrap pz__grid">
+    <div class="pz__text">
+      <span class="kicker">Konditionen</span>
+      <h2>Prestige muss<br>nicht teuer sein.</h2>
+      <p class="lead">Faire, transparente Preise pro Person – und mit der Black Card zahlen Sie bei jeder Bestellung weniger. Ihre Preise sehen Sie jederzeit auf Ihrer digitalen Karte.</p>
+      <ul class="pz__promise">
+        <li><strong>Feste Preise pro Person</strong><span>Keine Überraschungen auf der Rechnung.</span></li>
+        <li><strong>Alles aus einer Hand</strong><span>Lieferung, Aufbau und Abbau – ab 20 Personen inklusive.</span></li>
+        <li><strong>Kostenlos und ohne Bindung</strong><span>Keine Grundgebühr, keine Mindestbestellung.</span></li>
+      </ul>
+      <a href="#bcBar" class="kx__cta pz__cta">Karte anfordern</a>
+      <p class="pz__fine">Preise pro Person. Lieferung und Aufbau ab 20 Personen inklusive. Ihr genaues Angebot erhalten Sie persönlich.</p>
+    </div>
+    <div class="pz__tiles"><div class="pz__tile"><img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="" loading="lazy"><div class="pz__info"><span>Fürs ganze Team</span><strong>Mittagstisch</strong><div class="pz__reg"><span class="pz__lbl">Normalpreis</span> ab <b>11,90 €</b> p. P.<small>Einzelgerichte, ab 10 Personen</small></div><em><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Mit Black Card ab <b>10,50 €</b></em></div></div><div class="pz__tile"><img src="/assets/img/buffet-szenen/besprechung-platten.webp" alt="" loading="lazy"><div class="pz__info"><span>Für Meetings</span><strong>Besprechung</strong><div class="pz__reg"><span class="pz__lbl">Normalpreis</span> ab <b>13,50 €</b> p. P.<small>Meeting-Snack, ab 5 Personen</small></div><em><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Mit Black Card ab <b>11,90 €</b></em></div></div><div class="pz__tile"><img src="/assets/img/buffet-szenen/sushi-platte.webp" alt="" loading="lazy"><div class="pz__info"><span>Der Hingucker</span><strong>Sushi-Platte</strong><div class="pz__reg"><span class="pz__lbl">Normalpreis</span> ab <b>18,90 €</b> p. P.<small>Sushi-Runde, ab 5 Personen</small></div><em><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Mit Black Card ab <b>16,90 €</b></em></div></div><div class="pz__tile"><img src="/assets/img/weihnachten.webp" alt="" loading="lazy"><div class="pz__info"><span>Das Highlight</span><strong>Weihnachtsfeier</strong><div class="pz__reg"><span class="pz__lbl">Normalpreis</span> ab <b>31,90 €</b> p. P.<small>Buffet, geliefert und aufgebaut</small></div><em><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Mit Black Card ab <b>27,50 €</b></em></div></div></div>
+  </div>
+</section>
+
+<!-- Schritte (visuell) -->
+<section class="st" id="black-card" aria-labelledby="stTitle">
+  <div class="wrap">
+    <span class="kicker">So einfach geht's</span>
+    <h2 id="stTitle">In drei Schritten<br>zu Ihrer Black Card.</h2>
+    <div class="st__capbar"><p class="st__cap" id="stCap" aria-live="polite">So einfach geht es – in weniger als einer Minute.</p></div>
+    <ol class="st__row" id="stRow">
+      <li class="st__line" aria-hidden="true"><span></span></li>
+      <li class="st__step">
+        <div class="st__vis st__vis--form" aria-hidden="true">
+          <div class="st__f st__f--firma"><span>Firma</span><b><i id="stFirma"></i><em class="st__caret"></em></b></div>
+                    <div class="st__f st__f--sel"><span>Anlass</span><b id="stAnlass">Auswählen …</b></div>
+          <div class="st__btn">Karte anfordern</div>
+          <svg class="st__cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.4L10 19z"/></svg>
+        </div>
+        <span class="st__no">01</span>
+        <h3>Karte anfordern</h3>
+        <p>Ein kurzes Formular. Eine Minute.</p>
+      </li>
+      <li class="st__step">
+        <div class="st__vis st__vis--card" aria-hidden="true">
+          <span class="st__note"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Ihre Black Card ist da</span>
+          <div class="mk-card mk-card--metal mk-card--hero">
+            <div class="mk-card__shine"></div>
+            <div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo"><span class="mk-card__label">Black Card</span></div>
+            <div class="mk-card__number">MK-4821-07</div>
+            <div class="mk-card__bottom"><div><span class="mk-card__field-label">Inhaber</span><div class="mk-card__name" id="stCardName">NORDLICHT GMBH</div></div><div class="mk-card__points"><span class="mk-card__field-label">Status</span><div class="mk-card__points-value"  style="font-size:1rem;">★ VIP</div></div></div>
+          </div>
+        </div>
+        <span class="st__no">02</span>
+        <h3>Persönlich erhalten</h3>
+        <p>Ich melde mich innerhalb von 24 Stunden. Ihre Karte kommt digital – mit persönlicher Kundennummer.</p>
+      </li>
+      <li class="st__step">
+        <div class="st__vis st__vis--order" aria-hidden="true">
+          <img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="" loading="lazy">
+          <span class="st__tag"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Buffet <s>31,90 €</s> <b>27,50 €</b> p. P.</span>
+        </div>
+        <span class="st__no">03</span>
+        <h3>Bestellen &amp; sparen</h3>
+        <p>Ein Anruf oder ein Klick auf Ihrer Karte genügt – und wir kümmern uns um den Rest.</p>
+      </li>
+    </ol>
+    <div class="st__cta"><a href="#bcBar" class="kx__cta">Karte kostenlos anfordern</a><span>Keine Grundgebühr · keine Mindestbestellung · keine Bindung</span></div>
+  </div>
+</section>
+
+<!-- 8 · Weihnachten 2026 -->
+<section class="xm" aria-labelledby="xmTitle">
+  <div class="xm__bg" aria-hidden="true"></div>
+  <div class="xm__lights" aria-hidden="true"></div>
+  <div class="wrap xm__grid">
+    <div class="xm__text">
+      <span class="kicker">Weihnachten 2026</span>
+      <h2 id="xmTitle">Ihre Weihnachtsfeier.<br>Ohne Stress.</h2>
+      <p class="lead">Die Feier-Saison beginnt bald – und die beliebten Termine sind schnell vergeben. Sichern Sie sich jetzt Ihren Wunschtermin, bei Ihnen im Haus oder in einer Partner-Location.</p>
+      <div class="xm__timer" aria-label="Countdown bis zum 1. Dezember">
+        <p class="xm__timer-lbl">Noch bis zur Feier-Saison</p>
+        <div class="xm__units" id="xmTimer"><div><b data-u="d">00</b><span>Tage</span></div><div><b data-u="h">00</b><span>Std.</span></div><div><b data-u="m">00</b><span>Min.</span></div><div><b data-u="s">00</b><span>Sek.</span></div></div>
+      </div>
+      <ul class="xm__facts">
+        <li><strong>Festliches Buffet</strong><span>mit Black Card ab 27,50&nbsp;€ p.&nbsp;P.</span></li>
+        <li><strong>Probeessen</strong><span>vorab möglich</span></li>
+        <li><strong>Für jeden Geschmack</strong><span>Fleisch, Fisch, vegetarisch &amp; vegan</span></li>
+      </ul>
+    </div>
+    <div class="xm__pick">
+      <p class="xm__pick-title">Ihr Wunschtermin</p>
+      <p class="xm__pick-sub">Jeder Tag ist möglich – auch im November oder Januar.</p>
+      <div class="xm__cal"><div class="xm__calhead"><button type="button" id="xmPrev" aria-label="Vorheriger Monat">‹</button><strong id="xmMonth"></strong><button type="button" id="xmNext" aria-label="Nächster Monat">›</button></div><div class="xm__grid7" id="xmDates"></div><p class="xm__legend"><i></i>Beliebt: Donnerstag &amp; Freitag</p></div>
+      <button type="button" class="xm__go" id="xmGo" disabled>Termin anfragen</button>
+      <p class="xm__hint">Unverbindlich · Antwort innerhalb von 24 Stunden</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · Abschluss (Amalfi-Stil, Vollbild) -->
+<section class="fin" aria-labelledby="finTitle">
+  <img src="/assets/img/buffet-szenen/abschluss-terrasse.webp" alt="Festlich eingedeckte Tafeln unter freiem Himmel" loading="lazy" class="fin__img">
+  <div class="fin__body">
+    <span class="fin__kick">Catering · Service · Erlebnis</span>
+    <h2 id="finTitle">Was feiern Sie<br>als Nächstes?</h2>
+    <p>Catering für Firmen, Vereine und große Anlässe – frisch gekocht, geliefert und aufgebaut.</p>
+    <div class="fin__btns">
+      <a href="#bcBar" class="fin__go" id="finGo">Jetzt anfragen</a>
+      <a href="tel:+491772019889" class="fin__tel">Anrufen: 0177 201 9889</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="rq" id="rq" role="dialog" aria-modal="true" aria-labelledby="rqTitle" hidden>
+  <div class="rq__left">
+    <img src="/assets/img/logo.webp" alt="Mahboobs Kitchen" class="rq__logo">
+    <h2 id="rqTitle">Ein paar kurze Angaben – ich melde mich persönlich innerhalb von 24 Stunden.</h2>
+    <p class="rq__sig">Reyyan Ahmad · Ihr Ansprechpartner</p>
+  </div>
+  <div class="rq__right">
+    <div class="rq__top">
+      <button type="button" class="rq__back" id="rqBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button>
+      <div class="rq__sum" id="rqSum"></div>
+    </div>
+    <form id="rqForm" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="rq__hp" aria-hidden="true">
+      <div class="rq__as" role="radiogroup" aria-label="Ich frage an als"><span>Ich frage an als</span><button type="button" role="radio" aria-checked="true" class="is-on" data-as="Firma">Firma</button><button type="button" role="radio" aria-checked="false" data-as="Verein">Verein</button><button type="button" role="radio" aria-checked="false" data-as="Privat">Privat</button><input type="hidden" name="anfrage_als" id="rqAls" value="Firma"></div>
+      <div class="rq__row">
+        <input class="rq__in" name="vorname" id="rqVorname" placeholder="Vorname" autocomplete="given-name" required>
+        <input class="rq__in" name="nachname" placeholder="Nachname" autocomplete="family-name">
+      </div>
+      <input class="rq__in" name="firma" id="rqFirma" placeholder="Name der Firma" autocomplete="organization">
+      <div class="rq__row">
+        <input class="rq__in" type="email" name="email" id="rqEmail" placeholder="E-Mail" autocomplete="email">
+        <input class="rq__in" type="tel" name="telefon" id="rqTel" placeholder="Telefon" autocomplete="tel">
+      </div>
+      <div class="rq-dd" data-name="quelle"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie sind Sie auf uns aufmerksam geworden?</span></button><input type="hidden" name="quelle"><div class="rq-dd__pop" role="listbox" aria-label="Wie sind Sie auf uns aufmerksam geworden?" hidden><button type="button" role="option" data-v="Google">Google</button><button type="button" role="option" data-v="Empfehlung">Empfehlung</button><button type="button" role="option" data-v="Persönlicher Besuch">Persönlicher Besuch</button><button type="button" role="option" data-v="Instagram">Instagram</button><button type="button" role="option" data-v="Black Card per E-Mail">Black Card per E-Mail</button><button type="button" role="option" data-v="Sonstiges">Sonstiges</button></div></div>
+      <div class="rq-dd" data-name="bisher"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie organisieren Sie Catering bisher?</span></button><input type="hidden" name="bisher"><div class="rq-dd__pop" role="listbox" aria-label="Wie organisieren Sie Catering bisher?" hidden><button type="button" role="option" data-v="Noch gar nicht">Noch gar nicht</button><button type="button" role="option" data-v="Wechselnde Caterer">Wechselnde Caterer</button><button type="button" role="option" data-v="Fester Caterer">Fester Caterer</button><button type="button" role="option" data-v="Selbst organisiert">Selbst organisiert</button><button type="button" role="option" data-v="Restaurant / Lieferdienst">Restaurant / Lieferdienst</button></div></div>
+      <div class="rq-dd" data-name="haeufigkeit"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie oft bewirten oder feiern Sie im Jahr?</span></button><input type="hidden" name="haeufigkeit"><div class="rq-dd__pop" role="listbox" aria-label="Wie oft bewirten oder feiern Sie im Jahr?" hidden><button type="button" role="option" data-v="Einmal im Jahr">Einmal im Jahr</button><button type="button" role="option" data-v="2–5 Mal im Jahr">2–5 Mal im Jahr</button><button type="button" role="option" data-v="Etwa monatlich">Etwa monatlich</button><button type="button" role="option" data-v="Wöchentlich oder öfter">Wöchentlich oder öfter</button></div></div>
+      <textarea class="rq__in rq__ta" name="wuensche" placeholder="Wünsche: vegetarisch, halal, Allergien, Budget …"></textarea>
+      <label class="rq__check"><input type="checkbox" name="newsletter" value="ja"><span>Ich möchte Angebote der MK Black Card per E-Mail erhalten. Abmeldung jederzeit möglich.</span></label>
+      <p class="rq__legal">Mit dem Absenden werden Ihre Angaben zur Bearbeitung Ihrer Anfrage verwendet. Mehr in unserer <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+      <p class="rq__err" id="rqErr" role="alert" hidden></p>
+      <button type="submit" class="rq__send" id="rqSend">Anfrage senden</button>
+    </form>
+    <div class="rq__done" id="rqDone" hidden>
+      <h3>Vielen Dank.</h3>
+      <p>Ihre Anfrage ist angekommen. Ich melde mich persönlich innerhalb von 24 Stunden bei Ihnen.</p>
+      <p class="rq__alt">Lieber sofort sprechen? <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> · <a href="tel:+491772019889">0177 201 9889</a></p>
+      <button type="button" class="rq__back" id="rqClose">Zurück zur Seite</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="viewerBanner" class="presentation-banner" hidden><span id="viewerBannerText">Verbinde mit Live-Präsentation …</span></div>
+<div id="presenterBar" class="presentation-bar" hidden>
+  <div class="presentation-bar__info"><strong>🔴 Live-Präsentation läuft</strong><span class="presentation-bar__link">Kunden sehen jetzt automatisch, wohin Sie scrollen.</span></div>
+  <div class="presentation-bar__actions"><button type="button" id="presenterEndBtn" class="btn btn--primary">Präsentation beenden</button></div>
+</div>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div>
         <img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65">
         <p>Catering für private Feiern, Firmenevents und Veranstaltungen in Henstedt-Ulzburg und Umgebung — Indisch, Italienisch &amp; Sushi aus einer Hand.</p>
-        <a href="https://www.instagram.com/mahboobs.kitchen/" target="_blank" rel="noopener" class="social-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg> Folge uns auf Instagram</a>
       </div>
       <div>
-        <h4>Leistungen</h4>
-        <a href="/privates-catering/">Privates Catering</a>
-        <a href="/firmen-catering/">Firmen-Catering</a>
-        <a href="/speisen/">Speisen</a>
-        <a href="/ablauf/">Ablauf</a>
-        <a href="/business/?viewer=live">Business Karte</a>
+        <h4>Angebot</h4>
+        <a href="/#kueche">Die Küche</a>
+        <a href="/#orte">Locations</a>
+        <a href="/#preise">Preise</a>
+        <a href="/business/antrag/">Black Card anfordern</a>
+        <a href="/partner/">Für Location-Partner</a>
       </div>
       <div>
         <h4>Standorte</h4>
@@ -231,7 +897,7 @@
         <address style="font-style:normal;">
           <a href="tel:+491772019889">Tel: 0177 201 9889</a>
           <a href="mailto:info@mahboobs-kitchen.com">info@mahboobs-kitchen.com</a>
-          <a href="/kontakt/">Henstedter Str. 4, 24558 Wakendorf II</a>
+          <a href="/#bcBar">Henstedter Str. 4, 24558 Wakendorf II</a>
         </address>
         <a href="/impressum/">Impressum</a>
         <a href="/datenschutz/">Datenschutz</a>
@@ -244,10 +910,208 @@
     </div>
   </div>
 </footer>
+
+<div class="mkc" id="mkc">
+  <section class="mkc__panel" id="mkcPanel" aria-label="Chat mit Reyyan" hidden>
+    <header class="mkc__head">
+      <span class="mkc__head-av" aria-hidden="true"><img src="/assets/img/favicon.webp" alt=""></span>
+      <div><strong>Reyyan · Mahboobs Kitchen</strong><span><i class="mkc__dot"></i>Antwortet meist in wenigen Stunden</span></div>
+      <button type="button" class="mkc__min" id="mkcMin" aria-label="Chat schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    </header>
+    <div class="mkc__body" id="mkcBody" aria-live="polite">
+      <div class="mkc__msg">Hallo! 👋 Ich bin Reyyan, Ihr persönlicher Ansprechpartner für Catering und die MK Black Card.</div>
+      <div class="mkc__msg">Worum geht es bei Ihnen?</div>
+      <div class="mkc__chips" id="mkcChips">
+        <button type="button">Weihnachtsfeier anfragen</button>
+        <button type="button">Was kostet ein Buffet?</button>
+        <button type="button">Wie funktioniert die Black Card?</button>
+        <button type="button">Catering für unseren Verein</button>
+      </div>
+    </div>
+    <form class="mkc__foot" id="mkcForm">
+      <label for="mkcIn" class="mkc__sr">Nachricht</label>
+      <input id="mkcIn" type="text" placeholder="Nachricht schreiben …" autocomplete="off">
+      <button type="submit" aria-label="Senden"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button>
+    </form>
+    <p class="mkc__note">Ihre Nachricht geht per WhatsApp direkt an mich.</p>
+  </section>
+
+  <div class="mkc__bubble" id="mkcBubble" role="status" hidden>
+    <span class="mkc__avatar" aria-hidden="true"><img src="/assets/img/favicon.webp" alt=""></span>
+    <button type="button" class="mkc__x" id="mkcX" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <p>Fragen zu Ihrer Feier? Schreiben Sie mir – ich antworte persönlich.</p>
+  </div>
+  <button type="button" class="mkc__btn" id="mkcBtn" aria-label="Chat öffnen" aria-expanded="false" aria-controls="mkcPanel"><svg class="mkc__ico-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><svg class="mkc__ico-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
 <div class="sticky-cta">
   <a class="btn btn--dark" href="tel:+491772019889">Anrufen</a>
-  <a class="btn btn--primary" href="/kontakt/">Catering Anfragen</a>
+  <a class="btn btn--primary" href="/#bcBar">Jetzt anfragen</a>
 </div>
 <script src="/assets/js/main.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};</script>
+<script src="/assets/js/business-auth.js" defer></script>
+<script src="/assets/js/business-presentation.js" defer></script>
+<script>
+(function(){var btn=document.getElementById('bcAnlassBtn');if(!btn)return;var pop=document.getElementById('bcAnlassPop');window.bcAnlass=btn.textContent;
+function open(o){pop.hidden=!o;btn.setAttribute('aria-expanded',o);if(o){var c=document.getElementById('bcCal');if(c&&!c.hidden)c.hidden=true}}
+btn.onclick=function(e){e.stopPropagation();open(pop.hidden)};
+pop.onclick=function(e){e.stopPropagation();var b=e.target.closest('button[data-v]');if(!b)return;pop.querySelectorAll('button[data-v]').forEach(function(x){x.classList.remove('is-sel');x.removeAttribute('aria-selected')});b.classList.add('is-sel');b.setAttribute('aria-selected','true');window.bcAnlass=b.dataset.v;btn.textContent=b.dataset.v;open(false);btn.focus()};
+document.addEventListener('click',function(){if(!pop.hidden)open(false)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pop.hidden){open(false);btn.focus()}});
+document.getElementById('bcDateBtn')&&document.getElementById('bcDateBtn').addEventListener('click',function(){open(false)});})();
+</script>
+<script>
+(function(){var btn=document.getElementById('bcDateBtn');if(!btn)return;var cal=document.getElementById('bcCal'),box=document.getElementById('bcMonths'),selL=document.getElementById('bcCalSel');
+var M=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],W=['Mo','Di','Mi','Do','Fr','Sa','So'],WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
+var t=new Date();t.setHours(0,0,0,0);var view=new Date(t.getFullYear(),t.getMonth(),1),sel=null;btn.classList.add('is-empty');
+function fmt(d){return WD[d.getDay()]+', '+('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+d.getFullYear()}
+function month(y,m){var f=new Date(y,m,1),off=(f.getDay()+6)%7,n=new Date(y,m+1,0).getDate(),h='<div class="bc-cal__m"><h4>'+M[m]+' '+y+'</h4><div class="bc-cal__g">';
+W.forEach(function(w){h+='<b>'+w+'</b>'});for(var i=0;i<off;i++)h+='<i>.</i>';
+for(var d=1;d<=n;d++){var x=new Date(y,m,d),past=x<t,isS=sel&&x.getTime()===sel.getTime();h+='<button type="button" data-t="'+x.getTime()+'"'+(past?' disabled':'')+(isS?' class="is-sel"':'')+' aria-label="'+d+'. '+M[m]+' '+y+'">'+d+'</button>'}
+return h+'</div></div>'}
+function render(){box.innerHTML=month(view.getFullYear(),view.getMonth())+month(view.getFullYear(),view.getMonth()+1>11?0:view.getMonth()+1).replace(/^/,'');
+if(view.getMonth()===11){box.innerHTML=month(view.getFullYear(),11)+month(view.getFullYear()+1,0)}
+document.getElementById('bcPrev').disabled=view.getFullYear()===t.getFullYear()&&view.getMonth()===t.getMonth();
+selL.textContent=sel?fmt(sel):'Auswählen'}
+function open(o){cal.hidden=!o;btn.setAttribute('aria-expanded',o);if(o)render()}
+btn.onclick=function(e){e.stopPropagation();open(cal.hidden)};
+document.getElementById('bcCalDone').onclick=function(){open(false);btn.focus()};
+document.getElementById('bcPrev').onclick=function(){view=new Date(view.getFullYear(),view.getMonth()-1,1);render()};
+document.getElementById('bcNext').onclick=function(){view=new Date(view.getFullYear(),view.getMonth()+1,1);render()};
+box.onclick=function(e){var b=e.target.closest('button[data-t]');if(!b||b.disabled)return;sel=new Date(+b.dataset.t);btn.textContent=fmt(sel);btn.classList.remove('is-empty');render()};
+cal.onclick=function(e){e.stopPropagation()};document.addEventListener('click',function(){if(!cal.hidden)open(false)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!cal.hidden){open(false);btn.focus()}});
+window.bcGetDate=function(){return sel?fmt(sel):''};window.bcSetDate=function(d){sel=new Date(d.getFullYear(),d.getMonth(),d.getDate());view=new Date(sel.getFullYear(),sel.getMonth(),1);btn.textContent=fmt(sel);btn.classList.remove('is-empty')};})();
+</script>
+<script>
+(function(){var f=document.getElementById('bcBar');if(!f)return;var n=20,o=document.getElementById('bcPeople'),w='In eigenen Räumen (wir liefern hin)';
+function set(v){n=Math.max(5,Math.min(500,v));o.textContent=n}
+document.getElementById('bcMinus').onclick=function(){set(n-(n>50?10:5))};document.getElementById('bcPlus').onclick=function(){set(n+(n>=50?10:5))};
+f.querySelectorAll('.bc-seg button').forEach(function(b){b.onclick=function(){f.querySelectorAll('.bc-seg button').forEach(function(x){x.classList.remove('is-on')});b.classList.add('is-on');w=b.dataset.where}});
+f.addEventListener('submit',function(e){e.preventDefault();var d=window.bcGetDate?window.bcGetDate():'',firma=document.getElementById('bcFirma').value.trim();if(window.bcOpenRequest)window.bcOpenRequest({anlass:window.bcAnlass||'Anfrage',personen:n,datum:d,wo:w,firma:firma})});})();
+</script>
+<script>
+(function(){
+var rq=document.getElementById('rq');if(!rq)return;var form=document.getElementById('rqForm'),err=document.getElementById('rqErr'),send=document.getElementById('rqSend'),done=document.getElementById('rqDone'),sum=document.getElementById('rqSum'),ctx={},lastFocus=null;
+rq.querySelectorAll('.rq-dd').forEach(function(d){var b=d.querySelector('.rq-dd__btn'),pop=d.querySelector('.rq-dd__pop'),inp=d.querySelector('input');
+ function open(o){rq.querySelectorAll('.rq-dd__pop').forEach(function(x){if(x!==pop){x.hidden=true;x.parentNode.querySelector('.rq-dd__btn').setAttribute('aria-expanded','false')}});pop.hidden=!o;b.setAttribute('aria-expanded',o)}
+ b.onclick=function(e){e.stopPropagation();open(pop.hidden)};
+ pop.onclick=function(e){e.stopPropagation();var o=e.target.closest('button[data-v]');if(!o)return;pop.querySelectorAll('button').forEach(function(x){x.classList.remove('is-sel')});o.classList.add('is-sel');inp.value=o.dataset.v;b.innerHTML='<span>'+o.dataset.v+'</span>';open(false);b.focus()};});
+rq.addEventListener('click',function(){rq.querySelectorAll('.rq-dd__pop').forEach(function(x){x.hidden=true;x.parentNode.querySelector('.rq-dd__btn').setAttribute('aria-expanded','false')})});
+function show(c){ctx=c;lastFocus=document.activeElement;sum.innerHTML='';[c.anlass,c.personen+' Personen',c.datum||'Termin offen',c.wo].forEach(function(t){var sp=document.createElement('span');sp.textContent=t;sum.appendChild(sp)});
+ if(c.firma)document.getElementById('rqFirma').value=c.firma;form.hidden=false;done.hidden=true;err.hidden=true;rq.hidden=false;document.documentElement.style.overflow='hidden';setTimeout(function(){document.getElementById('rqVorname').focus()},50)}
+function hide(){rq.hidden=true;document.documentElement.style.overflow='';if(lastFocus)lastFocus.focus()}
+
+var als=document.getElementById('rqAls'),firmaIn=document.getElementById('rqFirma');
+rq.querySelectorAll('.rq__as button').forEach(function(b){b.onclick=function(){rq.querySelectorAll('.rq__as button').forEach(function(x){x.classList.remove('is-on');x.setAttribute('aria-checked','false')});b.classList.add('is-on');b.setAttribute('aria-checked','true');als.value=b.dataset.as;
+ firmaIn.hidden=b.dataset.as==='Privat';firmaIn.placeholder=b.dataset.as==='Verein'?'Name des Vereins':'Name der Firma';firmaIn.classList.remove('is-bad')}});
+window.bcOpenRequest=show;
+document.getElementById('rqBack').onclick=hide;document.getElementById('rqClose').onclick=hide;
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!rq.hidden&&!rq.querySelector('.rq-dd__pop:not([hidden])'))hide()});
+form.addEventListener('submit',function(e){e.preventDefault();err.hidden=true;form.querySelectorAll('.is-bad').forEach(function(x){x.classList.remove('is-bad')});
+ var v=document.getElementById('rqVorname'),f=document.getElementById('rqFirma'),em=document.getElementById('rqEmail'),tel=document.getElementById('rqTel'),bad=[];
+ if(!v.value.trim())bad.push(v);if(als.value!=='Privat'&&!f.value.trim())bad.push(f);if(!em.value.trim()&&!tel.value.trim()){bad.push(em);bad.push(tel)}
+ if(em.value.trim()&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value.trim()))bad.push(em);
+ if(bad.length){bad.forEach(function(x){x.classList.add('is-bad')});err.textContent=als.value==='Privat'?'Bitte Vorname und E-Mail oder Telefon angeben.':'Bitte Vorname, '+(als.value==='Verein'?'Verein':'Firma')+' und E-Mail oder Telefon angeben.';err.hidden=false;bad[0].focus();return}
+ var fd=new FormData(form);fd.append('anlass',ctx.anlass);fd.append('personen',ctx.personen);fd.append('wunschtermin',ctx.datum||'offen');fd.append('wo',ctx.wo);fd.append('quelle_seite','Black Card Seite');
+ fd.append('_subject','Black Card Anfrage ('+als.value+'): '+ctx.anlass+' – '+(als.value==='Privat'?v.value.trim():f.value.trim())+' ('+ctx.personen+' Pers.)');
+ send.disabled=true;send.textContent='Wird gesendet …';
+ fetch('https://formspree.io/f/maqgnbwj',{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;form.hidden=true;done.hidden=false;done.querySelector('h3').focus&&done.querySelector('h3').setAttribute('tabindex','-1');done.querySelector('h3').focus()})
+ .catch(function(){err.textContent='Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie mir per WhatsApp: 0177 201 9889.';err.hidden=false})
+ .then(function(){send.disabled=false;send.textContent='Anfrage senden'})});
+})();
+</script>
+<script>
+(function(){var b=document.getElementById('mkcBubble');if(!b)return;var k='mkcDismissed',seen=false;
+
+function hide(){b.hidden=true;seen=true;}
+document.getElementById('mkcX').onclick=hide;document.getElementById('mkcBtn').addEventListener('click',function(){b.hidden=true;seen=true;});
+if(!seen){var onS=function(){if(window.scrollY<250)return;window.removeEventListener('scroll',onS);var rq=document.getElementById('rq'),w=document.getElementById('mkc');if((rq&&!rq.hidden)||(w&&w.classList.contains('is-open')))return;if(seen)return;b.hidden=false};window.addEventListener('scroll',onS,{passive:true})}
+var rq=document.getElementById('rq');if(rq)new MutationObserver(function(){document.getElementById('mkc').style.display=rq.hidden?'':'none'}).observe(rq,{attributes:true,attributeFilter:['hidden']});})();
+</script>
+<script>
+(function(){var w=document.getElementById('mkc'),btn=document.getElementById('mkcBtn'),panel=document.getElementById('mkcPanel'),body=document.getElementById('mkcBody'),inp=document.getElementById('mkcIn'),bub=document.getElementById('mkcBubble');if(!panel)return;
+function open(o){panel.hidden=!o;w.classList.toggle('is-open',o);btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Chat schließen':'Chat öffnen');if(o){if(bub)bub.hidden=true;setTimeout(function(){inp.focus()},60)}}
+btn.onclick=function(){open(panel.hidden)};document.getElementById('mkcMin').onclick=function(){open(false);btn.focus()};
+if(bub)bub.addEventListener('click',function(e){if(!e.target.closest('#mkcX'))open(true)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden){open(false);btn.focus()}});
+function sendText(t){t=t.trim();if(!t)return;var m=document.createElement('div');m.className='mkc__msg mkc__msg--me';m.textContent=t;body.appendChild(m);
+ var r=document.createElement('div');r.className='mkc__msg';r.textContent='Danke! Ich öffne WhatsApp – dort bekommen Sie meine Antwort direkt aufs Handy.';body.appendChild(r);body.scrollTop=body.scrollHeight;
+ setTimeout(function(){window.open('https://wa.me/491772019889?text='+encodeURIComponent(t),'_blank','noopener')},700)}
+document.getElementById('mkcChips').addEventListener('click',function(e){var b=e.target.closest('button');if(b)sendText(b.textContent)});
+document.getElementById('mkcForm').addEventListener('submit',function(e){e.preventDefault();sendText(inp.value);inp.value=''});})();
+</script>
+<script>
+document.querySelectorAll('.who__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var v=a.dataset.anlass,pop=document.getElementById('bcAnlassPop'),btn=document.getElementById('bcAnlassBtn');
+ if(pop&&btn){var o=pop.querySelector('button[data-v="'+v+'"]');if(o){pop.querySelectorAll('button').forEach(function(x){x.classList.remove('is-sel')});o.classList.add('is-sel');btn.textContent=v;window.bcAnlass=v}}
+ var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});setTimeout(function(){btn&&btn.focus({preventScroll:true})},500)}})});
+</script>
+<script>
+(function(){var tabs=[].slice.call(document.querySelectorAll('.kx__tabs [role=tab]'));if(!tabs.length)return;
+function sel(t){tabs.forEach(function(x){var on=x===t;x.classList.toggle('is-on',on);x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on})}
+tabs.forEach(function(t,i){t.onclick=function(){sel(t)};t.onkeydown=function(e){var n=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!n)return;e.preventDefault();var x=tabs[(i+n+tabs.length)%tabs.length];sel(x);x.focus()}});
+document.querySelectorAll('.kx__cta').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var bar=document.getElementById('bcBar');if(bar)bar.scrollIntoView({behavior:'smooth',block:'center'})})});})();
+</script>
+<script>
+(function(){var t=document.getElementById('lxTrack');if(!t)return;var bar=document.getElementById('lxBar'),prev=document.getElementById('lxPrev'),next=document.getElementById('lxNext');
+function step(){var c=t.querySelector('.lc');return c?c.getBoundingClientRect().width+22:400}
+function upd(){var max=t.scrollWidth-t.clientWidth,r=max>0?t.scrollLeft/max:0,vis=Math.min(1,t.clientWidth/t.scrollWidth);bar.style.width=(vis*100)+'%';bar.style.transform='translateX('+(r*(1/vis-1)*100)+'%)';prev.disabled=t.scrollLeft<5;next.disabled=t.scrollLeft>max-5}
+prev.onclick=function(){t.scrollBy({left:-step()*2})};next.onclick=function(){t.scrollBy({left:step()*2})};
+t.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();t.scrollBy({left:step()})}if(e.key==='ArrowLeft'){e.preventDefault();t.scrollBy({left:-step()})}});
+var down=false,sx=0,sl=0,moved=false;
+t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse'||e.target.closest('a,button'))return;down=true;moved=false;sx=e.clientX;sl=t.scrollLeft;t.classList.add('is-drag')});
+window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;t.scrollLeft=sl-dx});
+window.addEventListener('pointerup',function(){if(!down)return;down=false;t.classList.remove('is-drag');var w=step();t.scrollTo({left:Math.round(t.scrollLeft/w)*w,behavior:'smooth'})});
+t.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+t.querySelectorAll('.lc__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var seg=document.querySelector('.bc-seg button[data-where="'+a.dataset.where+'"]');if(seg)seg.click();var bar2=document.getElementById('bcBar');if(bar2)bar2.scrollIntoView({behavior:'smooth',block:'center'})})});})();
+</script>
+<script>
+(function(){var st=document.querySelector('.st');if(!st)return;var f=document.getElementById('stFirma'),an=document.getElementById('stAnlass'),cn=document.getElementById('stCardName'),cap=document.getElementById('stCap');
+var NAME='Nordlicht GmbH',timers=[],played=false;
+function say(t){cap.classList.add('is-out');setTimeout(function(){cap.textContent=t;cap.classList.remove('is-out')},300)}
+function done(){timers.forEach(clearTimeout);timers=[];st.classList.remove('is-anim','is-typing','is-press','is-cursor','is-aim');st.classList.add('is-picked');st.dataset.p='3';f.textContent=NAME;an.textContent='Weihnachtsfeier';cn.textContent=NAME.toUpperCase();cap.classList.remove('is-out');cap.textContent='So einfach geht es – in weniger als einer Minute.'}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){done();return}
+function at(ms,fn){timers.push(setTimeout(fn,ms))}
+function play(){timers.forEach(clearTimeout);timers=[];st.classList.add('is-anim');st.classList.remove('is-picked','is-press','is-cursor','is-aim');st.dataset.p='1';f.textContent='';an.textContent='Auswählen …';cn.textContent='';
+ say('1 · Sie tragen Ihre Firma und Ihren Anlass ein …');
+ st.classList.add('is-typing');var t=900;
+ for(var i=1;i<=NAME.length;i++){(function(n){at(t,function(){f.textContent=NAME.slice(0,n)})})(i);t+=110}
+ at(t+300,function(){st.classList.remove('is-typing');st.classList.add('is-picked');an.textContent='Weihnachtsfeier';st.classList.add('is-cursor')});
+ at(t+700,function(){st.classList.add('is-aim')});
+ at(t+1800,function(){st.classList.add('is-press')});
+ at(t+2100,function(){st.classList.remove('is-press','is-cursor');st.dataset.p='2';cn.textContent=NAME.toUpperCase();say('2 · … und erhalten Ihre persönliche Black Card per E-Mail.')});
+ at(t+5600,function(){st.dataset.p='3';say('3 · Ab jetzt bestellen Sie immer zum günstigeren Black-Card-Preis.')});
+ at(t+9800,function(){st.classList.remove('is-anim','is-aim')})}
+done();
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!played){played=true;io.disconnect();play()}})},{threshold:.4});
+io.observe(st);})();
+</script>
+<script>
+(function(){var g=document.getElementById('finGo');if(!g)return;g.addEventListener('click',function(e){e.preventDefault();var b=document.getElementById('bcBar');if(b)b.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'})})})();
+</script>
+<script>
+(function(){var box=document.getElementById('xmDates');if(!box)return;var go=document.getElementById('xmGo'),mon=document.getElementById('xmMonth'),pv=document.getElementById('xmPrev'),nx=document.getElementById('xmNext'),pick=null;
+var M=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],W=['Mo','Di','Mi','Do','Fr','Sa','So'];
+var today=new Date();today.setHours(0,0,0,0);var Y=today.getMonth()===11&&today.getDate()>24?today.getFullYear()+1:today.getFullYear();
+var view=new Date(Y,11,1),min=new Date(today.getFullYear(),today.getMonth(),1);
+function render(){var y=view.getFullYear(),m=view.getMonth();mon.textContent=M[m]+' '+y;pv.disabled=view<=min;
+ var h=W.map(function(w){return '<em>'+w+'</em>'}).join('');var off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+ for(var i=0;i<off;i++)h+='<span></span>';
+ for(var d=1;d<=n;d++){var x=new Date(y,m,d),wd=x.getDay(),past=x<today,on=pick&&x.getTime()===pick.getTime();
+  h+='<button type="button" data-t="'+x.getTime()+'"'+(past?' disabled':'')+' class="'+((wd===4||wd===5)?'is-pop':'')+(on?' is-on':'')+'" aria-label="'+d+'. '+M[m]+' '+y+'" aria-pressed="'+(on?'true':'false')+'">'+d+'</button>'}
+ box.innerHTML=h}
+pv.onclick=function(){view=new Date(view.getFullYear(),view.getMonth()-1,1);render()};nx.onclick=function(){view=new Date(view.getFullYear(),view.getMonth()+1,1);render()};
+box.onclick=function(e){var b=e.target.closest('button[data-t]');if(!b||b.disabled)return;pick=new Date(+b.dataset.t);go.disabled=false;render()};
+render();
+go.onclick=function(){if(!pick)return;if(window.bcSetDate)window.bcSetDate(pick);
+ var pop=document.getElementById('bcAnlassPop'),ab=document.getElementById('bcAnlassBtn');if(pop&&ab){var o=pop.querySelector('button[data-v="Weihnachtsfeier"]');if(o){pop.querySelectorAll('button').forEach(function(z){z.classList.remove('is-sel')});o.classList.add('is-sel');ab.textContent='Weihnachtsfeier';window.bcAnlass='Weihnachtsfeier'}}
+ var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){var fi=document.getElementById('bcFirma');if(fi)fi.focus({preventScroll:true})},700)}};
+var T=document.getElementById('xmTimer'),target=new Date(Y,11,1,0,0,0);
+function tick(){var ms=Math.max(0,target-new Date()),s=Math.floor(ms/1000),v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
+ T.querySelectorAll('b').forEach(function(b){b.textContent=String(v[b.dataset.u]).padStart(2,'0')})}
+tick();setInterval(tick,1000);})();
+</script>
 </body>
 </html>
