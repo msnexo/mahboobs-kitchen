@@ -11,7 +11,7 @@
   var SUESS = 3.9;               // Team-Paket: Suesses pro Person
   var ZEITEN = ["11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
 
-  var KATS = [["pizza", "Pizza"], ["pasta", "Pasta"], ["indisch", "Indisch"], ["sushi", "Sushi"], ["klein", "Beilagen & Dessert"]];
+  var KATS = [["pizza", "Pizza"], ["pasta", "Pasta"], ["indisch", "Indisch"], ["sushi", "Sushi"], ["beilage", "Beilagen"], ["dessert", "Desserts"]];
   var GERICHTE = [
     ["pizza", "Pizza Margherita", 10.5, 11.9, "margherita", "Ø 30 cm · Tomatensauce, Mozzarella · vegetarisch"],
     ["pizza", "Pizza Funghi", 11.5, 12.9, "funghi", "Ø 30 cm · Mit frischen Champignons · vegetarisch"],
@@ -32,14 +32,14 @@
     ["indisch", "Dal Tadka", 11.5, 12.9, "dal", "Gelbe Linsen, mit Basmati-Reis · vegetarisch"],
     ["sushi", "Sushi-Box Klassik", 14.9, 16.9, "sushibox", "6 Maki Lachs + 8 California Roll Lachs-Avocado"],
     ["sushi", "Sushi-Box Veggie", 12.9, 14.5, "sushiveg", "6 Maki Avocado + 8 Crispy Roll Gemüse · vegetarisch"],
-    ["klein", "Pommes", 4.5, 4.9, "pommes", "Mit Ketchup und Mayo"],
-    ["klein", "Knoblauchbrot", 4.9, 5.5, "knoblauch", "Mit Knoblauchdip"],
-    ["klein", "Pizzabrötchen", 5.9, 6.5, "pizzabroetchen", "6 Stück, mit Käse und Knoblauchdip"],
-    ["klein", "Samosa", 5.5, 5.9, "samosa", "2 Stück, mit Minz-Chutney · vegetarisch"],
-    ["klein", "Rucola-Salat", 8.5, 9.5, "rucola", "Mit Parmesan und Balsamico"],
-    ["klein", "Tiramisu", 4.9, 5.5, "tiramisu", "Hausgemacht"],
-    ["klein", "Panna Cotta", 4.5, 4.9, "pannacotta", "Mit Erdbeersauce"]
-  ].map(function (g) { return { kat: g[0], name: g[1], preis: g[2], statt: g[3], bild: "/assets/img/mittag/" + g[4] + ".webp", text: g[5] }; });
+    ["beilage", "Pommes", 4.5, 4.9, "pommes", "Mit Ketchup und Mayo"],
+    ["beilage", "Knoblauchbrot", 4.9, 5.5, "knoblauch", "Mit Knoblauchdip"],
+    ["beilage", "Pizzabrötchen", 5.9, 6.5, "pizzabroetchen", "6 Stück, mit Käse und Knoblauchdip"],
+    ["beilage", "Samosa", 5.5, 5.9, "samosa", "2 Stück, mit Minz-Chutney · vegetarisch"],
+    ["beilage", "Rucola-Salat", 8.5, 9.5, "rucola", "Mit Parmesan und Balsamico"],
+    ["dessert", "Tiramisu", 4.9, 5.5, "tiramisu", "Hausgemacht"],
+    ["dessert", "Panna Cotta", 4.5, 4.9, "pannacotta", "Mit Erdbeersauce"]
+  ].map(function (g) { return { kat: g[0], name: g[1], preis: g[2], statt: g[3], bild: "/assets/img/mittag/k/" + g[4] + ".webp", text: g[5] }; });
 
   var PAKETE = [
     { key: "pizza", name: "Pizza-Runde", preis: 12.9, statt: 14.5, bild: "margherita", text: "Pizzen Ø 30 cm (1 Pizza für 2 Personen), Knoblauchbrot, Rucola-Salat",
@@ -318,7 +318,7 @@
     $("kxGerichte").innerHTML = GERICHTE.filter(function (g) { return g.kat === S.kat; }).map(function (g, i) {
       var m = S.menge[g.name] || 0;
       return '<div class="kx-gericht' + (m ? " is-gew" : "") + '" style="animation-delay:' + (i * 0.04) + 's" data-name="' + esc(g.name) + '">' +
-        '<img src="' + g.bild + '" alt="" loading="lazy" width="86" height="86">' +
+        '<span class="kx-gericht__bild"><img src="' + g.bild + '" alt="' + esc(g.name) + '" loading="lazy" width="112" height="112"></span>' +
         '<div class="kx-gericht__t"><strong>' + esc(g.name) + "</strong><small>" + esc(g.text) + "</small>" +
         '<div class="kx-gericht__unten"><span class="kx-preis">' + euro(g.preis) + "<s>" + euro(g.statt) + "</s></span>" +
         '<span class="kx-menge"><button type="button" data-d="-1" aria-label="' + esc(g.name) + ' weniger">−</button><output>' + m + '</output><button type="button" class="kx-plus" data-d="1" aria-label="' + esc(g.name) + ' mehr">+</button></span>' +

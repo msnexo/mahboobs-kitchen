@@ -180,9 +180,12 @@
 
 /* Gerichte */
 .kx-gerichte{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.kx-gericht{display:grid;grid-template-columns:86px 1fr;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;transition:border-color .3s,background .3s;animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}
+.kx-gericht{display:grid;grid-template-columns:112px 1fr;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;transition:border-color .3s,background .3s;animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}
 .kx-gericht.is-gew{border-color:rgba(232,89,12,.55);background:linear-gradient(120deg,rgba(232,89,12,.1),var(--panel) 60%)}
-.kx-gericht img{width:86px;height:86px;object-fit:cover;border-radius:12px}
+.kx-gericht__bild{position:relative;width:112px;height:112px;border-radius:14px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.kx-gericht__bild img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.kx-gericht__bild::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.25))}
+.kx-gericht:hover .kx-gericht__bild img{transform:scale(1.07)}
 .kx-gericht__t strong{display:block;color:#fff;font-weight:500;line-height:1.25}
 .kx-gericht__t small{display:block;color:var(--mute);font-size:.8rem;line-height:1.4;margin:3px 0 8px}
 .kx-gericht__unten{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -309,6 +312,8 @@ textarea.kx-feld{min-height:96px;resize:vertical}
   .kx-wahl{grid-template-columns:1fr}
   .kx-weg{min-height:250px}
   .kx-gerichte{grid-template-columns:1fr}
+  .kx-gericht{grid-template-columns:96px 1fr}
+  .kx-gericht__bild{width:96px;height:96px}
   .kx-tage{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
   .kx-zeiten{grid-template-columns:repeat(4,minmax(0,1fr))}
   .kx-angebot{grid-template-columns:auto 1fr}
