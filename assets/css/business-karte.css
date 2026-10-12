@@ -206,6 +206,12 @@
 .kx-gruppe{grid-column:1/-1;margin:22px 0 2px;font-size:.78rem!important;letter-spacing:.2em!important;text-transform:uppercase;color:var(--g2)!important;font-weight:600!important}
 .kx-gruppe:first-child{margin-top:0}
 
+.kx-flagge{display:inline-flex;vertical-align:middle;margin-left:8px;width:20px;height:14px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.18);position:relative;top:-1px}
+.kx-flagge svg{width:100%;height:100%;display:block}
+.kx-top{position:absolute;left:6px;top:6px;z-index:2;font-style:normal;font-size:.62rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:var(--g);color:#fff;border-radius:999px;padding:3px 8px;box-shadow:0 4px 12px rgba(232,89,12,.45);white-space:nowrap;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis}
+#kxKats [data-kat="top"]{border-color:rgba(232,89,12,.6);color:#ffb38a}
+#kxKats [data-kat="top"].is-on{background:var(--g);border-color:var(--g);color:#fff}
+
 /* Pakete */
 .kx-pakete{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .kx-paket{position:relative;display:grid;gap:10px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:12px;cursor:pointer;transition:border-color .3s,transform .3s,background .3s;animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}

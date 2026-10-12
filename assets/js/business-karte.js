@@ -200,6 +200,31 @@
     ["getraenke", "", "Vio Medium", 2.3, null, "sp-kat11", ""]
   ].map(function (g) { return { kat: g[0], gruppe: g[1], name: g[2], preis: g[3], statt: g[4], bild: g[5] ? "/assets/img/mittag/k/" + g[5] + ".webp" : "", text: g[6] }; });
 
+  // Highlights: erscheinen im ersten Reiter und tragen ein Schild
+  var TOP = {
+    "Pizza Margherita": "Klassiker", "Pizza Chicken Supreme": "Spezialität", "Pizza BBQ Chicken": "Beliebt",
+    "Pasta Supreme": "Hausrezept", "Calzone Gemischt": "Beliebt", "Schnitzel Wiener Art": "Klassiker",
+    "Butter Chicken": "Bestseller", "Chicken Biryani": "Empfehlung", "Crispy Menü (24 Stück)": "Beliebt",
+    "Supreme Box 1 (64 Teile)": "Fürs Team", "Chicken Bowl": "Empfehlung", "Loaded Fries": "Neu", "Tiramisu": "Hausgemacht"
+  };
+  KATS.unshift(["top", "★ Highlights"]);
+  // Herkunft als kleine Flagge hinter dem Namen
+  var FLAGGE = {
+    it: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/></svg>',
+    in: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height=".67" fill="#ff9933"/><rect y=".67" width="3" height=".67" fill="#fff"/><rect y="1.33" width="3" height=".67" fill="#138808"/><circle cx="1.5" cy="1" r=".24" fill="none" stroke="#000080" stroke-width=".06"/></svg>',
+    de: '<svg viewBox="0 0 5 3" aria-hidden="true"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#dd0000"/><rect y="2" width="5" height="1" fill="#ffce00"/></svg>',
+    jp: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".6" fill="#bc002d"/></svg>'
+  };
+  var LANDNAME = { it: "Italienisch", in: "Indisch", de: "Deutsch", jp: "Japanisch" };
+  function land(g) {
+    if (g.kat === "pizza" || g.kat === "calzone" || g.kat === "pasta" || g.name === "Tiramisu") return "it";
+    if (g.kat === "indisch") return "in";
+    if (g.kat === "sushi" || g.kat === "bowls" || /^Mochi/.test(g.name)) return "jp";
+    if (/Schnitzel/.test(g.name) || g.name === "Currywurst") return "de";
+    return "";
+  }
+  function flagge(g) { var l = land(g); return l ? '<span class="kx-flagge" title="' + LANDNAME[l] + '">' + FLAGGE[l] + "</span>" : ""; }
+
   var PAKETE = [
     { key: "pizza", name: "Pizza-Runde", preis: 12.9, statt: 14.5, bild: "margherita", text: "Pizzen Ø 30 cm (1 Pizza für 2 Personen), Knoblauchbrot, Rucola-Salat",
       wahl: { min: 1, max: 4, titel: "Welche Pizzen?", hilfe: "bis zu 4 Sorten", optionen: ["Margherita", "Salami", "Schinken", "Funghi", "Hawaii", "Tonno", "BBQ Chicken", "Green Garden"] } },
@@ -237,7 +262,7 @@
 
   var K = {};          // Kartendaten
   var S = {            // Zustand
-    modus: "einzeln", kat: "pizza", menge: {}, paket: null, personen: 10, suess: false, wahl: [],
+    modus: "einzeln", kat: "top", menge: {}, paket: null, personen: 10, suess: false, wahl: [],
     tag: null, zeit: null, notiz: "",
     f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "" }
   };
@@ -465,7 +490,7 @@
 
   function kategorien() {
     $("kxKats").innerHTML = KATS.map(function (k) {
-      var n = 0; GERICHTE.forEach(function (g) { if (g.kat === k[0]) n += S.menge[g.name] || 0; });
+      var n = 0; GERICHTE.forEach(function (g) { if (k[0] === "top" ? TOP[g.name] : g.kat === k[0]) n += S.menge[g.name] || 0; });
       return '<button type="button" class="kx-chip' + (S.kat === k[0] ? " is-on" : "") + '" data-kat="' + k[0] + '">' + k[1] + (n ? "<b>" + n + "</b>" : "") + "</button>";
     }).join("");
   }
@@ -475,12 +500,12 @@
   });
   function gerichte() {
     var letzte = null, i = 0;
-    $("kxGerichte").innerHTML = GERICHTE.filter(function (g) { return g.kat === S.kat; }).map(function (g) {
+    $("kxGerichte").innerHTML = GERICHTE.filter(function (g) { return S.kat === "top" ? !!TOP[g.name] : g.kat === S.kat; }).map(function (g) {
       var m = S.menge[g.name] || 0, kopf = "";
-      if (g.gruppe && g.gruppe !== letzte) { kopf = '<h3 class="kx-gruppe">' + esc(g.gruppe) + "</h3>"; letzte = g.gruppe; }
+      if (S.kat !== "top" && g.gruppe && g.gruppe !== letzte) { kopf = '<h3 class="kx-gruppe">' + esc(g.gruppe) + "</h3>"; letzte = g.gruppe; }
       return kopf + '<div class="kx-gericht' + (g.bild ? "" : " kx-gericht--ohne") + (m ? " is-gew" : "") + '" style="animation-delay:' + Math.min(0.5, (i++) * 0.03).toFixed(2) + 's" data-name="' + esc(g.name) + '">' +
-        (g.bild ? '<span class="kx-gericht__bild"><img src="' + g.bild + '" alt="' + esc(g.name) + '" loading="lazy" width="112" height="112"></span>' : "") +
-        '<div class="kx-gericht__t"><strong>' + esc(g.name) + "</strong><small>" + esc(g.text || "") + "</small>" +
+        (g.bild ? '<span class="kx-gericht__bild"><img src="' + g.bild + '" alt="' + esc(g.name) + '" loading="lazy" width="112" height="112">' + (TOP[g.name] ? '<em class="kx-top">' + esc(TOP[g.name]) + "</em>" : "") + "</span>" : "") +
+        '<div class="kx-gericht__t"><strong>' + esc(g.name) + flagge(g) + "</strong><small>" + esc(g.text || "") + "</small>" +
         '<div class="kx-gericht__unten"><span class="kx-preis">' + euro(g.preis) + (g.statt ? "<s>" + euro(g.statt) + "</s>" : "") + "</span>" +
         '<span class="kx-menge"><button type="button" data-d="-1" aria-label="' + esc(g.name) + ' weniger">−</button><output>' + m + '</output><button type="button" class="kx-plus" data-d="1" aria-label="' + esc(g.name) + ' mehr">+</button></span>' +
         "</div></div></div>";
