@@ -41,6 +41,8 @@ body{background:#000}
 .bl__btn{display:block;text-align:center;border:0;border-radius:999px;background:#fff;color:#111;font:inherit;font-weight:500;font-size:1.05rem;padding:16px;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
 .bl__btn:hover,.bl__btn:focus-visible{background:var(--g);color:#fff}
 .bl__btn:disabled{opacity:.6;cursor:wait}
+.bl a.bl__btn{font-family:"Inter","Segoe UI",Arial,sans-serif!important;font-weight:500!important}
+.bl__btn--line{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
 .bl__msg{margin:0;color:var(--mute);font-size:.95rem;line-height:1.55}
 .bl__msg--ok{color:#9be7b0}
 .bl__msg--err{color:#ff8a4c}
@@ -106,13 +108,13 @@ body{background:#000}
 
     <div id="blNeu">
       <h1>Ihre Karte öffnen.</h1>
-      <p class="bl__lead" style="margin-top:14px">Ohne Passwort: Geben Sie Ihre E-Mail ein, und wir schicken Ihnen sofort den Link zu Ihrer Black Card.</p>
-      <form class="bl__panel" id="blForm" novalidate style="margin-top:22px">
-        <input class="bl__in" id="blEmail" type="email" placeholder="Ihre E-Mail" autocomplete="email" aria-label="Ihre E-Mail" maxlength="200">
-        <button type="submit" class="bl__btn" id="blSend">Link zuschicken</button>
-        <p class="bl__msg" id="blMsg" role="status" aria-live="polite" hidden></p>
-      </form>
-      <p class="bl__small" style="margin-top:18px">Noch keine Karte? <a href="/business/antrag/">Jetzt kostenlos anfordern</a><br>Fragen? <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> · <a href="tel:+491772019889">0177 201 9889</a></p>
+      <p class="bl__lead" style="margin-top:14px">Ihre Black Card öffnen Sie über den persönlichen Link aus meiner Nachricht – er steht auch in jeder Angebots-Mail. Kein Passwort nötig.</p>
+      <div class="bl__panel" style="margin-top:22px">
+        <p class="bl__msg" style="margin:0">Link nicht zur Hand? Schreiben Sie mir kurz – ich schicke ihn Ihnen sofort.</p>
+        <a class="bl__btn" href="https://wa.me/491772019889?text=Hallo%20Reyyan%2C%20bitte%20schicken%20Sie%20mir%20den%20Link%20zu%20unserer%20Black%20Card." target="_blank" rel="noopener">Link per WhatsApp anfragen</a>
+        <a class="bl__btn bl__btn--line" href="tel:+491772019889">Anrufen: 0177 201 9889</a>
+      </div>
+      <p class="bl__small" style="margin-top:18px">Noch keine Karte? <a href="/business/antrag/">Jetzt kostenlos anfordern</a></p>
     </div>
 
     <div class="bl__team">
@@ -192,17 +194,6 @@ if(t&&/^[0-9a-f]{32}$/.test(t)){
  if(n)document.getElementById('blMerkText').textContent='Ihre Karte für '+n+' ist auf diesem Gerät gespeichert.';
  document.getElementById('blVergessen').onclick=function(){try{localStorage.removeItem(KEY_T);localStorage.removeItem(KEY_N)}catch(_){}merk.hidden=true;neu.hidden=false;document.getElementById('blEmail').focus()};
 }
-var f=document.getElementById('blForm'),em=document.getElementById('blEmail'),btn=document.getElementById('blSend'),msg=document.getElementById('blMsg');
-function say(t,k){msg.textContent=t;msg.className='bl__msg'+(k?' bl__msg--'+k:'');msg.hidden=false}
-f.addEventListener('submit',function(e){e.preventDefault();em.classList.remove('is-bad');
- var v=em.value.trim();
- if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){em.classList.add('is-bad');say('Bitte eine gültige E-Mail eingeben.','err');em.focus();return}
- btn.disabled=true;btn.textContent='Wird gesendet …';
- var K=window.SUPABASE_ANON_KEY;
- fetch('https://ajbxwpqeyhhsvunsxcut.supabase.co/functions/v1/karte-link-senden',{method:'POST',headers:{'Content-Type':'application/json',apikey:K,Authorization:'Bearer '+K},body:JSON.stringify({email:v})})
- .then(function(r){if(!r.ok)throw 0;
-   say('Geschafft. Wenn zu dieser E-Mail eine Black Card gehört, ist der Link in wenigen Minuten in Ihrem Postfach. Bitte auch im Spam-Ordner nachsehen.','ok');btn.textContent='Link zuschicken';btn.disabled=false})
- .catch(function(){say('Das hat gerade nicht geklappt. Schreiben Sie mir kurz per WhatsApp an 0177 201 9889 – ich schicke Ihnen den Link sofort.','err');btn.disabled=false;btn.textContent='Link zuschicken'})});
 var tb=document.getElementById('blTeamBtn'),lf=document.getElementById('loginForm');
 function team(o){lf.hidden=!o;tb.setAttribute('aria-expanded',o)}
 tb.onclick=function(){team(lf.hidden);if(!lf.hidden)document.getElementById('email').focus()};
