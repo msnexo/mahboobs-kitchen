@@ -213,15 +213,31 @@
     it: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/></svg>',
     in: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height=".67" fill="#ff9933"/><rect y=".67" width="3" height=".67" fill="#fff"/><rect y="1.33" width="3" height=".67" fill="#138808"/><circle cx="1.5" cy="1" r=".24" fill="none" stroke="#000080" stroke-width=".06"/></svg>',
     de: '<svg viewBox="0 0 5 3" aria-hidden="true"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#dd0000"/><rect y="2" width="5" height="1" fill="#ffce00"/></svg>',
-    jp: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".6" fill="#bc002d"/></svg>'
+    jp: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".6" fill="#bc002d"/></svg>',
+    us: '<svg viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#b22234"/><path d="M0 1.15h19M0 2.7h19M0 4.23h19M0 5.77h19M0 7.3h19M0 8.85h19" stroke="#fff" stroke-width=".77"/><rect width="7.6" height="5.38" fill="#3c3b6e"/></svg>',
+    tr: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#e30a17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#e30a17"/><path d="M16.5 10l3.8-1.2-2.3 3.2V8l2.3 3.2z" fill="#fff"/></svg>',
+    fr: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055a4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ef4135"/></svg>',
+    cn: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#de2910"/><path d="M5 3l1.2 3.6H10L6.9 8.8 8.1 12.4 5 10.2 1.9 12.4 3.1 8.8 0 6.6h3.8z" fill="#ffde00"/></svg>',
+    kr: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><path d="M1.5 .5a.5.5 0 0 1 0 1 .25.25 0 0 1 0-.5.25.25 0 0 0 0-.5" fill="#cd2e3a"/><path d="M1.5 1.5a.5.5 0 0 1 0-1 .25.25 0 0 1 0 .5.25.25 0 0 0 0 .5" fill="#0047a0"/></svg>'
   };
-  var LANDNAME = { it: "Italienisch", in: "Indisch", de: "Deutsch", jp: "Japanisch" };
+  var LANDNAME = { it: "Italienisch", in: "Indisch", de: "Deutsch", jp: "Japanisch", us: "Amerikanisch", tr: "Türkisch", fr: "Französisch", cn: "Chinesisch", kr: "Koreanisch" };
+  // Jedes Gericht bekommt eine Herkunft - erst Einzelfaelle, dann nach Reiter
+  var LAND_NAME = {
+    "Tiramisu": "it", "Pizzabrot mit Käse": "it", "Knobi Sticks": "it", "Italian Dressing": "it",
+    "Döner Wrap": "tr", "Pizza Kebab": "it", "Calzone mit Döner": "it", "Pizza Sucuk": "it", "Knoblauch Sauce": "tr", "Joghurt Dressing": "tr",
+    "Currywurst": "de", "Pommes frites": "de", "Remoulade": "de", "Fanta Orange": "de", "Mezzo Mix": "de", "Vio Still": "de", "Vio Medium": "de",
+    "Hollandaise Sauce": "fr", "Mayonnaise": "fr", "Chocolate Lavacake": "fr",
+    "Frühlingsrollen (8 Stück)": "cn", "Kimchi Salat": "kr",
+    "Cheese Cake": "us", "Chicken Nuggets (9 Stück)": "us", "Chicken Wings (9 Stück)": "us", "Loaded Fries": "us",
+    "American Dressing": "us", "BBQ-Sauce": "us", "Chili Cheese Sauce": "us", "Ketchup": "us"
+  };
   function land(g) {
-    if (g.kat === "pizza" || g.kat === "calzone" || g.kat === "pasta" || g.name === "Tiramisu") return "it";
-    if (g.kat === "indisch") return "in";
-    if (g.kat === "sushi" || g.kat === "bowls" || /^Mochi/.test(g.name)) return "jp";
-    if (/Schnitzel/.test(g.name) || g.name === "Currywurst") return "de";
-    return "";
+    if (LAND_NAME[g.name]) return LAND_NAME[g.name];
+    if (/^Capri Sonne/.test(g.name)) return "de";
+    if (/^Mochi/.test(g.name)) return "jp";
+    if (/Schnitzel/.test(g.name) || /^Pizzabrötchen/.test(g.name)) return "de";
+    var k = { pizza: "it", calzone: "it", pasta: "it", indisch: "in", sushi: "jp", bowls: "jp", burger: "us", wraps: "us", getraenke: "us", dips: "us", snacks: "us", dessert: "it" };
+    return k[g.kat] || "";
   }
   function flagge(g) { var l = land(g); return l ? '<span class="kx-flagge" title="' + LANDNAME[l] + '">' + FLAGGE[l] + "</span>" : ""; }
 
