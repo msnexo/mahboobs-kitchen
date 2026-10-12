@@ -239,7 +239,7 @@
     var k = { pizza: "it", calzone: "it", pasta: "it", indisch: "in", sushi: "jp", bowls: "jp", burger: "us", wraps: "us", getraenke: "us", dips: "us", snacks: "us", dessert: "it" };
     return k[g.kat] || "";
   }
-  function flagge(g) { var l = land(g); return l ? '<span class="kx-flagge" title="' + LANDNAME[l] + '">' + FLAGGE[l] + "</span>" : ""; }
+  function flagge(g) { var l = g.land || land(g); return l ? '<span class="kx-flagge" title="' + LANDNAME[l] + '">' + FLAGGE[l] + "</span>" : ""; }
 
   var PAKETE = [
     { key: "pizza", name: "Pizza-Runde", preis: 12.9, statt: 14.5, bild: "margherita", text: "Pizzen Ø 30 cm (1 Pizza für 2 Personen), Knoblauchbrot, Rucola-Salat",
@@ -252,6 +252,49 @@
     { key: "sushi", name: "Sushi-Runde", preis: 16.9, statt: 18.9, bild: "sushibox", text: "Gemischte Platte, etwa 12 Stück pro Person, mit Sojasauce, Ingwer und Wasabi",
       wahl: { min: 1, max: 1, titel: "Mit oder ohne Fisch?", hilfe: "", optionen: ["Gemischt mit Lachs und Thunfisch", "Nur vegetarisch"] } }
   ];
+
+  // Buffet-Rechner: Preis pro Person je Gericht, Empfehlung = 27,50 (1/2/2/1)
+  var BKATS = [["vorspeise", "Vorspeisen", 3.5], ["hauptgericht", "Hauptgerichte", 8], ["beilage", "Beilagen", 2.5], ["nachtisch", "Nachtisch", 3], ["sushi", "Sushi dazu", 0]];
+  var BUFFET_GERICHTE = [
+    ["vorspeise", "Gemüse-Samosas mit Minz-Chutney", "in", "Knusprig frittierte Teigtaschen gefüllt mit gewürzten Kartoffeln und Erbsen, serviert mit frischem Minz-Koriander-Chutney", "🌱"],
+    ["vorspeise", "Pakora", "in", "Knusprig ausgebackene Gemüse-Happen im würzigen Kichererbsenteig mit Zwiebeln, Spinat und Chili – ein beliebter indischer Straßensnack", "🌱"],
+    ["vorspeise", "Bruschetta al Pomodoro", "it", "Geröstetes Ciabatta mit frischen Tomaten, Knoblauch und Basilikum, beträufelt mit nativem Olivenöl extra", "🌱"],
+    ["vorspeise", "Caprese mit Tomaten & Mozzarella", "it", "Frischer Büffelmozzarella mit sonnengereiften Tomaten und Basilikum, verfeinert mit Balsamico-Reduktion und Olivenöl", "🥚"],
+    ["vorspeise", "Kartoffelsalat", "de", "Klassischer hausgemachter Kartoffelsalat mit feiner Senf-Vinaigrette, roten Zwiebeln und frischem Schnittlauch", "🥚"],
+    ["vorspeise", "Gurkensalat mit Dill", "de", "Frisch geschnittene Gurken in einem leichten Essig-Dressing mit Dill und Zwiebeln – kühl, knackig und erfrischend", "🥚"],
+    ["hauptgericht", "Butter Chicken", "in", "Zartes Hähnchenfleisch langsam geschmort in einer samtigen Tomatensauce mit Garam Masala, Kreuzkümmel und einem Hauch Sahne – mild-aromatisch und cremig", ""],
+    ["hauptgericht", "Chicken Tikka Masala", "in", "Im Tandoor-Ofen gegrillte Hähnchenspieße in einer würzigen Tomatencreme-Sauce mit Bockshornklee, Ingwer und Koriander", ""],
+    ["hauptgericht", "Lamm Rogan Josh", "in", "Langsam geschmortes Lammfleisch in einer intensiven Sauce aus Kashmiri-Chili, Kardamom und Joghurt – aromatisch und butterweich", ""],
+    ["hauptgericht", "Chana Masala", "in", "Herzhafte Kichererbsen in einer würzigen Tomatensauce mit Kreuzkümmel, Koriander und frischem Ingwer – proteinreich", "🌱"],
+    ["hauptgericht", "Gemüse-Curry", "in", "Saisonales Gemüse in einer aromatischen Kokosmilch-Currysauce mit Ingwer, Kurkuma und frischem Koriander", "🌱"],
+    ["hauptgericht", "Palak Paneer", "in", "Frischer Hüttenkäse in einer cremigen Spinatsauce, gewürzt mit Kreuzkümmel, Knoblauch und Ingwer – ein indischer Klassiker", "🥚"],
+    ["hauptgericht", "Lasagne al Forno", "it", "Hausgemachte Lasagne mit herzhafter Rind-Bolognese und klassischer Béchamelsauce, überbacken mit Parmesan und Mozzarella", ""],
+    ["hauptgericht", "Penne Arrabbiata", "it", "Al dente Penne in einer feurigen Tomaten-Chili-Sauce mit Knoblauch und Basilikum – würzig und vollständig vegan", "🌱"],
+    ["hauptgericht", "Penne al Pesto", "it", "Penne mit hausgemachtem Basilikum-Pesto aus frischen Kräutern, Pinienkernen und Olivenöl – mediterran und aromatisch", "🥚"],
+    ["hauptgericht", "Melanzane alla Parmigiana", "it", "Geschichtete Auberginen mit Tomaten-Sugo, Basilikum und geschmolzenem Mozzarella – ein italienischer Klassiker ohne Fleisch", "🥚"],
+    ["hauptgericht", "Pollo alla Parmigiana", "it", "Paniertes Hähnchenschnitzel auf Tomaten-Basilikum-Sugo, überbacken mit reichlich Mozzarella und frisch geriebenem Parmesan", ""],
+    ["hauptgericht", "Gegrillte Hähnchenbrust", "de", "Saftige Hähnchenbrust vom Holzkohlegrill mit hausgemachter Kräuterbutter aus frischen Gartenkräutern, Zitrone und Knoblauch", ""],
+    ["hauptgericht", "Rinderroulade", "de", "Zart gerolltes Rindfleisch gefüllt mit Senf, Speck, Zwiebeln und Gewürzgurke, langsam geschmort in kräftiger Bratensauce", ""],
+    ["hauptgericht", "Käsespätzle", "de", "Handgemachte Spätzle überbacken mit würzigem Bergkäse und knusprigen Röstzwiebeln – schwäbische Hausmannskost", "🥚"],
+    ["beilage", "Basmati-Reis", "in", "Locker gedämpfter Langkornreis mit einem Hauch Kardamom – ideale Begleitung zu Currys und Schmorgerichten", "🌱"],
+    ["beilage", "Knoblauch-Naan", "in", "Frisch im Tandoor gebackenes indisches Fladenbrot mit Knoblauchbutter und Koriander – fluffig und duftend", "🥚"],
+    ["beilage", "Raita", "in", "Erfrischender Joghurt-Dip mit Gurke, Minze und einer Prise Kreuzkümmel – kühlt und ergänzt würzige Currys perfekt", "🥚"],
+    ["beilage", "Focaccia", "it", "Fluffiges italienisches Fladenbrot mit nativem Olivenöl, grobem Meersalz und frischem Rosmarin – knusprig außen, weich innen", "🌱"],
+    ["beilage", "Italienischer gemischter Salat", "it", "Blattsalate, Kirschtomaten, Oliven und rote Zwiebeln mit leichtem Balsamico-Dressing", "🥚"],
+    ["beilage", "Gegrilltes mediterranes Gemüse", "it", "Saisonales Gemüse auf dem Grill mit Olivenöl, Meersalz und mediterranen Kräutern – bunt, knackig und aromatisch", "🌱"],
+    ["beilage", "Rosmarin-Kartoffeln", "de", "Ofenkartoffeln mit frischem Rosmarin, Knoblauch und Olivenöl – außen golden-knusprig, innen weich", "🌱"],
+    ["beilage", "Rotkohl", "de", "Klassisch geschmorter Rotkohl mit Äpfeln, Gewürznelken und einem Schuss Rotweinessig – süßlich-herzhaft", "🌱"],
+    ["beilage", "Krautsalat", "de", "Frisch geraspelter Weißkohl mit Essig-Öl-Dressing und Kümmel – knackig, bekömmlich und typisch deutsch", "🌱"],
+    ["nachtisch", "Gulab Jamun", "in", "Zarte Milchpulver-Bällchen goldbraun frittiert, getränkt in einem duftenden Rosenwasser-Zuckersirup mit Kardamom", "🥚"],
+    ["nachtisch", "Kheer", "in", "Cremiger indischer Milchreis mit Safran, Kardamom, Rosenwasser und gerösteten Pistazien – warm oder kalt ein Genuss", "🥚"],
+    ["nachtisch", "Tiramisu", "it", "Klassisches Dessert aus espresso-getränkten Löffelbiskuits und luftig-cremiger Mascarpone-Creme, abgeschlossen mit feinem Kakaopulver", "🥚"],
+    ["nachtisch", "Panna Cotta", "it", "Samtige Vanille-Sahne-Creme, serviert mit einem fruchtigen Beerenragout oder Karamellsauce – elegant und leicht", "🥚"],
+    ["nachtisch", "Apfelstrudel mit Vanillesoße", "de", "Knuspriger Blätterteig gefüllt mit gezuckerten Äpfeln, Zimt und Rosinen, serviert mit warmer hausgemachter Vanillesoße", "🥚"],
+    ["nachtisch", "Rote Grütze mit Vanillesoße", "de", "Fruchtige Beerenkompott aus Himbeeren, Kirschen und Johannisbeeren mit cremiger Vanillesoße", "🥚"],
+    ["sushi", "Sushi-Platte gemischt", "jp", "Maki, California Rolls und Nigiri – etwa 6 Stück pro Person, mit Ingwer, Wasabi und Sojasauce", "", 4.9],
+    ["sushi", "Sushi-Platte vegetarisch", "jp", "Maki Avocado, Kappa und Veggie Rolls – etwa 6 Stück pro Person", "veg", 4.5]
+  ].map(function (b) { return { kat: b[0], name: b[1], land: b[2], text: b[3], veg: b[4] === "🌱" ? "vegan" : (b[4] === "🥚" || b[4] === "veg") ? "vegetarisch" : "", extra: b[5] || 0 }; });
+  var EMPFEHLUNG = ["Gemüse-Samosas mit Minz-Chutney", "Butter Chicken", "Lasagne al Forno", "Basmati-Reis", "Italienischer gemischter Salat", "Tiramisu"];
 
   var ANLAESSE = ["Weihnachtsfeier", "Sommerfest", "Firmenjubiläum", "Meeting / Konferenz", "Geburtstag", "Hochzeit", "Vereinsfest", "Etwas anderes"];
   var WO = [
@@ -280,11 +323,11 @@
   var S = {            // Zustand
     modus: "einzeln", kat: "top", menge: {}, paket: null, personen: 10, suess: false, wahl: [],
     tag: null, zeit: null, notiz: "",
-    f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "" }
+    f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "wir", menu: [] }
   };
 
   // ---------- Navigation: ein Bildschirm nach dem anderen, Zurueck-Taste geht ----------
-  var REIHE = ["start", "essen", "liefern", "feier1", "feier2", "feier3", "feier4", "feier5", "danke"];
+  var REIHE = ["start", "essen", "liefern", "feier1", "feier2", "feier3", "feier4", "menue", "feier5", "danke"];
   var aktuell = "start";
   function zeige(name, zurueck) {
     var alt = app.querySelector(".kx-screen.is-on");
@@ -371,6 +414,10 @@
     } else if (aktuell === "feier2") {
       setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", "Buffet ab " + euro(BUFFET) + " p. P. · ca. " + euro(S.f.personen * BUFFET),
         "Weiter", !!(S.f.datum || S.f.offen), function () { geh("feier3"); });
+    } else if (aktuell === "menue") {
+      var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
+      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen),
+        haupt ? "Weiter" : "Bitte 1 Hauptgericht", haupt > 0, function () { S.f.plan = "selbst"; if (!S.f.anlass) geh("feier1"); else { zusammenfassung(); geh("feier5"); } });
     } else if (aktuell === "feier4") {
       setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.kueche.length ? S.f.kueche.join(", ") : "Küche wählen – oder einfach weiter",
         "Weiter", true, function () { zusammenfassung(); geh("feier5"); });
@@ -401,8 +448,6 @@
       io.observe(unten);
     } else if (unten) unten.classList.add("is-an");
     $("mkAbmelden").href = "/business/abmelden/?k=" + schluessel;
-    $("kxRechner").href = "/business/catering-angebot/?firma=" + encodeURIComponent(K.firma || "") +
-      (K.ansprechpartner ? "&person=" + encodeURIComponent(K.ansprechpartner) : "") + "&code=" + encodeURIComponent(K.kundennummer) + "&k=" + schluessel;
 
     // Saison: September bis 20. Dezember
     var jetzt = new Date(), mo = jetzt.getMonth();
@@ -668,8 +713,16 @@
   }
 
   // ---------- Feier planen ----------
+  function feierVorbereiten() {
+    $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
+    $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
+    $("kxKuechen").innerHTML = KUECHEN.map(function (k) { return '<button type="button" class="kx-chip" data-kueche="' + esc(k) + '">' + esc(k) + "</button>"; }).join("");
+    var heute = new Date(); kalAnsicht = new Date(heute.getFullYear(), heute.getMonth(), 1);
+    $("kxOffen").checked = false; $("kxFPers").value = S.f.personen; $("kxNachricht").value = ""; kalender();
+  }
   function feierStart(anlass) {
-    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "" };
+    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "wir", menu: EMPFEHLUNG.slice() };
+    planSetzen("wir");
     $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
     $("kxKuechen").innerHTML = KUECHEN.map(function (k) { return '<button type="button" class="kx-chip" data-kueche="' + esc(k) + '">' + esc(k) + "</button>"; }).join("");
@@ -724,7 +777,7 @@
     var b = e.target.closest("[data-wo]"); if (!b) return;
     S.f.wo = b.dataset.wo;
     Array.prototype.forEach.call(this.children, function (x) { x.classList.toggle("is-on", x === b); });
-    setTimeout(function () { geh("feier4"); }, bewegungAus ? 0 : 260);
+    setTimeout(function () { if (S.f.plan === "selbst") { zusammenfassung(); geh("feier5"); } else geh("feier4"); }, bewegungAus ? 0 : 260);
   });
   $("kxKuechen").addEventListener("click", function (e) {
     var b = e.target.closest("[data-kueche]"); if (!b) return;
@@ -736,28 +789,93 @@
 
   function woText() { var w = WO.filter(function (x) { return x.key === S.f.wo; })[0]; return w ? w.titel : "Noch offen"; }
   function feierZeilen() {
-    return [["Anlass", S.f.anlass], ["Termin", S.f.datum ? datumDe(S.f.datum) : "noch offen"], ["Gäste", S.f.personen + " Personen"], ["Ort", woText()],
-      ["Küche", S.f.kueche.length ? S.f.kueche.join(", ") : "berate ich Sie gern"]];
+    var z = [["Anlass", S.f.anlass], ["Termin", S.f.datum ? datumDe(S.f.datum) : "noch offen"], ["Gäste", S.f.personen + " Personen"], ["Ort", woText()]];
+    if (S.f.plan === "selbst") BKATS.forEach(function (k) {
+      var n = S.f.menu.filter(function (x) { return bObj(x).kat === k[0]; });
+      if (n.length) z.push([k[1], n.join(", ")]);
+    });
+    else z.push(["Küche", S.f.kueche.length ? S.f.kueche.join(", ") : "berate ich Sie gern"]);
+    return z;
   }
   function zusammenfassung() {
     var z = feierZeilen();
     $("kxFSumme").innerHTML = z.map(function (r) { return '<div class="kx-summe__z"><span>' + r[0] + "</span><b>" + esc(r[1]) + "</b></div>"; }).join("") +
-      '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>ab ' + euro(BUFFET) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * BUFFET).replace(",00", "") + " gesamt</small></b></div>" +
+      '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>' + (S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET)) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(S.f.plan === "selbst" ? Math.round(buffetPreis() * BUFFET_NORMAL / BUFFET * 10) / 10 : BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * (S.f.plan === "selbst" ? buffetPreis() : BUFFET)).replace(",00", "") + " gesamt</small></b></div>" +
       (S.f.nachricht.trim() ? '<div class="kx-summe__z"><span>Nachricht</span><b>' + esc(S.f.nachricht.trim()) + "</b></div>" : "");
   }
   function feierSenden() {
     var kurz = S.f.anlass + " · " + (S.f.datum ? datumDe(S.f.datum) : "Termin offen") + " · " + S.f.personen + " Personen";
-    var mehr = woText() + " · Küche: " + (S.f.kueche.join(", ") || "offen") + " · ab " + euro(BUFFET) + " p. P.";
+    var mehr = woText() + (S.f.plan === "selbst"
+      ? " · Eigenes Menü: " + S.f.menu.join(", ") + " · " + euro(buffetPreis()) + " p. P. · ca. " + euro(buffetPreis() * S.f.personen)
+      : " · Küche: " + (S.f.kueche.join(", ") || "offen") + " · ab " + euro(BUFFET) + " p. P.");
     var nachricht = S.f.nachricht.trim().replace(/\s+/g, " ");
     barBtn.disabled = true; barBtn.textContent = "Wird gesendet …";
     Promise.all([
       reaktion("interesse", null, kurz + " | " + mehr + (nachricht ? " | Nachricht: " + nachricht : "")),
-      mail("Feier-Anfrage: " + kurz, { Anlass: S.f.anlass, Termin: S.f.datum ? datumDe(S.f.datum) : "offen", Personen: S.f.personen, Ort: woText(), Küche: S.f.kueche.join(", ") || "offen", Nachricht: nachricht || "—" })
+      mail("Feier-Anfrage: " + kurz, { Anlass: S.f.anlass, Termin: S.f.datum ? datumDe(S.f.datum) : "offen", Personen: S.f.personen, Ort: woText(), Küche: S.f.plan === "selbst" ? "Eigenes Menü" : (S.f.kueche.join(", ") || "offen"), Menü: S.f.plan === "selbst" ? S.f.menu.join(", ") : "—", "Preis p. P.": S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET), Nachricht: nachricht || "—" })
     ]).then(function (r) {
       if (!r[0] && !r[1]) { leiste(); barFehler("Das hat leider nicht geklappt – bitte nochmal versuchen oder anrufen: 0177 201 9889"); return; }
       dankeZeigen("Danke – Ihre Anfrage ist da.", "Ich melde mich persönlich mit Ihrem Angebot, meist noch am selben Tag.", feierZeilen());
     });
   }
+
+  // ---------- Buffet-Rechner ----------
+  var bKat = "hauptgericht";
+  function bObj(n) { return BUFFET_GERICHTE.filter(function (b) { return b.name === n; })[0] || {}; }
+  function bPreisKat(k) { return (BKATS.filter(function (x) { return x[0] === k; })[0] || [0, 0, 0])[2]; }
+  function buffetPreis() {
+    var s = 0, extra = 0;
+    S.f.menu.forEach(function (n) { var b = bObj(n); if (b.kat === "sushi") extra += b.extra; else s += bPreisKat(b.kat); });
+    return Math.max(BUFFET, s) + extra;
+  }
+  function planSetzen(p) {
+    S.f.plan = p;
+    Array.prototype.forEach.call(app.querySelectorAll("[data-plan]"), function (b) { b.classList.toggle("is-on", b.dataset.plan === p); });
+    $("kxWirBox").hidden = p !== "wir";
+  }
+  $("kxPlan").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-plan]"); if (!b) return;
+    planSetzen(b.dataset.plan);
+    if (b.dataset.plan === "selbst") { menueStart(); }
+  });
+  function menueStart() {
+    if (!S.f.menu || !S.f.menu.length) S.f.menu = EMPFEHLUNG.slice();
+    $("kxMPers").value = S.f.personen;
+    bKat = "hauptgericht"; bKategorien(); bListe(); geh("menue");
+  }
+  function bKategorien() {
+    $("kxMKats").innerHTML = BKATS.map(function (k) {
+      var n = S.f.menu.filter(function (x) { return bObj(x).kat === k[0]; }).length;
+      return '<button type="button" class="kx-chip' + (bKat === k[0] ? " is-on" : "") + '" data-bkat="' + k[0] + '">' + k[1] + (n ? "<b>" + n + "</b>" : "") + "</button>";
+    }).join("");
+    var k = BKATS.filter(function (x) { return x[0] === bKat; })[0];
+    $("kxMInfo").innerHTML = bKat === "sushi"
+      ? "Freiwillig dazu – als Extra zum Buffet."
+      : "Je Gericht <b>" + euro(k[2]) + "</b> pro Person · Empfehlung: " + ({ vorspeise: "1", hauptgericht: "2", beilage: "2", nachtisch: "1" })[bKat] + " " + k[1];
+  }
+  function bListe() {
+    $("kxBuffet").innerHTML = BUFFET_GERICHTE.filter(function (b) { return b.kat === bKat; }).map(function (b, i) {
+      var an = S.f.menu.indexOf(b.name) > -1;
+      return '<button type="button" class="kx-bgericht' + (an ? " is-on" : "") + '" data-bname="' + esc(b.name) + '" aria-pressed="' + an + '" style="animation-delay:' + (i * 0.03).toFixed(2) + 's">' +
+        "<strong>" + esc(b.name) + flagge({ kat: "", name: "", land: b.land }) + (b.veg ? '<span class="kx-veg">' + b.veg + "</span>" : "") + (b.extra ? ' <span style="color:var(--g2);font-weight:500">+' + euro(b.extra) + " p. P.</span>" : "") + "</strong>" +
+        "<small>" + esc(b.text) + "</small></button>";
+    }).join("");
+  }
+  $("kxMKats").addEventListener("click", function (e) { var b = e.target.closest("[data-bkat]"); if (!b) return; bKat = b.dataset.bkat; bKategorien(); bListe(); });
+  $("kxBuffet").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-bname]"); if (!b) return;
+    var n = b.dataset.bname, i = S.f.menu.indexOf(n);
+    if (i > -1) S.f.menu.splice(i, 1); else S.f.menu.push(n);
+    b.classList.toggle("is-on", i === -1); b.setAttribute("aria-pressed", i === -1);
+    bKategorien(); leiste(); bump();
+  });
+  $("kxEmpfehlung").addEventListener("click", function () { S.f.menu = EMPFEHLUNG.slice(); bKategorien(); bListe(); leiste(); bump(); });
+  zaehler($("kxMPers"), $("kxMMinus"), $("kxMPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
+  // "Nur mal schauen": Rechner direkt, ohne vorher Fragen
+  $("kxSchauen").addEventListener("click", function () {
+    S.f = { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: EMPFEHLUNG.slice() };
+    feierVorbereiten(); menueStart();
+  });
 
   // ---------- Danke ----------
   function dankeZeigen(titel, text, zeilen) {
@@ -779,5 +897,6 @@
     app.hidden = false;
     if (location.hash === "#weihnachten") feierStart("Weihnachtsfeier");
     else if (location.hash === "#bestellen") essenStart();
+    else if (location.hash === "#rechner") $("kxSchauen").click();
   }).catch(fehler);
 })();

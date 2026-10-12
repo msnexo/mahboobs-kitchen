@@ -181,6 +181,8 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
         </button>
       </div>
 
+      <button type="button" class="kx-schauen kx-auf" style="animation-delay:.5s" id="kxSchauen">Nur mal schauen, was ein Buffet kostet? <strong>Preis berechnen →</strong></button>
+
       <div class="kx-angebote" id="kxAngebote" hidden>
         <span class="kx-kick">Nur für Karteninhaber</span>
         <h3>Ihre aktuellen Angebote</h3>
@@ -275,11 +277,30 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
     <section class="kx-screen kx-flow" data-screen="feier4">
       <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <span class="kx-kick">Feier planen</span>
-      <h2 class="kx-titel">Worauf haben Sie Lust?</h2>
-      <p class="kx-lead">Mehrfach möglich – oder einfach weiter, dann berate ich Sie.</p>
+      <h2 class="kx-titel">Wie möchten Sie das Essen planen?</h2>
+      <div class="kx-plan" id="kxPlan">
+        <button type="button" class="kx-plan__k is-on" data-plan="wir"><strong>Sie stellen zusammen</strong><span>Sie nennen nur die Richtung – den Rest übernehme ich.</span></button>
+        <button type="button" class="kx-plan__k" data-plan="selbst"><strong>Ich wähle selbst</strong><span>Gerichte aussuchen und den Preis sofort sehen.</span></button>
+      </div>
+      <div id="kxWirBox">
+      <p class="kx-unterfrage">Worauf haben Sie Lust? <small>mehrfach möglich – oder einfach weiter</small></p>
       <div class="kx-chips" id="kxKuechen" style="flex-wrap:wrap;overflow:visible;margin:0;padding:0"></div>
       <p class="kx-unterfrage">Noch etwas, das ich wissen sollte? <small>freiwillig</small></p>
       <textarea class="kx-feld" id="kxNachricht" placeholder="Allergien, Budget, Ablauf, Getränke …"></textarea>
+      </div>
+    </section>
+
+    <!-- Buffet selbst zusammenstellen (Rechner) -->
+    <section class="kx-screen kx-flow" data-screen="menue">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button>
+      <span class="kx-kick">Ihr Buffet</span>
+      <h2 class="kx-titel">Gerichte auswählen</h2>
+      <p class="kx-lead">Unsere Empfehlung ist schon ausgewählt. Tippen Sie einfach an, was Sie anders möchten.</p>
+      <div class="kx-zeile kx-menue-gaeste"><span style="color:var(--mute)">Gäste</span><span class="kx-zaehler"><button type="button" id="kxMMinus" aria-label="Ein Gast weniger">−</button><input id="kxMPers" type="number" inputmode="numeric" min="5" max="1000" value="30" aria-label="Gäste"><button type="button" id="kxMPlus" aria-label="Ein Gast mehr">+</button></span></div>
+      <div class="kx-chips" id="kxMKats" role="tablist" aria-label="Kategorie"></div>
+      <p class="kx-menue-info" id="kxMInfo"></p>
+      <div class="kx-buffet" id="kxBuffet"></div>
+      <p class="kx-hinweis"><button type="button" class="kx-link" id="kxEmpfehlung">Empfehlung wiederherstellen</button> · Geliefert und aufgebaut, warm gehalten in Chafing Dishes. Preise pro Person.</p>
     </section>
 
     <!-- Feier 5: Zusammenfassung -->
@@ -289,7 +310,6 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
       <h2 class="kx-titel">Passt alles?</h2>
       <p class="kx-lead">Unverbindlich – ich melde mich persönlich mit Ihrem Angebot.</p>
       <div class="kx-summe" id="kxFSumme"></div>
-      <p class="kx-leicht">Lieber jedes Gericht selbst wählen? <a id="kxRechner" href="/business/catering-angebot/">Zum Buffet-Rechner</a></p>
     </section>
 
     <!-- Danke -->

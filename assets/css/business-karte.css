@@ -212,6 +212,32 @@
 #kxKats [data-kat="top"]{border-color:rgba(232,89,12,.6);color:#ffb38a}
 #kxKats [data-kat="top"].is-on{background:var(--g);border-color:var(--g);color:#fff}
 
+/* Essen planen: zwei Wege */
+.kx-plan{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.kx-plan__k{display:grid;gap:4px;text-align:left;border:1px solid rgba(255,255,255,.16);background:var(--panel);border-radius:18px;padding:18px 20px;cursor:pointer;color:#fff;transition:border-color .25s,background .25s}
+.kx-plan__k strong{font-weight:500;font-size:1.08rem}
+.kx-plan__k span{color:var(--mute);font-size:.9rem;line-height:1.45}
+.kx-plan__k:hover{border-color:rgba(255,255,255,.4)}
+.kx-plan__k.is-on{border-color:var(--g);background:linear-gradient(160deg,rgba(232,89,12,.14),var(--panel) 60%)}
+/* Rechner */
+.kx-menue-gaeste{margin:0 0 20px;gap:14px}
+.kx-menue-info{color:var(--mute);font-size:.9rem;margin:-4px 0 14px}
+.kx-menue-info b{color:#fff;font-weight:500}
+.kx-buffet{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kx-bgericht{position:relative;display:grid;gap:4px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 46px 14px 16px;cursor:pointer;color:#fff;transition:border-color .25s,background .25s;animation:kxUp .45s cubic-bezier(.2,.8,.2,1) both}
+.kx-bgericht strong{font-weight:500;line-height:1.3}
+.kx-bgericht small{color:var(--mute);font-size:.8rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kx-bgericht::after{content:"";position:absolute;right:14px;top:14px;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);transition:all .25s}
+.kx-bgericht:hover{border-color:rgba(255,255,255,.3)}
+.kx-bgericht.is-on{border-color:var(--g);background:linear-gradient(140deg,rgba(232,89,12,.13),var(--panel) 65%)}
+.kx-bgericht.is-on::after{content:"✓";display:grid;place-items:center;background:var(--g);border-color:var(--g);color:#fff;font-size:.8rem;animation:kxPop .3s ease}
+.kx-veg{display:inline-block;margin-left:6px;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#9be7b0;border:1px solid rgba(155,231,176,.4);border-radius:999px;padding:1px 6px;vertical-align:middle}
+.kx-link{background:none;border:0;padding:0;color:rgba(255,255,255,.75);text-decoration:underline;cursor:pointer;font-size:inherit}
+.kx-schauen{display:block;width:100%;margin:16px 0 0;background:none;border:0;color:var(--mute);text-align:center;cursor:pointer;font-size:.98rem;padding:10px}
+.kx-schauen strong{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:4px}
+.kx-schauen:hover strong{color:var(--g2)}
+@media (max-width:860px){.kx-plan{grid-template-columns:1fr}.kx-buffet{grid-template-columns:1fr}}
+
 /* Pakete */
 .kx-pakete{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .kx-paket{position:relative;display:grid;gap:10px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:12px;cursor:pointer;transition:border-color .3s,transform .3s,background .3s;animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}
