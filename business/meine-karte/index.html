@@ -212,7 +212,7 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
       <div id="kxEinzeln">
         <div class="kx-chips" id="kxKats" role="tablist" aria-label="Kategorie"></div>
         <div class="kx-gerichte" id="kxGerichte"></div>
-        <p class="kx-hinweis">Ihre Black-Card-Preise · Lieferung inklusive ab 25 € · Abbildungen ähnlich, Allergene auf Anfrage.</p>
+        <p class="kx-hinweis">Ihre Black-Card-Preise · Lieferung inklusive ab 25 € · Abbildungen ähnlich · <button type="button" class="kx-link" data-allergene>Allergene &amp; Zusatzstoffe</button></p>
       </div>
       <div id="kxPaket" hidden>
         <p class="kx-lead" style="margin-bottom:18px">Für Meetings, Kundenbesuche und Teamessen – zum Paketpreis, ab 5 Personen.</p>
@@ -307,7 +307,7 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
       <div class="kx-chips" id="kxMKats" role="tablist" aria-label="Kategorie" hidden></div>
       <p class="kx-menue-info" id="kxMInfo"></p>
       <div class="kx-buffet" id="kxBuffet"></div>
-      <p class="kx-hinweis">Geliefert und aufgebaut, warm gehalten in Chafing Dishes. Preise pro Person.</p>
+      <p class="kx-hinweis">Geliefert und aufgebaut, warm gehalten in Chafing Dishes. Preise pro Person. Lieferung ab 20 Gästen inklusive, darunter 25 €. · <button type="button" class="kx-link" data-allergene>Allergene &amp; Zusatzstoffe</button></p>
     </section>
 
     <!-- Feier 5: Zusammenfassung -->
@@ -335,6 +335,16 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
     </section>
   </div>
 
+  <div class="kx-dlg" id="kxAllergDlg" role="dialog" aria-modal="true" aria-labelledby="kxAllergTitel" hidden>
+    <div class="kx-dlg__box">
+      <button type="button" class="kx-dlg__x" id="kxAllergZu" aria-label="Schließen">×</button>
+      <h3 id="kxAllergTitel">Allergene &amp; Zusatzstoffe</h3>
+      <p class="kx-dlg__text">Die Kennzeichnung steht beim jeweiligen Gericht. Fehlt sie dort noch oder haben Sie Fragen zu einer Allergie, schreiben Sie es einfach in die Notiz zur Bestellung – ich kläre das vor der Lieferung persönlich mit Ihnen.</p>
+      <ul class="kx-allerg-liste" id="kxAllergListe"></ul>
+      <p class="kx-unterfrage" style="margin-top:16px">Zusatzstoffe</p>
+      <ul class="kx-allerg-liste" id="kxZusatzListe"></ul>
+    </div>
+  </div>
   <div class="kx-bar" id="kxBar" aria-hidden="true">
     <p class="kx-bar__fehler" id="kxBarFehler" role="alert" hidden></p>
     <div class="kx-bar__info" aria-live="polite"><strong id="kxBarTitel"></strong><span id="kxBarText"></span></div>

@@ -8,6 +8,9 @@
   var TEL_WA = "491772019889";
   var MINDEST = 25;              // Mittagstisch: Mindestbestellwert in Euro
   var BUFFET = 27.5, BUFFET_NORMAL = 31.9;
+  var LIEFER_GRENZE = 20, LIEFER_GEBUEHR = 25;   // Feiern: Lieferung ab 20 Gaesten inklusive, darunter 25 EUR
+  function lieferGebuehr() { return S.f.personen && S.f.personen < LIEFER_GRENZE ? LIEFER_GEBUEHR : 0; }
+  function lieferText() { return lieferGebuehr() ? euro(LIEFER_GEBUEHR) + " (unter " + LIEFER_GRENZE + " Gästen)" : "inklusive"; }
   var SUESS = 3.9;               // Team-Paket: Suesses pro Person
   var ZEITEN = ["11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
 
@@ -15,33 +18,33 @@
   // Normalpreis = Shop-Preis, Black Card: unter 5 € gleich, 5-9,99 € -0,50, 10-19,99 € -1,00, ab 20 € -8 %.
   var KATS = [["pizza", "Pizza"], ["calzone", "Calzone"], ["pasta", "Pasta"], ["burger", "Burger & Schnitzel"], ["wraps", "Wraps & Salate"], ["indisch", "Indisch"], ["sushi", "Sushi"], ["bowls", "Bowls"], ["snacks", "Snacks"], ["dips", "Dips"], ["dessert", "Desserts"], ["getraenke", "Getränke"]];
   var GERICHTE = [
-    ["pizza", "", "Pizza Margherita", 9.4, 9.9, "margherita", "mit Tomatensoße und Käse"],
-    ["pizza", "", "Pizza Salami", 9.9, 10.9, "salami", "mit Salami"],
-    ["pizza", "", "Pizza Schinken", 9.9, 10.9, "sp-kat1", "mit Schinken"],
-    ["pizza", "", "Pizza Funghi", 9.9, 10.9, "funghi", "mit frischen Champignons"],
-    ["pizza", "", "Pizza Hawaii", 9.9, 10.9, "sp-kat1", "mit Schinken und Ananas"],
-    ["pizza", "", "Pizza Vier Jahreszeiten", 9.9, 10.9, "sp-kat1", "mit Schinken, Salami, frischen Champignons und Artischocken"],
-    ["pizza", "", "Pizza Tonno", 10.3, 11.3, "sp-kat1", "mit Thunfisch und roten Zwiebeln"],
-    ["pizza", "", "Pizza Bauern", 11.9, 12.9, "sp-kat1", "mit Schinken, roten Zwiebeln, milden Peperoni und Sauce Hollandaise"],
-    ["pizza", "", "Pizza Hack", 10.9, 11.9, "sp-kat1", "mit Rinderhack, Mais, Peperoni und roten Zwiebeln"],
-    ["pizza", "", "Pizza Mista", 10.9, 11.9, "salami", "mit Schinken, Salami, Champignons, Peperoni und grünen Oliven"],
-    ["pizza", "", "Pizza Kebab", 10.9, 11.9, "sp-kat1", "mit Dönerfleisch, roten Zwiebeln und Paprikamix"],
-    ["pizza", "", "Pizza Cheeseburger", 10.9, 11.9, "sp-kat1", "mit Rinderhack, frischen Tomaten, Gewürzgurken, roten Zwiebeln und Chili Cheese Sauce"],
-    ["pizza", "", "Pizza Sucuk", 10.9, 11.9, "sp-kat1", "mit Sucuk, roten Zwiebeln, grünen Oliven und Hirtenkäse"],
-    ["pizza", "", "Pizza Mafioso", 10.9, 11.9, "salami", "mit Salami, Thunfisch, Jalapeños und Knoblauch"],
-    ["pizza", "", "Pizza BBQ Chicken", 10.9, 11.9, "teriyaki", "mit Hähnchenbrustfilet, Kirschtomaten, roten Zwiebeln und BBQ Sauce"],
-    ["pizza", "", "Pizza Green Garden", 11.9, 12.9, "veggi", "mit Zwiebeln, Mais, Paprikamix, Brokkoli und grünen Oliven"],
-    ["pizza", "", "Pizza Holland", 12.9, 13.9, "sp-kat1", "mit Hinterschinken, Tomatenscheiben, Brokkoli und Hollandaisesauce"],
-    ["pizza", "", "Pizza Tandoori Chicken", 11.9, 12.9, "teriyaki", "mit Tandoori-Hähnchen, roten Zwiebeln, grünen Oliven, Paprikamix und Mais"],
-    ["pizza", "", "Pizza Chicken Supreme", 11.4, 12.4, "sp-kat1", "mit Hähnchenbrustfilet, Blattspinat, Knoblauch und Creme fraiche"],
-    ["pizza", "", "Pizza Chicken Curry", 10.9, 11.9, "sp-kat1", "mit Hähnchenbrustfilet und Ananas"],
-    ["pizza", "", "Pizza Bostan", 12.9, 13.9, "sp-kat1", "mit Hollandaisesauce, Zwiebeln, Brokkoli, Crispy Chicken und Steakpfeffer"],
-    ["pizza", "", "Pizza Master Cheese", 11.9, 12.9, "sp-kat1", "mit Hirtenkäse, Cheddar, Gouda und Mozzarella"],
-    ["pizza", "", "Pizza Texas BBQ", 11.9, 12.9, "sp-kat1", "mit Rinderhack, BBQ Sauce, roten Zwiebeln und Cherrytomaten"],
-    ["pizza", "", "Pizza Surf & Turf Delux", 12.9, 13.9, "sp-kat1", "mit Rindersteakstreifen, Scampi, Cherrytomaten und Hollandaise"],
-    ["pizza", "", "Pizza Chef Special", 11.9, 12.9, "sp-kat1", "mit Rindersteakstreifen, Brokkoli, Kirschtomaten und Hollandaise Sauce"],
-    ["pizza", "", "Pizza Barbecue Spezial", 13.9, 14.9, "sp-kat1", "BBQ-Sauce, Hähnchenbrustfilet, Salami, Rinderhack, Rinder-Bacon und Mozzarella."],
-    ["pizza", "", "Pizza Hot & Spicy", 11.9, 12.9, "sp-kat1", "mit Schinken, Rinderhack, Jalapeños und Sauce Hollandaise"],
+    ["pizza", "", "Pizza Margherita", 9.4, 9.9, "margherita", "Ø 26 cm · mit Tomatensoße und Käse"],
+    ["pizza", "", "Pizza Salami", 9.9, 10.9, "salami", "Ø 26 cm · mit Salami"],
+    ["pizza", "", "Pizza Schinken", 9.9, 10.9, "sp-kat1", "Ø 26 cm · mit Schinken"],
+    ["pizza", "", "Pizza Funghi", 9.9, 10.9, "funghi", "Ø 26 cm · mit frischen Champignons"],
+    ["pizza", "", "Pizza Hawaii", 9.9, 10.9, "sp-kat1", "Ø 26 cm · mit Schinken und Ananas"],
+    ["pizza", "", "Pizza Vier Jahreszeiten", 9.9, 10.9, "sp-kat1", "Ø 26 cm · mit Schinken, Salami, frischen Champignons und Artischocken"],
+    ["pizza", "", "Pizza Tonno", 10.3, 11.3, "sp-kat1", "Ø 26 cm · mit Thunfisch und roten Zwiebeln"],
+    ["pizza", "", "Pizza Bauern", 11.9, 12.9, "sp-kat1", "Ø 26 cm · mit Schinken, roten Zwiebeln, milden Peperoni und Sauce Hollandaise"],
+    ["pizza", "", "Pizza Hack", 10.9, 11.9, "sp-kat1", "Ø 26 cm · mit Rinderhack, Mais, Peperoni und roten Zwiebeln"],
+    ["pizza", "", "Pizza Mista", 10.9, 11.9, "salami", "Ø 26 cm · mit Schinken, Salami, Champignons, Peperoni und grünen Oliven"],
+    ["pizza", "", "Pizza Kebab", 10.9, 11.9, "sp-kat1", "Ø 26 cm · mit Dönerfleisch, roten Zwiebeln und Paprikamix"],
+    ["pizza", "", "Pizza Cheeseburger", 10.9, 11.9, "sp-kat1", "Ø 26 cm · mit Rinderhack, frischen Tomaten, Gewürzgurken, roten Zwiebeln und Chili Cheese Sauce"],
+    ["pizza", "", "Pizza Sucuk", 10.9, 11.9, "sp-kat1", "Ø 26 cm · mit Sucuk, roten Zwiebeln, grünen Oliven und Hirtenkäse"],
+    ["pizza", "", "Pizza Mafioso", 10.9, 11.9, "salami", "Ø 26 cm · mit Salami, Thunfisch, Jalapeños und Knoblauch"],
+    ["pizza", "", "Pizza BBQ Chicken", 10.9, 11.9, "teriyaki", "Ø 26 cm · mit Hähnchenbrustfilet, Kirschtomaten, roten Zwiebeln und BBQ Sauce"],
+    ["pizza", "", "Pizza Green Garden", 11.9, 12.9, "veggi", "Ø 26 cm · mit Zwiebeln, Mais, Paprikamix, Brokkoli und grünen Oliven"],
+    ["pizza", "", "Pizza Holland", 12.9, 13.9, "sp-kat1", "Ø 26 cm · mit Hinterschinken, Tomatenscheiben, Brokkoli und Hollandaisesauce"],
+    ["pizza", "", "Pizza Tandoori Chicken", 11.9, 12.9, "teriyaki", "Ø 26 cm · mit Tandoori-Hähnchen, roten Zwiebeln, grünen Oliven, Paprikamix und Mais"],
+    ["pizza", "", "Pizza Chicken Supreme", 11.4, 12.4, "sp-kat1", "Ø 26 cm · mit Hähnchenbrustfilet, Blattspinat, Knoblauch und Creme fraiche"],
+    ["pizza", "", "Pizza Chicken Curry", 10.9, 11.9, "sp-kat1", "Ø 26 cm · mit Hähnchenbrustfilet und Ananas"],
+    ["pizza", "", "Pizza Bostan", 12.9, 13.9, "sp-kat1", "Ø 26 cm · mit Hollandaisesauce, Zwiebeln, Brokkoli, Crispy Chicken und Steakpfeffer"],
+    ["pizza", "", "Pizza Master Cheese", 11.9, 12.9, "sp-kat1", "Ø 26 cm · mit Hirtenkäse, Cheddar, Gouda und Mozzarella"],
+    ["pizza", "", "Pizza Texas BBQ", 11.9, 12.9, "sp-kat1", "Ø 26 cm · mit Rinderhack, BBQ Sauce, roten Zwiebeln und Cherrytomaten"],
+    ["pizza", "", "Pizza Surf & Turf Delux", 12.9, 13.9, "sp-kat1", "Ø 26 cm · mit Rindersteakstreifen, Scampi, Cherrytomaten und Hollandaise"],
+    ["pizza", "", "Pizza Chef Special", 11.9, 12.9, "sp-kat1", "Ø 26 cm · mit Rindersteakstreifen, Brokkoli, Kirschtomaten und Hollandaise Sauce"],
+    ["pizza", "", "Pizza Barbecue Spezial", 13.9, 14.9, "sp-kat1", "Ø 26 cm · BBQ-Sauce, Hähnchenbrustfilet, Salami, Rinderhack, Rinder-Bacon und Mozzarella."],
+    ["pizza", "", "Pizza Hot & Spicy", 11.9, 12.9, "sp-kat1", "Ø 26 cm · mit Schinken, Rinderhack, Jalapeños und Sauce Hollandaise"],
     ["calzone", "", "Calzone Gemischt", 11.9, 12.9, "sp-kat27", "mit Salami, Schinken und frischen Champignons"],
     ["calzone", "", "Calzone mit Salami", 10.9, 11.9, "sp-kat27", "mit Salami"],
     ["calzone", "", "Calzone mit Schinken", 10.9, 11.9, "sp-kat27", "mit Schinken"],
@@ -199,6 +202,13 @@
     ["getraenke", "", "Vio Still", 2.3, null, "sp-kat11", ""],
     ["getraenke", "", "Vio Medium", 2.3, null, "sp-kat11", ""]
   ].map(function (g) { return { kat: g[0], gruppe: g[1], name: g[2], preis: g[3], statt: g[4], bild: g[5] ? "/assets/img/mittag/k/" + g[5] + ".webp" : "", text: g[6] }; });
+
+  // Allergene je Gericht (Kennbuchstaben laut Legende). Wird aus Planung/Allergene-Vorlage.csv gefuellt.
+  var ALLERGENE = {};
+  var ALLERGEN_LEGENDE = [["A", "Glutenhaltiges Getreide"], ["B", "Krebstiere"], ["C", "Eier"], ["D", "Fisch"], ["E", "Erdnüsse"], ["F", "Soja"], ["G", "Milch / Laktose"],
+    ["H", "Schalenfrüchte (Nüsse)"], ["J", "Schwefeldioxid / Sulfite"], ["K", "Senf"], ["L", "Sellerie"], ["M", "Sesam"], ["N", "Lupinen"], ["P", "Weichtiere"]];
+  var ZUSATZ_LEGENDE = [["1", "mit Farbstoff"], ["2", "mit Konservierungsstoff"], ["3", "mit Antioxidationsmittel"], ["4", "mit Geschmacksverstärker"], ["5", "mit Süßungsmittel"],
+    ["6", "geschwärzt"], ["7", "mit Phosphat"], ["12", "enthält eine Phenylalaninquelle"]];
 
   // Highlights: erscheinen im ersten Reiter und tragen ein Schild
   var TOP = {
@@ -429,7 +439,7 @@
       setBar(true, "Noch nichts ausgewählt", "Gerichte antippen – der Preis erscheint sofort", "Weiter", false);
     } else if (aktuell === "menue") {
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
-      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen ? S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen) + sparText(ersparnisBuffet()) : "Gästezahl eintragen für den Gesamtpreis",
+      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen ? S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen + lieferGebuehr()) + (lieferGebuehr() ? " inkl. " + euro(LIEFER_GEBUEHR) + " Lieferung" : "") + sparText(ersparnisBuffet()) : "Gästezahl eintragen für den Gesamtpreis",
         haupt ? "Weiter" : "Bitte 1 Hauptgericht", haupt > 0, function () { S.f.plan = "selbst"; if (!S.f.anlass) geh("feier1"); else { zusammenfassung(); geh("feier5"); } });
     } else if (aktuell === "feier4" && S.f.plan !== "wir") {
       setBar(false);
@@ -581,7 +591,7 @@
       if (S.kat !== "top" && g.gruppe && g.gruppe !== letzte) { kopf = '<h3 class="kx-gruppe">' + esc(g.gruppe) + "</h3>"; letzte = g.gruppe; }
       return kopf + '<div class="kx-gericht' + (g.bild ? "" : " kx-gericht--ohne") + (m ? " is-gew" : "") + '" style="animation-delay:' + Math.min(0.5, (i++) * 0.03).toFixed(2) + 's" data-name="' + esc(g.name) + '">' +
         (g.bild ? '<span class="kx-gericht__bild"><img src="' + g.bild + '" alt="' + esc(g.name) + '" loading="lazy" width="112" height="112">' + (TOP[g.name] ? '<em class="kx-top">' + esc(TOP[g.name]) + "</em>" : "") + "</span>" : "") +
-        '<div class="kx-gericht__t"><strong>' + esc(g.name) + flagge(g) + "</strong><small>" + esc(g.text || "") + "</small>" +
+        '<div class="kx-gericht__t"><strong>' + esc(g.name) + flagge(g) + "</strong><small>" + esc(g.text || "") + (ALLERGENE[g.name] ? ' · <span class="kx-allerg">Allergene: ' + esc(ALLERGENE[g.name]) + "</span>" : "") + "</small>" +
         '<div class="kx-gericht__unten"><span class="kx-preis">' + euro(g.preis) + (g.statt ? "<s>" + euro(g.statt) + "</s>" : "") + "</span>" +
         '<span class="kx-menge"><button type="button" data-d="-1" aria-label="' + esc(g.name) + ' weniger">−</button><output>' + m + '</output><button type="button" class="kx-plus" data-d="1" aria-label="' + esc(g.name) + ' mehr">+</button></span>' +
         "</div></div></div>";
@@ -807,7 +817,7 @@
 
   function woText() { var w = WO.filter(function (x) { return x.key === S.f.wo; })[0]; return w ? w.titel : "Noch offen"; }
   function feierZeilen() {
-    var z = [["Anlass", S.f.anlass], ["Termin", S.f.datum ? datumDe(S.f.datum) : "noch offen"], ["Gäste", S.f.personen + " Personen"], ["Ort", woText()]];
+    var z = [["Anlass", S.f.anlass], ["Termin", S.f.datum ? datumDe(S.f.datum) : "noch offen"], ["Gäste", S.f.personen + " Personen"], ["Ort", woText()], ["Lieferung", lieferText()]];
     if (S.f.plan === "selbst") BKATS.forEach(function (k) {
       var n = S.f.menu.filter(function (x) { return bObj(x).kat === k[0]; });
       if (n.length) z.push([k[1], n.join(", ")]);
@@ -818,14 +828,14 @@
   function zusammenfassung() {
     var z = feierZeilen();
     $("kxFSumme").innerHTML = z.map(function (r) { return '<div class="kx-summe__z"><span>' + r[0] + "</span><b>" + esc(r[1]) + "</b></div>"; }).join("") +
-      (S.f.plan === "selbst" ? '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>' + (S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET)) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(S.f.plan === "selbst" ? Math.round(buffetPreis() * BUFFET_NORMAL / BUFFET * 10) / 10 : BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * (S.f.plan === "selbst" ? buffetPreis() : BUFFET)).replace(",00", "") + " gesamt</small></b></div>" : '<div class="kx-summe__z is-total"><span>Preis</span><b>Ihr persönliches Angebot<br><small style="color:var(--mute);font-weight:400">kommt meist noch am selben Tag</small></b></div>') +
+      (S.f.plan === "selbst" ? '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>' + (S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET)) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(S.f.plan === "selbst" ? Math.round(buffetPreis() * BUFFET_NORMAL / BUFFET * 10) / 10 : BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * (S.f.plan === "selbst" ? buffetPreis() : BUFFET) + lieferGebuehr()).replace(",00", "") + " gesamt" + (lieferGebuehr() ? " inkl. Lieferung" : "") + "</small></b></div>" : '<div class="kx-summe__z is-total"><span>Preis</span><b>Ihr persönliches Angebot<br><small style="color:var(--mute);font-weight:400">kommt meist noch am selben Tag</small></b></div>') +
       (S.f.nachricht.trim() ? '<div class="kx-summe__z"><span>Nachricht</span><b>' + esc(S.f.nachricht.trim()) + "</b></div>" : "");
   }
   function feierSenden() {
     var kurz = S.f.anlass + " · " + (S.f.datum ? datumDe(S.f.datum) : "Termin offen") + " · " + S.f.personen + " Personen";
     var mehr = woText() + (S.f.plan === "selbst"
-      ? " · Eigenes Menü: " + S.f.menu.join(", ") + " · " + euro(buffetPreis()) + " p. P. · ca. " + euro(buffetPreis() * S.f.personen)
-      : " · Küche: " + (S.f.kueche.join(", ") || "offen") + " · ab " + euro(BUFFET) + " p. P.");
+      ? " · Eigenes Menü: " + S.f.menu.join(", ") + " · " + euro(buffetPreis()) + " p. P. · ca. " + euro(buffetPreis() * S.f.personen + lieferGebuehr()) + (lieferGebuehr() ? " inkl. 25 € Lieferung" : "")
+      : " · Küche: " + (S.f.kueche.join(", ") || "offen") + " · ab " + euro(BUFFET) + " p. P." + (lieferGebuehr() ? " · Lieferung 25 € (unter 20 Gäste)" : ""));
     var nachricht = S.f.nachricht.trim().replace(/\s+/g, " ");
     barBtn.disabled = true; barBtn.textContent = "Wird gesendet …";
     Promise.all([
@@ -905,6 +915,18 @@
     S.f = { anlass: "", datum: "", offen: false, personen: null, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: [] };
     feierVorbereiten(); menueStart();
   }
+
+  // ---------- Allergene-Legende ----------
+  Array.prototype.forEach.call(document.querySelectorAll("[data-allergene]"), function (b) {
+    b.addEventListener("click", function () {
+      $("kxAllergListe").innerHTML = ALLERGEN_LEGENDE.map(function (a) { return "<li><b>" + a[0] + "</b> " + esc(a[1]) + "</li>"; }).join("");
+      $("kxZusatzListe").innerHTML = ZUSATZ_LEGENDE.map(function (a) { return "<li><b>" + a[0] + "</b> " + esc(a[1]) + "</li>"; }).join("");
+      var dlg = $("kxAllergDlg"); if (dlg.parentNode !== document.body) document.body.appendChild(dlg);
+      dlg.hidden = false;
+    });
+  });
+  $("kxAllergZu").addEventListener("click", function () { $("kxAllergDlg").hidden = true; });
+  $("kxAllergDlg").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 
   // ---------- Danke ----------
   function dankeZeigen(titel, text, zeilen) {
