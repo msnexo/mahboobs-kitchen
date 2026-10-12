@@ -55,6 +55,10 @@ body{background:#000}
 .ba__err{margin:0;color:#ff8a4c;font-size:.92rem}
 .ba__legal{margin:0;color:rgba(255,255,255,.4);font-size:.78rem;line-height:1.5}
 .ba__legal a{color:rgba(255,255,255,.7)}
+.ba__as{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.06)}
+.ba__as button{border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.7);font:inherit;font-size:.95rem;padding:10px;cursor:pointer;transition:background .2s,color .2s}
+.ba__as button.is-on{background:#fff;color:#111}
+.ba__in[hidden]{display:none}
 .ba__hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .ba__done{display:grid;gap:12px;outline:none}
 .ba__done[hidden],.ba__form[hidden]{display:none}
@@ -103,7 +107,7 @@ body{background:#000}
     <div>
       <span class="ba__kick">MK Black Card</span>
       <h1>Ihre Karte.<br>Kostenlos.</h1>
-      <p class="ba__lead">Mit der Black Card bestellen Sie Catering günstiger – mit einem festen Ansprechpartner, der Ihre Wünsche kennt. Keine Kosten, keine Verpflichtung.</p>
+      <p class="ba__lead">Mit der Black Card bestellen Sie Catering günstiger – ob für Ihre Firma, Ihren Verein oder Ihre private Feier. Mit einem festen Ansprechpartner, der Ihre Wünsche kennt. Keine Kosten, keine Verpflichtung.</p>
       <div class="ba__card" aria-hidden="true">
         <div class="mk-card mk-card--metal mk-card--hero">
           <div class="mk-card__shine"></div>
@@ -115,7 +119,7 @@ body{background:#000}
       <ul class="ba__perks">
         <li>Bessere Preise bei jeder Bestellung</li>
         <li>Ein Ansprechpartner, Antwort in 24 Stunden</li>
-        <li>Für Firmen, Vereine und Schulen</li>
+        <li>Für Firmen, Vereine und private Gastgeber</li>
       </ul>
     </div>
     <div>
@@ -123,6 +127,7 @@ body{background:#000}
         <h2>Karte anfordern</h2>
         <p class="sub">Dauert 30 Sekunden. Ich melde mich persönlich.</p>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="ba__hp" aria-hidden="true">
+        <div class="ba__as" role="radiogroup" aria-label="Ich bin"><button type="button" role="radio" aria-checked="true" class="is-on" data-as="Firma">Firma / Verein</button><button type="button" role="radio" aria-checked="false" data-as="Privat">Privat</button><input type="hidden" name="anfrage_als" id="baAls" value="Firma / Verein"></div>
         <input class="ba__in" id="baFirma" name="firma" placeholder="Firma oder Verein" autocomplete="organization" maxlength="200" aria-label="Firma oder Verein">
         <input class="ba__in" id="baPerson" name="name" placeholder="Ihr Name" autocomplete="name" maxlength="200" aria-label="Ihr Name">
         <div class="ba__row">
@@ -194,19 +199,21 @@ body{background:#000}
 (function(){var f=document.getElementById('baForm');if(!f)return;
 var API="https://ajbxwpqeyhhsvunsxcut.supabase.co/rest/v1/rpc/submit_card_contact",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";
 var firma=document.getElementById('baFirma'),person=document.getElementById('baPerson'),em=document.getElementById('baEmail'),tel=document.getElementById('baTel'),err=document.getElementById('baErr'),send=document.getElementById('baSend'),nm=document.getElementById('baName');
-firma.addEventListener('input',function(){nm.textContent=(firma.value.trim()||'Ihre Firma').toUpperCase()});
+var privat=false;function upd(){var v=privat?person.value.trim():firma.value.trim();nm.textContent=(v||(privat?'Ihr Name':'Ihre Firma')).toUpperCase()}
+firma.addEventListener('input',upd);person.addEventListener('input',upd);
+f.querySelectorAll('.ba__as button').forEach(function(b){b.onclick=function(){f.querySelectorAll('.ba__as button').forEach(function(x){x.classList.remove('is-on');x.setAttribute('aria-checked','false')});b.classList.add('is-on');b.setAttribute('aria-checked','true');privat=b.dataset.as==='Privat';document.getElementById('baAls').value=privat?'Privat':'Firma / Verein';firma.hidden=privat;firma.classList.remove('is-bad');upd();(privat?person:firma).focus()}});
 f.addEventListener('submit',function(e){e.preventDefault();err.hidden=true;[firma,person,em,tel].forEach(function(x){x.classList.remove('is-bad')});
  if(f.elements._gotcha.value)return;
  var e1=em.value.trim(),t1=tel.value.trim(),bad=[];
- if(!firma.value.trim())bad.push(firma);if(!person.value.trim())bad.push(person);
+ if(!privat&&!firma.value.trim())bad.push(firma);if(!person.value.trim())bad.push(person);
  if(!e1&&!t1){bad.push(em);bad.push(tel)}
  if(e1&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e1))bad.push(em);
- if(bad.length){bad.forEach(function(x){x.classList.add('is-bad')});err.textContent='Bitte Firma, Ihren Namen und E-Mail oder Telefon angeben.';err.hidden=false;bad[0].focus();return}
+ if(bad.length){bad.forEach(function(x){x.classList.add('is-bad')});err.textContent=privat?'Bitte Ihren Namen und E-Mail oder Telefon angeben.':'Bitte Firma, Ihren Namen und E-Mail oder Telefon angeben.';err.hidden=false;bad[0].focus();return}
  send.disabled=true;send.textContent='Wird gesendet …';
  var consent=document.getElementById('baConsent').checked;
  var crm=fetch(API,{method:'POST',headers:{'Content-Type':'application/json',apikey:KEY,Authorization:'Bearer '+KEY},
-   body:JSON.stringify({p_company:firma.value.trim(),p_name:person.value.trim(),p_phone:t1||null,p_email:e1||null,p_role:null,p_consent:consent,p_owner:'REA',p_source:'Black Card Antrag'})}).then(function(r){if(!r.ok)throw 0});
- var fd=new FormData(f);fd.delete('_gotcha');fd.append('_subject','Black Card angefordert: '+firma.value.trim()+' ('+person.value.trim()+')');fd.append('quelle_seite','Black Card Antrag');
+   body:JSON.stringify({p_company:privat?null:firma.value.trim(),p_name:person.value.trim(),p_phone:t1||null,p_email:e1||null,p_role:null,p_consent:consent,p_owner:'REA',p_source:privat?'Black Card Antrag (Privat)':'Black Card Antrag'})}).then(function(r){if(!r.ok)throw 0});
+ var fd=new FormData(f);fd.delete('_gotcha');if(privat)fd.delete('firma');fd.append('_subject',privat?'Black Card angefordert (Privat): '+person.value.trim():'Black Card angefordert: '+firma.value.trim()+' ('+person.value.trim()+')');fd.append('quelle_seite','Black Card Antrag');
  var mail=fetch('https://formspree.io/f/maqgnbwj',{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0});
  Promise.allSettled([crm,mail]).then(function(rs){
   if(rs[0].status!=='fulfilled'&&rs[1].status!=='fulfilled'){err.textContent='Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder rufen Sie an: 0177 201 9889.';err.hidden=false;send.disabled=false;send.textContent='Karte kostenlos anfordern';return}
