@@ -193,7 +193,13 @@
     document.title = "MK Black Card " + K.kundennummer + " | Mahboobs Kitchen";
 
     var vorstellung = "Hallo Reyyan, hier ist " + wer + (K.kategorie !== "Privatperson" && K.ansprechpartner ? " von " + K.firma : "") + ". Meine Kundennummer: " + K.kundennummer;
-    $("kxWa").href = "https://wa.me/" + TEL_WA + "?text=" + encodeURIComponent(vorstellung);
+    Array.prototype.forEach.call(app.querySelectorAll("[data-wa]"), function (l) { l.href = "https://wa.me/" + TEL_WA + "?text=" + encodeURIComponent(vorstellung); });
+    // Unterer Chat startet, sobald er ins Bild kommt
+    var unten = $("kxChatUnten");
+    if (unten && "IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { unten.classList.add("is-an"); io.disconnect(); } }, { threshold: 0.4 });
+      io.observe(unten);
+    } else if (unten) unten.classList.add("is-an");
     $("mkAbmelden").href = "/business/abmelden/?k=" + schluessel;
     $("kxRechner").href = "/business/catering-angebot/?firma=" + encodeURIComponent(K.firma || "") +
       (K.ansprechpartner ? "&person=" + encodeURIComponent(K.ansprechpartner) : "") + "&code=" + encodeURIComponent(K.kundennummer) + "&k=" + schluessel;
@@ -217,7 +223,7 @@
     $("kxRueckruf").onclick = function () {
       var b = this; b.disabled = true;
       reaktion("rueckruf", null, "Rückruf über die Black Card").then(function (ok) {
-        if (ok) { b.outerHTML = '<span class="kx-ok">✓ Danke – ich rufe Sie zeitnah zurück.</span>'; }
+        if (ok) { b.textContent = "✓ Ich rufe Sie zurück"; b.classList.add("kx-ok"); }
         else { b.disabled = false; b.textContent = "Bitte nochmal versuchen"; }
       });
     };

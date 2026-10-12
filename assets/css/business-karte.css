@@ -114,6 +114,29 @@
 .kx-mini:hover,.kx-mini:focus-visible{border-color:#fff}
 .kx-mini.is-ok{border-color:#3ecf6e;color:#9be7b0}
 
+/* Antwort-Knoepfe unter den Sprechblasen */
+.kx-antworten{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 18px 60px}
+.kx-antwort{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:#fff;border-radius:999px;padding:10px 16px;font-size:.92rem;text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,transform .2s;opacity:0;transform:translateY(8px);animation:kxUp .5s cubic-bezier(.2,.8,.2,1) forwards}
+.kx-antwort:hover,.kx-antwort:focus-visible{border-color:#fff;background:rgba(255,255,255,.08)}
+.kx-antwort svg{width:17px;height:17px;fill:currentColor}
+.kx-antwort:not(.kx-antwort--wa) svg{fill:none;stroke:currentColor;stroke-width:1.8}
+.kx-antwort--wa{border-color:rgba(37,211,102,.55);color:#bff5d3}
+.kx-antwort--wa svg{fill:#25d366}
+.kx-antwort--wa:hover,.kx-antwort--wa:focus-visible{background:rgba(37,211,102,.12);border-color:#25d366}
+.kx-antwort.kx-ok{border-color:rgba(62,207,110,.6);color:#9be7b0;cursor:default}
+.kx-antworten--oben .kx-antwort{animation-delay:3.9s}
+.kx-antworten--unten .kx-antwort:nth-child(1){animation-delay:2.4s}
+.kx-antworten--unten .kx-antwort:nth-child(2){animation-delay:2.5s}
+.kx-antworten--unten .kx-antwort:nth-child(3){animation-delay:2.6s}
+/* Unten: Chat startet erst, wenn er ins Bild kommt (kuerzere Zeiten) */
+.kx-chat--unten{margin-top:44px;padding-top:28px;border-top:1px solid var(--line);max-width:560px}
+.kx-chat--unten .kx-chat__bild{animation-delay:.1s}
+.kx-chat--unten .kx-blase{animation-delay:.3s}
+.kx-chat--unten .kx-tippen{animation-delay:1.6s}
+.kx-chat--unten .kx-blase__inhalt{animation-delay:1.65s}
+.kx-chat--unten:not(.is-an) *,.kx-chat--unten:not(.is-an)+.kx-antworten *{animation-play-state:paused}
+.kx-chat--unten:not(.is-an)+.kx-antworten .kx-antwort{animation-play-state:paused}
+
 /* Kontakt */
 .kx-kontakt{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;color:var(--mute)}
 .kx-kontakt a,.kx-kontakt button{color:#fff;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:1rem}
