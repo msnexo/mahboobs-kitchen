@@ -1510,3 +1510,6 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .mk-card--metal .mk-card__number,.mk-card--metal .mk-card__field-label,.mk-card--metal .mk-card__points{display:none}
 .mk-card--metal .mk-card__bottom{position:absolute;left:8%;bottom:13%;margin:0}
 .mk-card--metal .mk-card__name{font-family:"Inter",Arial,sans-serif;font-weight:400;font-size:.72rem;letter-spacing:.14em;color:rgba(240,238,232,.88)}
+
+/* Kundenkarte: Kundennummer dezent unten rechts */
+.mk-card--metal.mk-card--nr .mk-card__number{display:block;position:absolute;right:8%;bottom:13%;margin:0;font-family:"Inter",Arial,sans-serif;font-weight:400;font-size:.66rem;letter-spacing:.2em;color:rgba(240,238,232,.5);font-variant-numeric:tabular-nums}
