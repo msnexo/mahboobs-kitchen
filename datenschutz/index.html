@@ -37,16 +37,25 @@
   </div>
 </div>
 <header class="site-header" id="siteHeader">
-  <a href="/" class="logo"><img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65"></a>
-  <nav class="main-nav" id="mainNav">
-    <a href="/">Start</a>
+  <nav class="main-nav" id="mainNav" aria-label="Hauptmenü">
     <a href="/#kueche">Küche</a>
     <a href="/#orte">Locations</a>
     <a href="/#preise">Preise</a>
-    <a href="/business/login/">Login</a>
-    <a href="/#bcBar" class="btn btn--primary" style="margin-top:6px;">Jetzt anfragen</a>
+    <div class="dropdown">
+      <a href="/#black-card" aria-haspopup="true">Black Card <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+      <div class="dropdown-panel">
+        <a href="/#black-card">So funktioniert’s</a>
+        <a href="/business/antrag/">Black Card anfordern</a>
+        <a href="/business/login/">Kunden-Login</a>
+        <a href="/partner/">Für Location-Partner</a>
+      </div>
+    </div>
+    <a href="tel:+491772019889" class="nav-mobile-only">0177 201 9889</a>
   </nav>
+  <a href="/" class="logo"><img src="/assets/img/logo.webp" alt="Mahboobs Kitchen Logo" width="169" height="65"></a>
   <div class="header-actions">
+    <a href="tel:+491772019889" class="hdr-tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>0177 201 9889</span></a>
+    <a href="/#bcBar" class="hdr-cta">Jetzt anfragen</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
   </div>
 </header>
