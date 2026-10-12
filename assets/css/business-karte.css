@@ -202,6 +202,10 @@
 @keyframes kxPop{40%{transform:scale(1.5);color:var(--g2)}}
 .kx-hinweis{color:rgba(255,255,255,.45);font-size:.82rem;margin:16px 0 0;line-height:1.5}
 
+.kx-gericht--ohne{grid-template-columns:1fr!important;padding:14px 16px}
+.kx-gruppe{grid-column:1/-1;margin:22px 0 2px;font-size:.78rem!important;letter-spacing:.2em!important;text-transform:uppercase;color:var(--g2)!important;font-weight:600!important}
+.kx-gruppe:first-child{margin-top:0}
+
 /* Pakete */
 .kx-pakete{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .kx-paket{position:relative;display:grid;gap:10px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:12px;cursor:pointer;transition:border-color .3s,transform .3s,background .3s;animation:kxUp .5s cubic-bezier(.2,.8,.2,1) both}
@@ -333,3 +337,4 @@ textarea.kx-feld{min-height:96px;resize:vertical}
 .kx-hero__card .mk-card--metal .mk-card__bottom{display:block;right:36%}
 .kx-hero__card .mk-card__bottom>div{min-width:0;max-width:100%}
 .kx-hero__card .mk-card__name{display:block}
+@media (min-width:861px){#kxKats{flex-wrap:wrap;overflow:visible;margin:0 0 20px;padding:0}}
