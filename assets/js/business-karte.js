@@ -412,7 +412,7 @@
       var titel = S.modus === "einzeln" ? warenkorb().n + " Gerichte · " + euro(warenkorb().summe) : (paketObj().name + " · " + S.personen + " Pers. · " + euro(paketSumme()));
       setBar(true, titel, S.tag && S.zeit ? tagLang(S.tag) + " · " + S.zeit + " Uhr" : "Tag und Uhrzeit wählen", "Jetzt bestellen", !!(S.tag && S.zeit), bestellen);
     } else if (aktuell === "feier2") {
-      setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", "Buffet ab " + euro(BUFFET) + " p. P. · ca. " + euro(S.f.personen * BUFFET),
+      setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.datum ? new Date(S.f.datum + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" }) : (S.f.offen ? "Termin noch offen" : "Termin wählen – oder „steht noch nicht fest“ ankreuzen"),
         "Weiter", !!(S.f.datum || S.f.offen), function () { geh("feier3"); });
     } else if (aktuell === "menue") {
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
@@ -802,7 +802,7 @@
   function zusammenfassung() {
     var z = feierZeilen();
     $("kxFSumme").innerHTML = z.map(function (r) { return '<div class="kx-summe__z"><span>' + r[0] + "</span><b>" + esc(r[1]) + "</b></div>"; }).join("") +
-      '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>' + (S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET)) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(S.f.plan === "selbst" ? Math.round(buffetPreis() * BUFFET_NORMAL / BUFFET * 10) / 10 : BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * (S.f.plan === "selbst" ? buffetPreis() : BUFFET)).replace(",00", "") + " gesamt</small></b></div>" +
+      (S.f.plan === "selbst" ? '<div class="kx-summe__z is-total"><span>Ihr Black-Card-Preis</span><b>' + (S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET)) + ' p. P.<br><small style="color:var(--mute);font-weight:400">statt ' + euro(S.f.plan === "selbst" ? Math.round(buffetPreis() * BUFFET_NORMAL / BUFFET * 10) / 10 : BUFFET_NORMAL) + " · ca. " + euro(S.f.personen * (S.f.plan === "selbst" ? buffetPreis() : BUFFET)).replace(",00", "") + " gesamt</small></b></div>" : '<div class="kx-summe__z is-total"><span>Preis</span><b>Ihr persönliches Angebot<br><small style="color:var(--mute);font-weight:400">kommt meist noch am selben Tag</small></b></div>') +
       (S.f.nachricht.trim() ? '<div class="kx-summe__z"><span>Nachricht</span><b>' + esc(S.f.nachricht.trim()) + "</b></div>" : "");
   }
   function feierSenden() {
