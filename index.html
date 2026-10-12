@@ -53,7 +53,7 @@
 .bc-seg button{border:0;background:transparent;color:rgba(255,255,255,.75);padding:9px 18px;border-radius:999px;font:inherit;cursor:pointer}
 .bc-seg button.is-on{background:#fff;color:#111}
 .bc-count button{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.2rem;cursor:pointer}
-.bc-count output{min-width:34px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.bc-count input{width:3.4ch;min-width:34px;background:transparent;border:0;border-radius:8px;color:#fff;font:inherit;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;padding:4px 0;-moz-appearance:textfield;appearance:textfield}.bc-count input::-webkit-outer-spin-button,.bc-count input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}.bc-count input:focus{outline:none;background:rgba(255,255,255,.12)}
 .bc-count span{color:rgba(255,255,255,.7);font-size:.9rem;margin-right:6px}
 .bc-bar__fields{position:relative;display:grid;grid-template-columns:1.1fr 1fr 1.2fr 64px;background:rgba(10,10,10,.88);border-radius:16px}
 .bc-field{display:grid;gap:4px;padding:16px 22px;border-right:1px solid rgba(255,255,255,.1);min-width:0}
@@ -63,7 +63,8 @@
 .bc-field input::placeholder{color:rgba(255,255,255,.45)}
 .bc-field--date{position:static}
 .bc-field--date>button{background:transparent;border:0;color:#fff;font:inherit;font-size:1.15rem;text-align:left;padding:0;cursor:pointer}
-.bc-field--date>button.is-empty{color:rgba(255,255,255,.45)}
+.bc-field--date>button.is-empty,.bc-field--pick>button.is-empty{color:rgba(255,255,255,.45)}
+.bc-field.is-bad>span{color:#ff8a4c}.bc-field.is-bad>button{color:#ff8a4c}
 .bc-cal{position:absolute;bottom:calc(100% + 64px);left:0;right:0;background:#000;border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);z-index:30;overflow:hidden;text-align:left}
 .bc-cal__head{display:flex;justify-content:space-between;align-items:center;background:#161616;padding:16px 20px 16px 28px}
 .bc-cal__head span{display:block;font-size:.8rem;color:rgba(255,255,255,.55)}
@@ -185,6 +186,7 @@
 .rq__in:focus{border-color:rgba(255,255,255,.6)}
 .rq__in.is-bad{border-color:#e8590c}
 .rq__ta{min-height:120px;resize:vertical;margin-top:16px}
+.rq__opt{margin:6px 0 -8px;color:rgba(255,255,255,.5);font-size:.92rem}
 .rq__hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .rq-dd{position:relative}
 .rq-dd__btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:18px 22px;color:#fff;font:inherit;font-size:1.05rem;text-align:left;cursor:pointer}
@@ -622,15 +624,15 @@
       </div>
       <div class="bc-count" role="group" aria-label="Personen">
         <button type="button" id="bcMinus" aria-label="Weniger Personen">−</button>
-        <output id="bcPeople" aria-live="polite">20</output>
+        <input id="bcPeople" type="number" inputmode="numeric" min="5" max="1000" step="1" value="20" aria-label="Anzahl Personen">
         <span>Personen</span>
         <button type="button" id="bcPlus" aria-label="Mehr Personen">+</button>
       </div>
     </div>
     <div class="bc-bar__fields">
-      <div class="bc-field bc-field--pick"><span id="bcAnlassLbl">Anlass</span><button type="button" id="bcAnlassBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="bcAnlassLbl bcAnlassBtn">Weihnachtsfeier</button>
+      <div class="bc-field bc-field--pick"><span id="bcAnlassLbl">Anlass</span><button type="button" id="bcAnlassBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="bcAnlassLbl bcAnlassBtn" class="is-empty">Auswählen</button>
         <div class="bc-pop" id="bcAnlassPop" hidden>
-          <div class="bc-pop__list" role="listbox" aria-label="Anlass wählen"><button type="button" role="option" data-v="Weihnachtsfeier" class="is-sel" aria-selected="true">Weihnachtsfeier</button><button type="button" role="option" data-v="Meeting / Besprechung">Meeting / Besprechung</button><button type="button" role="option" data-v="Mittagstisch">Mittagstisch</button><button type="button" role="option" data-v="Firmenjubiläum">Firmenjubiläum</button><button type="button" role="option" data-v="Sommerfest">Sommerfest</button><button type="button" role="option" data-v="Vereinsfest">Vereinsfest</button><button type="button" role="option" data-v="Großveranstaltung">Großveranstaltung</button><button type="button" role="option" data-v="Private Feier">Private Feier</button><button type="button" role="option" data-v="Etwas anderes">Etwas anderes</button></div>
+          <div class="bc-pop__list" role="listbox" aria-label="Anlass wählen"><button type="button" role="option" data-v="Weihnachtsfeier">Weihnachtsfeier</button><button type="button" role="option" data-v="Meeting / Besprechung">Meeting / Besprechung</button><button type="button" role="option" data-v="Mittagstisch">Mittagstisch</button><button type="button" role="option" data-v="Firmenjubiläum">Firmenjubiläum</button><button type="button" role="option" data-v="Sommerfest">Sommerfest</button><button type="button" role="option" data-v="Vereinsfest">Vereinsfest</button><button type="button" role="option" data-v="Großveranstaltung">Großveranstaltung</button><button type="button" role="option" data-v="Private Feier">Private Feier</button><button type="button" role="option" data-v="Etwas anderes">Etwas anderes</button></div>
         </div></div>
       <div class="bc-field bc-field--date"><span id="bcDateLbl">Wunschtermin</span><button type="button" id="bcDateBtn" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="bcDateLbl bcDateBtn">Auswählen</button>
         <div class="bc-cal" id="bcCal" role="dialog" aria-label="Wunschtermin wählen" hidden>
@@ -639,7 +641,7 @@
           <div class="bc-cal__months" id="bcMonths"></div>
         </div></div>
       <label class="bc-field"><span>Gastgeber</span><input type="text" id="bcFirma" placeholder="Firma, Verein oder Ihr Name" autocomplete="organization"></label>
-      <button type="submit" class="bc-go" aria-label="Anfrage per WhatsApp senden"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button type="submit" class="bc-go" aria-label="Weiter zur Anfrage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </form>
 </section>
@@ -845,10 +847,12 @@
         <input class="rq__in" name="nachname" placeholder="Nachname" autocomplete="family-name">
       </div>
       <input class="rq__in" name="firma" id="rqFirma" placeholder="Name der Firma" autocomplete="organization">
+      <input class="rq__in" name="ort" id="rqOrt" placeholder="PLZ / Ort der Feier" autocomplete="postal-code">
       <div class="rq__row">
         <input class="rq__in" type="email" name="email" id="rqEmail" placeholder="E-Mail" autocomplete="email">
         <input class="rq__in" type="tel" name="telefon" id="rqTel" placeholder="Telefon" autocomplete="tel">
       </div>
+      <p class="rq__opt">Optional – hilft mir, Ihnen das passende Angebot zu machen:</p>
       <div class="rq-dd" data-name="quelle"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie sind Sie auf uns aufmerksam geworden?</span></button><input type="hidden" name="quelle"><div class="rq-dd__pop" role="listbox" aria-label="Wie sind Sie auf uns aufmerksam geworden?" hidden><button type="button" role="option" data-v="Google">Google</button><button type="button" role="option" data-v="Empfehlung">Empfehlung</button><button type="button" role="option" data-v="Persönlicher Besuch">Persönlicher Besuch</button><button type="button" role="option" data-v="Instagram">Instagram</button><button type="button" role="option" data-v="Black Card per E-Mail">Black Card per E-Mail</button><button type="button" role="option" data-v="Sonstiges">Sonstiges</button></div></div>
       <div class="rq-dd" data-name="bisher"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie organisieren Sie Catering bisher?</span></button><input type="hidden" name="bisher"><div class="rq-dd__pop" role="listbox" aria-label="Wie organisieren Sie Catering bisher?" hidden><button type="button" role="option" data-v="Noch gar nicht">Noch gar nicht</button><button type="button" role="option" data-v="Wechselnde Caterer">Wechselnde Caterer</button><button type="button" role="option" data-v="Fester Caterer">Fester Caterer</button><button type="button" role="option" data-v="Selbst organisiert">Selbst organisiert</button><button type="button" role="option" data-v="Restaurant / Lieferdienst">Restaurant / Lieferdienst</button></div></div>
       <div class="rq-dd" data-name="haeufigkeit"><button type="button" class="rq-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="rq-dd__ph">Wie oft bewirten oder feiern Sie im Jahr?</span></button><input type="hidden" name="haeufigkeit"><div class="rq-dd__pop" role="listbox" aria-label="Wie oft bewirten oder feiern Sie im Jahr?" hidden><button type="button" role="option" data-v="Einmal im Jahr">Einmal im Jahr</button><button type="button" role="option" data-v="2–5 Mal im Jahr">2–5 Mal im Jahr</button><button type="button" role="option" data-v="Etwa monatlich">Etwa monatlich</button><button type="button" role="option" data-v="Wöchentlich oder öfter">Wöchentlich oder öfter</button></div></div>
@@ -956,10 +960,11 @@
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-presentation.js" defer></script>
 <script>
-(function(){var btn=document.getElementById('bcAnlassBtn');if(!btn)return;var pop=document.getElementById('bcAnlassPop');window.bcAnlass=btn.textContent;
+(function(){var btn=document.getElementById('bcAnlassBtn');if(!btn)return;var pop=document.getElementById('bcAnlassPop');window.bcAnlass='';
 function open(o){pop.hidden=!o;btn.setAttribute('aria-expanded',o);if(o){var c=document.getElementById('bcCal');if(c&&!c.hidden)c.hidden=true}}
 btn.onclick=function(e){e.stopPropagation();open(pop.hidden)};
-pop.onclick=function(e){e.stopPropagation();var b=e.target.closest('button[data-v]');if(!b)return;pop.querySelectorAll('button[data-v]').forEach(function(x){x.classList.remove('is-sel');x.removeAttribute('aria-selected')});b.classList.add('is-sel');b.setAttribute('aria-selected','true');window.bcAnlass=b.dataset.v;btn.textContent=b.dataset.v;open(false);btn.focus()};
+pop.onclick=function(e){e.stopPropagation();var b=e.target.closest('button[data-v]');if(!b)return;pop.querySelectorAll('button[data-v]').forEach(function(x){x.classList.remove('is-sel');x.removeAttribute('aria-selected')});b.classList.add('is-sel');b.setAttribute('aria-selected','true');window.bcAnlass=b.dataset.v;btn.textContent=b.dataset.v;btn.classList.remove('is-empty');btn.parentNode.classList.remove('is-bad');open(false);btn.focus()};
+window.bcOpenAnlass=function(){btn.parentNode.classList.add('is-bad');open(true)};
 document.addEventListener('click',function(){if(!pop.hidden)open(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pop.hidden){open(false);btn.focus()}});
 document.getElementById('bcDateBtn')&&document.getElementById('bcDateBtn').addEventListener('click',function(){open(false)});})();
@@ -989,10 +994,11 @@ window.bcGetDate=function(){return sel?fmt(sel):''};window.bcSetDate=function(d)
 </script>
 <script>
 (function(){var f=document.getElementById('bcBar');if(!f)return;var n=20,o=document.getElementById('bcPeople'),w='In eigenen Räumen (wir liefern hin)';
-function set(v){n=Math.max(5,Math.min(500,v));o.textContent=n}
+function set(v){v=parseInt(v,10);if(isNaN(v))v=20;n=Math.max(5,Math.min(1000,v));o.value=n}
+o.addEventListener('change',function(){set(o.value)});o.addEventListener('input',function(){var v=parseInt(o.value,10);if(!isNaN(v)&&v>=5)n=Math.min(1000,v)});o.addEventListener('focus',function(){o.select()});
 document.getElementById('bcMinus').onclick=function(){set(n-(n>50?10:5))};document.getElementById('bcPlus').onclick=function(){set(n+(n>=50?10:5))};
 f.querySelectorAll('.bc-seg button').forEach(function(b){b.onclick=function(){f.querySelectorAll('.bc-seg button').forEach(function(x){x.classList.remove('is-on')});b.classList.add('is-on');w=b.dataset.where}});
-f.addEventListener('submit',function(e){e.preventDefault();var d=window.bcGetDate?window.bcGetDate():'',firma=document.getElementById('bcFirma').value.trim();if(window.bcOpenRequest)window.bcOpenRequest({anlass:window.bcAnlass||'Anfrage',personen:n,datum:d,wo:w,firma:firma})});})();
+f.addEventListener('submit',function(e){e.preventDefault();set(o.value);if(!window.bcAnlass){e.stopPropagation();if(window.bcOpenAnlass)setTimeout(window.bcOpenAnlass,0);return}var d=window.bcGetDate?window.bcGetDate():'',firma=document.getElementById('bcFirma').value.trim();if(window.bcOpenRequest)window.bcOpenRequest({anlass:window.bcAnlass,personen:n,datum:d,wo:w,firma:firma})});})();
 </script>
 <script>
 (function(){
@@ -1002,12 +1008,15 @@ rq.querySelectorAll('.rq-dd').forEach(function(d){var b=d.querySelector('.rq-dd_
  b.onclick=function(e){e.stopPropagation();open(pop.hidden)};
  pop.onclick=function(e){e.stopPropagation();var o=e.target.closest('button[data-v]');if(!o)return;pop.querySelectorAll('button').forEach(function(x){x.classList.remove('is-sel')});o.classList.add('is-sel');inp.value=o.dataset.v;b.innerHTML='<span>'+o.dataset.v+'</span>';open(false);b.focus()};});
 rq.addEventListener('click',function(){rq.querySelectorAll('.rq-dd__pop').forEach(function(x){x.hidden=true;x.parentNode.querySelector('.rq-dd__btn').setAttribute('aria-expanded','false')})});
+function setAls(a){var b=rq.querySelector('.rq__as button[data-as="'+a+'"]');if(b)b.onclick()}
 function show(c){ctx=c;lastFocus=document.activeElement;sum.innerHTML='';[c.anlass,c.personen+' Personen',c.datum||'Termin offen',c.wo].forEach(function(t){var sp=document.createElement('span');sp.textContent=t;sum.appendChild(sp)});
- if(c.firma)document.getElementById('rqFirma').value=c.firma;form.hidden=false;done.hidden=true;err.hidden=true;rq.hidden=false;document.documentElement.style.overflow='hidden';setTimeout(function(){document.getElementById('rqVorname').focus()},50)}
+ var ort=document.getElementById('rqOrt'),lieferung=/eigenen/.test(c.wo||'');ort.placeholder=lieferung?'PLZ / Ort der Feier':'PLZ / Ort (falls schon bekannt)';
+ if(c.firma)document.getElementById('rqFirma').value=c.firma;setAls(c.anlass==='Private Feier'?'Privat':c.anlass==='Vereinsfest'?'Verein':als.value);form.hidden=false;done.hidden=true;err.hidden=true;rq.hidden=false;document.documentElement.style.overflow='hidden';setTimeout(function(){document.getElementById('rqVorname').focus()},50)}
 function hide(){rq.hidden=true;document.documentElement.style.overflow='';if(lastFocus)lastFocus.focus()}
 
 var als=document.getElementById('rqAls'),firmaIn=document.getElementById('rqFirma');
 rq.querySelectorAll('.rq__as button').forEach(function(b){b.onclick=function(){rq.querySelectorAll('.rq__as button').forEach(function(x){x.classList.remove('is-on');x.setAttribute('aria-checked','false')});b.classList.add('is-on');b.setAttribute('aria-checked','true');als.value=b.dataset.as;
+ var vn=document.getElementById('rqVorname');if(b.dataset.as==='Privat'&&firmaIn.value.trim()&&!vn.value.trim()){var pa=firmaIn.value.trim().split(/\s+/);vn.value=pa.shift();var nn=form.querySelector('[name=nachname]');if(!nn.value)nn.value=pa.join(' ');firmaIn.value=''}
  firmaIn.hidden=b.dataset.as==='Privat';firmaIn.placeholder=b.dataset.as==='Verein'?'Name des Vereins':'Name der Firma';firmaIn.classList.remove('is-bad')}});
 window.bcOpenRequest=show;
 document.getElementById('rqBack').onclick=hide;document.getElementById('rqClose').onclick=hide;
@@ -1015,12 +1024,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!rq.hidden&
 form.addEventListener('submit',function(e){e.preventDefault();err.hidden=true;form.querySelectorAll('.is-bad').forEach(function(x){x.classList.remove('is-bad')});
  var v=document.getElementById('rqVorname'),f=document.getElementById('rqFirma'),em=document.getElementById('rqEmail'),tel=document.getElementById('rqTel'),bad=[];
  if(!v.value.trim())bad.push(v);if(als.value!=='Privat'&&!f.value.trim())bad.push(f);if(!em.value.trim()&&!tel.value.trim()){bad.push(em);bad.push(tel)}
+ var ortIn=document.getElementById('rqOrt');if(/eigenen/.test(ctx.wo||'')&&!ortIn.value.trim())bad.push(ortIn);
  if(em.value.trim()&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value.trim()))bad.push(em);
- if(bad.length){bad.forEach(function(x){x.classList.add('is-bad')});err.textContent=als.value==='Privat'?'Bitte Vorname und E-Mail oder Telefon angeben.':'Bitte Vorname, '+(als.value==='Verein'?'Verein':'Firma')+' und E-Mail oder Telefon angeben.';err.hidden=false;bad[0].focus();return}
- var fd=new FormData(form);fd.append('anlass',ctx.anlass);fd.append('personen',ctx.personen);fd.append('wunschtermin',ctx.datum||'offen');fd.append('wo',ctx.wo);fd.append('quelle_seite','Black Card Seite');
- fd.append('_subject','Black Card Anfrage ('+als.value+'): '+ctx.anlass+' – '+(als.value==='Privat'?v.value.trim():f.value.trim())+' ('+ctx.personen+' Pers.)');
+ if(bad.length){bad.forEach(function(x){x.classList.add('is-bad')});err.textContent='Bitte ergänzen Sie die markierten Felder. Pflicht: Vorname'+(als.value==='Privat'?'':', '+(als.value==='Verein'?'Verein':'Firma'))+(/eigenen/.test(ctx.wo||'')?', PLZ / Ort':'')+' und E-Mail oder Telefon.';err.hidden=false;bad[0].focus();return}
+ var fd=new FormData(form);fd.append('anlass',ctx.anlass);fd.append('personen',ctx.personen);fd.append('wunschtermin',ctx.datum||'offen');fd.append('wo',ctx.wo);fd.append('quelle_seite','Startseite');
+ var ortV=document.getElementById('rqOrt').value.trim();fd.append('_subject','Neue Anfrage ('+als.value+'): '+ctx.anlass+' – '+(als.value==='Privat'?(v.value.trim()+' '+(form.querySelector('[name=nachname]').value||'')).trim():f.value.trim())+' · '+ctx.personen+' Pers.'+(ctx.datum?' · '+ctx.datum:'')+(ortV?' · '+ortV:''));
  send.disabled=true;send.textContent='Wird gesendet …';
- fetch('https://formspree.io/f/maqgnbwj',{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;form.hidden=true;done.hidden=false;done.querySelector('h3').focus&&done.querySelector('h3').setAttribute('tabindex','-1');done.querySelector('h3').focus()})
+ fetch('https://formspree.io/f/maqgnbwj',{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;try{if(window.gtag)gtag('event','generate_lead',{anlass:ctx.anlass,personen:ctx.personen,anfrage_als:als.value,wo:ctx.wo})}catch(_){}form.hidden=true;done.hidden=false;done.querySelector('h3').focus&&done.querySelector('h3').setAttribute('tabindex','-1');done.querySelector('h3').focus()})
  .catch(function(){err.textContent='Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie mir per WhatsApp: 0177 201 9889.';err.hidden=false})
  .then(function(){send.disabled=false;send.textContent='Anfrage senden'})});
 })();
@@ -1047,7 +1057,7 @@ document.getElementById('mkcForm').addEventListener('submit',function(e){e.preve
 </script>
 <script>
 document.querySelectorAll('.who__go').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var v=a.dataset.anlass,pop=document.getElementById('bcAnlassPop'),btn=document.getElementById('bcAnlassBtn');
- if(pop&&btn){var o=pop.querySelector('button[data-v="'+v+'"]');if(o){pop.querySelectorAll('button').forEach(function(x){x.classList.remove('is-sel')});o.classList.add('is-sel');btn.textContent=v;window.bcAnlass=v}}
+ if(pop&&btn){var o=pop.querySelector('button[data-v="'+v+'"]');if(o){pop.querySelectorAll('button').forEach(function(x){x.classList.remove('is-sel')});o.classList.add('is-sel');btn.textContent=v;window.bcAnlass=v;btn.classList.remove('is-empty');btn.parentNode.classList.remove('is-bad')}}
  var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});setTimeout(function(){btn&&btn.focus({preventScroll:true})},500)}})});
 </script>
 <script>
@@ -1109,7 +1119,7 @@ pv.onclick=function(){view=new Date(view.getFullYear(),view.getMonth()-1,1);rend
 box.onclick=function(e){var b=e.target.closest('button[data-t]');if(!b||b.disabled)return;pick=new Date(+b.dataset.t);go.disabled=false;render()};
 render();
 go.onclick=function(){if(!pick)return;if(window.bcSetDate)window.bcSetDate(pick);
- var pop=document.getElementById('bcAnlassPop'),ab=document.getElementById('bcAnlassBtn');if(pop&&ab){var o=pop.querySelector('button[data-v="Weihnachtsfeier"]');if(o){pop.querySelectorAll('button').forEach(function(z){z.classList.remove('is-sel')});o.classList.add('is-sel');ab.textContent='Weihnachtsfeier';window.bcAnlass='Weihnachtsfeier'}}
+ var pop=document.getElementById('bcAnlassPop'),ab=document.getElementById('bcAnlassBtn');if(pop&&ab){var o=pop.querySelector('button[data-v="Weihnachtsfeier"]');if(o){pop.querySelectorAll('button').forEach(function(z){z.classList.remove('is-sel')});o.classList.add('is-sel');ab.textContent='Weihnachtsfeier';window.bcAnlass='Weihnachtsfeier';ab.classList.remove('is-empty');ab.parentNode.classList.remove('is-bad')}}
  var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){var fi=document.getElementById('bcFirma');if(fi)fi.focus({preventScroll:true})},700)}};
 var T=document.getElementById('xmTimer'),target=new Date(Y,11,1,0,0,0);
 function tick(){var ms=Math.max(0,target-new Date()),s=Math.floor(ms/1000),v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
