@@ -1491,3 +1491,22 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
   to { transform: translateX(14px) rotate(22deg); }
 }
 @media (prefers-reduced-motion: reduce) { .mk-herbst { display: none; } }
+
+/* MK Black Card – Metall-Design (Amalfi-Stil), überall gleich */
+/* Black Card: Amalfi-Stil (gebürstetes Metall, Logo rechts, Name unten links) */
+.mk-card--metal{position:relative;overflow:hidden;border-radius:18px;aspect-ratio:1.586;padding:0;border:1px solid rgba(255,255,255,.06);
+ background:
+  radial-gradient(90% 120% at 22% 8%,rgba(255,236,220,.34),rgba(255,200,160,.08) 38%,transparent 62%),
+  radial-gradient(80% 90% at 100% 100%,rgba(232,89,12,.22),transparent 65%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,rgba(0,0,0,.05) 1px 2px,rgba(255,255,255,.02) 2px 3px),
+  linear-gradient(100deg,#3d3631 0%,#221d1a 30%,#0f0c0a 62%,#070504 100%);
+ box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 30px 60px rgba(0,0,0,.55),0 8px 18px rgba(0,0,0,.4)}
+.mk-card--metal::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+ background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 3px),repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 2px,transparent 2px 5px)}
+.mk-card--metal .mk-card__shine{display:none}
+.mk-card--metal .mk-card__top{position:absolute;right:9%;top:46%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.mk-card--metal .mk-card__logo{height:34px!important;filter:none;opacity:1}
+.mk-card--metal .mk-card__label{color:rgba(240,238,232,.85)!important;font-family:"Inter",Arial,sans-serif;font-weight:400!important;font-size:.66rem!important;letter-spacing:.24em}
+.mk-card--metal .mk-card__number,.mk-card--metal .mk-card__field-label,.mk-card--metal .mk-card__points{display:none}
+.mk-card--metal .mk-card__bottom{position:absolute;left:8%;bottom:13%;margin:0}
+.mk-card--metal .mk-card__name{font-family:"Inter",Arial,sans-serif;font-weight:400;font-size:.72rem;letter-spacing:.14em;color:rgba(240,238,232,.88)}
