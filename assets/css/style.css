@@ -374,6 +374,7 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .footer-grid img { height: 40px; width: auto; margin-bottom: 16px; }
 .footer-grid h4 { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
 .footer-grid a { display: block; color: #cfcfcf; padding: 5px 0; font-size: 0.93rem; }
+.footer-grid span { display: block; color: #cfcfcf; padding: 5px 0; font-size: 0.93rem; }
 .footer-grid a:hover { color: #fff; }
 .social-link { display: inline-flex !important; align-items: center; gap: 8px; }
 .social-link svg { flex-shrink: 0; }
