@@ -562,6 +562,7 @@
 .xm__legend{margin:10px 0 0;font-size:.8rem;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
 .xm__legend i{width:6px;height:6px;border-radius:50%;background:var(--bc-gold);display:inline-block}
 @media (max-width:420px){.xm__units div{min-width:0;flex:1}.xm__units b{font-size:1.7rem}}
+#bcBar{scroll-margin-top:96px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
@@ -1114,6 +1115,13 @@ var T=document.getElementById('xmTimer'),target=new Date(Y,11,1,0,0,0);
 function tick(){var ms=Math.max(0,target-new Date()),s=Math.floor(ms/1000),v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
  T.querySelectorAll('b').forEach(function(b){b.textContent=String(v[b.dataset.u]).padStart(2,'0')})}
 tick();setInterval(tick,1000);})();
+</script>
+<script>
+(function(){var bar=document.getElementById('bcBar');if(!bar)return;
+function go(smooth){var nav=document.getElementById('mainNav'),t=document.getElementById('navToggle');if(nav&&nav.classList.contains('is-open')){nav.classList.remove('is-open');if(t)t.setAttribute('aria-expanded','false')}
+ bar.scrollIntoView({behavior:smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto',block:'center'})}
+document.addEventListener('click',function(e){var a=e.target.closest('a[href="#bcBar"],a[href="/#bcBar"]');if(!a||e.defaultPrevented)return;e.preventDefault();go(true)});
+if(location.hash==='#bcBar'){history.replaceState(null,'',location.pathname+location.search);addEventListener('load',function(){setTimeout(function(){go(false)},50)})}})();
 </script>
 </body>
 </html>
