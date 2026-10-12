@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/business-karte.css">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
@@ -103,704 +104,190 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
   </div>
 </header>
 
-<section class="mk-landing-hero mk-meinekarte">
-  <div class="mk-landing-hero__bg" style="background-image:url('/assets/img/buffet-2.webp');"></div>
-  <div class="container" style="position:relative;z-index:1;">
-    <p class="mk-meinekarte__laden" id="mkKarteLaden">Ihre Karte wird geladen &hellip;</p>
-    <div id="mkKarteFehler" hidden>
-      <div class="mk-meinekarte__fehler">
-        <h1>Karte nicht gefunden</h1>
-        <p class="lead">Bitte pr&uuml;fen Sie den Link aus Ihrer Nachricht. Oder schreiben Sie mir kurz per <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> &ndash; ich schicke Ihnen den Link sofort. Telefon: <a href="tel:+491772019889">0177 201 9889</a></p>
-      </div>
-    </div>
-    <div id="mkKarteInhalt" hidden>
-      <div class="mk-landing-hero__grid">
-        <div class="mk-hero__heading">
-          <span class="eyebrow">Ihre MK Black Card</span>
-          <h1 id="mkKarteGruss">Willkommen</h1>
-        </div>
-        <div class="mk-hero__card-wrap">
-          <div class="mk-card mk-card--metal mk-card--nr mk-card--hero">
+<main class="kx2" id="kx2">
+  <p class="kx2-laden" id="mkKarteLaden">Ihre Karte wird geladen …</p>
+  <div class="kx2-fehler" id="mkKarteFehler" hidden>
+    <h1>Karte nicht gefunden</h1>
+    <p>Bitte prüfen Sie den Link aus Ihrer Nachricht. Oder schreiben Sie mir kurz per <a href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a> – ich schicke Ihnen den Link sofort. Telefon: <a href="tel:+491772019889">0177 201 9889</a></p>
+  </div>
+
+  <div id="kxApp" hidden>
+
+    <!-- Start -->
+    <section class="kx-screen is-on kx-wrap" data-screen="start">
+      <div class="kx-hero">
+        <div class="kx-hero__card">
+          <div class="mk-card mk-card--metal mk-card--nr">
             <div class="mk-card__shine"></div>
-            <div class="mk-card__top">
-              <img src="/assets/img/logo.webp" alt="" class="mk-card__logo">
-              <span class="mk-card__label">Black Card</span>
-            </div>
-            <div class="mk-card__number" id="mkKarteNummer">&nbsp;</div>
-            <div class="mk-card__bottom">
-              <div>
-                <span class="mk-card__field-label">Inhaber</span>
-                <div class="mk-card__name" id="mkKarteInhaber">&nbsp;</div>
-              </div>
-              <div class="mk-card__points">
-                <span class="mk-card__field-label">Kunde seit</span>
-                <div class="mk-card__points-value" id="mkKarteSeit" style="font-size:1.1rem;">&nbsp;</div>
-              </div>
-            </div>
-          </div>
-  <button type="button" class="mk-teilen-btn" id="mkTeilenBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Auf anderem Gerät öffnen · teilen</button>
-        </div>
-        <div class="mk-hero__body">
-          <p class="lead">Sch&ouml;n, dass Sie dabei sind. Mit Ihrer Karte erfahren Sie als Erste von unseren Angeboten &ndash; und haben mit mir einen festen Ansprechpartner f&uuml;r Ihr Catering.</p>
-          <p class="mk-hero__note">Bei jeder Anfrage einfach Ihre Kundennummer nennen: <strong id="mkKarteNummer2"></strong></p>
-          <div class="mk-meinekarte__kontakt">
-            <a class="btn btn--whatsapp" id="mkKarteWhatsApp" href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="btn btn--primary" href="tel:+491772019889">Anrufen</a>
-            <a class="btn btn--dark" id="mkKarteMail" href="mailto:info@mahboobs-kitchen.com">E-Mail</a>
-          </div>
-          <div class="mk-hero-vorteile">
-            <span class="mk-hero-vorteile__titel">Ihre Vorteile</span>
-            <ul><li>🤝 Fester Ansprechpartner</li><li>📋 Individuelle Menüs</li><li>🏷️ Essen mit Firmenlogo</li><li>🚚 Lieferung & Aufbau</li><li>✅ Komplettservice</li><li>📍 VIP Locations</li><li>💰 Günstigere Black-Card-Preise</li><li>🔔 Neueste Updates</li><li>👥 Persönliches Personal</li></ul>
+            <div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo"><span class="mk-card__label">Black Card</span></div>
+            <div class="mk-card__number" id="kxKarteNr">&nbsp;</div>
+            <div class="mk-card__bottom"><div><span class="mk-card__field-label">Inhaber</span><div class="mk-card__name" id="kxKarteName">&nbsp;</div></div></div>
           </div>
         </div>
+        <div class="kx-hero__text">
+          <span class="kx-kick kx-auf" style="animation-delay:.15s">Ihre MK Black Card</span>
+          <h1 class="kx-auf" style="animation-delay:.25s" id="kxHallo">Willkommen.</h1>
+          <p class="kx-sub kx-auf" style="animation-delay:.35s" id="kxSub"></p>
+          <button type="button" class="kx-teilen kx-auf" style="animation-delay:.45s" id="mkTeilenBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Auf anderem Gerät öffnen · teilen</button>
+        </div>
       </div>
-    </div>
+
+      <button type="button" class="kx-saison kx-auf" style="animation-delay:.5s" id="kxSaison" hidden>
+        <span class="kx-saison__stern" aria-hidden="true">✦</span>
+        <span class="kx-saison__txt"><strong id="kxSaisonTitel">Weihnachtsfeier</strong><span id="kxSaisonText"></span></span>
+        <span class="kx-saison__pfeil" aria-hidden="true">→</span>
+      </button>
+      <div class="kx-wieder kx-auf" style="animation-delay:.55s" id="kxWieder" hidden>
+        <span>Wie letztes Mal?</span><strong id="kxWiederText" style="flex:1;font-weight:500;color:#fff"></strong>
+        <button type="button" id="kxWiederBtn">Nochmal bestellen</button>
+      </div>
+
+      <h2 class="kx-frage kx-auf" style="animation-delay:.2s">Was dürfen wir für Sie tun?</h2>
+      <div class="kx-wahl">
+        <button type="button" class="kx-weg" data-go="essen">
+          <img src="/assets/img/buffet-szenen/besprechung-platten.webp" alt="" loading="eager">
+          <span class="kx-weg__in">
+            <span class="kx-weg__kick">Mo–Fr · frisch geliefert</span>
+            <strong>Essen fürs Büro</strong>
+            <span class="kx-weg__txt">Mittagstisch oder Team-Paket – in einer Minute bestellt.</span>
+            <span class="kx-weg__go">Bestellen <span aria-hidden="true">→</span></span>
+          </span>
+        </button>
+        <button type="button" class="kx-weg" data-go="feier">
+          <img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="" loading="eager">
+          <span class="kx-weg__in">
+            <span class="kx-weg__kick">Buffet ab 27,50 € p. P.</span>
+            <strong>Feier planen</strong>
+            <span class="kx-weg__txt">Weihnachtsfeier, Jubiläum, Sommerfest – ein paar Fragen, fertig.</span>
+            <span class="kx-weg__go">Planen <span aria-hidden="true">→</span></span>
+          </span>
+        </button>
+      </div>
+
+      <div class="kx-angebote" id="kxAngebote" hidden>
+        <span class="kx-kick">Nur für Karteninhaber</span>
+        <h3>Ihre aktuellen Angebote</h3>
+        <div id="kxAngeboteListe"></div>
+      </div>
+
+      <div class="kx-kontakt">
+        <span>Lieber persönlich?</span>
+        <a id="kxWa" href="https://wa.me/491772019889" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+491772019889">0177 201 9889</a>
+        <button type="button" id="kxRueckruf">Rückruf anfordern</button>
+      </div>
+      <p class="kx-fuss">Ihr Ansprechpartner: Reyyan Ahmad · Mahboobs Kitchen &nbsp;·&nbsp; <a id="mkAbmelden" href="/business/abmelden/">Keine Angebote per E-Mail mehr</a></p>
+    </section>
+
+    <!-- Essen: Auswahl -->
+    <section class="kx-screen kx-flow" data-screen="essen">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button>
+      <span class="kx-kick">Essen fürs Büro</span>
+      <h2 class="kx-titel">Was darf es sein?</h2>
+      <div class="kx-seg" role="group" aria-label="Bestellart"><span class="kx-seg__pille" id="kxSegPille" aria-hidden="true"></span><button type="button" data-modus="einzeln" class="is-on">Einzeln bestellen</button><button type="button" data-modus="paket">Team-Paket</button></div>
+      <div id="kxEinzeln">
+        <div class="kx-chips" id="kxKats" role="tablist" aria-label="Kategorie"></div>
+        <div class="kx-gerichte" id="kxGerichte"></div>
+        <p class="kx-hinweis">Ihre Black-Card-Preise · Lieferung inklusive ab 25 € · Abbildungen ähnlich, Allergene auf Anfrage.</p>
+      </div>
+      <div id="kxPaket" hidden>
+        <p class="kx-lead" style="margin-bottom:18px">Für Meetings, Kundenbesuche und Teamessen – zum Paketpreis, ab 5 Personen.</p>
+        <div class="kx-pakete" id="kxPakete"></div>
+        <div id="kxPaketDetails" hidden>
+          <div id="kxWahlBox"></div>
+          <p class="kx-unterfrage">Wie viele Personen? <small>ab 5</small></p>
+          <div class="kx-zeile"><span class="kx-zaehler"><button type="button" id="kxPersMinus" aria-label="Eine Person weniger">−</button><input id="kxPersonen" type="number" inputmode="numeric" min="5" max="300" value="10" aria-label="Personen"><button type="button" id="kxPersPlus" aria-label="Eine Person mehr">+</button></span><span style="color:var(--mute)">Personen</span></div>
+          <label class="kx-check"><input type="checkbox" id="kxSuess"><span>Süßes dazu – Tiramisu und Panna Cotta <strong style="color:#fff;font-weight:500">+3,90 € p. P.</strong></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Essen: Lieferung -->
+    <section class="kx-screen kx-flow" data-screen="liefern">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button>
+      <span class="kx-kick">Fast geschafft</span>
+      <h2 class="kx-titel">Wann dürfen wir liefern?</h2>
+      <p class="kx-lead" id="kxLieferText"></p>
+      <div class="kx-tage" id="kxTage"></div>
+      <p class="kx-unterfrage">Uhrzeit</p>
+      <div class="kx-zeiten" id="kxZeiten"></div>
+      <p class="kx-unterfrage">Noch etwas? <small>freiwillig</small></p>
+      <textarea class="kx-feld" id="kxNotiz" placeholder="Zum Beispiel: Lieferung an den Empfang, 1× ohne Zwiebeln …"></textarea>
+      <p class="kx-hinweis">Bezahlung bar, auf Rechnung oder per PayPal. Ich bestätige jede Bestellung persönlich.</p>
+    </section>
+
+    <!-- Feier 1: Anlass -->
+    <section class="kx-screen kx-flow" data-screen="feier1">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="kx-kick">Feier planen</span>
+      <h2 class="kx-titel">Was feiern Sie?</h2>
+      <p class="kx-lead">Einfach antippen.</p>
+      <div class="kx-gross" id="kxAnlaesse"></div>
+    </section>
+
+    <!-- Feier 2: Datum + Personen -->
+    <section class="kx-screen kx-flow" data-screen="feier2">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="kx-kick">Feier planen</span>
+      <h2 class="kx-titel" id="kxF2Titel">Wann und für wie viele?</h2>
+      <p class="kx-unterfrage">Wunschtermin</p>
+      <input class="kx-feld" type="date" id="kxDatum" aria-label="Wunschtermin" style="max-width:320px">
+      <label class="kx-check"><input type="checkbox" id="kxOffen"><span>Termin steht noch nicht fest</span></label>
+      <p class="kx-unterfrage">Wie viele Gäste?</p>
+      <div class="kx-zeile"><span class="kx-zaehler"><button type="button" id="kxFMinus" aria-label="Ein Gast weniger">−</button><input id="kxFPers" type="number" inputmode="numeric" min="5" max="1000" value="30" aria-label="Gäste"><button type="button" id="kxFPlus" aria-label="Ein Gast mehr">+</button></span><span style="color:var(--mute)">Personen</span></div>
+    </section>
+
+    <!-- Feier 3: Wo -->
+    <section class="kx-screen kx-flow" data-screen="feier3">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="kx-kick">Feier planen</span>
+      <h2 class="kx-titel">Wo wird gefeiert?</h2>
+      <div class="kx-gross" id="kxWo"></div>
+    </section>
+
+    <!-- Feier 4: Kueche -->
+    <section class="kx-screen kx-flow" data-screen="feier4">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="kx-kick">Feier planen</span>
+      <h2 class="kx-titel">Worauf haben Sie Lust?</h2>
+      <p class="kx-lead">Mehrfach möglich – oder einfach weiter, dann berate ich Sie.</p>
+      <div class="kx-chips" id="kxKuechen" style="flex-wrap:wrap;overflow:visible;margin:0;padding:0"></div>
+      <p class="kx-unterfrage">Noch etwas, das ich wissen sollte? <small>freiwillig</small></p>
+      <textarea class="kx-feld" id="kxNachricht" placeholder="Allergien, Budget, Ablauf, Getränke …"></textarea>
+    </section>
+
+    <!-- Feier 5: Zusammenfassung -->
+    <section class="kx-screen kx-flow" data-screen="feier5">
+      <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button><div class="kx-schritte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="kx-kick">Feier planen</span>
+      <h2 class="kx-titel">Passt alles?</h2>
+      <p class="kx-lead">Unverbindlich – ich melde mich persönlich mit Ihrem Angebot.</p>
+      <div class="kx-summe" id="kxFSumme"></div>
+      <p class="kx-leicht">Lieber jedes Gericht selbst wählen? <a id="kxRechner" href="/business/catering-angebot/">Zum Buffet-Rechner</a></p>
+    </section>
+
+    <!-- Danke -->
+    <section class="kx-screen kx-flow" data-screen="danke">
+      <div class="kx-danke">
+        <div class="kx-haken" id="kxHaken" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><path d="M30 52l13 13 27-29"/></svg>
+          <i class="kx-funke" style="--x:-58px;--y:-40px"></i><i class="kx-funke" style="--x:60px;--y:-36px"></i><i class="kx-funke" style="--x:-50px;--y:46px"></i>
+          <i class="kx-funke" style="--x:54px;--y:50px"></i><i class="kx-funke" style="--x:0px;--y:-66px"></i><i class="kx-funke" style="--x:4px;--y:64px"></i>
+        </div>
+        <h2 id="kxDankeTitel">Danke.</h2>
+        <p id="kxDankeText"></p>
+        <div class="kx-summe" id="kxDankeSumme"></div>
+        <button type="button" class="kx-weiss" id="kxNochmal">Zurück zu meiner Karte</button>
+      </div>
+    </section>
   </div>
-</section>
 
-<div id="mkKarteMehr" hidden>
-<section class="section mk-xmas" id="weihnachten">
-  <div class="container">
-    <span class="eyebrow">Ihre Karte</span>
-    <h2 class="mk-kacheln__titel">Alles auf einen Blick</h2>
-    <p class="mk-kacheln__lead">Antippen, was Sie interessiert.</p>
-    <div class="mk-kacheln">
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkWeihnachten" hidden>
-    <button type="button" class="mk-xmas__kachel" id="mkXmasKachel">
-      <span class="mk-xmas__kachel-bild"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Nur f&uuml;r Karteninhaber</span>
-        <span class="mk-xmas__kachel-titel">Weihnachtsfeier 2026</span>
-        <span class="mk-xmas__kachel-text">Buffet bei Ihnen im Haus oder Feier au&szlig;er Haus</span>
-        <span class="mk-xmas__kachel-cta">Angebot ansehen &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" id="mkXmasBox" hidden>
-      <button type="button" class="mk-xmas__zu" id="mkXmasZu" aria-label="Weihnachtsangebot zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Jetzt planen</span>
-      <h2>Ihre Weihnachtsfeier</h2>
-      <p class="lead">Die guten Termine im Dezember sind früh vergeben. Sagen Sie mir Ihren Wunschtermin und wie viele Sie sind &ndash; ich melde mich mit einem festen Angebot. Alles unverbindlich.</p>
-      <ul class="mk-xmas__punkte">
-        <li>Bei Ihnen im Haus oder au&szlig;er Haus</li>
-        <li>Probeessen vorab m&ouml;glich</li>
-        <li>Vegetarisch, vegan und halal m&ouml;glich</li>
-      </ul>
-      <div class="mk-xmas__form">
-        <div class="mk-xmas__feld">
-          <label for="mkXmasDatum">Wunschtermin</label>
-          <input type="date" id="mkXmasDatum" autocomplete="off">
-        </div>
-        <div class="mk-xmas__feld">
-          <label for="mkXmasGaeste">Personen</label>
-          <input type="number" id="mkXmasGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 25" autocomplete="off">
-        </div>
-      </div>
-
-      <p class="mk-xmas__frage">Wo soll gefeiert werden?</p>
-      <div class="mk-wahl" role="group" aria-label="Wo feiern Sie?">
-        <button type="button" class="mk-wahl__btn is-an" data-wahl="haus">
-          <span class="mk-wahl__gross">Bei uns im Haus</span>
-          <span class="mk-wahl__klein">Wir bringen das Buffet zu Ihnen</span>
-        </button>
-        <button type="button" class="mk-wahl__btn" data-wahl="aussen">
-          <span class="mk-wahl__gross">Au&szlig;er Haus</span>
-          <span class="mk-wahl__klein">In einer unserer Partner-Locations</span>
-        </button>
-        <button type="button" class="mk-wahl__btn" data-wahl="offen">
-          <span class="mk-wahl__gross">Wei&szlig; ich noch nicht</span>
-          <span class="mk-wahl__klein">Zeigen Sie mir beides</span>
-        </button>
-      </div>
-
-      <div id="mkXmasAussen" hidden>
-        <p class="mk-xmas__frage">In welcher unserer Locations? <small>Antippen, was Ihnen gef&auml;llt &ndash; alles Weitere l&auml;uft &uuml;ber mich</small></p>
-        <div class="mk-loc-raster"><button type="button" class="mk-loc" data-xort="Großer Saal in Norderstedt">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/saal-norderstedt.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Großer Saal in Norderstedt</span>
-            <span class="mk-loc__groesse">20 bis 450 Gäste</span>
-            <span class="mk-loc__info">Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-xort="Industrie-Loft in Hamburg-Nord">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/loft-hamburg.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Industrie-Loft in Hamburg-Nord</span>
-            <span class="mk-loc__groesse">60 bis 150 Gäste</span>
-            <span class="mk-loc__info">Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-xort="Historische Fabrikhalle in Barmbek">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/fabrikhalle.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Historische Fabrikhalle in Barmbek</span>
-            <span class="mk-loc__groesse">50 bis 200 Gäste</span>
-            <span class="mk-loc__info">Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-xort="Gasthof mit Festsaal vor den Toren">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/gasthof.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Gasthof mit Festsaal vor den Toren</span>
-            <span class="mk-loc__groesse">bis 250 Gäste</span>
-            <span class="mk-loc__info">Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-xort="Haus am Wasser in Norderstedt">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/am-wasser.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Haus am Wasser in Norderstedt</span>
-            <span class="mk-loc__groesse">bis 160 Gäste</span>
-            <span class="mk-loc__info">Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-xort="Golfclub im Grünen">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/im-gruenen.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Golfclub im Grünen</span>
-            <span class="mk-loc__groesse">kleinere Runden</span>
-            <span class="mk-loc__info">Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</span>
-          </span>
-        </button></div>
-        <p class="mk-loc__hinweis">Die Bilder zeigen die Art der R&auml;ume. Welcher Ort am Ende der richtige ist, h&auml;ngt von Termin, G&auml;stezahl und Budget ab &ndash; das kl&auml;ren wir im Gespr&auml;ch.</p>
-      </div>
-
-      <div id="mkXmasChips">
-        <p class="mk-xmas__frage">Worauf haben Sie Lust? <small>Mehrfach m&ouml;glich, alles nur eine Richtung</small></p>
-        <div class="mk-chips"><button type="button" class="mk-chip" data-richtung="Indisch"><span>🍛</span>Indisch</button><button type="button" class="mk-chip" data-richtung="Italienisch"><span>🍝</span>Italienisch</button><button type="button" class="mk-chip" data-richtung="Sushi"><span>🍣</span>Sushi</button><button type="button" class="mk-chip" data-richtung="Deutsch &amp; Klassisch"><span>🥩</span>Deutsch &amp; Klassisch</button><button type="button" class="mk-chip" data-richtung="Vegetarisch im Mittelpunkt"><span>🥗</span>Vegetarisch im Mittelpunkt</button><button type="button" class="mk-chip" data-richtung="Fingerfood statt Buffet"><span>🥟</span>Fingerfood statt Buffet</button><button type="button" class="mk-chip" data-richtung="Querbeet – überraschen Sie uns"><span>🎲</span>Querbeet – überraschen Sie uns</button></div>
-
-        <a class="mk-xmas__rechner" id="mkXmasRechner" href="/business/catering-angebot/">
-          <span>Lieber Gerichte selbst aussuchen?</span>
-          <strong>Buffet-Rechner &ouml;ffnen &rarr;</strong>
-          <small>Gleiche Preise &ndash; ab 27,50 &euro; pro Person, Sie sehen den Preis sofort</small>
-        </a>
-
-        <p class="mk-xmas__frage">Gibt es noch etwas, das ich wissen sollte? <small>Freiwillig &ndash; ich lese jede Zeile selbst</small></p>
-        <textarea id="mkXmasNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
-                  placeholder="Zum Beispiel: Allergien, Budget, Ablauf, halal, Getr&auml;nke, Deko &hellip;"></textarea>
-      </div>
-
-      <div class="mk-xpaket-raster mk-zus-raster">
-        <article class="mk-xpaket">
-          <span class="mk-xpaket__tag">Ihre Auswahl</span>
-          <h3 id="mkZusTitel">Ihre Weihnachtsfeier</h3>
-          <p class="mk-xpaket__preis"><span id="mkZusPreis">ab 27,50 &euro; pro Person</span> <small id="mkZusPreisZusatz">&middot; Buffet, geliefert und aufgebaut</small></p>
-          <dl class="mk-xpaket__menue">
-            <div id="mkZusOrtZeile"><dt>Der Ort</dt><dd id="mkZusOrt">Noch offen &ndash; ich schlage Ihnen etwas Passendes vor</dd></div>
-            <div><dt>Das Essen</dt><dd id="mkZusEssen">Ihr Wunschmen&uuml; &ndash; deutsch, indisch, italienisch, Sushi oder gemischt</dd></div>
-            <div><dt>Termin</dt><dd id="mkZusTermin">Bitte oben eintragen</dd></div>
-            <div id="mkZusNotizZeile" hidden><dt>Ihre Nachricht</dt><dd id="mkZusNotiz"></dd></div>
-            <div><dt>Dabei</dt><dd id="mkZusDabei">Lieferung, Aufbau und alles, was dazugeh&ouml;rt</dd></div>
-          </dl>
-          <p class="mk-xpaket__dabei">Der Endpreis h&auml;ngt von Men&uuml;, Ort und G&auml;stezahl ab &ndash; Sie bekommen vorher eine feste Zahl</p>
-        </article>
-      </div>
-      <div class="mk-xmas__zusage">
-        <span class="mk-xmas__zusage-zeichen">&#9993;</span>
-        <span class="mk-xmas__zusage-text">
-          <span class="mk-xmas__zusage-gross">Sie m&ouml;chten es genauer wissen?</span>
-          <span class="mk-xmas__zusage-klein">Unverbindlich &ndash; ich melde mich pers&ouml;nlich bei Ihnen, meist noch am selben Tag.</span>
-        </span>
-        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkXmasBtn">Jetzt beraten lassen</button>
-      </div>
-      <p class="mk-danke" id="mkXmasDanke" hidden></p>
-    </div>
-    </div>
-
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelFeier">
-    <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/catering-tisch-draussen.webp');"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Jubil&auml;um &middot; Sommerfest &middot; Geburtstag</span>
-        <span class="mk-xmas__kachel-titel">Feiern &amp; Anl&auml;sse</span>
-        <span class="mk-xmas__kachel-text">Ihre Firmenfeier &ndash; unverbindlich planen</span>
-        <span class="mk-xmas__kachel-cta">Feier planen &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" hidden>
-      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Jetzt planen</span>
-      <h2>Feiern &amp; Anl&auml;sse</h2>
-      <p class="lead">Firmenjubil&auml;um, Sommerfest, Geburtstag oder Hochzeit: Sagen Sie mir den Anlass, Ihren Wunschtermin und wie viele Sie sind &ndash; ich melde mich mit einem festen Angebot. Alles unverbindlich.</p>
-      <ul class="mk-xmas__punkte">
-        <li>Bei Ihnen im Haus oder au&szlig;er Haus</li>
-        <li>Probeessen vorab m&ouml;glich</li>
-        <li>Vegetarisch, vegan und halal m&ouml;glich</li>
-      </ul>
-
-      <p class="mk-xmas__frage">Was feiern Sie?</p>
-      <div class="mk-chips"><button type="button" class="mk-chip" data-fanlass="Firmenjubiläum" data-titel="Ihr Firmenjubiläum"><span>🏆</span>Firmenjubiläum</button><button type="button" class="mk-chip" data-fanlass="Sommerfest" data-titel="Ihr Sommerfest"><span>☀️</span>Sommerfest</button><button type="button" class="mk-chip" data-fanlass="Geburtstag" data-titel="Ihr Geburtstag"><span>🎂</span>Geburtstag</button><button type="button" class="mk-chip" data-fanlass="Hochzeit" data-titel="Ihre Hochzeit"><span>💍</span>Hochzeit</button><button type="button" class="mk-chip" data-fanlass="Einweihung &amp; Richtfest" data-titel="Ihre Einweihung"><span>🏗️</span>Einweihung &amp; Richtfest</button><button type="button" class="mk-chip" data-fanlass="Verabschiedung" data-titel="Ihre Verabschiedung"><span>👋</span>Verabschiedung</button><button type="button" class="mk-chip" data-fanlass="Etwas anderes" data-titel="Ihre Feier"><span>🎉</span>Etwas anderes</button></div>
-
-      <div class="mk-xmas__form" style="margin-top:18px;">
-        <div class="mk-xmas__feld">
-          <label for="mkFeierDatum">Wunschtermin</label>
-          <input type="date" id="mkFeierDatum" autocomplete="off">
-        </div>
-        <div class="mk-xmas__feld">
-          <label for="mkFeierGaeste">Personen</label>
-          <input type="number" id="mkFeierGaeste" min="1" max="1000" inputmode="numeric" placeholder="z. B. 40" autocomplete="off">
-        </div>
-      </div>
-
-      <p class="mk-xmas__frage">Wo soll gefeiert werden?</p>
-      <div class="mk-wahl" role="group" aria-label="Wo feiern Sie?">
-        <button type="button" class="mk-wahl__btn is-an" data-fwahl="haus">
-          <span class="mk-wahl__gross">Bei uns im Haus</span>
-          <span class="mk-wahl__klein">Wir bringen das Buffet zu Ihnen</span>
-        </button>
-        <button type="button" class="mk-wahl__btn" data-fwahl="aussen">
-          <span class="mk-wahl__gross">Au&szlig;er Haus</span>
-          <span class="mk-wahl__klein">In einer unserer Partner-Locations</span>
-        </button>
-        <button type="button" class="mk-wahl__btn" data-fwahl="offen">
-          <span class="mk-wahl__gross">Wei&szlig; ich noch nicht</span>
-          <span class="mk-wahl__klein">Zeigen Sie mir beides</span>
-        </button>
-      </div>
-
-      <div id="mkFeierAussen" hidden>
-        <p class="mk-xmas__frage">In welcher unserer Locations? <small>Antippen, was Ihnen gef&auml;llt &ndash; alles Weitere l&auml;uft &uuml;ber mich</small></p>
-        <div class="mk-loc-raster"><button type="button" class="mk-loc" data-fort="Großer Saal in Norderstedt">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/saal-norderstedt.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Großer Saal in Norderstedt</span>
-            <span class="mk-loc__groesse">20 bis 450 Gäste</span>
-            <span class="mk-loc__info">Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-fort="Industrie-Loft in Hamburg-Nord">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/loft-hamburg.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Industrie-Loft in Hamburg-Nord</span>
-            <span class="mk-loc__groesse">60 bis 150 Gäste</span>
-            <span class="mk-loc__info">Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-fort="Historische Fabrikhalle in Barmbek">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/fabrikhalle.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Historische Fabrikhalle in Barmbek</span>
-            <span class="mk-loc__groesse">50 bis 200 Gäste</span>
-            <span class="mk-loc__info">Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-fort="Gasthof mit Festsaal vor den Toren">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/gasthof.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Gasthof mit Festsaal vor den Toren</span>
-            <span class="mk-loc__groesse">bis 250 Gäste</span>
-            <span class="mk-loc__info">Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-fort="Haus am Wasser in Norderstedt">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/am-wasser.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Haus am Wasser in Norderstedt</span>
-            <span class="mk-loc__groesse">bis 160 Gäste</span>
-            <span class="mk-loc__info">Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</span>
-          </span>
-        </button><button type="button" class="mk-loc" data-fort="Golfclub im Grünen">
-          <span class="mk-loc__bild">
-            <img src="/assets/img/locations/im-gruenen.webp" alt="" width="400" height="260" loading="lazy">
-            <span class="mk-loc__haken">&#10003;</span>
-          </span>
-          <span class="mk-loc__text">
-            <span class="mk-loc__name">Golfclub im Grünen</span>
-            <span class="mk-loc__groesse">kleinere Runden</span>
-            <span class="mk-loc__info">Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</span>
-          </span>
-        </button></div>
-        <p class="mk-loc__hinweis">Die Bilder zeigen die Art der R&auml;ume. Welcher Ort am Ende der richtige ist, h&auml;ngt von Termin, G&auml;stezahl und Budget ab &ndash; das kl&auml;ren wir im Gespr&auml;ch.</p>
-      </div>
-
-      <p class="mk-xmas__frage">Worauf haben Sie Lust? <small>Mehrfach m&ouml;glich, alles nur eine Richtung</small></p>
-      <div class="mk-chips"><button type="button" class="mk-chip" data-frichtung="Indisch"><span>🍛</span>Indisch</button><button type="button" class="mk-chip" data-frichtung="Italienisch"><span>🍝</span>Italienisch</button><button type="button" class="mk-chip" data-frichtung="Sushi"><span>🍣</span>Sushi</button><button type="button" class="mk-chip" data-frichtung="Deutsch &amp; Klassisch"><span>🥩</span>Deutsch &amp; Klassisch</button><button type="button" class="mk-chip" data-frichtung="Vegetarisch im Mittelpunkt"><span>🥗</span>Vegetarisch im Mittelpunkt</button><button type="button" class="mk-chip" data-frichtung="Fingerfood statt Buffet"><span>🥟</span>Fingerfood statt Buffet</button><button type="button" class="mk-chip" data-frichtung="Querbeet – überraschen Sie uns"><span>🎲</span>Querbeet – überraschen Sie uns</button></div>
-
-      <a class="mk-xmas__rechner" id="mkFeierRechner" href="/business/catering-angebot/">
-        <span>Lieber Gerichte selbst aussuchen?</span>
-        <strong>Buffet-Rechner &ouml;ffnen &rarr;</strong>
-        <small>Gleiche Preise &ndash; ab 27,50 &euro; pro Person, Sie sehen den Preis sofort</small>
-      </a>
-
-      <p class="mk-xmas__frage">Gibt es noch etwas, das ich wissen sollte? <small>Freiwillig &ndash; ich lese jede Zeile selbst</small></p>
-      <textarea id="mkFeierNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
-                placeholder="Zum Beispiel: Allergien, Budget, Ablauf, halal, Getr&auml;nke, Deko &hellip;"></textarea>
-
-      <div class="mk-xpaket-raster mk-zus-raster">
-        <article class="mk-xpaket">
-          <span class="mk-xpaket__tag">Ihre Auswahl</span>
-          <h3 id="mkFeierTitel">Ihre Feier</h3>
-          <p class="mk-xpaket__preis">ab 27,50 &euro; pro Person <small id="mkFeierZusatz">&middot; Buffet, geliefert und aufgebaut</small></p>
-          <dl class="mk-xpaket__menue">
-            <div id="mkFeierOrtZeile" hidden><dt>Der Ort</dt><dd id="mkFeierOrt">Noch offen &ndash; ich schlage Ihnen etwas Passendes vor</dd></div>
-            <div><dt>Das Essen</dt><dd id="mkFeierEssen">Ihr Wunschmen&uuml; &ndash; deutsch, indisch, italienisch, Sushi oder gemischt</dd></div>
-            <div><dt>Termin</dt><dd id="mkFeierTermin">Bitte oben eintragen</dd></div>
-            <div id="mkFeierNotizZeile" hidden><dt>Ihre Nachricht</dt><dd id="mkFeierNotizText"></dd></div>
-            <div><dt>Dabei</dt><dd id="mkFeierDabei">Lieferung, Aufbau und alles, was dazugeh&ouml;rt</dd></div>
-          </dl>
-          <p class="mk-xpaket__dabei">Der Endpreis h&auml;ngt von Men&uuml;, Ort und G&auml;stezahl ab &ndash; Sie bekommen vorher eine feste Zahl</p>
-        </article>
-      </div>
-      <div class="mk-xmas__zusage">
-        <span class="mk-xmas__zusage-zeichen">&#9993;</span>
-        <span class="mk-xmas__zusage-text">
-          <span class="mk-xmas__zusage-gross">Sie m&ouml;chten es genauer wissen?</span>
-          <span class="mk-xmas__zusage-klein">Unverbindlich &ndash; ich melde mich pers&ouml;nlich bei Ihnen, meist noch am selben Tag.</span>
-        </span>
-        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkFeierBtn">Jetzt beraten lassen</button>
-      </div>
-      <p class="mk-danke" id="mkFeierDanke" hidden></p>
-    </div>
-    </div>
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelMittag">
-    <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/mittag/margherita.webp');"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Mo&ndash;Fr &middot; 11:30&ndash;15:00 Uhr</span>
-        <span class="mk-xmas__kachel-titel">Mittagstisch</span>
-        <span class="mk-xmas__kachel-text">Pizza, Pasta, Curry &amp; mehr &ndash; warm geliefert</span>
-        <span class="mk-xmas__kachel-cta">Jetzt bestellen &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" hidden>
-      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Montag bis Freitag &middot; Lieferung 11:30&ndash;15:00 Uhr</span>
-      <h2>Mittagstisch f&uuml;rs B&uuml;ro</h2>
-      <p class="lead">Warm geliefert, fertig zum Essen. Bestellen Sie bis 1 Stunde vor Ihrer Wunschzeit &ndash; Lieferung frei ab 25&nbsp;&euro; Bestellwert.</p>
-      <div class="mk-mt-reiter" role="group" aria-label="Kategorie"><button type="button" class="mk-mt-reiter__btn" data-mt-kat="pizza">&#127829; Pizza<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="pasta">&#127837; Pasta<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="indisch">&#127835; Indisch<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="sushi">&#127843; Sushi<small></small></button><button type="button" class="mk-mt-reiter__btn" data-mt-kat="klein">&#129366; Kleinigkeiten<small></small></button></div>
-      <div class="mk-mt-liste"><div class="mk-mt" data-kat="pizza" data-mt="Pizza Margherita" data-preis="10.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/margherita.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizza Margherita</strong><small>&Oslash; 30&nbsp;cm &middot; Tomatensauce, Mozzarella &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">10,50&nbsp;&euro;<s class="mk-mt__statt">11,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Funghi" data-preis="11.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/funghi.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizza Funghi</strong><small>&Oslash; 30&nbsp;cm &middot; Mit frischen Champignons &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">11,50&nbsp;&euro;<s class="mk-mt__statt">12,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Salami" data-preis="11.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/salami.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizza Salami</strong><small>&Oslash; 30&nbsp;cm &middot; Mit Salami</small></span>
-          <span class="mk-mt__preis">11,90&nbsp;&euro;<s class="mk-mt__statt">13,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Mr. Veggi" data-preis="12.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/veggi.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizza Mr. Veggi</strong><small>&Oslash; 30&nbsp;cm &middot; Bunter Gem&uuml;se-Mix &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">12,50&nbsp;&euro;<s class="mk-mt__statt">13,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pizza" data-mt="Pizza Chicken Teriyaki" data-preis="13.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/teriyaki.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizza Chicken Teriyaki</strong><small>&Oslash; 30&nbsp;cm &middot; H&auml;hnchen, Brokkoli, Fr&uuml;hlingszwiebeln, Sesam</small></span>
-          <span class="mk-mt__preis">13,50&nbsp;&euro;<s class="mk-mt__statt">14,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pasta" data-mt="Pasta Mista" data-preis="11.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/mista.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pasta Mista</strong><small>Champignons in Tomaten-Sahnesauce &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">11,50&nbsp;&euro;<s class="mk-mt__statt">12,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pasta" data-mt="Tortellini alla Panna" data-preis="12.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/tortellini.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Tortellini alla Panna</strong><small>In Schinken-Sahnesauce</small></span>
-          <span class="mk-mt__preis">12,50&nbsp;&euro;<s class="mk-mt__statt">13,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pasta" data-mt="Spaghetti Carbonara" data-preis="12.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/carbonara.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Spaghetti Carbonara</strong><small>Mit Schinken, Ei und Sahnesauce</small></span>
-          <span class="mk-mt__preis">12,50&nbsp;&euro;<s class="mk-mt__statt">13,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="pasta" data-mt="Maccaroni al Forno" data-preis="12.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/forno.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Maccaroni al Forno</strong><small>Champignons, Schinken, Hackfleisch, mit K&auml;se &uuml;berbacken</small></span>
-          <span class="mk-mt__preis">12,90&nbsp;&euro;<s class="mk-mt__statt">14,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Butter Chicken" data-preis="13.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/butterchicken.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Butter Chicken</strong><small>Mit Basmati-Reis &middot; mild und cremig</small></span>
-          <span class="mk-mt__preis">13,50&nbsp;&euro;<s class="mk-mt__statt">14,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Tikka Masala" data-preis="13.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/tikka.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Chicken Tikka Masala</strong><small>Mit Basmati-Reis &middot; w&uuml;rzig</small></span>
-          <span class="mk-mt__preis">13,50&nbsp;&euro;<s class="mk-mt__statt">14,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Korma" data-preis="13.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/korma.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Chicken Korma</strong><small>Mit Basmati-Reis &middot; mild, mit N&uuml;ssen</small></span>
-          <span class="mk-mt__preis">13,50&nbsp;&euro;<s class="mk-mt__statt">14,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Chicken Biryani" data-preis="13.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/biryani.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Chicken Biryani</strong><small>Gew&uuml;rzreis mit H&auml;hnchen und Raita</small></span>
-          <span class="mk-mt__preis">13,90&nbsp;&euro;<s class="mk-mt__statt">15,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Lamb Rogan Josh" data-preis="15.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/rogan.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Lamb Rogan Josh</strong><small>Mit Basmati-Reis &middot; Lamm-Curry</small></span>
-          <span class="mk-mt__preis">15,50&nbsp;&euro;<s class="mk-mt__statt">17,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Palak Paneer" data-preis="12.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/paneer.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Palak Paneer</strong><small>Mit Basmati-Reis &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">12,90&nbsp;&euro;<s class="mk-mt__statt">14,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Chana Masala" data-preis="11.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/chana.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Chana Masala</strong><small>Mit Basmati-Reis &middot; vegan</small></span>
-          <span class="mk-mt__preis">11,50&nbsp;&euro;<s class="mk-mt__statt">12,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="indisch" data-mt="Dal Tadka" data-preis="11.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/dal.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Dal Tadka</strong><small>Gelbe Linsen, mit Basmati-Reis &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">11,50&nbsp;&euro;<s class="mk-mt__statt">12,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="sushi" data-mt="Sushi-Box Klassik" data-preis="14.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/sushibox.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Sushi-Box Klassik</strong><small>6 Maki Lachs + 8 California Roll Lachs-Avocado</small></span>
-          <span class="mk-mt__preis">14,90&nbsp;&euro;<s class="mk-mt__statt">16,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="sushi" data-mt="Sushi-Box Veggie" data-preis="12.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/sushiveg.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Sushi-Box Veggie</strong><small>6 Maki Avocado + 8 Crispy Roll Gem&uuml;se &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">12,90&nbsp;&euro;<s class="mk-mt__statt">14,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Pommes" data-preis="4.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/pommes.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pommes</strong><small>Mit Ketchup und Mayo</small></span>
-          <span class="mk-mt__preis">4,50&nbsp;&euro;<s class="mk-mt__statt">4,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Knoblauchbrot" data-preis="4.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/knoblauch.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Knoblauchbrot</strong><small>Mit Knoblauchdip</small></span>
-          <span class="mk-mt__preis">4,90&nbsp;&euro;<s class="mk-mt__statt">5,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Pizzabr&ouml;tchen" data-preis="5.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/pizzabroetchen.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Pizzabr&ouml;tchen</strong><small>6 St&uuml;ck, mit K&auml;se und Knoblauchdip</small></span>
-          <span class="mk-mt__preis">5,90&nbsp;&euro;<s class="mk-mt__statt">6,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Samosa" data-preis="5.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/samosa.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Samosa</strong><small>2 St&uuml;ck, mit Minz-Chutney &middot; vegetarisch</small></span>
-          <span class="mk-mt__preis">5,50&nbsp;&euro;<s class="mk-mt__statt">5,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Rucola-Salat" data-preis="8.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/rucola.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Rucola-Salat</strong><small>Mit Parmesan und Balsamico</small></span>
-          <span class="mk-mt__preis">8,50&nbsp;&euro;<s class="mk-mt__statt">9,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Tiramisu" data-preis="4.90">
-          <img class="mk-mt__bild" src="/assets/img/mittag/tiramisu.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Tiramisu</strong><small>Hausgemacht</small></span>
-          <span class="mk-mt__preis">4,90&nbsp;&euro;<s class="mk-mt__statt">5,50&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div><div class="mk-mt" data-kat="klein" data-mt="Panna Cotta" data-preis="4.50">
-          <img class="mk-mt__bild" src="/assets/img/mittag/pannacotta.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-mt__text"><strong>Panna Cotta</strong><small>Mit Erdbeersauce</small></span>
-          <span class="mk-mt__preis">4,50&nbsp;&euro;<s class="mk-mt__statt">4,90&nbsp;&euro;</s></span>
-          <span class="mk-mt__menge"><button type="button" data-mt-minus aria-label="Eins weniger">&minus;</button><output>0</output><button type="button" data-mt-plus aria-label="Eins mehr">+</button></span>
-        </div></div>
-
-      <p class="mk-xmas__frage">Wann d&uuml;rfen wir liefern?</p>
-      <div class="mk-xmas__form">
-        <div class="mk-xmas__feld">
-          <label for="mkMtTag">Tag</label>
-          <input type="date" id="mkMtTag" autocomplete="off">
-        </div>
-      </div>
-      <div class="mk-mt-zeiten" id="mkMtZeiten" role="group" aria-label="Wunschzeit"></div>
-
-      <p class="mk-xmas__frage">Notiz an mich <small>Freiwillig &ndash; Namen, W&uuml;nsche, Allergien oder einfach, was Sie mir sagen m&ouml;chten</small></p>
-      <textarea id="mkMtNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
-                placeholder="Zum Beispiel: 1&times; ohne Zwiebeln, bitte am Empfang abgeben &hellip;"></textarea>
-
-      <div class="mk-xmas__zusage">
-        <span class="mk-xmas__zusage-zeichen">&#127869;</span>
-        <span class="mk-xmas__zusage-text">
-          <span class="mk-xmas__zusage-gross" id="mkMtSumme">Noch nichts ausgew&auml;hlt</span>
-          <span class="mk-xmas__zusage-klein">Ich best&auml;tige Ihre Bestellung kurz per WhatsApp oder Anruf. Bezahlung bar, auf Rechnung oder per PayPal.</span>
-        </span>
-        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkMtBtn">Jetzt bestellen</button>
-      </div>
-      <p class="mk-danke" id="mkMtDanke" hidden></p>
-      <p class="mk-mt__hinweis">Abbildungen &auml;hnlich &middot; Zutaten und Allergene nenne ich Ihnen gern &ndash; fragen Sie einfach in der Notiz oder rufen Sie an: 0177 201 9889.</p>
-    </div>
-    </div>
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelRunde">
-    <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/buffet-5.webp');"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Ab 5 Personen &middot; 1 Tag vorher</span>
-        <span class="mk-xmas__kachel-titel">Team-Pakete</span>
-        <span class="mk-xmas__kachel-text">F&uuml;r Meetings, Kundenbesuch &amp; Teamessen</span>
-        <span class="mk-xmas__kachel-cta">Pakete ansehen &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" hidden>
-      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Gemeinsam bestellen &middot; ab 5 Personen</span>
-      <h2>Team-Pakete</h2>
-      <p class="lead">Ob Meeting, Kundenbesuch oder gemeinsames Teamessen: Paket w&auml;hlen, Personenzahl angeben, fertig &ndash; zum Paketpreis, g&uuml;nstiger als einzeln zusammengestellt. Bestellen bis zum Vortag &ndash; geliefert Montag bis Freitag zwischen 11:30 und 15:00 Uhr, mit Servietten und Besteck.</p>
-      <div class="mk-rd-pakete"><button type="button" class="mk-rd-paket" data-paket="pizza">
-          <img src="/assets/img/mittag/margherita.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-rd-paket__text"><strong>Pizza-Runde</strong><small>Pizzen &Oslash; 30&nbsp;cm (1 Pizza f&uuml;r 2 Personen), Knoblauchbrot, Rucola-Salat</small></span>
-          <span class="mk-rd-paket__preis">12,90&nbsp;&euro; <small>pro Person</small><s class="mk-mt__statt">statt 14,50&nbsp;&euro;</s></span>
-        </button><button type="button" class="mk-rd-paket" data-paket="pasta">
-          <img src="/assets/img/mittag/carbonara.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-rd-paket__text"><strong>Pasta-Runde</strong><small>2 Pastagerichte, Rucola-Salat, Knoblauchbrot</small></span>
-          <span class="mk-rd-paket__preis">16,90&nbsp;&euro; <small>pro Person</small><s class="mk-mt__statt">statt 18,90&nbsp;&euro;</s></span>
-        </button><button type="button" class="mk-rd-paket" data-paket="snack">
-          <img src="/assets/img/mittag/samosa.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-rd-paket__text"><strong>Meeting-Snack</strong><small>Fingerfood, etwa 6 Teile pro Person: Samosa, Pakora, Pizzabr&ouml;tchen, Knoblauchbrot, Dips</small></span>
-          <span class="mk-rd-paket__preis">11,90&nbsp;&euro; <small>pro Person</small><s class="mk-mt__statt">statt 13,50&nbsp;&euro;</s></span>
-        </button><button type="button" class="mk-rd-paket" data-paket="curry">
-          <img src="/assets/img/mittag/butterchicken.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-rd-paket__text"><strong>Curry-Runde</strong><small>2 Currys, Basmati-Reis, Naan, Salat</small></span>
-          <span class="mk-rd-paket__preis">18,90&nbsp;&euro; <small>pro Person</small><s class="mk-mt__statt">statt 21,50&nbsp;&euro;</s></span>
-        </button><button type="button" class="mk-rd-paket" data-paket="sushi">
-          <img src="/assets/img/mittag/sushibox.webp" alt="" loading="lazy" width="160" height="120">
-          <span class="mk-rd-paket__text"><strong>Sushi-Runde</strong><small>Gemischte Platte, etwa 12 St&uuml;ck pro Person, mit Sojasauce, Ingwer und Wasabi</small></span>
-          <span class="mk-rd-paket__preis">16,90&nbsp;&euro; <small>pro Person</small><s class="mk-mt__statt">statt 18,90&nbsp;&euro;</s></span>
-        </button></div>
-      <div id="mkRdWahl"></div>
-
-      <p class="mk-xmas__frage">Wie viele Personen? <small>Ab 5 Personen</small></p>
-      <div class="mk-rd-personen">
-        <span class="mk-mt__menge"><button type="button" data-rd-minus aria-label="Eine Person weniger">&minus;</button><output id="mkRdPersonen">10</output><button type="button" data-rd-plus aria-label="Eine Person mehr">+</button></span>
-        <span>Personen</span>
-      </div>
-      <label class="mk-rd-suess"><input type="checkbox" id="mkRdSuess"><span>&#127856; S&uuml;&szlig;es dazu &ndash; Tiramisu und Panna Cotta <strong>+3,90&nbsp;&euro; pro Person</strong></span></label>
-
-      <p class="mk-xmas__frage">Wann d&uuml;rfen wir liefern? <small>Bestellen bis zum Vortag &middot; Montag bis Freitag, 11:30&ndash;15:00 Uhr</small></p>
-      <div class="mk-xmas__form">
-        <div class="mk-xmas__feld">
-          <label for="mkRdTag">Tag</label>
-          <input type="date" id="mkRdTag" autocomplete="off">
-        </div>
-      </div>
-      <div class="mk-mt-zeiten" id="mkRdZeiten" role="group" aria-label="Wunschzeit"></div>
-
-      <p class="mk-xmas__frage">Notiz an mich <small>Freiwillig &ndash; Anlass, Allergien, W&uuml;nsche, alles was Sie mir sagen m&ouml;chten</small></p>
-      <textarea id="mkRdNotiz" class="mk-xmas__notiz" rows="3" maxlength="500"
-                placeholder="Zum Beispiel: Kundenbesuch, bitte h&uuml;bsch anrichten, 2 Personen vegetarisch &hellip;"></textarea>
-
-      <div class="mk-xmas__zusage">
-        <span class="mk-xmas__zusage-zeichen">&#127869;</span>
-        <span class="mk-xmas__zusage-text">
-          <span class="mk-xmas__zusage-gross" id="mkRdSumme">Bitte ein Paket w&auml;hlen</span>
-          <span class="mk-xmas__zusage-klein">Ich best&auml;tige Ihre Bestellung kurz per WhatsApp oder Anruf. Bezahlung bar, auf Rechnung oder per PayPal.</span>
-        </span>
-        <button type="button" class="btn btn--primary mk-xmas__zusage-knopf" id="mkRdBtn">Jetzt bestellen</button>
-      </div>
-      <p class="mk-danke" id="mkRdDanke" hidden></p>
-      <a class="mk-xmas__rechner" id="mkRdRechner" href="/business/catering-angebot/">
-        <span>Lieber ganz frei zusammenstellen?</span>
-        <strong>Buffet-Rechner &ouml;ffnen &rarr;</strong>
-        <small>Als Buffet geliefert und aufgebaut, mit Vorspeise und Nachtisch &ndash; ab 27,50&nbsp;&euro; pro Person</small>
-      </a>
-      <script type="application/json" id="mkRundenDaten">[{"key": "pizza", "name": "Pizza-Runde", "preis": 12.9, "wahl": {"typ": "mehr", "anzahl": 4, "titel": "Welche Pizzen? Bis zu 4 Sorten", "optionen": ["Margherita", "Funghi", "Salami", "Mr. Veggi", "Chicken Teriyaki"]}}, {"key": "pasta", "name": "Pasta-Runde", "preis": 16.9, "wahl": {"typ": "genau", "anzahl": 2, "titel": "Welche 2 Pastagerichte?", "optionen": ["Pasta Mista", "Tortellini alla Panna", "Spaghetti Carbonara", "Maccaroni al Forno"]}}, {"key": "snack", "name": "Meeting-Snack", "preis": 11.9, "wahl": null}, {"key": "curry", "name": "Curry-Runde", "preis": 18.9, "wahl": {"typ": "genau", "anzahl": 2, "titel": "Welche 2 Currys?", "optionen": ["Butter Chicken", "Chicken Tikka Masala", "Chicken Korma", "Lamb Rogan Josh", "Palak Paneer", "Chana Masala", "Dal Tadka"]}}, {"key": "sushi", "name": "Sushi-Runde", "preis": 16.9, "wahl": {"typ": "eins", "anzahl": 1, "titel": "Mit oder ohne Fisch?", "optionen": ["Gemischt mit Lachs und Thunfisch", "Nur vegetarisch"]}}]</script>
-    </div>
-    </div>
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelBuffet">
-    <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/buffet-3.webp');"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Zu Ihren Konditionen</span>
-        <span class="mk-xmas__kachel-titel">Buffet selbst zusammenstellen</span>
-        <span class="mk-xmas__kachel-text">Gerichte antippen, Preis sofort sehen</span>
-        <span class="mk-xmas__kachel-cta">Ausprobieren &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" hidden>
-      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Ohne Warten auf ein Angebot</span>
-      <h2>Buffet selbst zusammenstellen</h2>
-      <p class="lead">Gerichte antippen und sofort sehen, was es pro Person kostet &ndash; zu Ihren Karten-Konditionen.</p>
-      <ul class="mk-xmas__punkte">
-        <li>Indisch, italienisch, Sushi oder gemischt</li>
-        <li>Geliefert und aufgebaut &ndash; ab 27,50 &euro; pro Person</li>
-        <li>Anfrage mit einem Klick</li>
-      </ul>
-      <a class="btn btn--primary" id="mkRechnerLink" href="/business/catering-angebot/">Preis berechnen</a>
-    </div>
-    </div>
-    <div class="mk-xmas__wrap mk-kachelwrap" id="mkKachelLocation">
-    <button type="button" class="mk-xmas__kachel">
-      <span class="mk-xmas__kachel-bild" style="background-image:url('/assets/img/locations/am-wasser.webp');"></span>
-      <span class="mk-xmas__kachel-inhalt">
-        <span class="mk-xmas__kachel-label">Au&szlig;er Haus feiern</span>
-        <span class="mk-xmas__kachel-titel">Location gesucht?</span>
-        <span class="mk-xmas__kachel-text">Wir finden den passenden Raum</span>
-        <span class="mk-xmas__kachel-cta">Orte ansehen &rarr;</span>
-      </span>
-    </button>
-    <div class="mk-xmas__box" hidden>
-      <button type="button" class="mk-xmas__zu" aria-label="Zuklappen" title="Zuklappen">&times;</button>
-      <span class="eyebrow">Kein Platz bei Ihnen?</span>
-      <h2>Wir richten auch au&szlig;er Haus aus</h2>
-      <p class="lead">Ob kleine Runde oder gro&szlig;e Feier &ndash; ich helfe bei der Suche nach dem passenden Raum und k&uuml;mmere mich um alle Absprachen.</p>
-      <p class="mk-xmas__frage">Welche Orte gefallen Ihnen? <small>Antippen, mehrfach m&ouml;glich &ndash; alles Weitere kl&auml;ren wir pers&ouml;nlich</small></p>
-      <div class="mk-orte"><button type="button" class="mk-ort" data-lort="Großer Saal in Norderstedt"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/saal-norderstedt.webp');"></span>
-          <span class="mk-ort__text"><strong>Großer Saal in Norderstedt</strong><small>20 bis 450 Gäste</small><span>Mehrere Säle, die sich teilen lassen, Bühne, Tanzfläche und Parkplätze direkt davor.</span></span></button><button type="button" class="mk-ort" data-lort="Industrie-Loft in Hamburg-Nord"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/loft-hamburg.webp');"></span>
-          <span class="mk-ort__text"><strong>Industrie-Loft in Hamburg-Nord</strong><small>60 bis 150 Gäste</small><span>Hohe Decken, Klinker und Stahl, moderne Technik. Über die A7 schnell zu erreichen, eigene Parkplätze.</span></span></button><button type="button" class="mk-ort" data-lort="Historische Fabrikhalle in Barmbek"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/fabrikhalle.webp');"></span>
-          <span class="mk-ort__text"><strong>Historische Fabrikhalle in Barmbek</strong><small>50 bis 200 Gäste</small><span>Backstein und Stahl von 1908, einzelne Etagen getrennt buchbar, direkt an der S-Bahn.</span></span></button><button type="button" class="mk-ort" data-lort="Gasthof mit Festsaal vor den Toren"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/gasthof.webp');"></span>
-          <span class="mk-ort__text"><strong>Gasthof mit Festsaal vor den Toren</strong><small>bis 250 Gäste</small><span>Traditioneller Gasthof mit Biergarten – und Hotelzimmern, falls es später wird.</span></span></button><button type="button" class="mk-ort" data-lort="Haus am Wasser in Norderstedt"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/am-wasser.webp');"></span>
-          <span class="mk-ort__text"><strong>Haus am Wasser in Norderstedt</strong><small>bis 160 Gäste</small><span>Direkt am Strandbad, mit Dachterrasse und Blick aufs Wasser. Der schönste Rahmen in Norderstedt.</span></span></button><button type="button" class="mk-ort" data-lort="Golfclub im Grünen"><span class="mk-ort__bild" style="background-image:url('/assets/img/locations/im-gruenen.webp');"></span>
-          <span class="mk-ort__text"><strong>Golfclub im Grünen</strong><small>kleinere Runden</small><span>Zehn Minuten von uns, ruhig und gehoben. Für die Feier, die etwas edler ausfallen soll.</span></span></button></div>
-      <div class="mk-xmas__unten">
-        <button type="button" class="btn btn--primary" id="mkLocation">Location anfragen</button>
-      </div>
-      <p class="mk-danke" id="mkLocationDanke" hidden></p>
-    </div>
-    </div></div>
+  <div class="kx-bar" id="kxBar" aria-hidden="true">
+    <p class="kx-bar__fehler" id="kxBarFehler" role="alert" hidden></p>
+    <div class="kx-bar__info" aria-live="polite"><strong id="kxBarTitel"></strong><span id="kxBarText"></span></div>
+    <button type="button" class="kx-bar__btn" id="kxBarBtn">Weiter</button>
   </div>
-</section>
-<div id="mkAngebote" hidden>
-<section class="section" id="angebote" style="padding-bottom:0;">
-  <div class="container">
-    <span class="eyebrow">Nur f&uuml;r Karteninhaber</span>
-    <h2>Aktuelle Angebote</h2>
-    <div class="mk-angebote-raster" id="mkAngeboteListe"></div>
-  </div>
-</section>
-</div>
-<section class="section mk-ap">
-  <div class="container">
-    <div class="card mk-ap__karte">
-      <h3>Ihr Ansprechpartner</h3>
-      <p><strong>Reyyan Ahmad</strong><br>Mahboobs Kitchen</p>
-      <p class="muted">Anrufen, WhatsApp oder E-Mail &ndash; ich k&uuml;mmere mich pers&ouml;nlich um Ihre Anfrage.</p>
-      <div class="btn-row"><button type="button" class="btn btn--primary" id="mkRueckruf">Bitte um R&uuml;ckruf</button><a class="btn btn--dark" href="/karte/reyyan/">Meine Visitenkarte</a></div>
-      <p class="mk-danke" id="mkRueckrufDanke" hidden></p>
-      <p class="mk-meinekarte__tipp">Tipp: Legen Sie diese Seite als Lesezeichen oder auf den Startbildschirm &ndash; dann haben Sie Ihre Karte immer dabei. Auf ein anderes Ger&auml;t oder an Kollegen: <button type="button" class="mk-teilen-link" data-teilen>Karte teilen</button></p>
-      <p class="mk-abmelden-link">Keine Angebote per E-Mail mehr? <a id="mkAbmelden" href="/business/abmelden/">Hier abmelden</a></p>
-    </div>
-  </div>
-</section>
-</div>
+</main>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -850,7 +337,7 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script>window.SUPABASE_URL="https://ajbxwpqeyhhsvunsxcut.supabase.co";window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYnh3cHFleWhoc3Z1bnN4Y3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODA3NDAsImV4cCI6MjA5OTk1Njc0MH0.q0fzGCq92GygK1ypJGAqIkGMIoragU4kI3ZeWoaxDVE";window.PIPELINE_PINS={"REA": "1111"};window.MK_FORMSPREE="https://formspree.io/f/maqgnbwj";</script>
 <script src="/assets/js/business-auth.js" defer></script>
-<script src="/assets/js/business-meine-karte.js" defer></script>
+<script src="/assets/js/business-karte.js" defer></script>
 
 <div class="mk-teilen" id="mkTeilen" role="dialog" aria-modal="true" aria-labelledby="mkTeilenTitel" hidden>
   <div class="mk-teilen__box">
