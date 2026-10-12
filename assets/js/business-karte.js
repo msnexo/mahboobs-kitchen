@@ -370,7 +370,9 @@
     bar.classList.toggle("is-on", !!an);
     bar.setAttribute("aria-hidden", an ? "false" : "true");
     if (!an) return;
-    barT.textContent = titel; barS.textContent = text;
+    barT.textContent = titel;
+    var sp = text.indexOf("Sie sparen");
+    barS.innerHTML = sp > -1 ? esc(text.slice(0, sp)) + '<span class="kx-spar">' + esc(text.slice(sp)) + "</span>" : esc(text);
     barBtn.innerHTML = esc(knopf) + ' <span aria-hidden="true">→</span>';
     barBtn.disabled = !aktiv; barAktion = aktion;
   }
@@ -383,6 +385,10 @@
     GERICHTE.forEach(function (g) { var m = S.menge[g.name] || 0; if (m) { n += m; s += m * g.preis; liste.push(m + "× " + g.name); } });
     return { n: n, summe: s, liste: liste };
   }
+  function ersparnisEinzeln() { var e = 0; GERICHTE.forEach(function (g) { var m = S.menge[g.name] || 0; if (m && g.statt) e += m * (g.statt - g.preis); }); return Math.round(e * 100) / 100; }
+  function ersparnisPaket() { var p = paketObj(); return p ? Math.round(S.personen * (p.statt - p.preis) * 100) / 100 : 0; }
+  function ersparnisBuffet() { var p = buffetPreis(), n = Math.round(p * BUFFET_NORMAL / BUFFET * 10) / 10; return Math.round((n - p) * S.f.personen * 100) / 100; }
+  function sparText(e) { return e > 0 ? " · Sie sparen " + euro(e) : ""; }
   function paketObj() { return PAKETE.filter(function (p) { return p.key === S.paket; })[0] || null; }
   function paketSumme() { var p = paketObj(); return p ? S.personen * (p.preis + (S.suess ? SUESS : 0)) : 0; }
   function paketOk() {
@@ -398,14 +404,14 @@
         if (!w.n) return setBar(true, "Noch nichts ausgewählt", "Gerichte mit + hinzufügen · ab " + MINDEST + " € geliefert", "Weiter", false);
         var fehlt = MINDEST - w.summe;
         setBar(true, w.n + (w.n === 1 ? " Gericht" : " Gerichte") + " · " + euro(w.summe),
-          fehlt > 0 ? "Noch " + euro(fehlt) + " bis zur Lieferung" : "Lieferung inklusive",
+          fehlt > 0 ? "Noch " + euro(fehlt) + " bis zur Lieferung" + sparText(ersparnisEinzeln()) : "Lieferung inklusive" + sparText(ersparnisEinzeln()),
           "Weiter", fehlt <= 0, function () { geh("liefern"); });
       } else {
         var p = paketObj();
         if (!p) return setBar(true, "Paket wählen", "Ab 5 Personen · bis zum Vortag bestellen", "Weiter", false);
         var ok = paketOk();
         setBar(true, p.name + " · " + S.personen + " Pers. · " + euro(paketSumme()),
-          ok ? euro(p.preis + (S.suess ? SUESS : 0)) + " pro Person" : (p.wahl ? "Bitte noch wählen: " + p.wahl.titel.replace("?", "") : ""),
+          ok ? euro(p.preis + (S.suess ? SUESS : 0)) + " pro Person" + sparText(ersparnisPaket()) : (p.wahl ? "Bitte noch wählen: " + p.wahl.titel.replace("?", "") : ""),
           "Weiter", ok, function () { geh("liefern"); });
       }
     } else if (aktuell === "liefern") {
@@ -416,7 +422,7 @@
         "Weiter", !!(S.f.datum || S.f.offen), function () { geh("feier3"); });
     } else if (aktuell === "menue") {
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
-      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen),
+      setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen) + "" + sparText(ersparnisBuffet()),
         haupt ? "Weiter" : "Bitte 1 Hauptgericht", haupt > 0, function () { S.f.plan = "selbst"; if (!S.f.anlass) geh("feier1"); else { zusammenfassung(); geh("feier5"); } });
     } else if (aktuell === "feier4" && S.f.plan !== "wir") {
       setBar(false);
@@ -694,6 +700,7 @@
       betreff = "Mittagstisch-Bestellung: " + tagText + " " + S.zeit + " Uhr";
       felder = { Tag: tagText, Uhrzeit: S.zeit + " Uhr", Bestellung: w.liste.join(", "), Artikel: w.n, Summe: euro(w.summe), Notiz: notiz || "—" };
       danke = [["Bestellung", w.liste.join(", ")], ["Lieferung", tagText + " · " + S.zeit + " Uhr"], ["Summe", euro(w.summe)]];
+      if (ersparnisEinzeln() > 0) danke.push(["Mit Black Card gespart", euro(ersparnisEinzeln())]);
       letzte = { modus: "einzeln", menge: S.menge, text: w.liste.join(", ") };
     } else {
       var p = paketObj(), s = paketSumme();
@@ -702,6 +709,7 @@
       betreff = "Team-Paket: " + p.name + " · " + S.personen + " Pers. · " + tagText + " " + S.zeit + " Uhr";
       felder = { Paket: p.name, Auswahl: S.wahl.join(", ") || "—", Personen: S.personen, "Süßes dazu": S.suess ? "ja" : "nein", Tag: tagText, Uhrzeit: S.zeit + " Uhr", Summe: euro(s), Notiz: notiz || "—" };
       danke = [["Paket", p.name + (S.wahl.length ? " (" + S.wahl.join(", ") + ")" : "")], ["Personen", String(S.personen) + (S.suess ? " · mit Süßem" : "")], ["Lieferung", tagText + " · " + S.zeit + " Uhr"], ["Summe", euro(s)]];
+      if (ersparnisPaket() > 0) danke.push(["Mit Black Card gespart", euro(ersparnisPaket())]);
       letzte = { modus: "paket", paket: p.key, personen: S.personen, suess: S.suess, wahl: S.wahl, text: p.name + " für " + S.personen + " Personen" };
     }
     barBtn.disabled = true; barBtn.textContent = "Wird gesendet …";
@@ -817,7 +825,9 @@
       mail("Feier-Anfrage: " + kurz, { Anlass: S.f.anlass, Termin: S.f.datum ? datumDe(S.f.datum) : "offen", Personen: S.f.personen, Ort: woText(), Küche: S.f.plan === "selbst" ? "Eigenes Menü" : (S.f.kueche.join(", ") || "offen"), Menü: S.f.plan === "selbst" ? S.f.menu.join(", ") : "—", "Preis p. P.": S.f.plan === "selbst" ? euro(buffetPreis()) : "ab " + euro(BUFFET), Nachricht: nachricht || "—" })
     ]).then(function (r) {
       if (!r[0] && !r[1]) { leiste(); barFehler("Das hat leider nicht geklappt – bitte nochmal versuchen oder anrufen: 0177 201 9889"); return; }
-      dankeZeigen("Danke – Ihre Anfrage ist da.", "Ich melde mich persönlich mit Ihrem Angebot, meist noch am selben Tag.", feierZeilen());
+      var fz = feierZeilen();
+      if (S.f.plan === "selbst") { fz.push(["Ihr Preis", euro(buffetPreis()) + " p. P."]); if (ersparnisBuffet() > 0) fz.push(["Mit Black Card gespart", "ca. " + euro(ersparnisBuffet())]); }
+      dankeZeigen("Danke – Ihre Anfrage ist da.", "Ich melde mich persönlich mit Ihrem Angebot, meist noch am selben Tag.", fz);
     });
   }
 
@@ -884,7 +894,7 @@
   function dankeZeigen(titel, text, zeilen) {
     $("kxDankeTitel").textContent = titel;
     $("kxDankeText").textContent = text;
-    $("kxDankeSumme").innerHTML = zeilen.map(function (r) { return '<div class="kx-summe__z"><span>' + esc(r[0]) + "</span><b>" + esc(r[1]) + "</b></div>"; }).join("");
+    $("kxDankeSumme").innerHTML = zeilen.map(function (r) { var g = /gespart/.test(r[0]); return '<div class="kx-summe__z"><span' + (g ? ' class="kx-spar"' : "") + ">" + esc(r[0]) + "</span><b" + (g ? ' class="kx-spar"' : "") + ">" + esc(r[1]) + "</b></div>"; }).join("");
     var h = $("kxHaken"); var neu = h.cloneNode(true); h.parentNode.replaceChild(neu, h); // Animation neu starten
     geh("danke", true);
   }
