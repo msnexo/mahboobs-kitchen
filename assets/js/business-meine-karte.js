@@ -199,7 +199,7 @@
       var lust = richtungen();
       schreib("mkZusEssen", lust.length
         ? lust.join(", ")
-        : "Ihr Wunschmenü – indisch, italienisch, Sushi oder gemischt");
+        : "Ihr Wunschmenü – deutsch, indisch, italienisch, Sushi oder gemischt");
       var wann = datum && datum.value;
       var wieViele = gaeste && parseInt(gaeste.value, 10);
       schreib("mkZusTermin", wann
@@ -827,7 +827,7 @@
       document.getElementById("mkFeierOrtZeile").hidden = !w.aussen;
       text("mkFeierOrt", ort || "Noch offen – ich schlage Ihnen etwas Passendes vor");
       var l = lust();
-      text("mkFeierEssen", l.length ? l.join(", ") : "Ihr Wunschmenü – indisch, italienisch, Sushi oder gemischt");
+      text("mkFeierEssen", l.length ? l.join(", ") : "Ihr Wunschmenü – deutsch, indisch, italienisch, Sushi oder gemischt");
       var n = gaeste && parseInt(gaeste.value, 10);
       text("mkFeierTermin", datum && datum.value
         ? datumDeutsch(datum.value) + (n > 0 ? " · " + n + " Personen" : "")
