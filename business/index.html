@@ -525,6 +525,18 @@
 .xm__hint{margin:12px 0 0;text-align:center;color:rgba(255,255,255,.5);font-size:.85rem}
 @media (max-width:900px){.xm__grid{grid-template-columns:1fr;gap:36px}}
 @media (prefers-reduced-motion:reduce){.xm__lights{animation:none}}
+
+/* Einheitlicher Seiten-Rhythmus: Schwarz + weich eingeblendete Bilder */
+.bc{background:#000}
+.bc > section{background-color:#000}
+.bc > section:not(.bc-hero):not(.fin):not(.xm){padding-block:clamp(84px,10vw,124px)}
+.bc-who,.kx,.pz,.lx,.st{position:relative;isolation:isolate}
+.sxbg{position:absolute;inset:0;z-index:-1;background-size:cover;background-repeat:no-repeat;pointer-events:none;filter:saturate(.9)}
+.sxbg--full{opacity:.32;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 22%,#000 78%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 22%,#000 78%,transparent 100%)}
+.sxbg--full::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.35) 45%,rgba(0,0,0,.6) 100%)}
+.sxbg--right{left:auto;width:62%;opacity:.42;-webkit-mask-image:radial-gradient(70% 70% at 75% 35%,#000 20%,transparent 75%);mask-image:radial-gradient(70% 70% at 75% 35%,#000 20%,transparent 75%)}
+.sxbg--top{bottom:auto;height:72%;opacity:.3;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 20%,#000 45%,transparent 100%)}
+@media (max-width:900px){.sxbg--right{width:100%;opacity:.28}}
 </style>
 </head>
 <body data-ga-id="G-E06KML0D74">
@@ -638,6 +650,7 @@
 
 <!-- 3 · Für wen -->
 <section class="bc-who">
+  <div class="sxbg sxbg--top" aria-hidden="true" style="background-image:url('/assets/img/buffet-9.webp');background-position:50% 40%"></div>
   <div class="wrap">
     <span class="kicker">Für wen</span>
     <h2>Gemacht für alle,<br>die Gastgeber sind.</h2>
@@ -651,6 +664,7 @@
 
 <!-- Die Küche (Inszenierung) -->
 <section class="kx">
+  <div class="sxbg sxbg--right" aria-hidden="true" style="background-image:url('/assets/img/kochtopf.webp');background-position:80% 30%"></div>
   <div class="wrap">
     <span class="kicker">Die Küche</span>
     <h2>Angerichtet,<br>um zu beeindrucken.</h2>
@@ -679,6 +693,7 @@
 
 <!-- 4 · Konditionen (Teaser, Preise auf der Karte) -->
 <section class="pz">
+  <div class="sxbg sxbg--full" aria-hidden="true" style="background-image:url('/assets/img/buffet-4.webp');background-position:30% 50%"></div>
   <div class="wrap pz__grid">
     <div class="pz__text">
       <span class="kicker">Konditionen</span>
