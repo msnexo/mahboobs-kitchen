@@ -294,7 +294,6 @@
     ["sushi", "Sushi-Platte gemischt", "jp", "Maki, California Rolls und Nigiri – etwa 6 Stück pro Person, mit Ingwer, Wasabi und Sojasauce", "", 4.9],
     ["sushi", "Sushi-Platte vegetarisch", "jp", "Maki Avocado, Kappa und Veggie Rolls – etwa 6 Stück pro Person", "veg", 4.5]
   ].map(function (b) { return { kat: b[0], name: b[1], land: b[2], text: b[3], veg: b[4] === "🌱" ? "vegan" : (b[4] === "🥚" || b[4] === "veg") ? "vegetarisch" : "", extra: b[5] || 0 }; });
-  var EMPFEHLUNG = ["Gemüse-Samosas mit Minz-Chutney", "Butter Chicken", "Lasagne al Forno", "Basmati-Reis", "Italienischer gemischter Salat", "Tiramisu"];
 
   var ANLAESSE = ["Weihnachtsfeier", "Sommerfest", "Firmenjubiläum", "Meeting / Konferenz", "Geburtstag", "Hochzeit", "Vereinsfest", "Etwas anderes"];
   var WO = [
@@ -420,6 +419,8 @@
     } else if (aktuell === "feier2") {
       setBar(true, S.f.anlass + " · " + S.f.personen + " Personen", S.f.datum ? new Date(S.f.datum + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" }) : (S.f.offen ? "Termin noch offen" : "Termin wählen – oder „steht noch nicht fest“ ankreuzen"),
         "Weiter", !!(S.f.datum || S.f.offen), function () { geh("feier3"); });
+    } else if (aktuell === "menue" && !S.f.menu.length) {
+      setBar(true, "Noch nichts ausgewählt", "Gerichte antippen – der Preis erscheint sofort", "Weiter", false);
     } else if (aktuell === "menue") {
       var pr = buffetPreis(), haupt = S.f.menu.filter(function (n) { return bObj(n).kat === "hauptgericht"; }).length;
       setBar(true, "Ihr Buffet · " + euro(pr) + " p. P.", S.f.personen + " Gäste · ca. " + euro(pr * S.f.personen) + "" + sparText(ersparnisBuffet()),
@@ -731,7 +732,7 @@
     $("kxOffen").checked = false; $("kxFPers").value = S.f.personen; $("kxNachricht").value = ""; kalender();
   }
   function feierStart(anlass) {
-    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "", menu: EMPFEHLUNG.slice() };
+    S.f = { anlass: anlass || "", datum: "", offen: false, personen: S.f.personen || 30, wo: "", kueche: [], nachricht: "", plan: "", menu: [] };
     planSetzen("");
     $("kxAnlaesse").innerHTML = ANLAESSE.map(function (a) { return '<button type="button" class="kx-chip' + (S.f.anlass === a ? " is-on" : "") + '" data-anlass="' + esc(a) + '">' + esc(a) + "</button>"; }).join("");
     $("kxWo").innerHTML = WO.map(function (w) { return '<button type="button" class="kx-chip" data-wo="' + w.key + '"><strong style="display:block;font-weight:500">' + w.titel + '</strong><small style="opacity:.7">' + w.text + "</small></button>"; }).join("");
@@ -852,9 +853,9 @@
     else { leiste(); var box = $("kxWirBox"); setTimeout(function () { box.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "nearest" }); }, 120); }
   });
   function menueStart() {
-    if (!S.f.menu || !S.f.menu.length) S.f.menu = EMPFEHLUNG.slice();
+    if (!S.f.menu) S.f.menu = [];
     $("kxMPers").value = S.f.personen;
-    bKat = "hauptgericht"; bKategorien(); bListe(); geh("menue");
+    bKat = "vorspeise"; bKategorien(); bListe(); geh("menue");
   }
   function bKategorien() {
     $("kxMKats").innerHTML = BKATS.map(function (k) {
@@ -864,7 +865,15 @@
     var k = BKATS.filter(function (x) { return x[0] === bKat; })[0];
     $("kxMInfo").innerHTML = bKat === "sushi"
       ? "Freiwillig dazu – als Extra zum Buffet."
-      : "Je Gericht <b>" + euro(k[2]) + "</b> pro Person · Empfehlung: " + ({ vorspeise: "1", hauptgericht: "2", beilage: "2", nachtisch: "1" })[bKat] + " " + k[1];
+      : "Je Gericht <b>" + euro(k[2]) + "</b> pro Person";
+    // Faustregel-Checkliste
+    var SOLL = { vorspeise: [1, "Vorspeise"], hauptgericht: [2, "Hauptgerichte"], beilage: [2, "Beilagen"], nachtisch: [1, "Nachtisch"], sushi: [0, "Sushi"] };
+    $("kxGuideListe").innerHTML = Object.keys(SOLL).map(function (key) {
+      var soll = SOLL[key][0], ist = S.f.menu.filter(function (x) { return bObj(x).kat === key; }).length, p = "";
+      for (var i = 0; i < soll; i++) p += '<i class="' + (i < ist ? "is-voll" : "") + '"></i>';
+      if (!soll) return '<li data-guide="' + key + '" class="kx-guide__extra' + (ist ? " is-ok" : "") + (bKat === key ? " is-an" : "") + '"><b>Sushi</b><span class="kx-guide__punkte"><small>' + (ist ? "dabei" : "optional") + "</small></span></li>";
+      return '<li data-guide="' + key + '" class="' + (ist >= soll ? "is-ok" : "") + (bKat === key ? " is-an" : "") + '"><b>' + soll + " " + SOLL[key][1] + '</b><span class="kx-guide__punkte">' + p + "</span></li>";
+    }).join("");
   }
   function bListe() {
     $("kxBuffet").innerHTML = BUFFET_GERICHTE.filter(function (b) { return b.kat === bKat; }).map(function (b, i) {
@@ -882,11 +891,11 @@
     b.classList.toggle("is-on", i === -1); b.setAttribute("aria-pressed", i === -1);
     bKategorien(); leiste(); bump();
   });
-  $("kxEmpfehlung").addEventListener("click", function () { S.f.menu = EMPFEHLUNG.slice(); bKategorien(); bListe(); leiste(); bump(); });
+  $("kxGuideListe").addEventListener("click", function (e) { var l = e.target.closest("[data-guide]"); if (!l) return; bKat = l.dataset.guide; bKategorien(); bListe(); });
   zaehler($("kxMPers"), $("kxMMinus"), $("kxMPlus"), 5, 1000, function (v) { S.f.personen = v; leiste(); });
   // "Nur mal schauen": Rechner direkt, ohne vorher Fragen
   function schauen() {
-    S.f = { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: EMPFEHLUNG.slice() };
+    S.f = { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "selbst", menu: [] };
     feierVorbereiten(); menueStart();
   }
 

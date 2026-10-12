@@ -294,12 +294,16 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
       <button type="button" class="kx-zurueck" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Zurück</button>
       <span class="kx-kick">Ihr Buffet</span>
       <h2 class="kx-titel">Gerichte auswählen</h2>
-      <p class="kx-lead">Unsere Empfehlung ist schon ausgewählt. Tippen Sie einfach an, was Sie anders möchten.</p>
+      <p class="kx-lead">Tippen Sie die Gerichte an, die Sie möchten – der Preis erscheint sofort.</p>
+      <div class="kx-guide" id="kxGuide">
+        <p class="kx-guide__titel">Faustregel für ein rundes Buffet <small>– antippen zum Auswählen</small></p>
+        <ol class="kx-guide__liste" id="kxGuideListe"></ol>
+      </div>
       <div class="kx-zeile kx-menue-gaeste"><span style="color:var(--mute)">Gäste</span><span class="kx-zaehler"><button type="button" id="kxMMinus" aria-label="Ein Gast weniger">−</button><input id="kxMPers" type="number" inputmode="numeric" min="5" max="1000" value="30" aria-label="Gäste"><button type="button" id="kxMPlus" aria-label="Ein Gast mehr">+</button></span></div>
-      <div class="kx-chips" id="kxMKats" role="tablist" aria-label="Kategorie"></div>
+      <div class="kx-chips" id="kxMKats" role="tablist" aria-label="Kategorie" hidden></div>
       <p class="kx-menue-info" id="kxMInfo"></p>
       <div class="kx-buffet" id="kxBuffet"></div>
-      <p class="kx-hinweis"><button type="button" class="kx-link" id="kxEmpfehlung">Empfehlung wiederherstellen</button> · Geliefert und aufgebaut, warm gehalten in Chafing Dishes. Preise pro Person.</p>
+      <p class="kx-hinweis">Geliefert und aufgebaut, warm gehalten in Chafing Dishes. Preise pro Person.</p>
     </section>
 
     <!-- Feier 5: Zusammenfassung -->
