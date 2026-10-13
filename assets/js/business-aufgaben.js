@@ -29,7 +29,7 @@
     meilensteine = e.detail || [];
     var sel = $("afMeilenstein"); if (!sel) return;
     var v = sel.value;
-    sel.innerHTML = '<option value="">Ohne Meilenstein</option>' + meilensteine.filter(function (m) { return !m.erledigt_at; }).map(function (m) { return '<option value="' + m.id + '">' + esc(m.phase + " · " + m.titel) + "</option>"; }).join("");
+    sel.innerHTML = '<option value="">Zu welchem Schritt? (optional)</option>' + meilensteine.filter(function (m) { return !m.erledigt_at; }).map(function (m) { return '<option value="' + m.id + '">' + esc(m.titel) + "</option>"; }).join("");
     sel.value = v;
     if (aufgaben.length) zeichnen();
   });
@@ -84,11 +84,9 @@
     var offen = aufgaben.filter(function (a) { return !a.erledigt_at; });
     var erledigt = aufgaben.filter(function (a) { return a.erledigt_at; }).sort(function (a, b) { return b.erledigt_at.localeCompare(a.erledigt_at); });
     var html =
-      gruppe("Überfällig", offen.filter(function (a) { return a.faellig && a.faellig < heute; }), "af-gruppe--spaet") +
-      gruppe("Heute", offen.filter(function (a) { return a.faellig === heute; }), "af-gruppe--heute") +
-      gruppe("Nächste 7 Tage", offen.filter(function (a) { return a.faellig && a.faellig > heute && a.faellig <= woche; })) +
-      gruppe("Später", offen.filter(function (a) { return a.faellig && a.faellig > woche; })) +
-      gruppe("Ohne Termin", offen.filter(function (a) { return !a.faellig; }));
+      gruppe("Heute", offen.filter(function (a) { return a.faellig && a.faellig <= heute; }), "af-gruppe--heute") +
+      gruppe("Diese Woche", offen.filter(function (a) { return a.faellig && a.faellig > heute && a.faellig <= woche; })) +
+      gruppe("Später", offen.filter(function (a) { return !a.faellig || a.faellig > woche; }));
     if (!offen.length) html = '<p class="af-leer">Alles erledigt ✓</p>';
     html += '<button type="button" class="btn btn--dark af-toggle" id="afToggle">' + (zeigeErledigt ? "Erledigte ausblenden" : "Erledigte anzeigen (" + erledigt.length + ")") + "</button>";
     if (zeigeErledigt) html += gruppe("Erledigt", erledigt.slice(0, 40), "af-gruppe--fertig");
