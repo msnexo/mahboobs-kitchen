@@ -640,6 +640,7 @@
     Array.prototype.forEach.call($("kxPakete").children, function (x) { x.classList.toggle("is-on", x === b); });
     paketWahl(); leiste(); bump();
     $("kxPaketDetails").hidden = false;
+    setTimeout(function () { $("kxPaketDetails").scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "center" }); }, 150);
   });
   function paketWahl() {
     var p = paketObj();

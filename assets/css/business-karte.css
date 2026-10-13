@@ -449,3 +449,5 @@ body>.kx-dlg h3{color:#fff;font-weight:500;letter-spacing:-.02em}
 
 .kx-bar__btn.is-aus{background:rgba(255,255,255,.35);color:#111;cursor:pointer}
 .kx-bar__btn.is-aus:hover{background:rgba(255,255,255,.5);color:#111}
+
+.kx-paket-pers{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 18px}
