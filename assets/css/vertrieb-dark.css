@@ -84,3 +84,19 @@ body.vt #stammKopf{cursor:pointer;user-select:none}
 body.vt #stammKopf:hover{border-color:rgba(232,89,12,.8)}
 body.vt .pl-pfeil{display:inline-block;margin-right:8px;transition:transform .2s;font-size:.9em}
 body.vt #stammKopf.is-zu .pl-pfeil{transform:rotate(-90deg)}
+
+/* Helle Restflaechen dunkel machen (Lesbarkeit) */
+body.vt .log-termin-zeile{background:rgba(255,255,255,.05)!important;color:rgba(255,255,255,.8)!important;border-left-color:rgba(255,255,255,.25)!important}
+body.vt .log-termin-zeile--faellig{background:rgba(232,89,12,.14)!important;color:#ffcfb3!important;border-left-color:var(--vt-g)!important}
+body.vt .dk-sym,body.vt .dk-kopieren{background:var(--vt-panel2)!important;color:#fff!important;border-color:rgba(255,255,255,.18)!important}
+body.vt .dk-sym:hover{border-color:var(--vt-g)!important;color:var(--vt-g2)!important}
+body.vt .dk-sym--wa:hover{border-color:#25d366!important;color:#7ee3a4!important}
+body.vt .dk-sym svg,body.vt .dk-mini svg{color:inherit}
+body.vt .bucket--faellig>summary .bucket__zahl{background:rgba(192,57,43,.25)!important;color:#ff9b8c!important}
+body.vt .bucket--heute>summary .bucket__zahl{background:rgba(232,89,12,.25)!important;color:#ffb38a!important}
+body.vt .dk-knopf--loeschen:hover{background:rgba(192,57,43,.2)!important;border-color:#c0392b!important}
+body.vt .bk-anleitung,body.vt .bk-anleitung--warnung{background:rgba(192,57,43,.15)!important;color:#ffb3a6!important}
+body.vt .bk-signal--ab{background:rgba(255,255,255,.08)!important;color:rgba(255,255,255,.6)!important}
+body.vt .wb-hinweis{background:rgba(245,159,0,.12)!important;color:#ffd58a!important}
+body.vt .pl-bereich__hand{background:#fff!important;color:#0f5c3c!important}
+body.vt .dk-person,body.vt .dk-person__kopf{color:#fff}
