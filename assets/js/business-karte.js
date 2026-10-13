@@ -383,7 +383,21 @@
     var sp = text.indexOf("Sie sparen");
     barS.innerHTML = sp > -1 ? esc(text.slice(0, sp)) + '<span class="kx-spar">' + esc(text.slice(sp)) + "</span>" : esc(text);
     barBtn.innerHTML = esc(knopf) + ' <span aria-hidden="true">→</span>';
-    barBtn.disabled = !aktiv; barAktion = aktion;
+    barBtn.disabled = false;
+    barBtn.classList.toggle("is-aus", !aktiv);
+    barAktion = aktiv ? aktion : function () { barFehler(hinweisFuer()); bump(); };
+  }
+  // Warum geht es noch nicht weiter? Klarer Hinweis statt stummem grauen Knopf.
+  function hinweisFuer() {
+    if (aktuell === "essen" && S.modus === "einzeln") {
+      var w = warenkorb();
+      if (!w.n) return "Bitte zuerst ein Gericht mit + auswählen.";
+      return "Mindestbestellwert für die Lieferung: " + MINDEST + " € – es fehlen noch " + euro(MINDEST - w.summe) + ".";
+    }
+    if (aktuell === "essen") { var p = paketObj(); if (!p) return "Bitte zuerst ein Paket wählen."; if (p.wahl) return "Bitte noch wählen: " + p.wahl.titel; return "Bitte mindestens 5 Personen angeben."; }
+    if (aktuell === "liefern") return "Bitte noch einen Liefertag und eine Uhrzeit wählen.";
+    if (aktuell === "menue") return S.f.menu.length ? "Bitte mindestens ein Hauptgericht wählen." : "Bitte zuerst Gerichte antippen.";
+    return "Bitte die Angaben oben vervollständigen.";
   }
   function bump() { if (bewegungAus) return; bar.classList.remove("is-bump"); void bar.offsetWidth; bar.classList.add("is-bump"); }
   function barFehler(t) { barF.textContent = t; barF.hidden = !t; }
