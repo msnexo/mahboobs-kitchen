@@ -100,3 +100,41 @@ body.vt .bk-signal--ab{background:rgba(255,255,255,.08)!important;color:rgba(255
 body.vt .wb-hinweis{background:rgba(245,159,0,.12)!important;color:#ffd58a!important}
 body.vt .pl-bereich__hand{background:#fff!important;color:#0f5c3c!important}
 body.vt .dk-person,body.vt .dk-person__kopf{color:#fff}
+
+/* Aufgaben-Reiter */
+body.vt .af-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:10px;background:var(--vt-g);color:#fff;font-size:.72rem;padding:0 6px;margin-left:4px}
+body.vt .af-badge[hidden]{display:none}
+body.vt .af-form{display:grid;gap:10px;background:var(--vt-panel);border:1px solid var(--vt-line);border-radius:18px;padding:16px;margin:18px 0 22px;max-width:760px}
+body.vt .af-form input,body.vt .af-form select{padding:12px 14px;font-size:.98rem;width:100%}
+body.vt .af-form__zeile{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px}
+body.vt .af-form__fuss{display:flex;justify-content:space-between;align-items:center;gap:10px}
+body.vt #afListe{max-width:760px}
+body.vt .af-gruppe{margin-bottom:22px}
+body.vt .af-gruppe__titel{margin:0 0 8px;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--vt-mute)}
+body.vt .af-gruppe__titel span{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:.7rem;margin-left:6px;padding:0 6px;letter-spacing:0}
+body.vt .af-gruppe--spaet .af-gruppe__titel{color:#ff8a4c}
+body.vt .af-gruppe--heute .af-gruppe__titel{color:var(--vt-g2)}
+body.vt .af-zeile{display:flex;gap:12px;align-items:flex-start;background:var(--vt-panel);border:1px solid var(--vt-line);border-radius:14px;padding:12px 12px 12px 14px;margin-bottom:6px;transition:border-color .2s,opacity .2s}
+body.vt .af-zeile:hover{border-color:rgba(255,255,255,.3)}
+body.vt .af-zeile.is-erledigt{opacity:.5}
+body.vt .af-zeile.is-erledigt strong{text-decoration:line-through}
+body.vt .af-haken{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center;font-size:.8rem;margin-top:1px;transition:all .2s}
+body.vt .af-haken:hover{border-color:var(--vt-g)}
+body.vt .is-erledigt .af-haken{background:#3ecf6e;border-color:#3ecf6e}
+body.vt .af-text{flex:1;min-width:0;display:grid;gap:4px}
+body.vt .af-text strong{color:#fff;font-weight:500}
+body.vt .af-meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.8rem;color:var(--vt-mute)}
+body.vt .af-art{font-style:normal;border-radius:999px;padding:1px 8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75)}
+body.vt .af-art--anruf{background:rgba(37,211,102,.14);color:#9be7b0}
+body.vt .af-art--lieferung{background:rgba(66,153,225,.16);color:#9fcdf5}
+body.vt .af-art--vertrieb{background:rgba(232,89,12,.18);color:#ffb38a}
+body.vt .af-art--marketing{background:rgba(180,120,255,.16);color:#d3b8ff}
+body.vt .af-spaet{color:#ff8a4c}
+body.vt .af-kontakt{background:none;border:0;padding:0;color:#fff;text-decoration:underline;cursor:pointer;font:inherit}
+body.vt .af-notiz{font-size:.85rem;color:var(--vt-mute)}
+body.vt .af-weg{flex:none;background:none;border:0;color:rgba(255,255,255,.3);font-size:1.3rem;cursor:pointer;line-height:1}
+body.vt .af-weg:hover{color:#ff8a4c}
+body.vt .af-leer{color:var(--vt-mute)}
+body.vt .af-toggle{padding:8px 16px;font-size:.85rem;margin-bottom:12px}
+body.vt .af-hinweis{color:#ffd58a}
+@media (max-width:600px){body.vt .af-form__zeile{grid-template-columns:1fr 1fr}body.vt .af-form__zeile #afKontakt{grid-column:1/-1}}

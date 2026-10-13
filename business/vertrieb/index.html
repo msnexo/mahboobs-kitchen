@@ -74,6 +74,7 @@
 
     <nav class="tabs" id="bereichTabs">
       <button type="button" class="tabs__btn" data-tab="tabPipeline" aria-selected="true">Pipeline</button>
+      <button type="button" class="tabs__btn" data-tab="tabAufgaben" aria-selected="false">Aufgaben <span class="af-badge" id="afBadge" hidden></span></button>
       <button type="button" class="tabs__btn" data-tab="tabWerbung" aria-selected="false">Werbung</button>
     </nav>
 
@@ -214,6 +215,21 @@
 </div>
       </div>
     </div>
+    </div>
+
+    <div id="tabAufgaben" hidden>
+      <form class="af-form" id="afForm" autocomplete="off">
+        <input id="afTitel" placeholder="Neue Aufgabe, z. B. Fritsche anrufen" maxlength="200" aria-label="Aufgabe">
+        <div class="af-form__zeile">
+          <select id="afArt" aria-label="Art"><option value="anruf">Anruf</option><option value="vertrieb" selected>Vertrieb</option><option value="lieferung">Lieferung</option><option value="marketing">Marketing</option><option value="sonstiges">Sonstiges</option></select>
+          <input type="date" id="afFaellig" aria-label="Fällig am">
+          <input id="afKontakt" list="afKontakte" placeholder="Kunde (optional)" aria-label="Kunde">
+          <datalist id="afKontakte"></datalist>
+        </div>
+        <input id="afNotiz" placeholder="Notiz (optional)" maxlength="500" aria-label="Notiz">
+        <div class="af-form__fuss"><span id="afStatus" class="muted"></span><button type="submit" class="btn btn--primary" id="afSpeichern">+ Aufgabe anlegen</button></div>
+      </form>
+      <div id="afListe"><p class="muted">Wird geladen …</p></div>
     </div>
 
     <div id="tabWerbung" hidden>
@@ -439,5 +455,6 @@
 <script src="/assets/js/business-auth.js" defer></script>
 <script src="/assets/js/business-pipeline.js" defer></script>
 <script src="/assets/js/business-werbung.js" defer></script>
+<script src="/assets/js/business-aufgaben.js" defer></script>
 </body>
 </html>
