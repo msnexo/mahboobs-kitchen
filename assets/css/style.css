@@ -1501,3 +1501,15 @@ p { margin: 0 0 1em; color: var(--color-text-soft); }
 .herkunft { display: inline-block; vertical-align: middle; margin-left: 6px; font-size: 0.7rem; letter-spacing: 0.04em; padding: 2px 9px; border-radius: 100px; background: #efefef; color: #444; white-space: nowrap; }
 .herkunft--web { background: #fff1e8; color: #c2410c; }
 .herkunft-detail { align-self: center; color: var(--color-text, #222); }
+
+/* Handy: unten nichts uebereinander - Cookie-Hinweis zuerst, Chat ueber der Leiste */
+@media (max-width: 720px) {
+  .cookie-banner { z-index: 200; left: 10px; right: 10px; bottom: 66px; padding: 14px 16px; gap: 10px; border: 1px solid rgba(255,255,255,0.12); }
+  .cookie-banner p { font-size: 0.84rem; line-height: 1.45; margin: 0; }
+  .cookie-banner__actions { display: flex; gap: 8px; width: 100%; }
+  .cookie-banner__actions .btn { flex: 1; padding: 10px 12px; font-size: 0.86rem; }
+  body:has(.cookie-banner:not([hidden])) .mkc { display: none !important; }
+  .mkc { right: 14px !important; bottom: 74px !important; }
+  .mkc__bubble { display: none !important; }
+  .mkc__btn { width: 52px; height: 52px; }
+}
