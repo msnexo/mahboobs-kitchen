@@ -24,7 +24,7 @@
       client.from("mk_plan_text").select("*"),
       client.from("mk_kennzahlen").select("*").order("sort").order("created_at"),
       client.from("mk_meilensteine").select("*").order("sort").order("frist", { nullsFirst: false }),
-      client.from("mk_aufgaben").select("id,titel,faellig,erledigt_at,meilenstein_id,created_at"),
+      client.from("mk_aufgaben").select("id,titel,faellig,erledigt_at,meilenstein_id,typ,created_at"),
       client.from("prospects").select("id", { count: "exact", head: true }).not("card_token", "is", null),
       client.from("prospects").select("id", { count: "exact", head: true }).gte("created_at", mo.toISOString()),
       client.from("prospects").select("id", { count: "exact", head: true }).gte("created_at", monat.toISOString()),
@@ -45,9 +45,12 @@
   function zeichnen() {
     var heute = iso(new Date());
     var h = "";
-    // Ziel
-    h += '<section class="pl-box pl-ziel"><div class="pl-kopf"><span class="pl-label">Unser Ziel</span><button type="button" class="pl-mini" data-act="ziel">Bearbeiten</button></div>' +
-      (text.ziel ? '<p class="pl-ziel__satz">' + esc(text.ziel) + "</p>" : '<p class="pl-leer">Noch kein Ziel festgelegt.</p>') + "</section>";
+    // Vision, Etappenziel, Kompass
+    h += '<section class="pl-box pl-ziel"><div class="pl-kopf"><span class="pl-label">Vision</span><button type="button" class="pl-mini" data-act="vision">Bearbeiten</button></div>' +
+      (text.vision ? '<p class="pl-ziel__satz">' + esc(text.vision) + "</p>" : '<p class="pl-leer">Noch keine Vision festgelegt.</p>') +
+      '<div class="pl-kopf pl-kopf--zwei"><span class="pl-label">Etappenziel</span><button type="button" class="pl-mini" data-act="ziel">Bearbeiten</button></div>' +
+      (text.ziel ? '<p class="pl-ziel__etappe">' + esc(text.ziel) + "</p>" : '<p class="pl-leer">Noch kein Etappenziel festgelegt.</p>') +
+      '<div class="pl-kompass"><span class="pl-label">Kompass · bei jeder Aufgabe</span><ul><li>Funktioniert es ohne Rey?</li><li>Klappt es bei 10× so vielen Kunden?</li><li>Ist es als Vorlage, Ablauf oder Automatik festgehalten?</li></ul></div></section>';
     // Kennzahlen
     h += '<section class="pl-box"><div class="pl-kopf"><span class="pl-label">Kennzahlen</span><button type="button" class="pl-mini" data-act="kz-neu">+ Kennzahl</button></div>';
     if (!kennz.length) h += '<p class="pl-leer">Noch keine Kennzahlen. Lege fest, woran wir Erfolg messen.</p>';
@@ -87,10 +90,10 @@
       var vI = iso(von), bI = iso(bis);
       var geplant = aufg.filter(function (a) { return a.faellig && a.faellig >= vI && a.faellig < bI; });
       var erl = aufg.filter(function (a) { return a.erledigt_at && a.erledigt_at.slice(0, 10) >= vI && a.erledigt_at.slice(0, 10) < bI; });
-      wochen.push({ kw: kw(von), g: geplant.length, gd: geplant.filter(function (a) { return a.erledigt_at; }).length, e: erl.length, jetzt: i === 0 });
+      wochen.push({ kw: kw(von), g: geplant.length, gd: geplant.filter(function (a) { return a.erledigt_at; }).length, e: erl.length, sys: erl.filter(function (a) { return a.typ === "system"; }).length, jetzt: i === 0 });
     }
     h += '<section class="pl-box"><div class="pl-kopf"><span class="pl-label">Wochenrückblick</span></div><div class="pl-wochen">' + wochen.map(function (w) {
-      return '<div class="pl-woche' + (w.jetzt ? " is-jetzt" : "") + '"><strong>KW ' + w.kw + (w.jetzt ? " · jetzt" : "") + "</strong><span>" + w.gd + " von " + w.g + " geplanten erledigt</span>" + balken(w.g ? w.gd / w.g * 100 : 0) + "<small>" + w.e + " Aufgaben insgesamt abgehakt</small></div>";
+      return '<div class="pl-woche' + (w.jetzt ? " is-jetzt" : "") + '"><strong>KW ' + w.kw + (w.jetzt ? " · jetzt" : "") + "</strong><span>" + w.gd + " von " + w.g + " geplanten erledigt</span>" + balken(w.g ? w.gd / w.g * 100 : 0) + "<small>" + w.e + " abgehakt, davon " + w.sys + " am System</small></div>";
     }).join("") + "</div></section>";
     $("plWrap").innerHTML = h;
   }
@@ -100,9 +103,9 @@
   function klick(e) {
     var b = e.target.closest("[data-act]"); if (!b) return;
     var act = b.dataset.act, kzEl = b.closest("[data-kz]"), msEl = b.closest("[data-ms]");
-    if (act === "ziel") {
-      var z = prompt("Unser Ziel in einem Satz:", text.ziel || ""); if (z === null) return;
-      speichernText("ziel", z.trim()).then(laden);
+    if (act === "ziel" || act === "vision") {
+      var z = prompt(act === "ziel" ? "Etappenziel (messbar, mit Zahl und Datum):" : "Vision (wohin soll MK langfristig?):", text[act] || ""); if (z === null) return;
+      speichernText(act, z.trim()).then(laden);
     } else if (act === "kz-neu") {
       var t = prompt("Kennzahl, z. B. „Karteninhaber“ oder „Google-Bewertungen“:"); if (!t) return;
       var q = prompt("Woher kommt der Stand?\n1 = selbst eintragen\n2 = Karteninhaber (automatisch)\n3 = Neue Leads diese Woche\n4 = Neue Leads diesen Monat\n5 = Bestellungen über die Karte diesen Monat", "1"); if (q === null) return;

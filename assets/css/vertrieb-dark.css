@@ -180,3 +180,8 @@ body.vt .af-hinweis{color:#ffd58a}
 .vt .pl-woche small{color:rgba(255,255,255,.4)}
 .vt .pl-h2{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#c9a46a;margin:0 0 10px}
 .vt .af-ms{font-size:.75rem;color:#c9a46a}
+.vt .pl-kopf--zwei{margin-top:16px}
+.vt .pl-ziel__etappe{font-size:1rem;line-height:1.45;color:#eee;margin:0}
+.vt .pl-kompass{margin-top:16px;padding-top:12px;border-top:1px solid rgba(201,164,106,.2)}
+.vt .pl-kompass ul{margin:6px 0 0;padding-left:18px;color:rgba(255,255,255,.7);font-size:.86rem;display:grid;gap:2px}
+.vt .af-typ{font-style:normal;font-size:.72rem;padding:2px 8px;border-radius:99px;background:rgba(201,164,106,.18);color:#e8cf98;border:1px solid rgba(201,164,106,.4)}

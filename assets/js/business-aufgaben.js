@@ -66,7 +66,7 @@
     return '<div class="af-zeile' + (a.erledigt_at ? " is-erledigt" : "") + '" data-id="' + a.id + '">' +
       '<button type="button" class="af-haken" data-haken aria-label="' + (a.erledigt_at ? "Wieder öffnen" : "Erledigt") + '">' + (a.erledigt_at ? "✓" : "") + "</button>" +
       '<div class="af-text"><strong>' + esc(a.titel) + "</strong>" +
-      '<span class="af-meta"><em class="af-art af-art--' + a.art + '">' + ARTEN[a.art] + "</em>" +
+      '<span class="af-meta">' + (a.typ === "system" ? '<em class="af-typ">System</em>' : "") + '<em class="af-art af-art--' + a.art + '">' + ARTEN[a.art] + "</em>" +
       (a.faellig ? '<span class="' + (spaet ? "af-spaet" : "") + '">' + datumKurz(a.faellig) + "</span>" : "") +
       (a.prospect_id ? '<button type="button" class="af-kontakt" data-kontakt="' + a.prospect_id + '">' + esc(kontaktName(a.prospect_id)) + " →</button>" : "") +
       (a.meilenstein_id && msName(a.meilenstein_id) ? '<span class="af-ms">◆ ' + esc(msName(a.meilenstein_id)) + "</span>" : "") +
@@ -107,7 +107,7 @@
     var btn = $("afSpeichern"); btn.disabled = true;
     client.from("mk_aufgaben").insert({
       titel: titel, art: $("afArt").value, faellig: $("afFaellig").value || null,
-      prospect_id: k ? k.id : null, meilenstein_id: ($("afMeilenstein") && $("afMeilenstein").value) || null, notiz: $("afNotiz").value.trim() || null
+      prospect_id: k ? k.id : null, typ: $("afTyp").value, meilenstein_id: ($("afMeilenstein") && $("afMeilenstein").value) || null, notiz: $("afNotiz").value.trim() || null
     }).then(function (r) {
       btn.disabled = false;
       if (r.error) { $("afStatus").textContent = "Speichern hat nicht geklappt."; return; }
