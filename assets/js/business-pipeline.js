@@ -640,7 +640,8 @@
       var scrollStand = liste ? liste.scrollTop : 0;
 
       renderBucket(pipelineLeads, "Neue Leads", leads);
-      renderLaterBuckets(pipelineOverdue, overdue);
+      // Alles Ueberfaellige in einer Gruppe statt pro altem Datum
+      renderBucket(pipelineOverdue, "Überfällig", overdue, "bucket--faellig");
       renderBucket(pipelineToday, "Heute", dueToday, "bucket--heute");
       renderBucket(pipelineTomorrow, "Morgen", dueTomorrow);
       renderLaterBuckets(pipelineDates, later);
