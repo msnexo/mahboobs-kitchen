@@ -593,6 +593,23 @@
   .bc-go__txt{display:inline}
   .bc-go svg{width:20px;height:20px}
 }
+/* Kueche als wischbare Kartenreihe (wie Fuer wen / Orte) */
+.kx__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.kx__panels{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;margin:40px calc(-1 * max(20px,(100vw - 1120px)/2)) 0;padding:6px max(20px,calc((100vw - 1120px)/2)) 12px;scroll-padding:0 max(20px,calc((100vw - 1120px)/2));scrollbar-width:none}
+.kx__panels::-webkit-scrollbar{display:none}
+.kx .kx__panel{flex:0 0 min(440px,82vw);aspect-ratio:4/5;min-height:0;scroll-snap-align:start;display:block;border-radius:22px;animation:none}
+.kx .kx__stage{position:absolute;inset:0;aspect-ratio:auto}
+.kx .kx__stage img{animation:none;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.kx .kx__panel:hover .kx__stage img{transform:scale(1.05)}
+.kx .kx__panel::after{display:block;background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.94) 100%)}
+.kx .kx__text{position:absolute;left:0;right:0;bottom:0;top:auto;width:auto;padding:26px;justify-content:flex-end;background:none}
+.kx .kx__text h3{font-size:clamp(1.7rem,2.6vw,2.3rem);margin:8px 0 10px}
+.kx .kx__text p{font-size:.95rem;margin:0 0 14px}
+.kx .kx__text ul{margin:0 0 18px;gap:6px}
+.kx .kx__text li{font-size:.9rem}
+.kx .kx__cta{padding:12px 22px}
+@media (max-width:900px){.kx .kx__panel{display:block;aspect-ratio:3/4}.kx .kx__stage{position:absolute}.kx .kx__text{position:absolute;padding:22px}}
+@media (max-width:700px){.kx__nav{display:none}.kx .kx__text p{display:none}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
@@ -719,11 +736,16 @@
 <section class="kx" id="kueche">
   <div class="sxbg sxbg--right" aria-hidden="true" style="background-image:url('/assets/img/kochtopf.webp');background-position:80% 30%"></div>
   <div class="wrap">
-    <span class="kicker">Die Küche</span>
-    <h2>Angerichtet,<br>um zu beeindrucken.</h2>
-    <div class="kx__tabs" role="tablist" aria-label="Buffet-Art wählen"><button type="button" role="tab" id="kt-warm" aria-controls="kp-warm" aria-selected="true" class="is-on">Warmes Buffet</button><button type="button" role="tab" id="kt-finger" aria-controls="kp-finger" aria-selected="false" tabindex="-1">Fingerfood</button><button type="button" role="tab" id="kt-sushi" aria-controls="kp-sushi" aria-selected="false" tabindex="-1">Sushi-Buffet</button><button type="button" role="tab" id="kt-tafel" aria-controls="kp-tafel" aria-selected="false" tabindex="-1">Festliche Tafel</button></div>
-    <div class="kx__panels"><div class="kx__panel is-on" role="tabpanel" id="kp-warm" aria-labelledby="kt-warm"><div class="kx__stage"><img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="Warmes Buffet in glänzenden Chafing Dishes" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für jede Feier</span><h3>Das warme Buffet</h3><p>Dampfend frisch in eleganten Chafing Dishes – Ihre Gäste bedienen sich, wir halten alles perfekt warm.</p><ul><li>Deutsch, Indisch, Italienisch oder gemischt</li><li>In Chafing Dishes warmgehalten</li><li>Inklusive Aufbau und Abbau</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-finger" aria-labelledby="kt-finger" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/fingerfood-tafel.webp" alt="Weiß eingedeckte Fingerfood-Tafel mit Canapés und Häppchen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für Empfang & Meeting</span><h3>Die Fingerfood-Tafel</h3><p>Kleine Häppchen, großer Eindruck – ideal für Empfänge, Meetings und lockere Runden im Stehen.</p><ul><li>Canapés, Samosas, Bruschetta</li><li>Auf Wunsch mit Ihrem Logo</li><li>Perfekt ab 10 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-sushi" aria-labelledby="kt-sushi" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/sushi-buffet.webp" alt="Sushi-Buffet in Holzschalen mit Maki und Nigiri" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Der Hingucker</span><h3>Das Sushi-Buffet</h3><p>Kunstvoll angerichtet und leicht – das Highlight für Meetings, Jubiläen und besondere Abende.</p><ul><li>Maki, Nigiri und vegetarische Rolls</li><li>Frisch zubereitet am Veranstaltungstag</li><li>Ab 6 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" role="tabpanel" id="kp-tafel" aria-labelledby="kt-tafel" hidden><div class="kx__stage"><img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="Festlich eingedeckte lange Tafel mit Kerzen und Blumen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für große Anlässe</span><h3>Die festliche Tafel</h3><p>Eingedeckt, dekoriert und betreut – für Weihnachtsfeiern, Galas und Jubiläen in unseren Partner-Locations.</p><ul><li>Location, Deko und Service aus einer Hand</li><li>Von 30 bis 400 Gästen</li><li>Persönliche Planung mit Reyyan</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div></div>
-    <p class="kx__note">Frisch gekocht · vegetarisch, vegan und halal möglich · Allergene gekennzeichnet</p>
+    <div class="kx__head">
+      <div><span class="kicker">Die Küche</span>
+      <h2>Angerichtet,<br>um zu beeindrucken.</h2></div>
+      <div class="lx__nav kx__nav">
+        <button type="button" id="kxPrev" aria-label="Zurück"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" id="kxNext" aria-label="Weiter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="kx__panels" id="kxTrack" tabindex="0" aria-label="Buffet-Arten, seitlich wischen"><div class="kx__panel is-on" id="kp-warm"><div class="kx__stage"><img src="/assets/img/buffet-szenen/warmes-buffet.webp" alt="Warmes Buffet in glänzenden Chafing Dishes" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für jede Feier</span><h3>Das warme Buffet</h3><p>Dampfend frisch in eleganten Chafing Dishes – Ihre Gäste bedienen sich, wir halten alles perfekt warm.</p><ul><li>Deutsch, Indisch, Italienisch oder gemischt</li><li>In Chafing Dishes warmgehalten</li><li>Inklusive Aufbau und Abbau</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" id="kp-finger"><div class="kx__stage"><img src="/assets/img/buffet-szenen/fingerfood-tafel.webp" alt="Weiß eingedeckte Fingerfood-Tafel mit Canapés und Häppchen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für Empfang & Meeting</span><h3>Die Fingerfood-Tafel</h3><p>Kleine Häppchen, großer Eindruck – ideal für Empfänge, Meetings und lockere Runden im Stehen.</p><ul><li>Canapés, Samosas, Bruschetta</li><li>Auf Wunsch mit Ihrem Logo</li><li>Perfekt ab 10 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" id="kp-sushi"><div class="kx__stage"><img src="/assets/img/buffet-szenen/sushi-buffet.webp" alt="Sushi-Buffet in Holzschalen mit Maki und Nigiri" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Der Hingucker</span><h3>Das Sushi-Buffet</h3><p>Kunstvoll angerichtet und leicht – das Highlight für Meetings, Jubiläen und besondere Abende.</p><ul><li>Maki, Nigiri und vegetarische Rolls</li><li>Frisch zubereitet am Veranstaltungstag</li><li>Ab 6 Personen</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div><div class="kx__panel" id="kp-tafel"><div class="kx__stage"><img src="/assets/img/buffet-szenen/festliche-tafel.webp" alt="Festlich eingedeckte lange Tafel mit Kerzen und Blumen" loading="lazy"></div><div class="kx__text"><span class="kx__cuisine">Für große Anlässe</span><h3>Die festliche Tafel</h3><p>Eingedeckt, dekoriert und betreut – für Weihnachtsfeiern, Galas und Jubiläen in unseren Partner-Locations.</p><ul><li>Location, Deko und Service aus einer Hand</li><li>Von 30 bis 400 Gästen</li><li>Persönliche Planung mit Reyyan</li></ul><a href="#bcBar" class="kx__cta">Jetzt anfragen</a></div></div></div>
+    <p class="kx__note">Frisch gekocht · vegetarisch, vegan und halal möglich · Allergene auf Anfrage</p>
   </div>
 </section>
 
@@ -1092,10 +1114,7 @@ document.querySelectorAll('.who__go').forEach(function(a){a.addEventListener('cl
  var bar=document.getElementById('bcBar');if(bar){bar.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});setTimeout(function(){btn&&btn.focus({preventScroll:true})},500)}})});
 </script>
 <script>
-(function(){var tabs=[].slice.call(document.querySelectorAll('.kx__tabs [role=tab]'));if(!tabs.length)return;
-function sel(t){tabs.forEach(function(x){var on=x===t;x.classList.toggle('is-on',on);x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on})}
-tabs.forEach(function(t,i){t.onclick=function(){sel(t)};t.onkeydown=function(e){var n=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!n)return;e.preventDefault();var x=tabs[(i+n+tabs.length)%tabs.length];sel(x);x.focus()}});
-document.querySelectorAll('.kx__cta[href="#bcBar"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var bar=document.getElementById('bcBar');if(bar)bar.scrollIntoView({behavior:'smooth',block:'center'})})});})();
+(function(){var t=document.getElementById('kxTrack');if(!t)return;var p=document.getElementById('kxPrev'),n=document.getElementById('kxNext');function st(){var w=t.firstElementChild?t.firstElementChild.offsetWidth+20:400;return w}function upd(){if(!p)return;p.disabled=t.scrollLeft<5;n.disabled=t.scrollLeft+t.clientWidth>=t.scrollWidth-5}if(p){p.onclick=function(){t.scrollBy({left:-st(),behavior:'smooth'})};n.onclick=function(){t.scrollBy({left:st(),behavior:'smooth'})}}t.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
 </script>
 <script>
 (function(){var t=document.getElementById('lxTrack');if(!t)return;var bar=document.getElementById('lxBar'),prev=document.getElementById('lxPrev'),next=document.getElementById('lxNext');
