@@ -560,7 +560,7 @@
       }
       container.innerHTML = prospects.length
         ? prospects.map(function (p) { return renderProspectCard(p, 0, 1); }).join("")
-        : '<p class="muted pl-leer">Noch keine Stammkunden &ndash; sie kommen hierher, sobald die Business Karte zugeschickt ist.</p>';
+        : '<p class="muted pl-leer">Noch keine Stammkunden &ndash; sie kommen hierher, sobald die Black Card zugeschickt ist.</p>';
       Array.prototype.forEach.call(container.querySelectorAll("[data-prospect-id]"), function (card) {
         card.addEventListener("click", function () { openDetail(card.getAttribute("data-prospect-id")); });
       });
@@ -1272,7 +1272,7 @@
           prospect_id: prospect.id,
           contact_date: gespraech,
           notes: (quelle === "Telefon" ? "Telefonat" : "Gespräch vor Ort") + " am " + formatSimpleDate(gespraech) +
-            (einwilligung ? " · Ja zu Business Karte und Angeboten" : "") +
+            (einwilligung ? " · Ja zu Black Card und Angeboten" : "") +
             (notiz ? " · " + notiz : ""),
           next_contact_date: wiedervorlage
         }));
@@ -1466,7 +1466,7 @@
     var bkHinweisFuer = null;     // direkt nach dem Zuschicken die Anleitung zeigen
     var bkGmailBlockiert = false;
     var MAIL_BILD = SEITE + "/assets/img/mail/";
-    var MAIL_BETREFF = "Ihre MK Business Karte \u2013 Mahboobs Kitchen";
+    var MAIL_BETREFF = "Ihre MK Black Card \u2013 Mahboobs Kitchen";
 
     function aktuellerKontakt() {
       return allProspects.filter(function (x) { return x.id === selectedProspectId; })[0];
@@ -1475,7 +1475,7 @@
     function miniKarte(p) {
       return '<div class="mk-card bk-karte">' +
         '<div class="mk-card__top"><img src="/assets/img/logo.webp" alt="" class="mk-card__logo">' +
-        '<span class="mk-card__label">Business Karte</span></div>' +
+        '<span class="mk-card__label">Black Card</span></div>' +
         '<div class="mk-card__number">' + escapeHtml(p.customer_no || "") + "</div>" +
         '<div class="mk-card__bottom"><div><span class="mk-card__field-label">Inhaber</span>' +
         '<div class="mk-card__name">' + escapeHtml(p.name) + "</div></div></div></div>";
@@ -1511,12 +1511,12 @@
         '<tr><td style="padding:18px 20px;' + schrift + 'color:#ffffff;">' +
         '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>' +
         '<td><img src="' + MAIL_BILD + 'logo.png" width="110" alt="Mahboobs Kitchen" style="display:block;width:110px;height:auto;"></td>' +
-        '<td style="text-align:right;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#e8590c;font-weight:bold;' + schrift + '">Business Karte</td>' +
+        '<td style="text-align:right;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#e8590c;font-weight:bold;' + schrift + '">Black Card</td>' +
         "</tr></table>" +
         '<div style="font-size:22px;letter-spacing:3px;margin-top:16px;color:#ffffff;">' + escapeHtml(p.customer_no) + "</div>" +
         '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a9a9a;margin-top:14px;">Inhaber</div>' +
         '<div style="font-size:14px;font-weight:bold;text-transform:uppercase;color:#ffffff;">' + escapeHtml(p.name) + "</div>" +
-        '<div style="margin-top:14px;">' + knopf(karteLink(p.card_token), "Business Karte \u00f6ffnen") + "</div>" +
+        '<div style="margin-top:14px;">' + knopf(karteLink(p.card_token), "Black Card \u00f6ffnen") + "</div>" +
         "</td></tr></table>";
       return "<div>" + visitenkarte +
         '<div style="height:12px;line-height:12px;font-size:12px;">&nbsp;</div>' + businesskarte +
@@ -1530,7 +1530,7 @@
         "Meine Visitenkarte:",
         KARTE_URL,
         "",
-        "Ihre MK Business Karte (" + p.customer_no + "):",
+        "Ihre MK Black Card (" + p.customer_no + "):",
         karteLink(p.card_token),
         "",
         "Wie besprochen informieren wir Sie ab jetzt \u00fcber unsere Angebote. " +
@@ -1666,10 +1666,10 @@
       var zugestimmt = currentPeople.filter(function (pe) { return pe.marketing_consent; })[0];
       bkInhalt.innerHTML =
         (zugestimmt
-          ? '<p class="bk-ok">\u2713 Ja zu Business Karte und Angeboten' +
+          ? '<p class="bk-ok">\u2713 Ja zu Black Card und Angeboten' +
             (zugestimmt.consent_at ? " \u2013 am " + escapeHtml(formatDateOnly(zugestimmt.consent_at)) : "") + "</p>"
           : '<div class="bk-zustimmung">' +
-            '<label><input type="checkbox" id="bkZustimmung"> Hat im Gespr\u00e4ch Ja gesagt zu Business Karte und Angeboten</label>' +
+            '<label><input type="checkbox" id="bkZustimmung"> Hat im Gespr\u00e4ch Ja gesagt zu Black Card und Angeboten</label>' +
             '<span>am <input type="date" id="bkZustimmungDatum" autocomplete="off" value="' +
             escapeHtml(p.conversation_date || heuteLokal()) + '"></span></div>') +
         (empfaenger.length > 1
@@ -1688,7 +1688,7 @@
 
       function person() { return empfaenger[auswahl ? +auswahl.value : 0] || empfaenger[0]; }
       function beschriften() {
-        knopf.textContent = person().email ? "Business Karte zuschicken" : "Business Karte per WhatsApp zuschicken";
+        knopf.textContent = person().email ? "Black Card zuschicken" : "Black Card per WhatsApp zuschicken";
       }
       beschriften();
       if (auswahl) auswahl.addEventListener("change", beschriften);
@@ -1742,7 +1742,7 @@
           return client.from("prospect_contacts").insert({
             prospect_id: p.id,
             contact_date: todayISO(),
-            notes: "Visitenkarte und Business Karte zugeschickt \u00b7 " + p.customer_no +
+            notes: "Visitenkarte und Black Card zugeschickt \u00b7 " + p.customer_no +
               " \u00b7 per " + weg + " an " + pe.name +
               (zustimmungAm ? " \u00b7 Ja zu Angeboten im Gespr\u00e4ch am " + formatSimpleDate(zustimmungAm) : "")
           });

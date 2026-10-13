@@ -1,0 +1,80 @@
+/* Vertrieb im neuen Design (schwarz, Inter, weisse Pillen-Knoepfe).
+   Nur Optik - alle Funktionen bleiben unveraendert. Gilt fuer body.vt */
+body.vt{
+  --color-bg:#000;--color-bg-soft:#141414;--color-bg-dark:#0d0d0d;
+  --color-text:#f3efe6;--color-text-soft:rgba(243,239,230,.62);--color-text-light:#f3efe6;
+  --color-border:rgba(255,255,255,.12);--shadow:none;
+  --ff-head:"Inter","Segoe UI",Arial,sans-serif;
+  --vt-panel:#0d0d0d;--vt-panel2:#141414;--vt-line:rgba(255,255,255,.1);--vt-g:#e8590c;--vt-g2:#ff8a4c;--vt-mute:rgba(243,239,230,.6);
+  background:#000;color:#f3efe6;font-family:"Inter","Segoe UI",Arial,sans-serif;color-scheme:dark}
+body.vt .section{background:#000}
+body.vt h1,body.vt h2,body.vt h3,body.vt h4{font-family:"Inter","Segoe UI",Arial,sans-serif;color:#fff;font-weight:500;letter-spacing:-.02em}
+body.vt h4{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--vt-g);font-weight:600}
+body.vt .muted,body.vt .field-label,body.vt .zeile2{color:var(--vt-mute)!important}
+body.vt a{color:inherit}
+
+/* Knoepfe */
+body.vt .btn{font-family:inherit;font-weight:500;border-radius:999px;box-shadow:none!important;letter-spacing:0;transition:background .2s,color .2s,border-color .2s}
+body.vt .btn--primary{background:#fff;color:#111;border:1px solid #fff}
+body.vt .btn--primary:hover,body.vt .btn--primary:focus-visible{background:var(--vt-g);border-color:var(--vt-g);color:#fff}
+body.vt .btn--dark,body.vt .btn--ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
+body.vt .btn--dark:hover,body.vt .btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+body.vt .btn--whatsapp{background:transparent;color:#bff5d3;border:1px solid rgba(37,211,102,.55)}
+body.vt .btn--whatsapp:hover{background:rgba(37,211,102,.12)}
+
+/* Felder */
+body.vt input,body.vt textarea,body.vt select{background:transparent!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:12px!important;color-scheme:dark;font-family:inherit}
+body.vt input::placeholder,body.vt textarea::placeholder{color:rgba(255,255,255,.4)}
+body.vt input:focus,body.vt textarea:focus,body.vt select:focus{border-color:rgba(255,255,255,.6)!important;outline:none}
+body.vt select option{background:#141414;color:#fff}
+body.vt input[type=checkbox],body.vt input[type=radio]{accent-color:var(--vt-g)}
+
+/* Reiter */
+body.vt .tabs{border-bottom:1px solid var(--vt-line)}
+body.vt .tabs__btn{color:var(--vt-mute);background:transparent;font-family:inherit}
+body.vt .tabs__btn[aria-selected=true]{color:#fff;border-color:var(--vt-g)}
+
+/* Karten, Panels, Modale */
+body.vt .card,body.vt .prospect-card,body.vt .lead-form,body.vt .modal-box,body.vt .dk-block,body.vt .wb-block,body.vt .bk-block,body.vt .wb-angebot,body.vt .dk-person,body.vt .dk-neueperson,body.vt .work-detail{background:var(--vt-panel)!important;color:#f3efe6;border-color:var(--vt-line)!important;box-shadow:none!important}
+body.vt .prospect-card{border:1px solid var(--vt-line)!important;border-radius:16px!important;transition:border-color .2s}
+body.vt .prospect-card:hover{border-color:rgba(255,255,255,.35)!important}
+body.vt .prospect-card strong{color:#fff}
+body.vt .work-log .lead-form,body.vt #logZone{background:transparent!important;border:0!important}
+body.vt .modal-overlay{background:rgba(0,0,0,.78)!important;backdrop-filter:blur(4px)}
+body.vt .modal-close{color:#bbb}
+body.vt .dk-kopf,body.vt .wb-kopf{color:var(--vt-g)!important}
+body.vt .dk-titel h3{color:#fff}
+body.vt .dk-mini,body.vt .dk-mini-btn,body.vt .dk-knopf{background:var(--vt-panel2)!important;color:#fff!important;border-color:var(--vt-line)!important}
+body.vt .dk-knopf--primaer{background:#fff!important;color:#111!important}
+body.vt .dk-knopf--loeschen{color:#ff8a4c!important}
+body.vt .work-detail__leer{color:var(--vt-mute);border:1px dashed var(--vt-line);border-radius:16px}
+
+/* Bereichs-Balken und Gruppen */
+body.vt .pl-bereich{background:var(--vt-panel2)!important;color:#fff!important;border:1px solid var(--vt-line);border-radius:14px}
+body.vt .pl-bereich--stamm{background:linear-gradient(100deg,rgba(232,89,12,.28),rgba(232,89,12,.06))!important;border-color:rgba(232,89,12,.45)}
+body.vt .pl-bereich__zahl,body.vt .bucket__zahl{background:rgba(255,255,255,.12)!important;color:#fff!important}
+body.vt details.bucket>summary{color:var(--vt-g2)}
+body.vt .bucket{border-color:var(--vt-line)!important}
+
+/* Pillen */
+body.vt .kundennr{background:#fff;color:#111}
+body.vt .herkunft{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+body.vt .herkunft--web{background:rgba(232,89,12,.2);color:#ffb38a}
+body.vt .termin-vorbei{color:#ff8a4c}
+
+/* Login-Overlay der PIN */
+body.vt #pipelineLoginOverlay .modal-box h2,body.vt #pipelineLoginOverlay h3{color:#fff}
+
+/* Handy */
+@media (max-width:760px){body.vt .container{padding-left:14px;padding-right:14px}}
+
+/* Vertrieb ist ein Werkzeug: Website-Kopf, -Fuss und Kundenleiste ausblenden (auch Handy) */
+body.vt #siteHeader,body.vt .site-footer,body.vt .sticky-cta,body.vt .cookie-banner{display:none!important}
+body.vt{padding-bottom:0!important}
+body.vt .section{padding-top:22px!important}
+body.vt .eyebrow{color:var(--vt-g)}
+@media (max-width:600px){
+  body.vt .dk-felder{grid-template-columns:1fr!important;gap:4px 0!important}
+  body.vt .dk-felder>label,body.vt .dk-felder>.dk-label-fix{margin-top:10px}
+  body.vt .modal-box{padding:22px 16px!important}
+}

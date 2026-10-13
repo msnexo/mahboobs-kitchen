@@ -96,7 +96,7 @@
       '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>' +
       '<td><img src="' + SEITE + '/assets/img/mail/logo.png" width="120" alt="Mahboobs Kitchen" style="display:block;width:120px;height:auto;"></td>' +
       '<td align="right" style="' + f + 'font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#e8590c;font-weight:bold;">' +
-      'MK Business Karte<br><span style="color:#9a9a9a;letter-spacing:2px;">{{params.nummer}}</span></td>' +
+      'MK Black Card<br><span style="color:#9a9a9a;letter-spacing:2px;">{{params.nummer}}</span></td>' +
       "</tr></table></td></tr>" +
       '<tr><td style="padding:28px 28px 22px;' + f + 'font-size:16px;line-height:1.55;color:#161616;">' +
       "{{params.anrede}},<br><br>" + mailEsc(einleitung).replace(/\n/g, "<br>") + "</td></tr>" +
@@ -107,7 +107,7 @@
       "</table>" +
       '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">' +
       '<tr><td style="padding:16px 28px;' + f + 'font-size:11px;line-height:1.6;color:#9a9a9a;text-align:center;">' +
-      "Sie erhalten diese E-Mail als Inhaber der MK Business Karte. " +
+      "Sie erhalten diese E-Mail als Inhaber der MK Black Card. " +
       '<a href="{{params.abmelden}}" style="color:#9a9a9a;">Keine Angebote mehr erhalten</a><br>' +
       'Mahboobs Kitchen &middot; Henstedter Str. 4 &middot; 24558 Wakendorf II &middot; ' +
       '<a href="' + SEITE + '/impressum/" style="color:#9a9a9a;">Impressum</a></td></tr></table>' +
@@ -230,7 +230,7 @@
     function zeichneAngebote() {
       var liste = $("wbAngebotListe");
       if (!angebote.length) {
-        liste.innerHTML = '<p class="muted wb-leer">Noch keine Angebote. Leg oben das erste an &ndash; es erscheint sofort auf allen Business Karten.</p>';
+        liste.innerHTML = '<p class="muted wb-leer">Noch keine Angebote. Leg oben das erste an &ndash; es erscheint sofort auf allen Black Cards.</p>';
         return;
       }
       liste.innerHTML = '<div class="wb-angebote">' + angebote.map(function (a) {
@@ -338,7 +338,7 @@
         return client.from("offers").insert(daten);
       }).then(function (res) {
         if (res && res.error) throw res.error;
-        meldung(st, warBearbeitung ? "Gespeichert ✓" : "Das Angebot ist jetzt auf allen Business Karten ✓", "ok");
+        meldung(st, warBearbeitung ? "Gespeichert ✓" : "Das Angebot ist jetzt auf allen Black Cards ✓", "ok");
         formularLeeren();
         return laden();
       }).catch(function (err) {
