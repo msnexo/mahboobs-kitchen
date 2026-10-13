@@ -70,6 +70,15 @@ body.mkd{--ff-head:"Inter","Segoe UI",Arial,sans-serif;--mkd-mute:rgba(243,239,2
 /* Fehler/Laden */
 .mkd .mk-meinekarte__fehler h1,.mkd .mk-meinekarte__laden{color:#fff}
 </style>
+<style>
+/* Herbstblaetter beim Laden (Sep-Nov) */
+.hb{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden;transition:opacity 1.2s}
+.hb.is-weg{opacity:0}
+.hb i{position:absolute;top:-40px;left:var(--x);width:var(--g);height:var(--g);color:var(--f);opacity:var(--o);animation:hbFall var(--d) cubic-bezier(.4,.1,.6,1) var(--v) forwards}
+.hb i svg{width:100%;height:100%;display:block;animation:hbPendel var(--p) ease-in-out infinite alternate;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+@keyframes hbFall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--dx),calc(100vh + 80px)) rotate(var(--r))}}
+@keyframes hbPendel{from{transform:rotate(-18deg) translateX(-8px)}to{transform:rotate(18deg) translateX(8px)}}
+</style>
 </head>
 <body class="mkd" data-ga-id="G-E06KML0D74">
 <div class="cookie-banner" id="cookieBanner" hidden>
@@ -459,6 +468,19 @@ document.getElementById('mkTeilenNativ').onclick=function(){navigator.share({tit
 document.getElementById('mkTeilenKopie').onclick=function(){var b=this;function ok(){b.textContent='Kopiert ✓';setTimeout(function(){b.textContent='Link kopieren'},1800)}
  if(navigator.clipboard)navigator.clipboard.writeText(link).then(ok,function(){prompt('Link kopieren:',link)});else prompt('Link kopieren:',link)};
 })();
+</script>
+<script>
+(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var gross=innerWidth>720;
+var m=new Date().getMonth();if(m<8||m>10)return;
+var F=['<path d="M12 1.5 13.9 6l3.1-1.6-.6 4.4 4.1-1-1.9 3.6 3.4 1.5-3.9 1.8 1 2.5-4-.8-.5 2.2-2.4-2.3.2 5.7h-1.8l.2-5.7-2.4 2.3-.5-2.2-4 .8 1-2.5-3.9-1.8 3.4-1.5L3.7 7.8l4.1 1-.6-4.4L10.1 6Z"/>','<path d="M20 4C11 4 5 9 4 19c0 .6.4 1 1 1 10-1 15-7 15-16Z"/>'];
+var C=['#d9480f','#e8590c','#f08c00','#c92a2a','#a0522d','#f59f00'];
+function z(a,b){return a+Math.random()*(b-a)}
+var h=document.createElement('div');h.className='hb';h.setAttribute('aria-hidden','true');
+for(var i=0,n=gross?52:28;i<n;i++){var b=document.createElement('i');var d=z(6,9);
+b.style.cssText='--x:'+z(0,94).toFixed(1)+'%;--g:'+Math.round(gross?z(22,42):z(18,34))+'px;--f:'+C[i%C.length]+';--o:'+z(.7,.95).toFixed(2)+';--d:'+d.toFixed(1)+'s;--v:'+Math.max(0,i/n*8.5-1.5+z(-.3,.3)).toFixed(1)+'s;--dx:'+Math.round(gross?z(-160,160):z(-90,90))+'px;--r:'+(Math.round(z(200,520))*(Math.random()<.5?-1:1))+'deg;--p:'+z(1.4,2.4).toFixed(1)+'s';
+b.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor">'+F[i%2]+'</svg>';h.appendChild(b)}
+document.body.appendChild(h);
+setTimeout(function(){h.classList.add('is-weg')},10500);setTimeout(function(){h.remove()},12000);})();
 </script>
 </body>
 </html>
