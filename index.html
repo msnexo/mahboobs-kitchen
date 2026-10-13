@@ -571,6 +571,27 @@
   .bc-hero__video{inset:0 0 auto 0;height:118vw;max-height:62svh;object-position:50% 50%;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}
   .bc-hero__shade{inset:0 0 auto 0;height:118vw;max-height:62svh;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.25) 45%,rgba(0,0,0,.85))}
 }
+.bc-kurz,.bc-go__txt{display:none}
+@media (max-width:760px){
+  .bc-bar{margin-top:26px}
+  .bc-bar__top{flex-direction:column;gap:10px;margin-bottom:0}
+  .bc-seg{display:grid;grid-template-columns:repeat(3,1fr);flex-wrap:nowrap;border-radius:999px;padding:4px;width:100%;box-sizing:border-box}
+  .bc-seg button{padding:10px 4px;font-size:.92rem;white-space:nowrap}
+  .bc-lang{display:none}.bc-kurz{display:inline}
+  .bc-count{border-radius:16px 16px 0 0;padding:14px 16px 14px 20px;justify-content:space-between;background:rgba(10,10,10,.92);border-bottom:1px solid rgba(255,255,255,.1)}
+  .bc-count span{order:-1;margin-right:auto;font-size:.8rem;color:rgba(255,255,255,.6)}
+  .bc-count button{width:38px;height:38px}
+  .bc-count input{font-size:1.15rem}
+  .bc-bar__fields{border-radius:0 0 16px 16px;background:rgba(10,10,10,.92);padding:0 0 14px}
+  .bc-field{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .bc-field span{font-size:.78rem}
+  .bc-field input,.bc-field--date>button,.bc-field--pick>button{font-size:1.05rem}
+  .bc-field--date>button{display:flex;justify-content:space-between;align-items:center;width:100%}
+  .bc-field--date>button::after{content:"";width:8px;height:8px;border-right:1.5px solid rgba(255,255,255,.7);border-top:1.5px solid rgba(255,255,255,.7);transform:rotate(45deg)}
+  .bc-go{margin:14px 14px 0;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:500;font-size:1.05rem}
+  .bc-go__txt{display:inline}
+  .bc-go svg{width:20px;height:20px}
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
@@ -623,9 +644,9 @@
   <form class="bc-bar" id="bcBar" aria-label="Schnellanfrage">
     <div class="bc-bar__top">
       <div class="bc-seg" role="group" aria-label="Wo wird gefeiert?">
-        <button type="button" class="is-on" data-where="In eigenen Räumen (wir liefern hin)">In eigenen Räumen feiern</button>
-        <button type="button" data-where="Location + Essen gesucht">Location + Essen</button>
-        <button type="button" data-where="Weiß noch nicht">Weiß noch nicht</button>
+        <button type="button" class="is-on" data-where="In eigenen Räumen (wir liefern hin)"><span class="bc-lang">In eigenen Räumen feiern</span><span class="bc-kurz">Eigene Räume</span></button>
+        <button type="button" data-where="Location + Essen gesucht"><span class="bc-lang">Location + Essen</span><span class="bc-kurz">Mit Location</span></button>
+        <button type="button" data-where="Weiß noch nicht"><span class="bc-lang">Weiß noch nicht</span><span class="bc-kurz">Noch offen</span></button>
       </div>
       <div class="bc-count" role="group" aria-label="Personen">
         <button type="button" id="bcMinus" aria-label="Weniger Personen">−</button>
@@ -646,7 +667,7 @@
           <div class="bc-cal__months" id="bcMonths"></div>
         </div></div>
       <label class="bc-field"><span>Gastgeber</span><input type="text" id="bcFirma" placeholder="Firma, Verein oder Ihr Name" autocomplete="organization"></label>
-      <button type="submit" class="bc-go" aria-label="Weiter zur Anfrage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button type="submit" class="bc-go" aria-label="Weiter zur Anfrage"><span class="bc-go__txt">Weiter</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </form>
 </section>
