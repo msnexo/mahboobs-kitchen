@@ -938,6 +938,22 @@
   }
   $("kxNochmal").addEventListener("click", function () { geh("start", true); });
 
+  // Kategorie-Leisten mit der Maus ziehen (am Handy wischt man ohnehin)
+  function ziehbar(el) {
+    if (!el) return;
+    var start = null, x0 = 0, s0 = 0, bewegt = false;
+    el.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") return; start = true; bewegt = false; x0 = e.clientX; s0 = el.scrollLeft; });
+    window.addEventListener("pointermove", function (e) {
+      if (!start) return; var dx = e.clientX - x0;
+      if (Math.abs(dx) > 5) { bewegt = true; el.classList.add("is-drag"); }
+      if (bewegt) el.scrollLeft = s0 - dx;
+    });
+    window.addEventListener("pointerup", function () { if (!start) return; start = null; setTimeout(function () { el.classList.remove("is-drag"); }, 0); });
+    function ende() { el.classList.toggle("is-ende", el.scrollLeft + el.clientWidth >= el.scrollWidth - 4); }
+    el.addEventListener("scroll", ende, { passive: true }); window.addEventListener("resize", ende); setTimeout(ende, 300);
+  }
+  ziehbar($("kxKats"));
+
   // ---------- Laden ----------
   client.rpc("business_karte_anzeigen", { p_token: schluessel }).then(function (res) {
     if (res.error || !res.data || !res.data.kundennummer) throw res.error || new Error("nicht gefunden");

@@ -438,3 +438,11 @@ body>.kx-dlg h3{color:#fff;font-weight:500;letter-spacing:-.02em}
   .kx-summe__z b{max-width:62%}
   .kx-menue-gaeste{flex-wrap:wrap}
 }
+
+/* Kategorie-Leisten: rechts weich auslaufen (zeigt: da kommt noch mehr), mit Maus ziehbar */
+@media (max-width:860px){
+  #kxKats{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  #kxKats.is-ende{-webkit-mask-image:none;mask-image:none}
+}
+.kx-chips.is-drag{cursor:grabbing;scroll-snap-type:none}
+.kx-chips.is-drag .kx-chip{pointer-events:none}
