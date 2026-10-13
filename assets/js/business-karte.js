@@ -252,7 +252,7 @@
   function flagge(g) { var l = g.land || land(g); return l ? '<span class="kx-flagge" title="' + LANDNAME[l] + '">' + FLAGGE[l] + "</span>" : ""; }
 
   var PAKETE = [
-    { key: "pizza", name: "Pizza-Runde", preis: 12.9, statt: 14.5, bild: "margherita", text: "Pizzen Ø 30 cm (1 Pizza für 2 Personen), Knoblauchbrot, Rucola-Salat",
+    { key: "pizza", name: "Pizza-Runde", preis: 12.9, statt: 14.5, bild: "margherita", text: "Pizzen Ø 32 cm (1 Pizza für 2 Personen), Knoblauchbrot, Rucola-Salat",
       wahl: { min: 1, max: 4, titel: "Welche Pizzen?", hilfe: "bis zu 4 Sorten", optionen: ["Margherita", "Salami", "Schinken", "Funghi", "Hawaii", "Tonno", "BBQ Chicken", "Green Garden"] } },
     { key: "pasta", name: "Pasta-Runde", preis: 16.9, statt: 18.9, bild: "carbonara", text: "2 Pastagerichte, Rucola-Salat, Knoblauchbrot",
       wahl: { min: 2, max: 2, titel: "Welche 2 Pastagerichte?", hilfe: "genau 2", optionen: ["Pasta Bolognese", "Pasta Milano", "Pasta Venezia", "Pasta Roma", "Pasta Supreme"] } },
@@ -330,7 +330,7 @@
 
   var K = {};          // Kartendaten
   var S = {            // Zustand
-    modus: "einzeln", kat: "top", menge: {}, paket: null, personen: 10, suess: false, wahl: [],
+    modus: "einzeln", kat: "top", menge: {}, pk: {}, suess: false,
     tag: null, zeit: null, notiz: "",
     f: { anlass: "", datum: "", offen: false, personen: 30, wo: "", kueche: [], nachricht: "", plan: "", menu: [] }
   };
@@ -394,7 +394,7 @@
       if (!w.n) return "Bitte zuerst ein Gericht mit + auswählen.";
       return "Mindestbestellwert für die Lieferung: " + MINDEST + " € – es fehlen noch " + euro(MINDEST - w.summe) + ".";
     }
-    if (aktuell === "essen") { var p = paketObj(); if (!p) return "Bitte zuerst ein Paket wählen."; if (p.wahl) return "Bitte noch wählen: " + p.wahl.titel; return "Bitte mindestens 5 Personen angeben."; }
+    if (aktuell === "essen") return paketFehlt() || "Bitte die Angaben vervollständigen.";
     if (aktuell === "liefern") return "Bitte noch einen Liefertag und eine Uhrzeit wählen.";
     if (aktuell === "menue") return S.f.menu.length ? "Bitte mindestens ein Hauptgericht wählen." : "Bitte zuerst Gerichte antippen.";
     return "Bitte die Angaben oben vervollständigen.";
@@ -409,15 +409,21 @@
     return { n: n, summe: s, liste: liste };
   }
   function ersparnisEinzeln() { var e = 0; GERICHTE.forEach(function (g) { var m = S.menge[g.name] || 0; if (m && g.statt) e += m * (g.statt - g.preis); }); return Math.round(e * 100) / 100; }
-  function ersparnisPaket() { var p = paketObj(); return p ? Math.round(S.personen * (p.statt - p.preis) * 100) / 100 : 0; }
   function ersparnisBuffet() { var p = buffetPreis(), n = Math.round(p * BUFFET_NORMAL / BUFFET * 10) / 10; return Math.round((n - p) * (S.f.personen || 0) * 100) / 100; }
   function sparText(e) { return e > 0 ? " · Sie sparen " + euro(e) : ""; }
-  function paketObj() { return PAKETE.filter(function (p) { return p.key === S.paket; })[0] || null; }
-  function paketSumme() { var p = paketObj(); return p ? S.personen * (p.preis + (S.suess ? SUESS : 0)) : 0; }
-  function paketOk() {
-    var p = paketObj(); if (!p || S.personen < 5) return false;
-    return !p.wahl || (S.wahl.length >= p.wahl.min && S.wahl.length <= p.wahl.max);
+  // Team-Pakete: mehrere kombinierbar, je Paket eigene Personenzahl (0 = nicht gewaehlt)
+  function gewaehltePakete() { return PAKETE.filter(function (p) { return S.pk[p.key] && S.pk[p.key].n > 0; }); }
+  function paketPersonen() { return gewaehltePakete().reduce(function (a, p) { return a + S.pk[p.key].n; }, 0); }
+  function paketSumme() { return gewaehltePakete().reduce(function (a, p) { return a + S.pk[p.key].n * p.preis; }, 0) + (S.suess ? paketPersonen() * SUESS : 0); }
+  function ersparnisPaket() { return Math.round(gewaehltePakete().reduce(function (a, p) { return a + S.pk[p.key].n * (p.statt - p.preis); }, 0) * 100) / 100; }
+  function paketFehlt() {
+    var g = gewaehltePakete(); if (!g.length) return "Bitte bei einem Paket die Personenzahl wählen.";
+    for (var i = 0; i < g.length; i++) { var p = g[i], w = S.pk[p.key].wahl || [];
+      if (p.wahl && (w.length < p.wahl.min || w.length > p.wahl.max)) return p.name + ": bitte noch wählen – " + p.wahl.titel; }
+    return "";
   }
+  function paketOk() { return !paketFehlt(); }
+  function paketListe() { return gewaehltePakete().map(function (p) { var w = S.pk[p.key].wahl || []; return p.name + " für " + S.pk[p.key].n + " Pers." + (w.length ? " (" + w.join(", ") + ")" : ""); }); }
 
   function leiste() {
     barFehler("");
@@ -430,15 +436,15 @@
           fehlt > 0 ? "Noch " + euro(fehlt) + " bis zur Lieferung" + sparText(ersparnisEinzeln()) : "Lieferung inklusive" + sparText(ersparnisEinzeln()),
           "Weiter", fehlt <= 0, function () { geh("liefern"); });
       } else {
-        var p = paketObj();
-        if (!p) return setBar(true, "Paket wählen", "Ab 5 Personen · bis zum Vortag bestellen", "Weiter", false);
-        var ok = paketOk();
-        setBar(true, p.name + " · " + S.personen + " Pers. · " + euro(paketSumme()),
-          ok ? euro(p.preis + (S.suess ? SUESS : 0)) + " pro Person" + sparText(ersparnisPaket()) : (p.wahl ? "Bitte noch wählen: " + p.wahl.titel.replace("?", "") : ""),
+        var g = gewaehltePakete();
+        if (!g.length) return setBar(true, "Pakete wählen", "Personenzahl beim Paket wählen · bis zum Vortag bestellen", "Weiter", false);
+        var ok = paketOk(), np = paketPersonen();
+        setBar(true, (g.length === 1 ? g[0].name : g.length + " Pakete") + " · " + np + " Pers. · " + euro(paketSumme()),
+          ok ? (S.suess ? "inkl. Süßes" : "Bis zum Vortag bestellen") + sparText(ersparnisPaket()) : paketFehlt(),
           "Weiter", ok, function () { geh("liefern"); });
       }
     } else if (aktuell === "liefern") {
-      var titel = S.modus === "einzeln" ? warenkorb().n + " Gerichte · " + euro(warenkorb().summe) : (paketObj().name + " · " + S.personen + " Pers. · " + euro(paketSumme()));
+      var titel = S.modus === "einzeln" ? warenkorb().n + " Gerichte · " + euro(warenkorb().summe) : (paketListe().join(", ") + " · " + euro(paketSumme()));
       setBar(true, titel, S.tag && S.zeit ? tagLang(S.tag) + " · " + S.zeit + " Uhr" : "Tag und Uhrzeit wählen", "Jetzt bestellen", !!(S.tag && S.zeit), bestellen);
     } else if (aktuell === "feier2") {
       var datumOk = !!(S.f.datum || S.f.offen);
@@ -523,7 +529,7 @@
     $("kxWiederText").textContent = letzte.text;
     $("kxWiederBtn").onclick = function () {
       if (letzte.modus === "einzeln") { S.modus = "einzeln"; S.menge = JSON.parse(JSON.stringify(letzte.menge || {})); }
-      else { S.modus = "paket"; S.paket = letzte.paket; S.personen = letzte.personen || 10; S.suess = !!letzte.suess; S.wahl = (letzte.wahl || []).slice(); }
+      else { S.modus = "paket"; S.pk = JSON.parse(JSON.stringify(letzte.pk || {})); S.suess = !!letzte.suess; }
       essenStart(true);
     };
   }
@@ -624,41 +630,44 @@
 
   function pakete() {
     $("kxPakete").innerHTML = PAKETE.map(function (p, i) {
-      return '<button type="button" class="kx-paket' + (S.paket === p.key ? " is-on" : "") + '" data-paket="' + p.key + '" style="animation-delay:' + (i * 0.05) + 's">' +
+      var e = S.pk[p.key] || { n: 0, wahl: [] }, an = e.n > 0, w = e.wahl || [];
+      return '<div class="kx-paket' + (an ? " is-on" : "") + '" data-paket="' + p.key + '" style="animation-delay:' + (i * 0.05) + 's">' +
         '<img src="/assets/img/mittag/' + p.bild + '.webp" alt="" loading="lazy">' +
         "<strong>" + p.name + "</strong><small>" + esc(p.text) + "</small>" +
-        '<span class="kx-preis">' + euro(p.preis) + " p. P.<s>" + euro(p.statt) + "</s></span></button>";
+        '<div class="kx-paket__unten"><span class="kx-preis">' + euro(p.preis) + " p. P.<s>" + euro(p.statt) + "</s></span>" +
+        '<span class="kx-menge"><button type="button" data-pd="-1" aria-label="' + p.name + ' weniger Personen">−</button><output>' + e.n + '</output><button type="button" class="kx-plus" data-pd="1" aria-label="' + p.name + ' mehr Personen">+</button></span></div>' +
+        (an ? '<span class="kx-paket__pers">' + e.n + " Personen</span>" : "") +
+        (an && p.wahl ? '<div class="kx-paket__wahl"><p class="kx-unterfrage" style="margin:6px 0 8px">' + esc(p.wahl.titel) + (p.wahl.hilfe ? "<small>" + esc(p.wahl.hilfe) + "</small>" : "") + "</p>" +
+          '<div class="kx-chips" style="flex-wrap:wrap;overflow:visible;margin:0;padding:0">' + p.wahl.optionen.map(function (o) {
+            return '<button type="button" class="kx-chip' + (w.indexOf(o) > -1 ? " is-on" : "") + '" data-wahl="' + esc(o) + '">' + esc(o) + "</button>";
+          }).join("") + "</div></div>" : "") +
+        "</div>";
     }).join("");
-    paketWahl();
-    $("kxPersonen").value = S.personen;
     $("kxSuess").checked = S.suess;
   }
   $("kxPakete").addEventListener("click", function (e) {
-    var b = e.target.closest("[data-paket]"); if (!b) return;
-    if (S.paket !== b.dataset.paket) S.wahl = [];
-    S.paket = b.dataset.paket;
-    Array.prototype.forEach.call($("kxPakete").children, function (x) { x.classList.toggle("is-on", x === b); });
-    paketWahl(); leiste(); bump();
-    $("kxPaketDetails").hidden = false;
-    setTimeout(function () { $("kxPaketDetails").scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "center" }); }, 150);
-  });
-  function paketWahl() {
-    var p = paketObj();
-    $("kxPaketDetails").hidden = !p;
-    if (!p || !p.wahl) { $("kxWahlBox").innerHTML = ""; return; }
-    $("kxWahlBox").innerHTML = '<p class="kx-unterfrage">' + esc(p.wahl.titel) + (p.wahl.hilfe ? "<small>" + esc(p.wahl.hilfe) + "</small>" : "") + "</p>" +
-      '<div class="kx-chips" style="flex-wrap:wrap;overflow:visible;margin:0;padding:0">' + p.wahl.optionen.map(function (o) {
-        return '<button type="button" class="kx-chip' + (S.wahl.indexOf(o) > -1 ? " is-on" : "") + '" data-wahl="' + esc(o) + '">' + esc(o) + "</button>";
-      }).join("") + "</div>";
-  }
-  $("kxWahlBox").addEventListener("click", function (e) {
-    var b = e.target.closest("[data-wahl]"); if (!b) return;
-    var p = paketObj(), o = b.dataset.wahl, i = S.wahl.indexOf(o);
-    if (p.wahl.max === 1) S.wahl = [o];
-    else if (i > -1) S.wahl.splice(i, 1);
-    else if (S.wahl.length < p.wahl.max) S.wahl.push(o);
-    else { S.wahl.shift(); S.wahl.push(o); }
-    paketWahl(); leiste();
+    var karte = e.target.closest("[data-paket]"); if (!karte) return;
+    var key = karte.dataset.paket, p = PAKETE.filter(function (x) { return x.key === key; })[0];
+    var e2 = S.pk[key] || (S.pk[key] = { n: 0, wahl: [] });
+    var pb = e.target.closest("[data-pd]"), wb = e.target.closest("[data-wahl]");
+    if (pb) {
+      var d = parseInt(pb.dataset.pd, 10), war = e2.n;
+      if (d > 0) e2.n = e2.n === 0 ? 5 : Math.min(300, e2.n + 1);
+      else e2.n = e2.n <= 5 ? 0 : e2.n - 1;
+      if (!e2.n) e2.wahl = [];
+      pakete(); leiste(); if (d > 0) bump();
+      if (!war && e2.n && p.wahl) setTimeout(function () { var k = $("kxPakete").querySelector('[data-paket="' + key + '"] .kx-paket__wahl'); if (k) k.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "nearest" }); }, 120);
+      return;
+    }
+    if (wb && p.wahl) {
+      var o = wb.dataset.wahl, i = e2.wahl.indexOf(o);
+      if (p.wahl.max === 1) e2.wahl = [o];
+      else if (i > -1) e2.wahl.splice(i, 1);
+      else if (e2.wahl.length < p.wahl.max) e2.wahl.push(o);
+      else { e2.wahl.shift(); e2.wahl.push(o); }
+      pakete(); leiste(); return;
+    }
+    if (!e2.n) { e2.n = 10; pakete(); leiste(); bump(); }
   });
 
   function zaehler(input, minus, plus, min, max, setze) {
@@ -678,8 +687,6 @@
     input.addEventListener("input", function () { var v = parseInt(input.value, 10); if (input.value === "") setze(null); else if (!isNaN(v) && v >= min && v <= max) setze(v); });
     input.addEventListener("focus", function () { input.select(); });
   }
-  $("kxPersonen").dataset.start = "10";
-  zaehler($("kxPersonen"), $("kxPersMinus"), $("kxPersPlus"), 5, 300, function (v) { S.personen = v || 10; leiste(); });
   $("kxSuess").addEventListener("change", function () { S.suess = this.checked; leiste(); });
 
   // ---------- Liefertag & Uhrzeit ----------
@@ -736,14 +743,14 @@
       if (ersparnisEinzeln() > 0) danke.push(["Mit Black Card gespart", euro(ersparnisEinzeln())]);
       letzte = { modus: "einzeln", menge: S.menge, text: w.liste.join(", ") };
     } else {
-      var p = paketObj(), s = paketSumme();
-      kurz = "Team-Paket · " + p.name + " · " + tagText + " · " + S.zeit + " Uhr · " + S.personen + " Personen";
-      mehr = (S.wahl.length ? S.wahl.join(", ") + " · " : "") + euro(p.preis) + " p. P." + (S.suess ? " + Süßes" : "") + " · " + euro(s);
-      betreff = "Team-Paket: " + p.name + " · " + S.personen + " Pers. · " + tagText + " " + S.zeit + " Uhr";
-      felder = { Paket: p.name, Auswahl: S.wahl.join(", ") || "—", Personen: S.personen, "Süßes dazu": S.suess ? "ja" : "nein", Tag: tagText, Uhrzeit: S.zeit + " Uhr", Summe: euro(s), Notiz: notiz || "—" };
-      danke = [["Paket", p.name + (S.wahl.length ? " (" + S.wahl.join(", ") + ")" : "")], ["Personen", String(S.personen) + (S.suess ? " · mit Süßem" : "")], ["Lieferung", tagText + " · " + S.zeit + " Uhr"], ["Summe", euro(s)]];
+      var s = paketSumme(), np = paketPersonen(), liste = paketListe();
+      kurz = "Team-Paket · " + (liste.length === 1 ? gewaehltePakete()[0].name : liste.length + " Pakete") + " · " + tagText + " · " + S.zeit + " Uhr · " + np + " Personen";
+      mehr = liste.join(", ") + (S.suess ? " · + Süßes für alle" : "") + " · " + euro(s);
+      betreff = "Team-Paket: " + np + " Pers. · " + tagText + " " + S.zeit + " Uhr";
+      felder = { Pakete: liste.join(" | "), Personen: np, "Süßes dazu": S.suess ? "ja" : "nein", Tag: tagText, Uhrzeit: S.zeit + " Uhr", Summe: euro(s), Notiz: notiz || "—" };
+      danke = [["Pakete", liste.join(", ")], ["Personen", String(np) + (S.suess ? " · mit Süßem" : "")], ["Lieferung", tagText + " · " + S.zeit + " Uhr"], ["Summe", euro(s)]];
       if (ersparnisPaket() > 0) danke.push(["Mit Black Card gespart", euro(ersparnisPaket())]);
-      letzte = { modus: "paket", paket: p.key, personen: S.personen, suess: S.suess, wahl: S.wahl, text: p.name + " für " + S.personen + " Personen" };
+      letzte = { modus: "paket", pk: JSON.parse(JSON.stringify(S.pk)), suess: S.suess, text: liste.join(", ") };
     }
     barBtn.disabled = true; barBtn.textContent = "Wird gesendet …";
     Promise.all([reaktion("interesse", null, kurz + " | " + mehr + (notiz ? " | Notiz: " + notiz : "")), mail(betreff, felder)]).then(function (r) {
@@ -751,7 +758,7 @@
       try { localStorage.setItem("mkLetzte_" + schluessel, JSON.stringify(letzte)); } catch (e) {}
       wiederZeigen();
       dankeZeigen("Danke – Ihre Bestellung ist da.", "Ich bestätige sie Ihnen gleich persönlich per WhatsApp oder Anruf. Bezahlung bar, auf Rechnung oder per PayPal.", danke);
-      S.menge = {}; S.paket = null; S.wahl = []; S.suess = false; S.tag = null; S.zeit = null; S.notiz = "";
+      S.menge = {}; S.pk = {}; S.suess = false; S.tag = null; S.zeit = null; S.notiz = "";
     });
   }
 

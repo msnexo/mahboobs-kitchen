@@ -451,3 +451,12 @@ body>.kx-dlg h3{color:#fff;font-weight:500;letter-spacing:-.02em}
 .kx-bar__btn.is-aus:hover{background:rgba(255,255,255,.5);color:#111}
 
 .kx-paket-pers{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 18px}
+
+/* Team-Pakete kombinierbar */
+.kx-paket{cursor:default}
+.kx-paket.is-on::after{display:none}
+.kx-paket__unten{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.kx-paket__pers{position:absolute;top:18px;right:18px;background:var(--g);color:#fff;border-radius:999px;padding:4px 10px;font-size:.78rem;font-weight:600;animation:kxPop .3s ease}
+.kx-paket__wahl{border-top:1px solid var(--line);padding-top:6px}
+.kx-suess{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kx-paket-pers{display:none}
