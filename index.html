@@ -610,6 +610,22 @@
 .kx .kx__cta{padding:12px 22px}
 @media (max-width:900px){.kx .kx__panel{display:block;aspect-ratio:3/4}.kx .kx__stage{position:absolute}.kx .kx__text{position:absolute;padding:22px}}
 @media (max-width:700px){.kx__nav{display:none}.kx .kx__text p{display:none}}
+/* Weihnachten: auf kleinen Handys nichts abschneiden */
+.xm__grid>*{min-width:0}
+@media (max-width:480px){.xm__text h2{font-size:clamp(1.9rem,9.5vw,2.6rem)}.xm__units{gap:6px}.xm__units div{padding:10px 4px}.xm__pick{padding:20px 16px}}
+/* Drei Schritte: auf dem Handy wischbar, Animation blaettert mit */
+.st__dots{display:none}
+@media (max-width:900px){
+  .st__row{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;margin:36px -20px 0;padding:6px 20px 8px;scroll-padding:0 20px;scrollbar-width:none}
+  .st__row::-webkit-scrollbar{display:none}
+  .st__step{flex:0 0 82%;scroll-snap-align:start}
+  .st.is-anim .st__step{opacity:.45}
+  .st__vis{max-width:none}
+  .st__dots{display:flex;justify-content:center;gap:8px;margin-top:18px}
+  .st__dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .3s,width .3s}
+  .st__dots i.is-on{width:22px;border-radius:4px;background:var(--bc-gold)}
+  .st__cta{margin-top:28px}
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FoodEstablishment", "name": "Mahboobs Kitchen", "image": "https://mahboobs-kitchen.com/assets/img/hero-poster.webp", "url": "https://mahboobs-kitchen.com", "telephone": "+491772019889", "email": "info@mahboobs-kitchen.com", "servesCuisine": ["Indian", "Italian", "Sushi"], "priceRange": "€€", "address": {"@type": "PostalAddress", "streetAddress": "Henstedter Str. 4", "postalCode": "24558", "addressLocality": "Wakendorf II", "addressCountry": "DE"}, "areaServed": ["Henstedt-Ulzburg", "Kaltenkirchen", "Norderstedt", "Quickborn", "Kisdorf", "Wakendorf II", "Alveslohe", "Ellerau", "Tangstedt", "Hasloh"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "09:00", "closes": "22:00"}, "sameAs": ["https://www.instagram.com/mahboobs.kitchen/"]}</script>
 </head>
@@ -829,6 +845,7 @@
         <p>Ein Anruf oder ein Klick auf Ihrer Karte genügt – und wir kümmern uns um den Rest.</p>
       </li>
     </ol>
+    <div class="st__dots" id="stDots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="st__cta"><a href="/business/antrag/" class="kx__cta">Karte kostenlos anfordern</a><span>Keine Grundgebühr · keine Bindung</span></div>
   </div>
 </section>
@@ -1182,6 +1199,15 @@ function go(smooth){var nav=document.getElementById('mainNav'),t=document.getEle
  bar.scrollIntoView({behavior:smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto',block:'center'})}
 document.addEventListener('click',function(e){var a=e.target.closest('a[href="#bcBar"],a[href="/#bcBar"]');if(!a||e.defaultPrevented)return;e.preventDefault();go(true)});
 if(location.hash==='#bcBar'){history.replaceState(null,'',location.pathname+location.search);addEventListener('load',function(){setTimeout(function(){go(false)},50)})}})();
+</script>
+<script>
+(function(){var st=document.querySelector('.st'),row=document.getElementById('stRow'),dots=document.getElementById('stDots');if(!st||!row||!dots)return;
+var steps=[].slice.call(row.querySelectorAll('.st__step')),d=[].slice.call(dots.children),mq=matchMedia('(max-width:900px)');
+function mark(i){d.forEach(function(x,k){x.classList.toggle('is-on',k===i)})}
+function go(i){if(!mq.matches||!steps[i])return;row.scrollTo({left:steps[i].offsetLeft-row.offsetLeft-20,behavior:'smooth'});mark(i)}
+new MutationObserver(function(){if(st.classList.contains('is-anim')){var p=parseInt(st.dataset.p||'1',10);go(p-1)}}).observe(st,{attributes:true,attributeFilter:['data-p','class']});
+row.addEventListener('scroll',function(){if(!mq.matches)return;var best=0,bd=1e9;steps.forEach(function(s,k){var dd=Math.abs(s.getBoundingClientRect().left-20);if(dd<bd){bd=dd;best=k}});mark(best)},{passive:true});
+mark(0);})();
 </script>
 </body>
 </html>
