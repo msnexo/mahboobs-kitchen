@@ -74,7 +74,7 @@
 
     <nav class="tabs" id="bereichTabs">
       <button type="button" class="tabs__btn" data-tab="tabPipeline" aria-selected="true">Pipeline</button>
-      <button type="button" class="tabs__btn" data-tab="tabAufgaben" aria-selected="false">Aufgaben <span class="af-badge" id="afBadge" hidden></span></button>
+      <button type="button" class="tabs__btn" data-tab="tabAufgaben" aria-selected="false">Plan <span class="af-badge" id="afBadge" hidden></span></button>
       <button type="button" class="tabs__btn" data-tab="tabWerbung" aria-selected="false">Werbung</button>
     </nav>
 
@@ -218,6 +218,8 @@
     </div>
 
     <div id="tabAufgaben" hidden>
+      <div id="plWrap" class="pl"><p class="muted">Plan wird geladen …</p></div>
+      <h2 class="pl-h2">Aufgaben</h2>
       <form class="af-form" id="afForm" autocomplete="off">
         <input id="afTitel" placeholder="Neue Aufgabe, z. B. Fritsche anrufen" maxlength="200" aria-label="Aufgabe">
         <div class="af-form__zeile">
@@ -225,6 +227,7 @@
           <input type="date" id="afFaellig" aria-label="Fällig am">
           <input id="afKontakt" list="afKontakte" placeholder="Kunde (optional)" aria-label="Kunde">
           <datalist id="afKontakte"></datalist>
+          <select id="afMeilenstein" aria-label="Meilenstein"><option value="">Ohne Meilenstein</option></select>
         </div>
         <input id="afNotiz" placeholder="Notiz (optional)" maxlength="500" aria-label="Notiz">
         <div class="af-form__fuss"><span id="afStatus" class="muted"></span><button type="submit" class="btn btn--primary" id="afSpeichern">+ Aufgabe anlegen</button></div>
@@ -456,5 +459,6 @@
 <script src="/assets/js/business-pipeline.js" defer></script>
 <script src="/assets/js/business-werbung.js" defer></script>
 <script src="/assets/js/business-aufgaben.js" defer></script>
+<script src="/assets/js/business-plan.js" defer></script>
 </body>
 </html>

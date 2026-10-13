@@ -24,7 +24,16 @@
     return d.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric" });
   }
 
-  var client = null, aufgaben = [], kontakte = [], zeigeErledigt = false;
+  var client = null, aufgaben = [], kontakte = [], meilensteine = [], zeigeErledigt = false;
+  document.addEventListener("mk-meilensteine", function (e) {
+    meilensteine = e.detail || [];
+    var sel = $("afMeilenstein"); if (!sel) return;
+    var v = sel.value;
+    sel.innerHTML = '<option value="">Ohne Meilenstein</option>' + meilensteine.filter(function (m) { return !m.erledigt_at; }).map(function (m) { return '<option value="' + m.id + '">' + esc(m.phase + " · " + m.titel) + "</option>"; }).join("");
+    sel.value = v;
+    if (aufgaben.length) zeichnen();
+  });
+  function msName(id) { var m = meilensteine.filter(function (x) { return x.id === id; })[0]; return m ? m.titel : ""; }
 
   function laden() {
     if (!client) return;
@@ -60,6 +69,7 @@
       '<span class="af-meta"><em class="af-art af-art--' + a.art + '">' + ARTEN[a.art] + "</em>" +
       (a.faellig ? '<span class="' + (spaet ? "af-spaet" : "") + '">' + datumKurz(a.faellig) + "</span>" : "") +
       (a.prospect_id ? '<button type="button" class="af-kontakt" data-kontakt="' + a.prospect_id + '">' + esc(kontaktName(a.prospect_id)) + " →</button>" : "") +
+      (a.meilenstein_id && msName(a.meilenstein_id) ? '<span class="af-ms">◆ ' + esc(msName(a.meilenstein_id)) + "</span>" : "") +
       "</span>" + (a.notiz ? '<span class="af-notiz">' + esc(a.notiz) + "</span>" : "") + "</div>" +
       '<button type="button" class="af-weg" data-weg aria-label="Löschen" title="Löschen">×</button></div>';
   }
@@ -97,12 +107,13 @@
     var btn = $("afSpeichern"); btn.disabled = true;
     client.from("mk_aufgaben").insert({
       titel: titel, art: $("afArt").value, faellig: $("afFaellig").value || null,
-      prospect_id: k ? k.id : null, notiz: $("afNotiz").value.trim() || null
+      prospect_id: k ? k.id : null, meilenstein_id: ($("afMeilenstein") && $("afMeilenstein").value) || null, notiz: $("afNotiz").value.trim() || null
     }).then(function (r) {
       btn.disabled = false;
       if (r.error) { $("afStatus").textContent = "Speichern hat nicht geklappt."; return; }
       $("afForm").reset(); $("afStatus").textContent = "";
       laden();
+      if (window.mkPlanNeuLaden) window.mkPlanNeuLaden();
     });
   }
 
@@ -117,7 +128,7 @@
     if (e.target.closest("[data-haken]")) {
       a.erledigt_at = a.erledigt_at ? null : new Date().toISOString();
       zeichnen();
-      client.from("mk_aufgaben").update({ erledigt_at: a.erledigt_at }).eq("id", a.id).then(function (r) { if (r.error) laden(); });
+      client.from("mk_aufgaben").update({ erledigt_at: a.erledigt_at }).eq("id", a.id).then(function (r) { if (r.error) laden(); if (window.mkPlanNeuLaden) window.mkPlanNeuLaden(); });
     } else if (e.target.closest("[data-weg]")) {
       if (!confirm("Aufgabe löschen?")) return;
       aufgaben = aufgaben.filter(function (x) { return x.id !== a.id; });
