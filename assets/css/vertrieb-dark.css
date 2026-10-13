@@ -78,3 +78,9 @@ body.vt .eyebrow{color:var(--vt-g)}
   body.vt .dk-felder>label,body.vt .dk-felder>.dk-label-fix{margin-top:10px}
   body.vt .modal-box{padding:22px 16px!important}
 }
+
+/* Stammkunden einklappbar */
+body.vt #stammKopf{cursor:pointer;user-select:none}
+body.vt #stammKopf:hover{border-color:rgba(232,89,12,.8)}
+body.vt .pl-pfeil{display:inline-block;margin-right:8px;transition:transform .2s;font-size:.9em}
+body.vt #stammKopf.is-zu .pl-pfeil{transform:rotate(-90deg)}

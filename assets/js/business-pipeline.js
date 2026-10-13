@@ -386,6 +386,22 @@
     var pipelineTomorrow = document.getElementById("pipelineTomorrow");
     var pipelineDates = document.getElementById("pipelineDates");
     var pipelineStammkunden = document.getElementById("pipelineStammkunden");
+    // Stammkunden-Bereich per Klick ein- und ausklappen (Zustand bleibt gemerkt)
+    (function () {
+      var kopf = document.getElementById("stammKopf");
+      if (!kopf || !pipelineStammkunden) return;
+      function setze(zu) {
+        pipelineStammkunden.hidden = zu;
+        kopf.classList.toggle("is-zu", zu);
+        kopf.setAttribute("aria-expanded", zu ? "false" : "true");
+        try { localStorage.setItem("vtStammZu", zu ? "1" : "0"); } catch (e) {}
+      }
+      var start = false;
+      try { start = localStorage.getItem("vtStammZu") === "1"; } catch (e) {}
+      setze(start);
+      kopf.addEventListener("click", function () { setze(!pipelineStammkunden.hidden); });
+      kopf.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setze(!pipelineStammkunden.hidden); } });
+    })();
     var pipelineArchive = document.getElementById("pipelineArchive");
     var toggleArchiveBtn = document.getElementById("toggleArchiveBtn");
 
