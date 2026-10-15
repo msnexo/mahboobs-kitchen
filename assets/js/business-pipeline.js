@@ -937,11 +937,11 @@
           return '<section class="mail-dlg__mail' + (m.id === startId ? " is-start" : "") + '" id="mail-' + m.id + '">' +
             '<div class="mail-dlg__meta"><span>' + formatDateTime(m.created_at) + '</span> · ' + escapeHtml(m.mail_von || "") + '</div>' +
             '<div class="mail-dlg__betreff">' + escapeHtml(m.mail_betreff || "") + '</div>' +
-            '<iframe class="mail-dlg__frame" sandbox="allow-popups allow-popups-to-escape-sandbox" title="Mail"></iframe></section>';
+            '<iframe class="mail-dlg__frame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" title="Mail"></iframe></section>';
         }).join("") + "</div></div>";
       Array.prototype.forEach.call(dlg.querySelectorAll(".mail-dlg__frame"), function (f, i) {
         f.srcdoc = '<base target="_blank">' + mails[i].mail_html;
-        f.addEventListener("load", function () { try { f.style.height = (f.contentDocument.body.scrollHeight + 30) + "px"; } catch (e) {} });
+        f.addEventListener("load", function () { try { f.style.height = (f.contentDocument.documentElement.scrollHeight + 10) + "px"; } catch (e) {} });
       });
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
       var ziel = document.getElementById("mail-" + startId);
