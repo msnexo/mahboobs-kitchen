@@ -1823,6 +1823,9 @@
       neuLaden: function () { return loadProspects(); }
     };
     document.dispatchEvent(new CustomEvent("mk-vertrieb-bereit"));
+    // Direktlink auf einen Kontakt: /business/vertrieb/?kontakt=<id>
+    var direktKontakt = new URLSearchParams(location.search).get("kontakt");
+    if (direktKontakt) window.mkVertrieb.oeffneKontakt(direktKontakt);
     document.addEventListener("mk-signale-geaendert", function () { loadProspects(); });
 
     // Bleibt die Seite ueber Nacht offen, stimmt die Einteilung sonst nicht mehr.
