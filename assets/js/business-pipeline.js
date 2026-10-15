@@ -940,8 +940,9 @@
             '<iframe class="mail-dlg__frame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" title="Mail"></iframe></section>';
         }).join("") + "</div></div>";
       Array.prototype.forEach.call(dlg.querySelectorAll(".mail-dlg__frame"), function (f, i) {
+        var hoehe = function () { try { f.style.height = (f.contentDocument.documentElement.scrollHeight + 10) + "px"; } catch (e) {} };
+        f.addEventListener("load", function () { hoehe(); setTimeout(hoehe, 300); });
         f.srcdoc = '<base target="_blank">' + mails[i].mail_html;
-        f.addEventListener("load", function () { try { f.style.height = (f.contentDocument.documentElement.scrollHeight + 10) + "px"; } catch (e) {} });
       });
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
       var ziel = document.getElementById("mail-" + startId);
