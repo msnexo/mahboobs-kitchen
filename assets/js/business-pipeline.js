@@ -920,7 +920,40 @@
       });
     }
 
+    var historyMails = [];
+    function zeigeMails(startId) {
+      var dlg = document.getElementById("mailDialog");
+      if (!dlg) {
+        dlg = document.createElement("dialog");
+        dlg.id = "mailDialog";
+        dlg.className = "mail-dlg";
+        document.body.appendChild(dlg);
+        dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.closest("[data-mail-zu]")) dlg.close(); });
+      }
+      var mails = historyMails.slice().sort(function (a, b) { return (a.created_at || "").localeCompare(b.created_at || ""); });
+      dlg.innerHTML = '<div class="mail-dlg__box"><div class="mail-dlg__kopf"><strong>Mail-Verlauf (' + mails.length + ')</strong>' +
+        '<button type="button" class="mail-dlg__zu" data-mail-zu aria-label="Schließen">×</button></div><div class="mail-dlg__liste">' +
+        mails.map(function (m) {
+          return '<section class="mail-dlg__mail' + (m.id === startId ? " is-start" : "") + '" id="mail-' + m.id + '">' +
+            '<div class="mail-dlg__meta"><span>' + formatDateTime(m.created_at) + '</span> · ' + escapeHtml(m.mail_von || "") + '</div>' +
+            '<div class="mail-dlg__betreff">' + escapeHtml(m.mail_betreff || "") + '</div>' +
+            '<iframe class="mail-dlg__frame" sandbox="allow-popups allow-popups-to-escape-sandbox" title="Mail"></iframe></section>';
+        }).join("") + "</div></div>";
+      Array.prototype.forEach.call(dlg.querySelectorAll(".mail-dlg__frame"), function (f, i) {
+        f.srcdoc = '<base target="_blank">' + mails[i].mail_html;
+        f.addEventListener("load", function () { try { f.style.height = (f.contentDocument.body.scrollHeight + 30) + "px"; } catch (e) {} });
+      });
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+      var ziel = document.getElementById("mail-" + startId);
+      if (ziel) setTimeout(function () { ziel.scrollIntoView({ block: "start" }); }, 60);
+    }
+    if (historyEl) historyEl.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-mail]");
+      if (b) zeigeMails(b.getAttribute("data-mail"));
+    });
+
     function renderHistory(contacts) {
+      historyMails = contacts.filter(function (c) { return c.mail_html; });
       if (!contacts.length) {
         historyEl.innerHTML = '<p class="muted">Noch keine Einträge.</p>';
         return;
@@ -937,7 +970,8 @@
         return (
           '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--color-border);">' +
           '<span class="muted" style="font-size:0.8rem;">' + when + "</span>" +
-          '<p style="margin:4px 0 0;">' + escapeHtml(c.notes || "—") + "</p>" +
+          '<p style="margin:4px 0 0;">' + escapeHtml(c.notes || "—") +
+          (c.mail_html ? ' <button type="button" class="log-mail-btn" data-mail="' + c.id + '" title="Mail und Verlauf ansehen">&#9993; Mail</button>' : "") + "</p>" +
           nextBlock +
           "</div>"
         );
