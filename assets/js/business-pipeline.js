@@ -1080,7 +1080,9 @@
       var platzhalter = document.getElementById("detailPlatzhalter");
       if (platzhalter) platzhalter.hidden = !!id;
       Array.prototype.forEach.call(document.querySelectorAll(".prospect-card"), function (c) {
-        c.classList.toggle("is-aktiv", !!id && c.getAttribute("data-prospect-id") === id);
+        var an = !!id && c.getAttribute("data-prospect-id") === id;
+        c.classList.toggle("is-aktiv", an);
+        if (an && c.scrollIntoView) c.scrollIntoView({ block: "nearest" });
       });
     }
 

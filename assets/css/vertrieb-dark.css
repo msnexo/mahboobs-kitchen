@@ -215,3 +215,7 @@ body.vt .af-hinweis{color:#ffd58a}
 .mail-dlg__meta{font-size:.78rem;color:#999;padding:10px 14px 0}
 .mail-dlg__betreff{font-weight:600;padding:2px 14px 10px}
 .mail-dlg__frame{display:block;width:100%;min-height:200px;border:0;background:#fff}
+
+/* Aktiver Kontakt in der Liste (der gerade rechts geoeffnet ist) */
+.vt .prospect-card.is-aktiv,
+.vt .work-list .prospect-card.is-aktiv{background:rgba(232,89,12,.14)!important;border-color:rgba(232,89,12,.75)!important;box-shadow:inset 3px 0 0 #e8590c}
